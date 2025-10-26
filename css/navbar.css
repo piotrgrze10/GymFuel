@@ -1,0 +1,90 @@
+html {
+    overflow-y: scroll;
+}
+
+nav.navbar {
+    text-transform: uppercase;
+    transition: background-color 0.6s;
+    z-index: 1000 !important;
+    background-color: rgba(0, 0, 0, 0.9) !important;
+    backdrop-filter: blur(10px);
+    margin: 0 !important;
+    padding: 0.75rem 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+}
+
+nav .container {
+    max-width: 1140px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+}
+
+nav .nav-link,
+nav .navbar-nav .show > .nav-link,
+nav .navbar-brand,
+nav .fa-bars {
+    color: #fff;
+}
+
+nav .nav-link {
+    transition: color 0.3s;
+    text-decoration: none;
+}
+
+nav .nav-link:focus,
+nav .nav-link:hover,
+nav .navbar-nav .nav-link.active,
+nav .navbar-nav .show > .nav-link {
+    color: #039dff;
+    text-decoration: none;
+}
+
+nav .navbar-brand {
+    font-weight: bold;
+    color: #fff !important;
+    text-decoration: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 1.25rem;
+}
+
+nav .navbar-brand:hover,
+nav .navbar-brand:focus {
+    color: #fff !important;
+    text-decoration: none !important;
+}
+
+nav .navbar-brand:hover .blue-text {
+    color: #039dff !important;
+}
+
+.blue-text {
+    color: #039dff;
+}
+
+.navbar-toggler {
+    padding: 10px 15px;
+}
+
+.logo-icon {
+    color: #ff6b6b;
+    animation: pulse-glow 2s ease-in-out infinite;
+    display: inline-block;
+    text-shadow: 0 0 10px rgba(255, 107, 107, 0.6);
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        transform: scale(1);
+        text-shadow: 0 0 10px rgba(255, 107, 107, 0.6);
+    }
+    50% {
+        transform: scale(1.1);
+        text-shadow: 0 0 15px rgba(255, 107, 107, 0.9);
+    }
+}
+

@@ -1,0 +1,31 @@
+# XAMPP
+*.log
+*.tmp
+*.swp
+*.cache
+
+# PHP
+*.phps
+/vendor/
+composer.phar
+
+# Node modules (jeśli używasz npm)
+node_modules/
+npm-debug.log
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+*.bak
+
+# Project specific
+food1.json
+search_products.php
+login.php
+enter_amount.php
