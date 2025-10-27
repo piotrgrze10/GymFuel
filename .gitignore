@@ -1,16 +1,29 @@
-*.log
-*.tmp
-*.swp
-*.cache
-*.phps
-/vendor/
-composer.phar
-node_modules/
-npm-debug.log
-.vscode/
+# IDE
 .idea/
-*.sublime-project
-*.sublime-workspace
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
 .DS_Store
 Thumbs.db
+
+# Netlify
+.netlify/
+
+# Node (if you add node modules later)
+node_modules/
+package-lock.json
+
+# Temporary files
+*.tmp
+*.log
 *.bak
+
+# PHP
+*.cache
+.env
+
+# XAMPP
+xampp-control.ini

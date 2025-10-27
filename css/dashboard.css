@@ -1,0 +1,275 @@
+* {
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    background-color: #f8f9fa;
+}
+
+/* Navbar Styles for Dashboard */
+nav.navbar {
+    background-color: rgba(0, 0, 0, 0.9) !important;
+    backdrop-filter: blur(10px);
+}
+
+nav.navbar .nav-link {
+    color: #ffffff !important;
+}
+
+nav.navbar .nav-link:hover,
+nav.navbar .nav-link.active {
+    color: #039dff !important;
+}
+
+nav.navbar .navbar-brand {
+    color: #ffffff !important;
+}
+
+nav.navbar .logo-icon {
+    color: #ff5757 !important;
+}
+
+nav.navbar .blue-text {
+    color: #039dff !important;
+}
+
+/* Calorie Overview */
+.calorie-overview {
+    border: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.calorie-ring-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem 0;
+    padding: 20px;
+}
+
+.calorie-ring {
+    transform: rotate(-90deg);
+}
+
+.calorie-ring-text {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.calorie-ring-text h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0;
+    line-height: 1;
+}
+
+.remaining-calories {
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+}
+
+/* Macro Cards */
+.macro-card {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    border: 2px solid #f0f0f0;
+    transition: all 0.3s ease;
+}
+
+.macro-card:hover {
+    border-color: #0d6efd;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.macro-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 1.5rem;
+}
+
+.macro-icon.protein {
+    background: rgba(255, 87, 87, 0.1);
+    color: #ff5757;
+}
+
+.macro-icon.carbs {
+    background: rgba(255, 199, 0, 0.1);
+    color: #ffc700;
+}
+
+.macro-icon.fat {
+    background: rgba(100, 200, 255, 0.1);
+    color: #64c8ff;
+}
+
+/* Meal Cards */
+.meals-section {
+    margin-top: 2rem;
+}
+
+.meal-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.meal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.meal-header h4 {
+    margin: 0;
+    color: #2c3e50;
+}
+
+.meal-header i {
+    margin-right: 0.5rem;
+    color: #0d6efd;
+}
+
+.meal-calories {
+    font-weight: 600;
+    color: #6c757d;
+}
+
+.meal-entries {
+    min-height: 50px;
+}
+
+/* Entry Items */
+.entry-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.entry-item:hover {
+    background: #e9ecef;
+}
+
+.entry-name {
+    flex: 1;
+}
+
+.entry-macros {
+    margin-top: 0.25rem;
+}
+
+.entry-calories {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.btn-remove-entry {
+    background: transparent;
+    border: none;
+    color: #dc3545;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.btn-remove-entry:hover {
+    background: #dc3545;
+    color: white;
+}
+
+/* Info Items */
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.info-item i {
+    font-size: 1.5rem;
+}
+
+/* Progress Item */
+.progress-item {
+    margin-bottom: 1rem;
+}
+
+.progress-item:last-child {
+    margin-bottom: 0;
+}
+
+/* Food Results */
+#foodResults {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.food-item {
+    padding: 1rem;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.food-item:hover {
+    background: #f8f9fa;
+    border-color: #0d6efd;
+}
+
+.food-item.selected {
+    background: #e7f1ff;
+    border-color: #0d6efd;
+}
+
+.food-item h6 {
+    margin: 0 0 0.25rem 0;
+}
+
+.food-item small {
+    color: #6c757d;
+}
+
+/* Cards */
+.card {
+    border: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .calorie-ring-container {
+        margin: 1rem 0;
+    }
+    
+    .macro-card {
+        margin-bottom: 1rem;
+    }
+}
+

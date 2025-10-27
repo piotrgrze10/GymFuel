@@ -82,16 +82,18 @@ $preview_calories = [
             
             <div class="modal fade" id="successModal" tabindex="-1">
                 <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content success-modal-content">
+                    <div class="modal-content" style="border-radius: 15px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
                         <div class="modal-body text-center p-5">
-                            <div class="success-icon mb-4">
-                                <i class="fa-solid fa-circle-check"></i>
+                            <div style="width: 80px; height: 80px; margin: 0 auto 1.5rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);">
+                                <i class="fa-solid fa-circle-check" style="color: white; font-size: 2.5rem;"></i>
                             </div>
-                            <h2 class="mb-3">Konto zostało utworzone!</h2>
-                            <p class="text-muted mb-4" id="success-message"></p>
-                            <button type="button" class="btn btn-success btn-lg px-5" onclick="window.location.href='login.php'">
-                                <i class="fa-solid fa-sign-in-alt"></i> Zaloguj się teraz
-                            </button>
+                            <h2 class="mb-3 fw-bold" style="color: #2c3e50;">Account Created Successfully!</h2>
+                            <p class="text-muted mb-4" id="success-message" style="font-size: 0.95rem;"></p>
+                            <div class="d-flex gap-2 justify-content-center">
+                                <button type="button" class="btn btn-primary btn-lg px-4" onclick="window.location.href='login.php'" style="border-radius: 8px;">
+                                    <i class="fa-solid fa-sign-in-alt"></i> Sign In
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -183,9 +185,15 @@ $preview_calories = [
 
                     const successMessage = document.getElementById('success-message');
                     successMessage.innerHTML = `
-                        <strong>Twoje parametry:</strong><br>
-                        BMR (Podstawowa Przemiana Materii): <strong>${result.bmr.toFixed(0)} kcal</strong><br>
-                        Dzienne zapotrzebowanie kaloryczne: <strong>${result.calories.toFixed(0)} kcal</strong>
+                        <div style="background: #f8f9fa; padding: 1.25rem; border-radius: 10px; text-align: left; max-width: 400px; margin: 0 auto;">
+                            <strong style="color: #495057;">Your calculated values:</strong><br><br>
+                            <div style="margin-bottom: 0.5rem;">
+                                <i class="fa-solid fa-fire text-danger"></i> <strong>BMR (Basal Metabolic Rate):</strong> <span style="color: #0d6efd;">${result.bmr.toFixed(0)} kcal</span>
+                            </div>
+                            <div>
+                                <i class="fa-solid fa-bullseye text-primary"></i> <strong>Daily Calorie Target:</strong> <span style="color: #0d6efd;">${result.calories.toFixed(0)} kcal</span>
+                            </div>
+                        </div>
                     `;
                     
                     const successModal = new bootstrap.Modal(document.getElementById('successModal'));

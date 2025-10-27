@@ -1,3 +1,6 @@
+<?php
+require_once 'includes/config.php';
+?>
 <!doctype html>
 <html lang="en">
 
@@ -31,7 +34,12 @@
                     <li class="nav-item"><a class="nav-link" href="#features">Offer</a></li>
                     <li class="nav-item"><a class="nav-link" href="#achievements">Achievements</a></li>
                     <li class="nav-item"><a class="nav-link" href="./search_products.php">Search products</a></li>
-                    <li class="nav-item"><a class="nav-link" href="auth/login.php">Login</a></li>
+                    <?php if (isLoggedIn()): ?>
+                        <li class="nav-item"><a class="nav-link" href="dashboard.php">Dashboard</a></li>
+                        <li class="nav-item"><a class="nav-link" href="auth/logout.php">Logout</a></li>
+                    <?php else: ?>
+                        <li class="nav-item"><a class="nav-link" href="auth/login.php">Login</a></li>
+                    <?php endif; ?>
                 </ul>
             </div>
 

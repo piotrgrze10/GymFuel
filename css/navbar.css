@@ -28,7 +28,7 @@ nav .navbar-nav .show > .nav-link,
 nav .navbar-brand,
 nav .fa-bars,
 nav .navbar-toggler-icon {
-    color:
+    color: #ffffff !important;
 }
 
 nav .nav-link {
@@ -40,13 +40,13 @@ nav .nav-link:focus,
 nav .nav-link:hover,
 nav .navbar-nav .nav-link.active,
 nav .navbar-nav .show > .nav-link {
-    color:
+    color: #039dff !important;
     text-decoration: none;
 }
 
 nav .navbar-brand {
     font-weight: bold;
-    color:
+    color: #ffffff !important;
     text-decoration: none !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -55,21 +55,21 @@ nav .navbar-brand {
 
 nav .navbar-brand:hover,
 nav .navbar-brand:focus {
-    color:
+    color: #039dff !important;
     text-decoration: none !important;
 }
 
 nav .navbar-brand:hover .blue-text {
-    color:
+    color: #039dff !important;
 }
 
 .blue-text {
-    color:
+    color: #039dff !important;
 }
 
 .navbar-toggler {
     padding: 10px 15px;
-    border-color:
+    border-color: rgba(3, 157, 255, 0.5) !important;
 }
 
 .navbar-toggler:focus {
@@ -81,7 +81,7 @@ nav .navbar-brand:hover .blue-text {
 }
 
 .logo-icon {
-    color:
+    color: #ff5757 !important;
     animation: pulse-glow 2s ease-in-out infinite;
     display: inline-block;
     text-shadow: 0 0 10px rgba(255, 107, 107, 0.6);

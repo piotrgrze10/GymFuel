@@ -96,7 +96,7 @@ function loginUser($email, $password) {
 
 function logoutUser() {
     session_destroy();
-    header('Location: auth/login.php');
+    header('Location: login.php');
     exit();
 }
 
