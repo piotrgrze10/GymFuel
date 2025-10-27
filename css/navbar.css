@@ -26,8 +26,9 @@ nav .container {
 nav .nav-link,
 nav .navbar-nav .show > .nav-link,
 nav .navbar-brand,
-nav .fa-bars {
-    color: #fff;
+nav .fa-bars,
+nav .navbar-toggler-icon {
+    color:
 }
 
 nav .nav-link {
@@ -39,13 +40,13 @@ nav .nav-link:focus,
 nav .nav-link:hover,
 nav .navbar-nav .nav-link.active,
 nav .navbar-nav .show > .nav-link {
-    color: #039dff;
+    color:
     text-decoration: none;
 }
 
 nav .navbar-brand {
     font-weight: bold;
-    color: #fff !important;
+    color:
     text-decoration: none !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -54,24 +55,33 @@ nav .navbar-brand {
 
 nav .navbar-brand:hover,
 nav .navbar-brand:focus {
-    color: #fff !important;
+    color:
     text-decoration: none !important;
 }
 
 nav .navbar-brand:hover .blue-text {
-    color: #039dff !important;
+    color:
 }
 
 .blue-text {
-    color: #039dff;
+    color:
 }
 
 .navbar-toggler {
     padding: 10px 15px;
+    border-color:
+}
+
+.navbar-toggler:focus {
+    box-shadow: 0 0 0 0.2rem rgba(3, 157, 255, 0.25);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%283, 157, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
 .logo-icon {
-    color: #ff6b6b;
+    color:
     animation: pulse-glow 2s ease-in-out infinite;
     display: inline-block;
     text-shadow: 0 0 10px rgba(255, 107, 107, 0.6);

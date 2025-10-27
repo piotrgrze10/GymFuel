@@ -1,0 +1,470 @@
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Montserrat', sans-serif;
+    padding: 20px;
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 480px;
+}
+
+.auth-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    padding: 40px;
+}
+
+.registration-card {
+    padding: 40px 30px;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.auth-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    text-decoration: none;
+    margin-bottom: 20px;
+}
+
+.auth-logo:hover {
+    text-decoration: none;
+}
+
+.auth-logo i {
+    color: #039dff;
+    font-size: 2rem;
+}
+
+.blue-text {
+    color: #039dff;
+}
+
+.auth-header h2 {
+    color: #333;
+    font-weight: 700;
+    margin-bottom: 8px;
+    font-size: 1.75rem;
+}
+
+.auth-header p {
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.progress-container {
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #039dff 0%, #0066cc 100%);
+    transition: width 0.3s ease;
+}
+
+.progress-steps {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.progress-steps .step {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #e0e0e0;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.progress-steps .step.active {
+    background: #039dff;
+    color: white;
+    transform: scale(1.1);
+}
+
+.progress-steps .step i {
+    font-size: 0.85rem;
+}
+
+.step-info {
+    text-align: center;
+    color: #666;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.auth-form {
+    margin-top: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.form-group label i {
+    color: #039dff;
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #039dff;
+    box-shadow: 0 0 0 3px rgba(3, 157, 255, 0.1);
+}
+
+.form-group input::placeholder {
+    color: #999;
+}
+
+.form-group small {
+    display: block;
+    color: #999;
+    font-size: 0.85rem;
+    margin-top: 4px;
+}
+
+.btn-auth {
+    width: 100%;
+    padding: 14px 24px;
+    background: linear-gradient(135deg, #039dff 0%, #0066cc 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-auth:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(3, 157, 255, 0.4);
+}
+
+.btn-auth:active {
+    transform: translateY(0);
+}
+
+.btn-auth i {
+    font-size: 0.9rem;
+}
+
+.btn-secondary {
+    background: #6c757d;
+    margin-bottom: 10px;
+}
+
+.btn-secondary:hover {
+    box-shadow: 0 5px 15px rgba(108, 117, 125, 0.4);
+}
+
+.alert {
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95rem;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.alert-danger i {
+    font-size: 1rem;
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.auth-footer p {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.auth-footer a {
+    color: #039dff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+.activity-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.activity-card {
+    padding: 20px 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.activity-card i {
+    font-size: 2rem;
+    color: #039dff;
+    margin-bottom: 8px;
+}
+
+.activity-card h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.activity-card p {
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 4px;
+}
+
+.activity-card small {
+    font-size: 0.75rem;
+    color: #999;
+}
+
+.activity-card:hover {
+    border-color: #039dff;
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(3, 157, 255, 0.2);
+}
+
+.activity-card.selected {
+    border-color: #039dff;
+    background: #f0f8ff;
+    box-shadow: 0 4px 12px rgba(3, 157, 255, 0.3);
+}
+
+.goal-options {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-top: 12px;
+}
+
+.goal-card {
+    padding: 24px 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.goal-card i {
+    font-size: 2.5rem;
+    color: #039dff;
+    margin-bottom: 12px;
+}
+
+.goal-card h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.goal-card .goal-calories {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #039dff;
+    margin-bottom: 8px;
+}
+
+.goal-card small {
+    font-size: 0.85rem;
+    color: #999;
+}
+
+.goal-card:hover {
+    border-color: #039dff;
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(3, 157, 255, 0.2);
+}
+
+.goal-card.selected {
+    border-color: #039dff;
+    background: #f0f8ff;
+    box-shadow: 0 6px 16px rgba(3, 157, 255, 0.3);
+}
+
+.success-modal-content {
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.success-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #039dff 0%, #0066cc 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: successPulse 1s ease-out;
+}
+
+.success-icon i {
+    font-size: 4rem;
+    color: white;
+}
+
+@keyframes successPulse {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.modal-content h2 {
+    color: #333;
+    font-weight: 700;
+    font-size: 1.75rem;
+}
+
+.modal-content p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #666;
+}
+
+.modal-content .summary-info {
+    color: #039dff;
+    font-size: 1.15rem;
+}
+
+.modal-content .btn-success {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border: none;
+    font-weight: 600;
+    padding: 12px 30px;
+    transition: all 0.3s ease;
+}
+
+.modal-content .btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+}
+
+.modal-content .btn-success i {
+    margin-right: 8px;
+}
+
+@media (max-width: 768px) {
+    .auth-card {
+        padding: 30px 20px;
+    }
+    
+    .progress-steps .step {
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+    }
+    
+    .activity-options {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+    
+    .activity-card {
+        padding: 16px 10px;
+    }
+    
+    .activity-card i {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .progress-steps .step {
+        width: 28px;
+        height: 28px;
+        font-size: 0.75rem;
+    }
+    
+    .activity-options {
+        grid-template-columns: 1fr 1fr;
+    }
+}

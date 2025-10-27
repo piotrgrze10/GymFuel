@@ -32,7 +32,7 @@ fetch('food1.json')
 		products = data
 	})
 	.catch(error => {
-		console.error('Błąd podczas ładowania danych:', error)
+		console.error('Error loading data:', error)
 	})
 
 function initializeSearch() {

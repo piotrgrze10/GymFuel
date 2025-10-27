@@ -19,7 +19,7 @@
 <body>
     <nav class="navbar navbar-expand-lg position-fixed top-0 w-100 py-3">
         <div class="container">
-            <a class="navbar-brand" href="#"><i class="fa-solid fa-fire-flame-curved logo-icon"></i> Gym<span class="blue-text">Fuel</span></a>
+            <a class="navbar-brand" href="index.php"><i class="fa-solid fa-fire-flame-curved logo-icon"></i> Gym<span class="blue-text">Fuel</span></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fa-solid fa-bars"></i>
@@ -31,7 +31,7 @@
                     <li class="nav-item"><a class="nav-link" href="#features">Offer</a></li>
                     <li class="nav-item"><a class="nav-link" href="#achievements">Achievements</a></li>
                     <li class="nav-item"><a class="nav-link" href="./search_products.php">Search products</a></li>
-                    <li class="nav-item"><a class="nav-link" href="./login.php">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="auth/login.php">Login</a></li>
                 </ul>
             </div>
 
