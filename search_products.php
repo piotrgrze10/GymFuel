@@ -7,6 +7,7 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Products - GymFuel</title>
+    <meta name="description" content="Search and track nutritional information for popular foods. Find calories, protein, carbs, and fat content for your favorite foods.">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔥</text></svg>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -49,7 +50,7 @@ session_start();
         <div class="search-header">
             <h1>Fuel Your Fitness Journey</h1>
             <p style="font-size: 16px; color: #666; margin-bottom: 20px;">
-                Search <strong style="color: #039dff;">100+ popular foods</strong> with complete nutritional data
+                Search <strong style="color: #039dff;">popular foods</strong> with complete nutritional data
             </p>
             <div class="search-box-container">
                 <i class="fa-solid fa-magnifying-glass search-icon"></i>
@@ -108,27 +109,6 @@ session_start();
                 <div class="category-btn" data-category="grains">
                     <i class="fa-solid fa-wheat-awn"></i> Grains & Cereals
                 </div>
-                <div class="category-btn" data-category="nuts">
-                    <i class="fa-solid fa-seedling"></i> Nuts & Seeds
-                </div>
-                <div class="category-btn" data-category="drinks">
-                    <i class="fa-solid fa-mug-saucer"></i> Beverages
-                </div>
-                <div class="category-btn" data-category="snacks">
-                    <i class="fa-solid fa-cookie"></i> Snacks
-                </div>
-                <div class="category-btn" data-category="protein">
-                    <i class="fa-solid fa-dumbbell"></i> Protein Foods
-                </div>
-                <div class="category-btn" data-category="breakfast">
-                    <i class="fa-solid fa-egg"></i> Breakfast
-                </div>
-                <div class="category-btn" data-category="alcohol">
-                    <i class="fa-solid fa-wine-bottle"></i> Alcohol
-                </div>
-                <div class="category-btn" data-category="others">
-                    <i class="fa-solid fa-ellipsis"></i> Others
-                </div>
             </div>
         </div>
 
@@ -150,7 +130,7 @@ session_start();
         <div class="footer-content">
             <h3><i class="fa-solid fa-fire-flame-curved"></i> Gym<span style="color: #039dff;">Fuel</span></h3>
             <p>Track your nutrition and fuel your fitness journey</p>
-            <p style="font-size: 13px; color: #999;">Complete nutritional database with beautiful images</p>
+            <p style="font-size: 13px; color: #999;">Complete nutritional database for your fitness goals</p>
             <div class="footer-links">
                 <a href="<?php echo $logged_in ? 'dashboard.php' : 'index.php'; ?>">
                     <i class="fa-solid fa-home"></i> Home
