@@ -127,7 +127,7 @@ header.hero-img {
 	background-image: url('../img/diet-695723_640.jpg');
 	background-size: cover;
 	background-position: center;
-	/* Avoid jank on scroll caused by fixed backgrounds */
+	
 	background-attachment: scroll;
 	color: #fff;
 	z-index: 0;
@@ -253,7 +253,7 @@ header.hero-img .fa-chevron-down {
 	background-image: url('../img/cosmos-1866820_1280.jpg');
 	background-size: cover;
 	background-position: center;
-	/* Avoid jank on scroll caused by fixed backgrounds */
+	
 	background-attachment: scroll;
 	color: white;
 	z-index: 0;
@@ -1053,7 +1053,7 @@ a:hover {
 	background: white;
 	display: flex;
 	flex-direction: column;
-	/* Contain painting to reduce costly repaints */
+	
 	contain: paint;
 }
 
@@ -1111,7 +1111,7 @@ a:hover {
 	height: 300px;
 	object-fit: cover;
 	transition: transform 0.4s ease;
-	/* Promote to its own layer to avoid partial draws during scroll */
+	
 	will-change: transform;
 	transform: translateZ(0);
 }

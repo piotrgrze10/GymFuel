@@ -14,7 +14,7 @@ require_once 'includes/config.php';
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Preload key images to ensure immediate display -->
+    
     <link rel="preload" as="image" href="./img/diet-695723_640.jpg">
     <link rel="preload" as="image" href="./img/diet-695723_1920.jpg" media="(min-width: 1200px)">
     <link rel="preload" as="image" href="./img/card1.jpg">

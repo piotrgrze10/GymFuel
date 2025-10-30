@@ -3,21 +3,21 @@ require_once 'includes/config.php';
 require_once 'includes/auth.php';
 requireLogin();
 
-// Get current user data
+
 $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
 $stmt->execute([$_SESSION['user_id']]);
 $user = $stmt->fetch();
 
-// Get today's date
+
 $today = date('Y-m-d');
 
-// Get or create today's log
+
 $stmt = $pdo->prepare("SELECT * FROM daily_logs WHERE user_id = ? AND log_date = ?");
 $stmt->execute([$_SESSION['user_id'], $today]);
 $today_log = $stmt->fetch();
 
 if (!$today_log) {
-    // Create a new log for today
+    
     $stmt = $pdo->prepare("INSERT INTO daily_logs (user_id, log_date) VALUES (?, ?)");
     $stmt->execute([$_SESSION['user_id'], $today]);
     $today_log = [
@@ -31,7 +31,7 @@ if (!$today_log) {
     ];
 }
 
-// Get all food entries for today
+
 $stmt = $pdo->prepare("
     SELECT fe.*, fd.image 
     FROM food_entries fe 
@@ -42,7 +42,7 @@ $stmt = $pdo->prepare("
 $stmt->execute([$today_log['id']]);
 $food_entries = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Organize entries by meal type
+
 $entries_by_meal = [
     'breakfast' => [],
     'lunch' => [],
@@ -54,7 +54,7 @@ foreach ($food_entries as $entry) {
     $entries_by_meal[$entry['meal_type']][] = $entry;
 }
 
-// Calculate calories per meal
+
 $meal_calories = [];
 foreach ($entries_by_meal as $meal_type => $entries) {
     $meal_calories[$meal_type] = 0;
@@ -63,7 +63,7 @@ foreach ($entries_by_meal as $meal_type => $entries) {
     }
 }
 
-// Calculate remaining calories
+
 $remaining_calories = $user['tdee'] - floatval($today_log['total_calories']);
 $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user['tdee']) * 100 : 0;
 ?>
@@ -111,9 +111,9 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
 
     <div class="container-fluid px-4 py-4" style="margin-top: 80px;">
         <div class="row g-4">
-            <!-- Main Content -->
+            
             <div class="col-lg-8">
-                <!-- Calories Overview Card -->
+                
                 <div class="card calorie-overview mb-4">
                     <div class="card-body p-4">
                         <div class="d-flex justify-content-between align-items-center mb-4">
@@ -148,7 +148,7 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                             </div>
                         </div>
 
-                        <!-- Macro Breakdown -->
+                        
                         <div class="row mt-4">
                             <div class="col-md-4">
                                 <div class="macro-card">
@@ -181,9 +181,9 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                     </div>
                 </div>
 
-                <!-- Meals Section -->
+                
                 <div class="meals-section">
-                    <!-- Breakfast -->
+                    
                     <div class="meal-card">
                         <div class="meal-header">
                             <h4><i class="fa-solid fa-sun"></i> Breakfast</h4>
@@ -202,9 +202,9 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                                             $quantity = number_format($entry['quantity'], 0);
                                             $unit = isset($entry['quantity_unit']) ? $entry['quantity_unit'] : 'g';
                                             
-                                            // Add 's' for plural if unit is not 'g' and quantity > 1
+                                            
                                             if ($unit !== 'g' && floatval($entry['quantity']) > 1) {
-                                                // Handle special cases
+                                                
                                                 $plural_map = [
                                                     'egg' => 'eggs',
                                                     'slice' => 'slices',
@@ -242,7 +242,7 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                         </div>
                     </div>
 
-                    <!-- Lunch -->
+                    
                     <div class="meal-card">
                         <div class="meal-header">
                             <h4><i class="fa-solid fa-bowl-rice"></i> Lunch</h4>
@@ -261,9 +261,9 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                                             $quantity = number_format($entry['quantity'], 0);
                                             $unit = isset($entry['quantity_unit']) ? $entry['quantity_unit'] : 'g';
                                             
-                                            // Add 's' for plural if unit is not 'g' and quantity > 1
+                                            
                                             if ($unit !== 'g' && floatval($entry['quantity']) > 1) {
-                                                // Handle special cases
+                                                
                                                 $plural_map = [
                                                     'egg' => 'eggs',
                                                     'slice' => 'slices',
@@ -301,7 +301,7 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                         </div>
                     </div>
 
-                    <!-- Dinner -->
+                    
                     <div class="meal-card">
                         <div class="meal-header">
                             <h4><i class="fa-solid fa-utensils"></i> Dinner</h4>
@@ -320,9 +320,9 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                                             $quantity = number_format($entry['quantity'], 0);
                                             $unit = isset($entry['quantity_unit']) ? $entry['quantity_unit'] : 'g';
                                             
-                                            // Add 's' for plural if unit is not 'g' and quantity > 1
+                                            
                                             if ($unit !== 'g' && floatval($entry['quantity']) > 1) {
-                                                // Handle special cases
+                                                
                                                 $plural_map = [
                                                     'egg' => 'eggs',
                                                     'slice' => 'slices',
@@ -360,7 +360,7 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                         </div>
                     </div>
 
-                    <!-- Snacks -->
+                    
                     <div class="meal-card">
                         <div class="meal-header">
                             <h4><i class="fa-solid fa-cookie"></i> Snacks</h4>
@@ -379,9 +379,9 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                                             $quantity = number_format($entry['quantity'], 0);
                                             $unit = isset($entry['quantity_unit']) ? $entry['quantity_unit'] : 'g';
                                             
-                                            // Add 's' for plural if unit is not 'g' and quantity > 1
+                                            
                                             if ($unit !== 'g' && floatval($entry['quantity']) > 1) {
-                                                // Handle special cases
+                                                
                                                 $plural_map = [
                                                     'egg' => 'eggs',
                                                     'slice' => 'slices',
@@ -421,9 +421,9 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                 </div>
             </div>
 
-            <!-- Sidebar -->
+            
             <div class="col-lg-4">
-                <!-- User Info Card -->
+                
                 <div class="card mb-4">
                     <div class="card-body">
                         <h5 class="fw-bold mb-3">Your Goals</h5>
@@ -448,7 +448,7 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                     </div>
                 </div>
 
-                <!-- Quick Stats -->
+                
                 <div class="card">
                     <div class="card-body">
                         <h5 class="fw-bold mb-3">Daily Progress</h5>
@@ -465,7 +465,7 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
         </div>
     </div>
 
-    <!-- Add Food Modal -->
+    
     <div class="modal fade" id="addFoodModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -526,7 +526,7 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
         </div>
     </div>
 
-    <!-- Delete Confirmation Modal -->
+    
     <div class="modal fade" id="deleteConfirmModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content" style="border-radius: 15px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">

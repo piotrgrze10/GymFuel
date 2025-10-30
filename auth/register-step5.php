@@ -52,10 +52,10 @@ $preview_calories = [
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/897067be39.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../css/auth.css">
+    <link rel="stylesheet" href="../css/auth.css?v=register-narrow-1">
 </head>
 <body>
-    <div class="auth-container">
+    <div class="auth-container narrow">
         <div class="auth-card registration-card">
             
             <div class="progress-container">

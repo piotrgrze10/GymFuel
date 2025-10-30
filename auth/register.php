@@ -14,10 +14,10 @@ redirectIfLoggedIn();
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/897067be39.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../css/auth.css">
+    <link rel="stylesheet" href="../css/auth.css?v=register-narrow-1">
 </head>
 <body>
-    <div class="auth-container">
+    <div class="auth-container narrow">
         <div class="auth-card registration-card">
             
             <div class="progress-container">
@@ -35,8 +35,8 @@ redirectIfLoggedIn();
             </div>
 
             <div class="auth-header">
-                <a href="../index.html" class="auth-logo">
-                    <i class="fa-solid fa-fire-flame-curved"></i>
+                <a href="../index.php" class="auth-logo logo-home">
+                    <i class="fa-solid fa-fire-flame-curved logo-icon"></i>
                     <span>Gym<span class="blue-text">Fuel</span></span>
                 </a>
                 <h2>Create Your Account</h2>

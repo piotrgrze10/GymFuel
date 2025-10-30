@@ -23,11 +23,11 @@ document.addEventListener('DOMContentLoaded', function () {
 		})
 	)
 
-	// Use passive listener to avoid blocking scroll
+	
 	window.addEventListener('scroll', updateShadow, { passive: true })
 	window.addEventListener('click', updateShadow, { passive: true })
 
-	// Initialize once on load
+	
 	updateShadow()
 })
 let products = []

@@ -1,8 +1,8 @@
 let selectedFood = null;
 let searchTimeout = null;
-let currentInputMode = 'pieces'; // 'pieces' or 'grams'
+let currentInputMode = 'pieces'; 
 
-// Search food functionality
+
 document.getElementById('foodSearch').addEventListener('input', function(e) {
     const searchTerm = e.target.value.trim();
     
@@ -18,7 +18,7 @@ document.getElementById('foodSearch').addEventListener('input', function(e) {
     }, 300);
 });
 
-// Search foods
+
 async function searchFoods(searchTerm) {
     const resultsDiv = document.getElementById('foodResults');
     resultsDiv.innerHTML = '<p class="text-center">Searching...</p>';
@@ -45,7 +45,7 @@ async function searchFoods(searchTerm) {
     }
 }
 
-// Display food results
+
 function displayFoodResults(foods) {
     const resultsDiv = document.getElementById('foodResults');
     
@@ -67,7 +67,7 @@ function displayFoodResults(foods) {
         </div>
     `).join('');
     
-    // Add click listeners
+    
     document.querySelectorAll('.food-item').forEach(item => {
         item.addEventListener('click', function() {
             selectFood(this);
@@ -75,13 +75,13 @@ function displayFoodResults(foods) {
     });
 }
 
-// Format number to remove trailing zeros
+
 function formatNumber(num) {
-    // Remove trailing zeros
+    
     return num.toString().replace(/\.0+$/, '');
 }
 
-// Show/hide unit toggle
+
 function showUnitToggle() {
     document.getElementById('toggleUnit').style.display = 'block';
 }
@@ -90,7 +90,7 @@ function hideUnitToggle() {
     document.getElementById('toggleUnit').style.display = 'none';
 }
 
-// Toggle unit button functionality
+
 document.getElementById('toggleUnit')?.addEventListener('click', function() {
     if (!selectedFood || selectedFood.unitType !== 'pieces') return;
     
@@ -98,39 +98,39 @@ document.getElementById('toggleUnit')?.addEventListener('click', function() {
     const currentValue = parseFloat(document.getElementById('quantity').value);
     
     if (currentInputMode === 'pieces') {
-        // Switch to grams
+        
         currentInputMode = 'grams';
         toggleBtn.innerHTML = '<i class="fa-solid fa-arrows-rotate"></i> Switch to pieces';
         
-        // Convert current value
+        
         const gramsValue = Math.round(currentValue * selectedFood.weightPerUnit);
         document.getElementById('quantity').value = gramsValue;
         document.getElementById('quantityLabel').textContent = 'Amount (g)';
         document.getElementById('quantityUnit').textContent = 'g';
         
-        // Update quick buttons
+        
         createQuickAmountButtons();
         updateQuantityDisplay();
     } else {
-        // Switch to pieces
+        
         currentInputMode = 'pieces';
         toggleBtn.innerHTML = '<i class="fa-solid fa-arrows-rotate"></i> Switch to grams';
         
-        // Convert current value
+        
         const piecesValue = Math.round(currentValue / selectedFood.weightPerUnit);
         document.getElementById('quantity').value = Math.max(1, piecesValue);
         document.getElementById('quantityLabel').textContent = 'Amount';
         document.getElementById('quantityUnit').textContent = selectedFood.unitName;
         
-        // Update quick buttons
+        
         createQuickAmountButtons();
         updateQuantityDisplay();
     }
 });
 
-// Select food
+
 function selectFood(element) {
-    // Remove previous selection
+    
     document.querySelectorAll('.food-item').forEach(item => {
         item.classList.remove('selected');
     });
@@ -151,18 +151,18 @@ function selectFood(element) {
         weightPerUnit: parseFloat(element.dataset.foodWeightPerUnit) || 100
     };
     
-    // Show selected food and quantity input
+    
     document.getElementById('selectedFood').style.display = 'block';
     document.getElementById('quantityInput').style.display = 'block';
     document.getElementById('selectedFoodName').textContent = selectedFood.name;
     
-    // Format numbers properly
+    
     document.getElementById('selectedFoodCalories').textContent = formatNumber(selectedFood.calories);
     document.getElementById('selectedFoodProtein').textContent = formatNumber(selectedFood.protein);
     document.getElementById('selectedFoodCarbs').textContent = formatNumber(selectedFood.carbs);
     document.getElementById('selectedFoodFat').textContent = formatNumber(selectedFood.fat);
     
-    // Set initial input mode for pieces products
+    
     if (selectedFood.unitType === 'pieces') {
         currentInputMode = 'pieces';
         document.getElementById('quantityLabel').textContent = 'Amount';
@@ -170,7 +170,7 @@ function selectFood(element) {
         document.getElementById('quantity').value = 1;
         document.getElementById('quantity').step = '1';
         
-        // Show unit toggle button for pieces
+        
         showUnitToggle();
     } else {
         currentInputMode = 'grams';
@@ -179,27 +179,27 @@ function selectFood(element) {
         document.getElementById('quantity').value = 100;
         document.getElementById('quantity').step = '1';
         
-        // Hide unit toggle for grams-only products
+        
         hideUnitToggle();
     }
     
-    // Create quick amount buttons
+    
     createQuickAmountButtons();
     
-    // Update add button
+    
     document.getElementById('addFoodBtn').disabled = false;
     
-    // Update quantity display
+    
     updateQuantityDisplay();
 }
 
-// Create quick amount buttons
+
 function createQuickAmountButtons() {
     const buttonsContainer = document.getElementById('quickAmountButtons');
     buttonsContainer.innerHTML = '';
     
     if (selectedFood.unitType === 'pieces' && currentInputMode === 'grams') {
-        // For pieces products switched to grams: show 25g, 50g, 100g, 150g (based on weight_per_unit)
+        
         const weights = [selectedFood.weightPerUnit * 0.5, selectedFood.weightPerUnit, selectedFood.weightPerUnit * 1.5, selectedFood.weightPerUnit * 2];
         weights.forEach(weight => {
             const rounded = Math.round(weight);
@@ -222,7 +222,7 @@ function createQuickAmountButtons() {
             buttonsContainer.appendChild(btn);
         });
     } else if (selectedFood.unitType === 'pieces') {
-        // For pieces: show 1, 2, 3, 4
+        
         const amounts = [1, 2, 3, 4];
         amounts.forEach(amount => {
             const btn = document.createElement('button');
@@ -243,7 +243,7 @@ function createQuickAmountButtons() {
             buttonsContainer.appendChild(btn);
         });
     } else {
-        // For grams: show 50g, 100g, 150g, 200g
+        
         const amounts = [50, 100, 150, 200];
         amounts.forEach(amount => {
             const btn = document.createElement('button');
@@ -266,7 +266,7 @@ function createQuickAmountButtons() {
     }
 }
 
-// Quantity controls
+
 document.getElementById('increaseQty').addEventListener('click', function() {
     if (!selectedFood) return;
     const quantityInput = document.getElementById('quantity');
@@ -303,32 +303,32 @@ function updateQuantityDisplay() {
         multiplier = quantity;
         unitDisplay = `${quantity} ${selectedFood.unitName}${quantity > 1 ? 's' : ''}`;
     } else {
-        multiplier = quantity / 100; // Convert to 100g base
+        multiplier = quantity / 100; 
         unitDisplay = `${quantity} g`;
     }
     
-    // Calculate values
+    
     const calories = selectedFood.calories * multiplier;
     const protein = selectedFood.protein * multiplier;
     const carbs = selectedFood.carbs * multiplier;
     const fat = selectedFood.fat * multiplier;
     
-    // Update display with formatted numbers
+    
     document.getElementById('selectedFoodCalories').textContent = formatNumber(Math.round(calories * 10) / 10);
     document.getElementById('selectedFoodProtein').textContent = formatNumber(Math.round(protein * 10) / 10);
     document.getElementById('selectedFoodCarbs').textContent = formatNumber(Math.round(carbs * 10) / 10);
     document.getElementById('selectedFoodFat').textContent = formatNumber(Math.round(fat * 10) / 10);
     
-    // Update calculated info
+    
     document.getElementById('calculatedInfo').textContent = `${unitDisplay} = ${Math.round(calories * 10) / 10} kcal`;
 }
 
-// Add food button
+
 document.getElementById('addFoodBtn').addEventListener('click', async function() {
     if (!selectedFood) return;
     
     const mealType = document.getElementById('mealType').value;
-    const quantity = parseFloat(document.getElementById('quantity').value) || 100; // quantity in grams
+    const quantity = parseFloat(document.getElementById('quantity').value) || 100; 
     
     try {
         const formData = new FormData();
@@ -345,7 +345,7 @@ document.getElementById('addFoodBtn').addEventListener('click', async function()
         const result = await response.json();
         
         if (result.success) {
-            // Reload page
+            
             window.location.reload();
         } else {
             alert('Error: ' + result.error);
@@ -357,7 +357,7 @@ document.getElementById('addFoodBtn').addEventListener('click', async function()
 
 let pendingDeleteEntryId = null;
 
-// Remove entry functionality
+
 document.querySelectorAll('.btn-remove-entry').forEach(btn => {
     btn.addEventListener('click', function() {
         const entryId = this.dataset.entryId;
@@ -368,7 +368,7 @@ document.querySelectorAll('.btn-remove-entry').forEach(btn => {
     });
 });
 
-// Confirm delete button
+
 document.getElementById('confirmDeleteBtn').addEventListener('click', async function() {
     if (!pendingDeleteEntryId) return;
     
@@ -385,11 +385,11 @@ document.getElementById('confirmDeleteBtn').addEventListener('click', async func
         const result = await response.json();
         
         if (result.success) {
-            // Hide modal
+            
             const modal = bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal'));
             modal.hide();
             
-            // Reload page
+            
             window.location.reload();
         } else {
             alert('Error: ' + result.error);
@@ -399,7 +399,7 @@ document.getElementById('confirmDeleteBtn').addEventListener('click', async func
     }
 });
 
-// Reset modal when closed
+
 const addFoodModal = document.getElementById('addFoodModal');
 addFoodModal.addEventListener('hidden.bs.modal', function() {
     document.getElementById('foodSearch').value = '';

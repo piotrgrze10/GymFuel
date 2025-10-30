@@ -36,51 +36,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/897067be39.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../css/auth.css">
+    <link rel="stylesheet" href="../css/auth.css?v=login-split-4">
 </head>
 <body>
     <div class="auth-container">
-        <div class="auth-card">
-            <div class="auth-header">
-                <a href="../index.html" class="auth-logo">
-                    <i class="fa-solid fa-fire-flame-curved"></i>
+        <div class="auth-card split">
+            <div class="auth-left">
+                <div class="auth-header">
+                <a href="../index.php" class="auth-logo logo-home">
+                    <i class="fa-solid fa-fire-flame-curved logo-icon"></i>
                     <span>Gym<span class="blue-text">Fuel</span></span>
                 </a>
                 <h2>Welcome Back</h2>
                 <p>Sign in to continue your fitness journey</p>
+                </div>
+
+                <?php if (!empty($error)): ?>
+                    <div class="alert alert-danger" role="alert">
+                        <i class="fa-solid fa-circle-exclamation"></i> <?php echo htmlspecialchars($error); ?>
+                    </div>
+                <?php endif; ?>
+
+                <form method="POST" action="" class="auth-form">
+                    <div class="form-group">
+                        <label for="email">
+                            <i class="fa-solid fa-envelope"></i> Email
+                        </label>
+                        <input type="email" id="email" name="email" required autofocus>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">
+                            <i class="fa-solid fa-lock"></i> Password
+                        </label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn-auth">
+                            <i class="fa-solid fa-sign-in-alt"></i> Sign In
+                        </button>
+                    </div>
+
+                    <div class="auth-footer">
+                        <p>Don't have an account? <a href="register.php">Create one</a></p>
+                    </div>
+                </form>
             </div>
-
-            <?php if (!empty($error)): ?>
-                <div class="alert alert-danger" role="alert">
-                    <i class="fa-solid fa-circle-exclamation"></i> <?php echo htmlspecialchars($error); ?>
-                </div>
-            <?php endif; ?>
-
-            <form method="POST" action="" class="auth-form">
-                <div class="form-group">
-                    <label for="email">
-                        <i class="fa-solid fa-envelope"></i> Email
-                    </label>
-                    <input type="email" id="email" name="email" required autofocus>
-                </div>
-
-                <div class="form-group">
-                    <label for="password">
-                        <i class="fa-solid fa-lock"></i> Password
-                    </label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-
-                <div class="form-group">
-                    <button type="submit" class="btn-auth">
-                        <i class="fa-solid fa-sign-in-alt"></i> Sign In
-                    </button>
-                </div>
-
-                <div class="auth-footer">
-                    <p>Don't have an account? <a href="register.php">Create one</a></p>
-                </div>
-            </form>
+            <div class="auth-right">
+                <img src="../img/woman_login.png" alt="GymFuel Login" loading="eager" decoding="sync">
+            </div>
         </div>
     </div>
 
