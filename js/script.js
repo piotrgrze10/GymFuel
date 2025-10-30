@@ -4,12 +4,17 @@ document.addEventListener('DOMContentLoaded', function () {
 	const navList = document.querySelector('.navbar-collapse')
 	const navbarToggler = document.querySelector('.navbar-toggler')
 
-	function addShadow() {
-		nav.classList.add('shadow-bg')
+	function updateShadow() {
+		const shouldHaveShadow = window.scrollY > 0
+		if (shouldHaveShadow && !nav.classList.contains('shadow-bg')) {
+			nav.classList.add('shadow-bg')
+		} else if (!shouldHaveShadow && nav.classList.contains('shadow-bg')) {
+			nav.classList.remove('shadow-bg')
+		}
 	}
 
 	navbarToggler.addEventListener('click', () => {
-		addShadow()
+		updateShadow()
 	})
 
 	allNavItems.forEach(item =>
@@ -18,8 +23,12 @@ document.addEventListener('DOMContentLoaded', function () {
 		})
 	)
 
-	window.addEventListener('scroll', addShadow)
-	window.addEventListener('click', addShadow)
+	// Use passive listener to avoid blocking scroll
+	window.addEventListener('scroll', updateShadow, { passive: true })
+	window.addEventListener('click', updateShadow, { passive: true })
+
+	// Initialize once on load
+	updateShadow()
 })
 let products = []
 let currentPage = 0

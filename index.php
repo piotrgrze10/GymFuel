@@ -14,6 +14,17 @@ require_once 'includes/config.php';
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Preload key images to ensure immediate display -->
+    <link rel="preload" as="image" href="./img/diet-695723_640.jpg">
+    <link rel="preload" as="image" href="./img/diet-695723_1920.jpg" media="(min-width: 1200px)">
+    <link rel="preload" as="image" href="./img/card1.jpg">
+    <link rel="preload" as="image" href="./img/card2.jpeg">
+    <link rel="preload" as="image" href="./img/card3.jpg">
+    <link rel="preload" as="image" href="./img/card4.jpg">
+    <link rel="preload" as="image" href="./img/card5.jpg">
+    <link rel="preload" as="image" href="./img/person1.jpg">
+    <link rel="preload" as="image" href="./img/person2.jpg">
+    <link rel="preload" as="image" href="./img/person3.jpg">
     <link rel="stylesheet" href="./css/navbar.css?v=ULTRAFIX">
     <link rel="stylesheet" href="./css/main.css?v=NOUNDERLINE">
     <script src="https://kit.fontawesome.com/897067be39.js" crossorigin="anonymous"></script>
@@ -124,35 +135,35 @@ require_once 'includes/config.php';
                         <div class="cards-wrapper">
                             <div class="overlap-card">
                                 <div class="card-frame">
-                                    <img src="./img/card1.jpg" alt="Reach & Maintain Your Goal Weight" class="card-img">
+                                    <img src="./img/card1.jpg" alt="Reach & Maintain Your Goal Weight" class="card-img" loading="eager" fetchpriority="high" decoding="sync">
                                     <h4 class="card-caption">Reach & Maintain Your Goal Weight</h4>
                                 </div>
                             </div>
 
                             <div class="overlap-card">
                                 <div class="card-frame">
-                                    <img src="./img/card2.jpeg" alt="Track Your Progress" class="card-img">
+                                    <img src="./img/card2.jpeg" alt="Track Your Progress" class="card-img" loading="eager" fetchpriority="high" decoding="sync">
                                     <h4 class="card-caption">Track Your Progress</h4>
                                 </div>
                             </div>
 
                             <div class="overlap-card">
                                 <div class="card-frame">
-                                    <img src="./img/card3.jpg" alt="Build Healthy Habits" class="card-img">
+                                    <img src="./img/card3.jpg" alt="Build Healthy Habits" class="card-img" loading="eager" fetchpriority="high" decoding="sync">
                                     <h4 class="card-caption">Build Healthy Habits</h4>
                                 </div>
                             </div>
 
                             <div class="overlap-card">
                                 <div class="card-frame">
-                                    <img src="./img/card4.jpg" alt="Monitor Nutrients" class="card-img">
+                                    <img src="./img/card4.jpg" alt="Monitor Nutrients" class="card-img" loading="eager" fetchpriority="high" decoding="sync">
                                     <h4 class="card-caption">Monitor Nutrients</h4>
                                 </div>
                             </div>
 
                             <div class="overlap-card">
                                 <div class="card-frame">
-                                    <img src="./img/card5.jpg" alt="Achieve Your Goals" class="card-img">
+                                    <img src="./img/card5.jpg" alt="Achieve Your Goals" class="card-img" loading="eager" fetchpriority="high" decoding="sync">
                                     <h4 class="card-caption">Achieve Your Goals</h4>
                                 </div>
                             </div>
@@ -222,7 +233,7 @@ require_once 'includes/config.php';
                     <div class="col-lg-4">
                         <div class="testimonial-card text-center p-4 bg-light rounded">
                             <div class="testimonial-image mb-3">
-                                <img src="./img/person1.jpg" alt="Sarah Mitchell" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover;">
+                                <img src="./img/person1.jpg" alt="Sarah Mitchell" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover;" loading="eager" fetchpriority="high" decoding="sync">
                             </div>
                             <h5>Sarah Mitchell</h5>
                             <div class="text-warning mb-2">
@@ -240,7 +251,7 @@ require_once 'includes/config.php';
                     <div class="col-lg-4">
                         <div class="testimonial-card text-center p-4 bg-light rounded border border-warning border-2">
                             <div class="testimonial-image mb-3">
-                                <img src="./img/person2.jpg" alt="Alex & Jordan Miller" class="rounded-circle testimonial-img-pair" style="width: 100px; height: 100px; object-fit: cover; object-position: center;">
+                                <img src="./img/person2.jpg" alt="Alex & Jordan Miller" class="rounded-circle testimonial-img-pair" style="width: 100px; height: 100px; object-fit: cover; object-position: center;" loading="eager" fetchpriority="high" decoding="sync">
                             </div>
                             <h5>Alex & Jordan Miller</h5>
                             <div class="text-warning mb-2">
@@ -258,7 +269,7 @@ require_once 'includes/config.php';
                     <div class="col-lg-4">
                         <div class="testimonial-card text-center p-4 bg-light rounded">
                             <div class="testimonial-image mb-3">
-                                <img src="./img/person3.jpg" alt="David Thompson" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover;">
+                                <img src="./img/person3.jpg" alt="David Thompson" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover;" loading="eager" fetchpriority="high" decoding="sync">
                             </div>
                             <h5>David Thompson</h5>
                             <div class="text-warning mb-2">
