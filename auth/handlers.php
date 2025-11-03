@@ -5,8 +5,26 @@ require_once '../includes/auth.php';
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
+    $csrf = $_POST['csrf_token'] ?? '';
+    if (!isset($_SESSION['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $csrf)) {
+        echo json_encode(['success' => false, 'error' => 'Invalid request token']);
+        exit();
+    }
+
     $action = $_POST['action'] ?? '';
     
+    if ($action === 'reset_flow') {
+        
+        foreach (array_keys($_SESSION) as $k) {
+            if (strpos($k, 'reg_') === 0) {
+                unset($_SESSION[$k]);
+            }
+        }
+        echo json_encode(['success' => true]);
+        exit();
+    }
+
     if ($action === 'step1') {
 
         $email = trim($_POST['email'] ?? '');
@@ -42,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['reg_password'] = $password;
         $_SESSION['reg_step'] = 1;
         
-        echo json_encode(['success' => true, 'redirect' => 'register-step2.php']);
+        echo json_encode(['success' => true]);
         
     } elseif ($action === 'step2') {
 
@@ -70,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['reg_gender'] = $gender;
         $_SESSION['reg_step'] = 2;
         
-        echo json_encode(['success' => true, 'redirect' => 'register-step3.php']);
+        echo json_encode(['success' => true]);
         
     } elseif ($action === 'step3') {
 
@@ -103,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['reg_weight'] = $weight;
         $_SESSION['reg_step'] = 3;
         
-        echo json_encode(['success' => true, 'redirect' => 'register-step4.php']);
+        echo json_encode(['success' => true]);
         
     } elseif ($action === 'step4') {
 
@@ -123,7 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['reg_activity_level'] = $activity_level;
         $_SESSION['reg_step'] = 4;
         
-        echo json_encode(['success' => true, 'redirect' => 'register-step5.php']);
+        echo json_encode(['success' => true]);
         
     } elseif ($action === 'step5') {
 
@@ -157,11 +175,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         if ($result['success']) {
 
-            $_SESSION = [];
+            
+            foreach (array_keys($_SESSION) as $k) {
+                if (strpos($k, 'reg_') === 0) {
+                    unset($_SESSION[$k]);
+                }
+            }
             
             echo json_encode([
                 'success' => true,
-                'redirect' => 'login.php',
                 'calories' => $result['calories'],
                 'bmr' => $result['bmr']
             ]);
