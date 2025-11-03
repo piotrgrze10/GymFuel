@@ -76,8 +76,8 @@ body {
 }
 
 .registration-card {
-    padding: 32px 28px;
-    min-height: 560px;
+    padding: 28px 28px;
+    height: 700px;
     display: flex;
     flex-direction: column;
 }
@@ -95,18 +95,19 @@ body {
 
 .auth-header {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 16px;
+    flex-shrink: 0;
 }
 
 .auth-logo {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: bold;
     color: #333;
     text-decoration: none;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
 }
 
 .auth-logo:hover {
@@ -120,17 +121,18 @@ body {
 .auth-header h2 {
     color: #333;
     font-weight: 700;
-    margin-bottom: 8px;
-    font-size: 1.75rem;
+    margin-bottom: 6px;
+    font-size: 1.5rem;
 }
 
 .auth-header p {
     color: #666;
-    font-size: 0.95rem;
+    font-size: 0.875rem;
 }
 
 .progress-container {
-    margin-bottom: 30px;
+    margin-bottom: 16px;
+    flex-shrink: 0;
 }
 
 .progress-bar {
@@ -186,28 +188,43 @@ body {
 }
 
 .auth-form {
-    margin-top: 20px;
-    flex-grow: 1;
+    flex: 1 1 auto;
     display: flex;
     flex-direction: column;
+    min-height: 0;
+}
+
+.reg-step {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    height: 330px;
+}
+
+.reg-step .form-group:not(:last-child) {
+    flex-shrink: 0;
+    margin-bottom: 12px;
 }
 
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 12px;
 }
 
-.form-group:last-child {
+#nav-buttons {
     margin-top: auto;
+    margin-bottom: 0;
+    flex-shrink: 0;
+    padding-top: 8px;
 }
 
 .form-group label {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     font-weight: 600;
     color: #333;
-    margin-bottom: 8px;
-    font-size: 0.95rem;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
 }
 
 .form-group label i {
@@ -219,11 +236,11 @@ body {
 .form-group input,
 .form-group select {
     width: 100%;
-    padding: 12px 16px;
+    padding: 11px 14px;
     border: 2px solid #e0e0e0;
     border-radius: 8px;
     font-family: 'Montserrat', sans-serif;
-    font-size: 1rem;
+    font-size: 0.95rem;
     transition: all 0.3s ease;
 }
 
@@ -241,26 +258,26 @@ body {
 .form-group small {
     display: block;
     color: #999;
-    font-size: 0.85rem;
-    margin-top: 4px;
+    font-size: 0.8rem;
+    margin-top: 3px;
 }
 
 .btn-auth {
     width: 100%;
-    padding: 14px 28px;
+    padding: 12px 24px;
     background: linear-gradient(135deg, #2B3866 0%, #485996 100%);
     color: white;
     border: 1px solid #2a3760;
     border-radius: 999px;
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 0.95rem;
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 8px;
     box-shadow: 0 10px 20px rgba(36, 48, 85, 0.22), 0 4px 10px rgba(0,0,0,0.12);
     letter-spacing: 0.3px;
 }
@@ -286,7 +303,7 @@ body {
     border: 1px solid #444c58;
     color: #fff;
     border-radius: 999px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .btn-secondary:hover {
@@ -303,13 +320,14 @@ body {
 }
 
 .alert {
-    padding: 12px 16px;
+    padding: 10px 14px;
     border-radius: 8px;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 0.95rem;
+    gap: 8px;
+    font-size: 0.875rem;
+    flex-shrink: 0;
 }
 
 .alert-danger {
@@ -324,9 +342,10 @@ body {
 
 .auth-footer {
     text-align: center;
-    margin-top: 20px;
-    padding-top: 20px;
+    margin-top: 12px;
+    padding-top: 12px;
     border-top: 1px solid #e0e0e0;
+    flex-shrink: 0;
 }
 
 .auth-footer p {
@@ -347,42 +366,44 @@ body {
 
 .activity-options {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 12px;
-    margin-top: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 6px;
+    margin-top: 6px;
 }
 
 .activity-card {
-    padding: 20px 12px;
+    padding: 10px 6px;
     border: 2px solid #e0e0e0;
-    border-radius: 12px;
+    border-radius: 8px;
     text-align: center;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .activity-card i {
-    font-size: 2rem;
+    font-size: 1.4rem;
     color: #039dff;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
 }
 
 .activity-card h4 {
-    font-size: 0.9rem;
+    font-size: 0.75rem;
     font-weight: 600;
     color: #333;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
 }
 
 .activity-card p {
-    font-size: 0.85rem;
+    font-size: 0.65rem;
     color: #666;
-    margin-bottom: 4px;
+    margin-bottom: 1px;
+    line-height: 1.1;
 }
 
 .activity-card small {
-    font-size: 0.75rem;
+    font-size: 0.6rem;
     color: #999;
+    line-height: 1.1;
 }
 
 .activity-card:hover {
@@ -397,45 +418,75 @@ body {
     box-shadow: 0 4px 12px rgba(3, 157, 255, 0.3);
 }
 
+.activity-description {
+    margin-top: 12px;
+    padding: 14px 16px;
+    background: linear-gradient(135deg, #f8f9ff 0%, #f0f8ff 100%);
+    border-left: 4px solid #039dff;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #333;
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.activity-description strong {
+    color: #039dff;
+    font-size: 0.9rem;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .goal-options {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 15px;
-    margin-top: 12px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 6px;
 }
 
 .goal-card {
-    padding: 24px 20px;
+    padding: 14px 8px;
     border: 2px solid #e0e0e0;
-    border-radius: 12px;
+    border-radius: 8px;
     text-align: center;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .goal-card i {
-    font-size: 2.5rem;
+    font-size: 1.8rem;
     color: #039dff;
-    margin-bottom: 12px;
+    margin-bottom: 6px;
 }
 
 .goal-card h4 {
-    font-size: 1.1rem;
+    font-size: 0.8rem;
     font-weight: 600;
     color: #333;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
 }
 
 .goal-card .goal-calories {
-    font-size: 1.3rem;
+    font-size: 0.9rem;
     font-weight: bold;
     color: #039dff;
-    margin-bottom: 8px;
+    margin-bottom: 3px;
 }
 
 .goal-card small {
-    font-size: 0.85rem;
+    font-size: 0.65rem;
     color: #999;
+    line-height: 1.2;
 }
 
 .goal-card:hover {
@@ -518,7 +569,7 @@ body {
     animation: pulse-glow 2s ease-in-out infinite;
     display: inline-block;
     text-shadow: 0 0 10px rgba(255,107,107,0.6);
-    font-size: 2.1rem;
+    font-size: 1.9rem;
 }
 .logo-home .blue-text {
     color: #039dff;
@@ -544,7 +595,13 @@ body {
     .auth-card {
         padding: 30px 20px;
     }
-    .registration-card { min-height: auto; }
+    .registration-card { 
+        height: auto;
+    }
+    
+    .reg-step {
+        height: auto;
+    }
     
     .progress-steps .step {
         width: 32px;
@@ -562,6 +619,10 @@ body {
     
     .activity-card i {
         font-size: 1.5rem;
+    }
+    
+    .goal-options {
+        grid-template-columns: 1fr;
     }
 }
 

@@ -1,35 +1,6 @@
 <?php
 require_once '../includes/config.php';
 redirectIfLoggedIn();
-
-
-$preview_calories = null;
-if (isset($_SESSION['reg_gender']) && isset($_SESSION['reg_age']) && isset($_SESSION['reg_height']) && isset($_SESSION['reg_weight']) && isset($_SESSION['reg_activity_level'])) {
-    function calculateBMR($weight, $height, $age, $gender) {
-        if ($gender === 'male') {
-            return 10 * $weight + 6.25 * $height - 5 * $age + 5;
-        } else {
-            return 10 * $weight + 6.25 * $height - 5 * $age - 161;
-        }
-    }
-    
-    $activity_multipliers = [
-        'sedentary' => 1.2,
-        'lightly_active' => 1.375,
-        'moderately_active' => 1.55,
-        'very_active' => 1.725,
-        'extra_active' => 1.9
-    ];
-    
-    $preview_bmr = calculateBMR($_SESSION['reg_weight'], $_SESSION['reg_height'], $_SESSION['reg_age'], $_SESSION['reg_gender']);
-    $preview_tdee = $preview_bmr * $activity_multipliers[$_SESSION['reg_activity_level']];
-    
-    $preview_calories = [
-        'lose_weight' => round($preview_tdee - 500),
-        'maintain' => round($preview_tdee),
-        'gain_weight' => round($preview_tdee + 500)
-    ];
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -134,18 +105,15 @@ if (isset($_SESSION['reg_gender']) && isset($_SESSION['reg_age']) && isset($_SES
                 <div class="reg-step" id="step3" style="display:none;">
                     <div class="form-group">
                         <label for="age"><i class="fa-solid fa-calendar"></i> Age</label>
-                        <input type="number" id="age" name="age" data-required="3" placeholder="Your age" min="13" max="120" autocomplete="off">
-                        <small>Must be between 13 and 120 years</small>
+                        <input type="number" id="age" name="age" data-required="3" placeholder="Your age (13-120)" min="13" max="120" autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="height"><i class="fa-solid fa-ruler-vertical"></i> Height (cm)</label>
-                        <input type="number" id="height" name="height" data-required="3" placeholder="Your height in centimeters" min="50" max="250" step="0.1" autocomplete="off">
-                        <small>Enter your height in centimeters (e.g., 175 cm)</small>
+                        <input type="number" id="height" name="height" data-required="3" placeholder="Height in cm (e.g., 175)" min="50" max="250" step="0.1" autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="weight"><i class="fa-solid fa-weight-scale"></i> Weight (kg)</label>
-                        <input type="number" id="weight" name="weight" data-required="3" placeholder="Your weight in kilograms" min="20" max="300" step="0.1" autocomplete="off">
-                        <small>Enter your weight in kilograms (e.g., 70 kg)</small>
+                        <input type="number" id="weight" name="weight" data-required="3" placeholder="Weight in kg (e.g., 70)" min="20" max="300" step="0.1" autocomplete="off">
                     </div>
                 </div>
 
@@ -185,6 +153,7 @@ if (isset($_SESSION['reg_gender']) && isset($_SESSION['reg_age']) && isset($_SES
                             </div>
                         </div>
                         <input type="hidden" id="activity_level" name="activity_level" data-required="4">
+                        <div id="activity-description" class="activity-description"></div>
                     </div>
                 </div>
 
@@ -192,22 +161,22 @@ if (isset($_SESSION['reg_gender']) && isset($_SESSION['reg_age']) && isset($_SES
                     <div class="form-group">
                         <label><i class="fa-solid fa-bullseye"></i> Select Your Goal</label>
                         <div class="goal-options">
-                            <div class="goal-card" data-value="lose_weight" data-calories="<?php echo $preview_calories ? $preview_calories['lose_weight'] : 0; ?>">
+                            <div class="goal-card" data-value="lose_weight" data-calories="0">
                                 <i class="fa-solid fa-arrow-trend-down"></i>
                                 <h4>Lose Weight</h4>
-                                <p class="goal-calories">~<?php echo $preview_calories ? $preview_calories['lose_weight'] : 0; ?> kcal/day</p>
+                                <p class="goal-calories">Calculating...</p>
                                 <small>500 calorie deficit for safe weight loss</small>
                             </div>
-                            <div class="goal-card" data-value="maintain" data-calories="<?php echo $preview_calories ? $preview_calories['maintain'] : 0; ?>">
+                            <div class="goal-card" data-value="maintain" data-calories="0">
                                 <i class="fa-solid fa-equals"></i>
                                 <h4>Maintain Weight</h4>
-                                <p class="goal-calories">~<?php echo $preview_calories ? $preview_calories['maintain'] : 0; ?> kcal/day</p>
+                                <p class="goal-calories">Calculating...</p>
                                 <small>Maintain your current weight</small>
                             </div>
-                            <div class="goal-card" data-value="gain_weight" data-calories="<?php echo $preview_calories ? $preview_calories['gain_weight'] : 0; ?>">
+                            <div class="goal-card" data-value="gain_weight" data-calories="0">
                                 <i class="fa-solid fa-arrow-trend-up"></i>
                                 <h4>Gain Weight</h4>
-                                <p class="goal-calories">~<?php echo $preview_calories ? $preview_calories['gain_weight'] : 0; ?> kcal/day</p>
+                                <p class="goal-calories">Calculating...</p>
                                 <small>500 calorie surplus for muscle gain</small>
                             </div>
                         </div>
@@ -235,6 +204,41 @@ if (isset($_SESSION['reg_gender']) && isset($_SESSION['reg_age']) && isset($_SES
     <script>
         let currentStep = 1;
         const totalSteps = 5;
+        
+        function calculateCalories() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value);
+            const age = parseInt(document.getElementById('age').value);
+            const gender = document.getElementById('gender').value;
+            const activityLevel = document.getElementById('activity_level').value;
+            
+            if (!weight || !height || !age || !gender || !activityLevel) return null;
+            
+            let bmr;
+            if (gender === 'male') {
+                bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+            } else if (gender === 'female') {
+                bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+            } else {
+                bmr = 10 * weight + 6.25 * height - 5 * age - 78;
+            }
+            
+            const activityMultipliers = {
+                'sedentary': 1.2,
+                'lightly_active': 1.375,
+                'moderately_active': 1.55,
+                'very_active': 1.725,
+                'extra_active': 1.9
+            };
+            
+            const tdee = bmr * activityMultipliers[activityLevel];
+            
+            return {
+                lose_weight: Math.round(tdee - 500),
+                maintain: Math.round(tdee),
+                gain_weight: Math.round(tdee + 500)
+            };
+        }
 
         const steps = {
             1: {
@@ -277,11 +281,39 @@ if (isset($_SESSION['reg_gender']) && isset($_SESSION['reg_age']) && isset($_SES
             if (savedData.weight) document.getElementById('weight').value = savedData.weight;
             if (savedData.activity_level) {
                 document.getElementById('activity_level').value = savedData.activity_level;
-                document.querySelector(`.activity-card[data-value="${savedData.activity_level}"]`)?.classList.add('selected');
+                const selectedCard = document.querySelector(`.activity-card[data-value="${savedData.activity_level}"]`);
+                if (selectedCard) {
+                    selectedCard.classList.add('selected');
+                    const descriptionEl = document.getElementById('activity-description');
+                    const title = selectedCard.querySelector('h4').textContent;
+                    const activityDescs = {
+                        'sedentary': 'You spend most of your day sitting with little to no exercise. Examples include office work, reading, or watching TV. Your body burns calories at a minimal rate beyond basic metabolic functions.',
+                        'lightly_active': 'You engage in light physical activity 1-3 times per week. This could include casual walking, light yoga, or gentle recreational activities. Your lifestyle involves some movement but mostly sedentary.',
+                        'moderately_active': 'You exercise regularly 3-5 times per week with moderate intensity. Activities might include jogging, cycling, swimming, or fitness classes. You maintain a balanced routine of activity and rest.',
+                        'very_active': 'You engage in hard exercise 6-7 days per week with high intensity. Your routine includes intensive workouts, sports training, or physically demanding activities that significantly elevate your heart rate.',
+                        'extra_active': 'You combine very hard daily exercise with a physically demanding job or train like a professional athlete. Your body is constantly active, requiring maximum caloric intake to maintain performance and recovery.'
+                    };
+                    descriptionEl.innerHTML = `<strong>${title}:</strong> ${activityDescs[savedData.activity_level]}`;
+                    descriptionEl.style.display = 'block';
+                }
             }
             if (savedData.goal) {
                 document.getElementById('goal').value = savedData.goal;
                 document.querySelector(`.goal-card[data-value="${savedData.goal}"]`)?.classList.add('selected');
+            }
+            
+            if (savedData.weight && savedData.height && savedData.age && savedData.gender && savedData.activity_level) {
+                const calories = calculateCalories();
+                if (calories) {
+                    document.querySelectorAll('.goal-card').forEach(card => {
+                        const goalType = card.dataset.value;
+                        const calorieEl = card.querySelector('.goal-calories');
+                        if (calorieEl && calories[goalType]) {
+                            calorieEl.textContent = `~${calories[goalType]} kcal/day`;
+                            card.dataset.calories = calories[goalType];
+                        }
+                    });
+                }
             }
         }
 
@@ -315,6 +347,28 @@ if (isset($_SESSION['reg_gender']) && isset($_SESSION['reg_age']) && isset($_SES
             document.querySelectorAll('.reg-step').forEach(s => s.style.display = 'none');
             
             document.getElementById(`step${step}`).style.display = 'block';
+            
+            if (step === 4) {
+                const activityValue = document.getElementById('activity_level').value;
+                const descEl = document.getElementById('activity-description');
+                if (activityValue && descEl.innerHTML) {
+                    descEl.style.display = 'block';
+                }
+            }
+            
+            if (step === 5) {
+                const calories = calculateCalories();
+                if (calories) {
+                    document.querySelectorAll('.goal-card').forEach(card => {
+                        const goalType = card.dataset.value;
+                        const calorieEl = card.querySelector('.goal-calories');
+                        if (calorieEl && calories[goalType]) {
+                            calorieEl.textContent = `~${calories[goalType]} kcal/day`;
+                            card.dataset.calories = calories[goalType];
+                        }
+                    });
+                }
+            }
             
             document.getElementById('step-title').textContent = steps[step].title;
             document.getElementById('step-subtitle').textContent = steps[step].subtitle;
@@ -413,11 +467,26 @@ if (isset($_SESSION['reg_gender']) && isset($_SESSION['reg_age']) && isset($_SES
         document.getElementById('height').addEventListener('input', () => { saveData(); validateCurrentStep(); });
         document.getElementById('weight').addEventListener('input', () => { saveData(); validateCurrentStep(); });
 
+        const activityDescriptions = {
+            'sedentary': 'You spend most of your day sitting with little to no exercise. Examples include office work, reading, or watching TV. Your body burns calories at a minimal rate beyond basic metabolic functions.',
+            'lightly_active': 'You engage in light physical activity 1-3 times per week. This could include casual walking, light yoga, or gentle recreational activities. Your lifestyle involves some movement but mostly sedentary.',
+            'moderately_active': 'You exercise regularly 3-5 times per week with moderate intensity. Activities might include jogging, cycling, swimming, or fitness classes. You maintain a balanced routine of activity and rest.',
+            'very_active': 'You engage in hard exercise 6-7 days per week with high intensity. Your routine includes intensive workouts, sports training, or physically demanding activities that significantly elevate your heart rate.',
+            'extra_active': 'You combine very hard daily exercise with a physically demanding job or train like a professional athlete. Your body is constantly active, requiring maximum caloric intake to maintain performance and recovery.'
+        };
+
         document.querySelectorAll('.activity-card').forEach(card => {
             card.addEventListener('click', function() {
                 document.querySelectorAll('.activity-card').forEach(c => c.classList.remove('selected'));
                 this.classList.add('selected');
-                document.getElementById('activity_level').value = this.dataset.value;
+                const value = this.dataset.value;
+                document.getElementById('activity_level').value = value;
+                
+                const descriptionEl = document.getElementById('activity-description');
+                const title = this.querySelector('h4').textContent;
+                descriptionEl.innerHTML = `<strong>${title}:</strong> ${activityDescriptions[value]}`;
+                descriptionEl.style.display = 'block';
+                
                 saveData();
                 validateCurrentStep();
             });
