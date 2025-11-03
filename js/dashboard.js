@@ -1,7 +1,6 @@
 let selectedFood = null;
 let searchTimeout = null;
-let currentInputMode = 'pieces'; 
-
+let currentSelectedUnit = null;
 
 document.getElementById('foodSearch').addEventListener('input', function(e) {
     const searchTerm = e.target.value.trim();
@@ -17,7 +16,6 @@ document.getElementById('foodSearch').addEventListener('input', function(e) {
         searchFoods(searchTerm);
     }, 300);
 });
-
 
 async function searchFoods(searchTerm) {
     const resultsDiv = document.getElementById('foodResults');
@@ -45,28 +43,35 @@ async function searchFoods(searchTerm) {
     }
 }
 
-
 function displayFoodResults(foods) {
     const resultsDiv = document.getElementById('foodResults');
     
     if (foods.length === 0) {
-        resultsDiv.innerHTML = '<p class="text-muted text-center">No foods found</p>';
+        resultsDiv.innerHTML = '<p class="text-muted text-center" style="padding: 1rem;">No foods found</p>';
         return;
     }
     
-    resultsDiv.innerHTML = foods.map(food => `
-        <div class="food-item" data-food-id="${food.id}" data-food-calories="${food.calories}" 
-             data-food-protein="${food.protein}" data-food-carbs="${food.carbs}" 
-             data-food-fat="${food.fat}" data-food-fiber="${food.fiber}" 
+    resultsDiv.innerHTML = foods.map(food => {
+        const unitsJson = JSON.stringify(food.available_units || []);
+        const defaultUnit = food.available_units && food.available_units[0] ? food.available_units[0].unit_display : 'g';
+        
+        return `
+        <div class="food-item" data-food-id="${food.id}" 
+             data-food-calories="${food.calories}" 
+             data-food-protein="${food.protein}" 
+             data-food-carbs="${food.carbs}" 
+             data-food-fat="${food.fat}" 
+             data-food-fiber="${food.fiber}" 
              data-food-sugar="${food.sugar}"
-             data-food-unit-type="${food.unit_type || 'grams'}" 
-             data-food-unit-name="${food.unit_name || 'g'}"
-             data-food-weight-per-unit="${food.weight_per_unit || 100}">
+             data-food-units='${unitsJson.replace(/'/g, "&#39;")}'>
             <h6>${food.name}</h6>
-            <small>${food.calories} kcal per ${food.unit_type === 'pieces' ? (food.unit_name || 'piece') : '100g'} | Protein: ${food.protein}g | Carbs: ${food.carbs}g | Fat: ${food.fat}g</small>
+            <small>
+                ${food.calories} kcal per 100g
+                • P: ${food.protein}g • C: ${food.carbs}g • F: ${food.fat}g
+            </small>
         </div>
-    `).join('');
-    
+        `;
+    }).join('');
     
     document.querySelectorAll('.food-item').forEach(item => {
         item.addEventListener('click', function() {
@@ -75,67 +80,259 @@ function displayFoodResults(foods) {
     });
 }
 
-
 function formatNumber(num) {
-    
     return num.toString().replace(/\.0+$/, '');
 }
 
-
-function showUnitToggle() {
-    document.getElementById('toggleUnit').style.display = 'block';
+function getUnitIcon(unitName) {
+    const iconMap = {
+        'gram': '⚖️',
+        'ml': '💧',
+        'egg': '🥚',
+        'slice': '🍞',
+        'tbsp': '🥄',
+        'cup': '☕',
+        'serving': '🍽️',
+        'piece': '🔸',
+        'avocado': '🥑',
+        'orange': '🍊',
+        'banana': '🍌',
+        'apple': '🍎'
+    };
+    return iconMap[unitName] || '📏';
 }
 
-function hideUnitToggle() {
-    document.getElementById('toggleUnit').style.display = 'none';
+function createUnitSelector() {
+    if (!selectedFood || !selectedFood.availableUnits || selectedFood.availableUnits.length <= 1) {
+        document.getElementById('unitSelectorContainer').style.display = 'none';
+        return;
+    }
+    
+    const container = document.getElementById('unitSelectorContainer');
+    container.style.display = 'block';
+    
+    const defaultUnit = selectedFood.availableUnits.find(u => u.is_default) || selectedFood.availableUnits[0];
+    currentSelectedUnit = defaultUnit;
+    
+    const customDropdownHTML = `
+        <div class="custom-dropdown-wrapper">
+            <div class="custom-dropdown-selected" id="customDropdownSelected">
+                <div class="custom-dropdown-text">
+                    <div class="custom-dropdown-icon">${getUnitIcon(defaultUnit.unit_name)}</div>
+                    <div>
+                        <div id="selectedUnitText">${defaultUnit.unit_display}</div>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-down custom-dropdown-arrow"></i>
+            </div>
+            <div class="custom-dropdown-options" id="customDropdownOptions">
+                ${selectedFood.availableUnits.map(unit => `
+                    <div class="custom-dropdown-option ${unit.unit_name === defaultUnit.unit_name ? 'selected' : ''}" 
+                         data-unit-name="${unit.unit_name}"
+                         data-weight="${unit.weight_in_grams}"
+                         data-display="${unit.unit_display}"
+                         data-plural="${unit.unit_plural}">
+                        <div class="custom-dropdown-option-icon">${getUnitIcon(unit.unit_name)}</div>
+                        <div class="custom-dropdown-option-text">
+                            ${unit.unit_display}
+                            <span>${unit.weight_in_grams}g ${unit.unit_name === 'gram' ? '' : 'per unit'}</span>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+        <select class="form-select modern-select" id="unitSelector" style="display: none;">
+            ${selectedFood.availableUnits.map(unit => `
+                <option value="${unit.unit_name}" 
+                        data-weight="${unit.weight_in_grams}"
+                        data-display="${unit.unit_display}"
+                        data-plural="${unit.unit_plural}">
+                    ${unit.unit_display}
+                </option>
+            `).join('')}
+        </select>
+    `;
+    
+    const existingWrapper = container.querySelector('.custom-dropdown-wrapper');
+    if (existingWrapper) {
+        existingWrapper.remove();
+    }
+    const existingSelect = container.querySelector('#unitSelector');
+    if (existingSelect) {
+        existingSelect.remove();
+    }
+    container.insertAdjacentHTML('beforeend', customDropdownHTML);
+    
+    setupCustomDropdown();
+    
+    document.getElementById('unitSelector').value = defaultUnit.unit_name;
 }
 
-
-document.getElementById('toggleUnit')?.addEventListener('click', function() {
-    if (!selectedFood || selectedFood.unitType !== 'pieces') return;
+function setupCustomDropdown() {
+    const selected = document.getElementById('customDropdownSelected');
+    const optionsContainer = document.getElementById('customDropdownOptions');
+    const options = optionsContainer.querySelectorAll('.custom-dropdown-option');
+    let currentFocusedIndex = -1;
     
-    const toggleBtn = this;
-    const currentValue = parseFloat(document.getElementById('quantity').value);
+    selected.addEventListener('click', function(e) {
+        e.stopPropagation();
+        this.classList.toggle('active');
+        optionsContainer.classList.toggle('show');
+        
+        if (optionsContainer.classList.contains('show')) {
+            // Focus first selected option or first option
+            const selectedOption = optionsContainer.querySelector('.custom-dropdown-option.selected');
+            if (selectedOption) {
+                currentFocusedIndex = Array.from(options).indexOf(selectedOption);
+            }
+        }
+    });
     
-    if (currentInputMode === 'pieces') {
+    // Keyboard navigation
+    selected.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            this.click();
+        } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (!optionsContainer.classList.contains('show')) {
+                this.click();
+            } else {
+                navigateOptions(e.key === 'ArrowDown' ? 1 : -1);
+            }
+        } else if (e.key === 'Escape') {
+            selected.classList.remove('active');
+            optionsContainer.classList.remove('show');
+        }
+    });
+    
+    function navigateOptions(direction) {
+        currentFocusedIndex += direction;
+        if (currentFocusedIndex < 0) currentFocusedIndex = options.length - 1;
+        if (currentFocusedIndex >= options.length) currentFocusedIndex = 0;
         
-        currentInputMode = 'grams';
-        toggleBtn.innerHTML = '<i class="fa-solid fa-arrows-rotate"></i> Switch to pieces';
+        // Visual feedback
+        options.forEach((opt, idx) => {
+            if (idx === currentFocusedIndex) {
+                opt.style.background = 'linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%)';
+                opt.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            } else if (!opt.classList.contains('selected')) {
+                opt.style.background = '';
+            }
+        });
+    }
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.custom-dropdown-wrapper')) {
+            selected.classList.remove('active');
+            optionsContainer.classList.remove('show');
+        }
+    });
+    
+    // Close dropdown on Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && optionsContainer.classList.contains('show')) {
+            selected.classList.remove('active');
+            optionsContainer.classList.remove('show');
+        }
+    });
+    
+    // Handle option selection
+    options.forEach((option, index) => {
+        option.addEventListener('click', function() {
+            selectOption(this);
+        });
         
+        option.addEventListener('mouseenter', function() {
+            currentFocusedIndex = index;
+        });
+    });
+    
+    function selectOption(option) {
+        // Remove previous selection
+        options.forEach(opt => {
+            opt.classList.remove('selected');
+            opt.style.background = '';
+        });
+        option.classList.add('selected');
         
-        const gramsValue = Math.round(currentValue * selectedFood.weightPerUnit);
-        document.getElementById('quantity').value = gramsValue;
-        document.getElementById('quantityLabel').textContent = 'Amount (g)';
-        document.getElementById('quantityUnit').textContent = 'g';
+        // Update current unit
+        currentSelectedUnit = {
+            unit_name: option.dataset.unitName,
+            weight_in_grams: parseFloat(option.dataset.weight),
+            unit_display: option.dataset.display,
+            unit_plural: option.dataset.plural
+        };
         
+        // Update selected display
+        const iconElement = option.querySelector('.custom-dropdown-option-icon').innerHTML;
+        const textElement = option.querySelector('.custom-dropdown-option-text').childNodes[0].textContent.trim();
         
-        createQuickAmountButtons();
-        updateQuantityDisplay();
-    } else {
+        document.querySelector('.custom-dropdown-icon').innerHTML = iconElement;
+        document.getElementById('selectedUnitText').textContent = textElement;
         
-        currentInputMode = 'pieces';
-        toggleBtn.innerHTML = '<i class="fa-solid fa-arrows-rotate"></i> Switch to grams';
+        // Sync hidden select
+        document.getElementById('unitSelector').value = currentSelectedUnit.unit_name;
         
+        // Close dropdown
+        selected.classList.remove('active');
+        optionsContainer.classList.remove('show');
         
-        const piecesValue = Math.round(currentValue / selectedFood.weightPerUnit);
-        document.getElementById('quantity').value = Math.max(1, piecesValue);
-        document.getElementById('quantityLabel').textContent = 'Amount';
-        document.getElementById('quantityUnit').textContent = selectedFood.unitName;
+        // Convert value when changing unit
+        const currentGrams = getCurrentWeightInGrams();
+        const newQuantity = currentGrams / currentSelectedUnit.weight_in_grams;
+        document.getElementById('quantity').value = Math.max(0.1, Math.round(newQuantity * 10) / 10);
         
-        
+        updateUnitDisplay();
         createQuickAmountButtons();
         updateQuantityDisplay();
     }
-});
+    
+    // Make selected element focusable
+    selected.setAttribute('tabindex', '0');
+    
+    // Add unit count badge
+    const container = document.getElementById('unitSelectorContainer');
+    if (options.length > 1) {
+        container.setAttribute('data-unit-count', options.length + ' units');
+    }
+}
+
+// Gets current weight in grams
+function getCurrentWeightInGrams() {
+    const quantity = parseFloat(document.getElementById('quantity').value) || 1;
+    if (!currentSelectedUnit) return 100;
+    return quantity * currentSelectedUnit.weight_in_grams;
+}
+
+// Updates unit display
+function updateUnitDisplay() {
+    if (!currentSelectedUnit) return;
+    
+    const quantity = parseFloat(document.getElementById('quantity').value) || 1;
+    const unitText = quantity === 1 ? currentSelectedUnit.unit_display : currentSelectedUnit.unit_plural;
+    
+    document.getElementById('quantityUnit').textContent = unitText;
+    document.getElementById('quantityLabel').textContent = `Amount (${currentSelectedUnit.unit_plural})`;
+}
 
 
 function selectFood(element) {
-    
+    // Remove previous selection
     document.querySelectorAll('.food-item').forEach(item => {
         item.classList.remove('selected');
     });
     
     element.classList.add('selected');
+    
+    // Parse available units
+    let availableUnits = [];
+    try {
+        availableUnits = JSON.parse(element.dataset.foodUnits || '[]');
+    } catch(e) {
+        console.error('Error parsing units:', e);
+    }
     
     selectedFood = {
         id: element.dataset.foodId,
@@ -146,50 +343,53 @@ function selectFood(element) {
         fat: parseFloat(element.dataset.foodFat),
         fiber: parseFloat(element.dataset.foodFiber),
         sugar: parseFloat(element.dataset.foodSugar),
-        unitType: element.dataset.foodUnitType || 'grams',
-        unitName: element.dataset.foodUnitName || 'g',
-        weightPerUnit: parseFloat(element.dataset.foodWeightPerUnit) || 100
+        availableUnits: availableUnits
     };
     
-    
+    // Show sections
     document.getElementById('selectedFood').style.display = 'block';
     document.getElementById('quantityInput').style.display = 'block';
     document.getElementById('selectedFoodName').textContent = selectedFood.name;
     
-    
+    // Display macros (per 100g)
     document.getElementById('selectedFoodCalories').textContent = formatNumber(selectedFood.calories);
     document.getElementById('selectedFoodProtein').textContent = formatNumber(selectedFood.protein);
     document.getElementById('selectedFoodCarbs').textContent = formatNumber(selectedFood.carbs);
     document.getElementById('selectedFoodFat').textContent = formatNumber(selectedFood.fat);
     
-    
-    if (selectedFood.unitType === 'pieces') {
-        currentInputMode = 'pieces';
-        document.getElementById('quantityLabel').textContent = 'Amount';
-        document.getElementById('quantityUnit').textContent = selectedFood.unitName;
-        document.getElementById('quantity').value = 1;
-        document.getElementById('quantity').step = '1';
+    // Set default unit
+    if (availableUnits.length > 0) {
+        const defaultUnit = availableUnits.find(u => u.is_default == 1) || availableUnits[0];
+        currentSelectedUnit = defaultUnit;
         
-        
-        showUnitToggle();
+        // Set initial quantity
+        if (defaultUnit.unit_name === 'gram') {
+            document.getElementById('quantity').value = 100;
+        } else {
+            document.getElementById('quantity').value = 1;
+        }
     } else {
-        currentInputMode = 'grams';
-        document.getElementById('quantityLabel').textContent = 'Amount (g)';
-        document.getElementById('quantityUnit').textContent = 'g';
+        // Fallback - grams only
+        currentSelectedUnit = {
+            unit_name: 'gram',
+            weight_in_grams: 1,
+            unit_display: 'gram',
+            unit_plural: 'grams'
+        };
         document.getElementById('quantity').value = 100;
-        document.getElementById('quantity').step = '1';
-        
-        
-        hideUnitToggle();
     }
     
+    // Create unit selector
+    createUnitSelector();
+    updateUnitDisplay();
     
+    // Create quick amount buttons
     createQuickAmountButtons();
     
-    
+    // Enable add button
     document.getElementById('addFoodBtn').disabled = false;
     
-    
+    // Update display
     updateQuantityDisplay();
 }
 
@@ -198,63 +398,39 @@ function createQuickAmountButtons() {
     const buttonsContainer = document.getElementById('quickAmountButtons');
     buttonsContainer.innerHTML = '';
     
-    if (selectedFood.unitType === 'pieces' && currentInputMode === 'grams') {
-        
-        const weights = [selectedFood.weightPerUnit * 0.5, selectedFood.weightPerUnit, selectedFood.weightPerUnit * 1.5, selectedFood.weightPerUnit * 2];
-        weights.forEach(weight => {
-            const rounded = Math.round(weight);
-            const btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = 'btn btn-outline-primary btn-sm me-2 mb-2';
-            btn.style.fontSize = '0.85rem';
-            const multiplier = weight / 100;
-            const calories = (selectedFood.calories * multiplier).toFixed(0);
-            btn.innerHTML = `
-                <div><strong>${rounded} g</strong></div>
-                <div style="font-size: 0.75rem; font-weight: normal;">${calories} kcal</div>
-            `;
-            
-            btn.addEventListener('click', function() {
-                document.getElementById('quantity').value = rounded;
-                updateQuantityDisplay();
-            });
-            
-            buttonsContainer.appendChild(btn);
-        });
-    } else if (selectedFood.unitType === 'pieces') {
-        
-        const amounts = [1, 2, 3, 4];
-        amounts.forEach(amount => {
-            const btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = 'btn btn-outline-primary btn-sm me-2 mb-2';
-            btn.style.fontSize = '0.85rem';
-            const calories = (selectedFood.calories * amount).toFixed(0);
-            btn.innerHTML = `
-                <div><strong>${amount} ${selectedFood.unitName}${amount > 1 ? 's' : ''}</strong></div>
-                <div style="font-size: 0.75rem; font-weight: normal;">${calories} kcal</div>
-            `;
-            
-            btn.addEventListener('click', function() {
-                document.getElementById('quantity').value = amount;
-                updateQuantityDisplay();
-            });
-            
-            buttonsContainer.appendChild(btn);
-        });
+    if (!currentSelectedUnit) return;
+    
+    let amounts = [];
+    
+    // Generate suggestions based on unit type
+    if (currentSelectedUnit.unit_name === 'gram') {
+        amounts = [50, 100, 150, 200];
+    } else if (currentSelectedUnit.unit_name === 'ml') {
+        amounts = [100, 200, 250, 500];
     } else {
-        
-        const amounts = [50, 100, 150, 200];
+        // For pieces, slices, servings, etc.
+        amounts = [1, 2, 3, 4];
+    }
+    
         amounts.forEach(amount => {
             const btn = document.createElement('button');
             btn.type = 'button';
-            btn.className = 'btn btn-outline-primary btn-sm me-2 mb-2';
-            btn.style.fontSize = '0.85rem';
-            const calories = (selectedFood.calories * (amount / 100)).toFixed(0);
-            btn.innerHTML = `
-                <div><strong>${amount} g</strong></div>
-                <div style="font-size: 0.75rem; font-weight: normal;">${calories} kcal</div>
-            `;
+            btn.className = 'btn btn-outline-primary';
+        
+        // Calculate calories
+        const weightInGrams = amount * currentSelectedUnit.weight_in_grams;
+        const multiplier = weightInGrams / 100; // Database values are per 100g
+        const calories = Math.round(selectedFood.calories * multiplier);
+        
+        // Determine unit text
+        let unitText;
+        if (amount === 1) {
+            unitText = currentSelectedUnit.unit_display;
+        } else {
+            unitText = currentSelectedUnit.unit_plural;
+        }
+        
+        btn.innerHTML = `<div style="font-weight: 700;">${amount} ${unitText}</div><div style="font-size: 0.75rem; opacity: 0.8;">${calories} kcal</div>`;
             
             btn.addEventListener('click', function() {
                 document.getElementById('quantity').value = amount;
@@ -263,26 +439,31 @@ function createQuickAmountButtons() {
             
             buttonsContainer.appendChild(btn);
         });
-    }
 }
 
 
 document.getElementById('increaseQty').addEventListener('click', function() {
-    if (!selectedFood) return;
+    if (!selectedFood || !currentSelectedUnit) return;
     const quantityInput = document.getElementById('quantity');
-    const increment = selectedFood.unitType === 'pieces' ? 1 : 10;
-    quantityInput.value = parseFloat(quantityInput.value) + increment;
+    const currentValue = parseFloat(quantityInput.value) || 0;
+    
+    // Determine step based on unit
+    const increment = currentSelectedUnit.unit_name === 'gram' || currentSelectedUnit.unit_name === 'ml' ? 10 : 1;
+    quantityInput.value = currentValue + increment;
     updateQuantityDisplay();
 });
 
 document.getElementById('decreaseQty').addEventListener('click', function() {
-    if (!selectedFood) return;
+    if (!selectedFood || !currentSelectedUnit) return;
     const quantityInput = document.getElementById('quantity');
-    const currentValue = parseFloat(quantityInput.value);
-    const decrement = selectedFood.unitType === 'pieces' ? 1 : 10;
-    const minValue = selectedFood.unitType === 'pieces' ? 1 : 10;
+    const currentValue = parseFloat(quantityInput.value) || 0;
+    
+    // Determine step and minimum based on unit
+    const decrement = currentSelectedUnit.unit_name === 'gram' || currentSelectedUnit.unit_name === 'ml' ? 10 : 1;
+    const minValue = currentSelectedUnit.unit_name === 'gram' || currentSelectedUnit.unit_name === 'ml' ? 10 : 0.1;
+    
     if (currentValue > minValue) {
-        quantityInput.value = currentValue - decrement;
+        quantityInput.value = Math.max(minValue, currentValue - decrement);
         updateQuantityDisplay();
     }
 });
@@ -292,43 +473,40 @@ document.getElementById('quantity').addEventListener('input', function() {
 });
 
 function updateQuantityDisplay() {
-    if (!selectedFood) return;
+    if (!selectedFood || !currentSelectedUnit) return;
     
-    const quantity = parseFloat(document.getElementById('quantity').value) || (selectedFood.unitType === 'pieces' ? 1 : 100);
+    const quantity = parseFloat(document.getElementById('quantity').value) || 1;
     
-    let multiplier;
-    let unitDisplay;
+    // Calculate weight in grams
+    const weightInGrams = quantity * currentSelectedUnit.weight_in_grams;
     
-    if (selectedFood.unitType === 'pieces') {
-        multiplier = quantity;
-        unitDisplay = `${quantity} ${selectedFood.unitName}${quantity > 1 ? 's' : ''}`;
-    } else {
-        multiplier = quantity / 100; 
-        unitDisplay = `${quantity} g`;
-    }
-    
+    // Calculate nutritional values (database values are per 100g)
+    const multiplier = weightInGrams / 100;
     
     const calories = selectedFood.calories * multiplier;
     const protein = selectedFood.protein * multiplier;
     const carbs = selectedFood.carbs * multiplier;
     const fat = selectedFood.fat * multiplier;
     
-    
+    // Update displayed values
     document.getElementById('selectedFoodCalories').textContent = formatNumber(Math.round(calories * 10) / 10);
     document.getElementById('selectedFoodProtein').textContent = formatNumber(Math.round(protein * 10) / 10);
     document.getElementById('selectedFoodCarbs').textContent = formatNumber(Math.round(carbs * 10) / 10);
     document.getElementById('selectedFoodFat').textContent = formatNumber(Math.round(fat * 10) / 10);
     
+    // Determine unit text
+    const unitText = quantity === 1 ? currentSelectedUnit.unit_display : currentSelectedUnit.unit_plural;
     
-    document.getElementById('calculatedInfo').textContent = `${unitDisplay} = ${Math.round(calories * 10) / 10} kcal`;
+    // Update calculation info
+    document.getElementById('calculatedInfo').textContent = `${quantity} ${unitText} = ${Math.round(calories * 10) / 10} kcal`;
 }
 
 
 document.getElementById('addFoodBtn').addEventListener('click', async function() {
-    if (!selectedFood) return;
+    if (!selectedFood || !currentSelectedUnit) return;
     
     const mealType = document.getElementById('mealType').value;
-    const quantity = parseFloat(document.getElementById('quantity').value) || 100; 
+    const quantity = parseFloat(document.getElementById('quantity').value) || 1;
     
     try {
         const formData = new FormData();
@@ -336,6 +514,7 @@ document.getElementById('addFoodBtn').addEventListener('click', async function()
         formData.append('food_id', selectedFood.id);
         formData.append('meal_type', mealType);
         formData.append('quantity', quantity);
+        formData.append('selected_unit', currentSelectedUnit.unit_name);
         
         const response = await fetch('api/dashboard_handler.php', {
             method: 'POST',
@@ -345,12 +524,13 @@ document.getElementById('addFoodBtn').addEventListener('click', async function()
         const result = await response.json();
         
         if (result.success) {
-            
+            // Reload page after adding
             window.location.reload();
         } else {
             alert('Error: ' + result.error);
         }
     } catch (error) {
+        console.error('Error:', error);
         alert('Error adding food');
     }
 });
@@ -406,8 +586,10 @@ addFoodModal.addEventListener('hidden.bs.modal', function() {
     document.getElementById('foodResults').innerHTML = '';
     document.getElementById('selectedFood').style.display = 'none';
     document.getElementById('quantityInput').style.display = 'none';
+    document.getElementById('unitSelectorContainer').style.display = 'none';
     document.getElementById('quantity').value = 1;
     document.getElementById('addFoodBtn').disabled = true;
     selectedFood = null;
+    currentSelectedUnit = null;
 });
 

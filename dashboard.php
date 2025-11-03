@@ -8,16 +8,13 @@ $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
 $stmt->execute([$_SESSION['user_id']]);
 $user = $stmt->fetch();
 
-
 $today = date('Y-m-d');
-
 
 $stmt = $pdo->prepare("SELECT * FROM daily_logs WHERE user_id = ? AND log_date = ?");
 $stmt->execute([$_SESSION['user_id'], $today]);
 $today_log = $stmt->fetch();
 
 if (!$today_log) {
-    
     $stmt = $pdo->prepare("INSERT INTO daily_logs (user_id, log_date) VALUES (?, ?)");
     $stmt->execute([$_SESSION['user_id'], $today]);
     $today_log = [
@@ -31,7 +28,6 @@ if (!$today_log) {
     ];
 }
 
-
 $stmt = $pdo->prepare("
     SELECT fe.*, fd.image 
     FROM food_entries fe 
@@ -41,7 +37,6 @@ $stmt = $pdo->prepare("
 ");
 $stmt->execute([$today_log['id']]);
 $food_entries = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 
 $entries_by_meal = [
     'breakfast' => [],
@@ -54,7 +49,6 @@ foreach ($food_entries as $entry) {
     $entries_by_meal[$entry['meal_type']][] = $entry;
 }
 
-
 $meal_calories = [];
 foreach ($entries_by_meal as $meal_type => $entries) {
     $meal_calories[$meal_type] = 0;
@@ -62,7 +56,6 @@ foreach ($entries_by_meal as $meal_type => $entries) {
         $meal_calories[$meal_type] += floatval($entry['calories']);
     }
 }
-
 
 $remaining_calories = $user['tdee'] - floatval($today_log['total_calories']);
 $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user['tdee']) * 100 : 0;
@@ -111,9 +104,7 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
 
     <div class="container-fluid px-4 py-4" style="margin-top: 80px;">
         <div class="row g-4">
-            
             <div class="col-lg-8">
-                
                 <div class="card calorie-overview mb-4">
                     <div class="card-body p-4">
                         <div class="d-flex justify-content-between align-items-center mb-4">
@@ -127,33 +118,52 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                         </div>
 
                         <div class="calorie-ring-container">
-                            <svg class="calorie-ring" width="220" height="220">
-                                <circle cx="110" cy="110" r="90" stroke="#e9ecef" stroke-width="14" fill="none"></circle>
-                                <circle cx="110" cy="110" r="90" stroke="<?php echo $calorie_percentage >= 100 ? '#dc3545' : '#0d6efd'; ?>" 
-                                        stroke-width="14" fill="none" stroke-dasharray="<?php echo 2 * M_PI * 90; ?>"
-                                        stroke-dashoffset="<?php echo 2 * M_PI * 90 * (1 - min($calorie_percentage, 100) / 100); ?>"
-                                        stroke-linecap="round" transform="rotate(-90 110 110)">
+                            <svg class="calorie-ring" width="240" height="240">
+                                <!-- Background circle -->
+                                <circle cx="120" cy="120" r="95" stroke="url(#bgGradient)" stroke-width="16" fill="none" opacity="0.15"></circle>
+                                <!-- Progress circle -->
+                                <circle cx="120" cy="120" r="95" stroke="url(#<?php echo $calorie_percentage >= 100 ? 'overGradient' : 'progressGradient'; ?>)" 
+                                        stroke-width="16" fill="none" stroke-dasharray="<?php echo 2 * M_PI * 95; ?>"
+                                        stroke-dashoffset="<?php echo 2 * M_PI * 95 * (1 - min($calorie_percentage, 100) / 100); ?>"
+                                        stroke-linecap="round" transform="rotate(-90 120 120)" class="progress-circle">
                                 </circle>
+                                <!-- Gradient definitions -->
+                                <defs>
+                                    <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#0d6efd;stop-opacity:1" />
+                                    </linearGradient>
+                                    <linearGradient id="overGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#dc3545;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#fd7e14;stop-opacity:1" />
+                                    </linearGradient>
+                                    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#0d6efd;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#667eea;stop-opacity:1" />
+                                    </linearGradient>
+                                </defs>
                             </svg>
                             <div class="calorie-ring-text">
-                                <h2 class="mb-0" style="font-size: 2rem;"><?php echo number_format($today_log['total_calories']); ?></h2>
-                                <p class="text-muted mb-1" style="font-size: 0.9rem;"><?php echo number_format($user['tdee']); ?> kcal goal</p>
+                                <div class="calorie-percentage"><?php echo number_format($calorie_percentage); ?>%</div>
+                                <h2 class="mb-0"><?php echo number_format($today_log['total_calories']); ?></h2>
+                                <p class="text-muted mb-2" style="font-size: 0.85rem;">of <?php echo number_format($user['tdee']); ?> kcal</p>
                                 <div class="remaining-calories">
                                     <?php if ($remaining_calories > 0): ?>
-                                        <span class="text-success fw-bold"><?php echo number_format($remaining_calories); ?> left</span>
+                                        <span class="badge-remaining success"><?php echo number_format($remaining_calories); ?> left</span>
+                                    <?php elseif ($remaining_calories < 0): ?>
+                                        <span class="badge-remaining danger"><?php echo number_format(abs($remaining_calories)); ?> over</span>
                                     <?php else: ?>
-                                        <span class="text-danger fw-bold"><?php echo abs($remaining_calories); ?> over</span>
+                                        <span class="badge-remaining perfect">Perfect!</span>
                                     <?php endif; ?>
                                 </div>
                             </div>
                         </div>
 
-                        
                         <div class="row mt-4">
                             <div class="col-md-4">
                                 <div class="macro-card">
                                     <div class="macro-icon protein">
-                                        <i class="fa-solid fa-drumstick-bite"></i>
+                                        <i class="fa-solid fa-dumbbell"></i>
                                     </div>
                                     <h5 class="mb-1"><?php echo number_format($today_log['total_protein'], 1); ?>g</h5>
                                     <p class="text-muted small mb-0">Protein</p>
@@ -162,7 +172,7 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                             <div class="col-md-4">
                                 <div class="macro-card">
                                     <div class="macro-icon carbs">
-                                        <i class="fa-solid fa-bread-slice"></i>
+                                        <i class="fa-solid fa-bolt"></i>
                                     </div>
                                     <h5 class="mb-1"><?php echo number_format($today_log['total_carbs'], 1); ?>g</h5>
                                     <p class="text-muted small mb-0">Carbs</p>
@@ -171,7 +181,7 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                             <div class="col-md-4">
                                 <div class="macro-card">
                                     <div class="macro-icon fat">
-                                        <i class="fa-solid fa-oil-can"></i>
+                                        <i class="fa-solid fa-droplet"></i>
                                     </div>
                                     <h5 class="mb-1"><?php echo number_format($today_log['total_fat'], 1); ?>g</h5>
                                     <p class="text-muted small mb-0">Fat</p>
@@ -181,9 +191,7 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                     </div>
                 </div>
 
-                
                 <div class="meals-section">
-                    
                     <div class="meal-card">
                         <div class="meal-header">
                             <h4><i class="fa-solid fa-sun"></i> Breakfast</h4>
@@ -202,9 +210,7 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                                             $quantity = number_format($entry['quantity'], 0);
                                             $unit = isset($entry['quantity_unit']) ? $entry['quantity_unit'] : 'g';
                                             
-                                            
                                             if ($unit !== 'g' && floatval($entry['quantity']) > 1) {
-                                                
                                                 $plural_map = [
                                                     'egg' => 'eggs',
                                                     'slice' => 'slices',
@@ -216,7 +222,6 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                                                 ];
                                                 $unit = isset($plural_map[$unit]) ? $plural_map[$unit] : $unit . 's';
                                             }
-                                            
                                             echo $quantity . ' ' . $unit;
                                             ?>
                                         </small>
@@ -261,9 +266,7 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                                             $quantity = number_format($entry['quantity'], 0);
                                             $unit = isset($entry['quantity_unit']) ? $entry['quantity_unit'] : 'g';
                                             
-                                            
                                             if ($unit !== 'g' && floatval($entry['quantity']) > 1) {
-                                                
                                                 $plural_map = [
                                                     'egg' => 'eggs',
                                                     'slice' => 'slices',
@@ -275,7 +278,6 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                                                 ];
                                                 $unit = isset($plural_map[$unit]) ? $plural_map[$unit] : $unit . 's';
                                             }
-                                            
                                             echo $quantity . ' ' . $unit;
                                             ?>
                                         </small>
@@ -320,9 +322,7 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                                             $quantity = number_format($entry['quantity'], 0);
                                             $unit = isset($entry['quantity_unit']) ? $entry['quantity_unit'] : 'g';
                                             
-                                            
                                             if ($unit !== 'g' && floatval($entry['quantity']) > 1) {
-                                                
                                                 $plural_map = [
                                                     'egg' => 'eggs',
                                                     'slice' => 'slices',
@@ -334,7 +334,6 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                                                 ];
                                                 $unit = isset($plural_map[$unit]) ? $plural_map[$unit] : $unit . 's';
                                             }
-                                            
                                             echo $quantity . ' ' . $unit;
                                             ?>
                                         </small>
@@ -379,9 +378,7 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                                             $quantity = number_format($entry['quantity'], 0);
                                             $unit = isset($entry['quantity_unit']) ? $entry['quantity_unit'] : 'g';
                                             
-                                            
                                             if ($unit !== 'g' && floatval($entry['quantity']) > 1) {
-                                                
                                                 $plural_map = [
                                                     'egg' => 'eggs',
                                                     'slice' => 'slices',
@@ -393,7 +390,6 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                                                 ];
                                                 $unit = isset($plural_map[$unit]) ? $plural_map[$unit] : $unit . 's';
                                             }
-                                            
                                             echo $quantity . ' ' . $unit;
                                             ?>
                                         </small>
@@ -474,48 +470,81 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label">Select Meal</label>
-                        <select class="form-select" id="mealType">
-                            <option value="breakfast">Breakfast</option>
-                            <option value="lunch">Lunch</option>
-                            <option value="dinner">Dinner</option>
-                            <option value="snack">Snack</option>
+                    <!-- Meal Selection -->
+                    <div class="meal-selector">
+                        <label class="modal-label">Select Meal</label>
+                        <select class="form-select modern-select" id="mealType">
+                            <option value="breakfast">🌅 Breakfast</option>
+                            <option value="lunch">🍽️ Lunch</option>
+                            <option value="dinner">🌙 Dinner</option>
+                            <option value="snack">🍪 Snack</option>
                         </select>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Search Food</label>
-                        <input type="text" class="form-control" id="foodSearch" placeholder="Search for food...">
-                        <div id="foodResults" class="mt-3"></div>
+
+                    <!-- Food Search -->
+                    <div class="food-search-section">
+                        <label class="modal-label">Search Food</label>
+                        <div class="search-box">
+                            <i class="fa-solid fa-search"></i>
+                            <input type="text" class="form-control modern-input" id="foodSearch" placeholder="Type to search...">
+                        </div>
+                        <div id="foodResults" class="food-results-list"></div>
                     </div>
-                    <div id="selectedFood" style="display: none;">
-                        <div class="card">
-                            <div class="card-body">
-                                <h6 id="selectedFoodName"></h6>
-                                <p class="small text-muted mb-0">
-                                    Calories: <span id="selectedFoodCalories"></span>kcal | 
-                                    Protein: <span id="selectedFoodProtein"></span>g | 
-                                    Carbs: <span id="selectedFoodCarbs"></span>g | 
-                                    Fat: <span id="selectedFoodFat"></span>g
-                                </p>
+
+                    <!-- Selected Food Display -->
+                    <div id="selectedFood" style="display: none;" class="selected-food-card">
+                        <div class="food-header">
+                            <h6 id="selectedFoodName"></h6>
+                        </div>
+                        <div class="food-macros-grid">
+                            <div class="macro-item">
+                                <i class="fa-solid fa-fire-flame-curved"></i>
+                                <span><strong id="selectedFoodCalories"></strong> kcal</span>
+                            </div>
+                            <div class="macro-item">
+                                <i class="fa-solid fa-dumbbell"></i>
+                                <span><strong id="selectedFoodProtein"></strong>g protein</span>
+                            </div>
+                            <div class="macro-item">
+                                <i class="fa-solid fa-bolt"></i>
+                                <span><strong id="selectedFoodCarbs"></strong>g carbs</span>
+                            </div>
+                            <div class="macro-item">
+                                <i class="fa-solid fa-droplet"></i>
+                                <span><strong id="selectedFoodFat"></strong>g fat</span>
                             </div>
                         </div>
                     </div>
-                    <div class="mt-3" id="quantityInput" style="display: none;">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <label class="form-label mb-0" id="quantityLabel">Amount</label>
-                            <button type="button" class="btn btn-sm btn-outline-secondary" id="toggleUnit" style="display: none;">
-                                <i class="fa-solid fa-arrows-rotate"></i> Switch to grams
+
+                    <!-- Unit Selector -->
+                    <div id="unitSelectorContainer" style="display: none;" class="unit-selector-section">
+                        <label class="modal-label">Unit</label>
+                        <select class="form-select modern-select" id="unitSelector">
+                            <option value="gram">gram</option>
+                        </select>
+                    </div>
+
+                    <!-- Quantity Selection -->
+                    <div id="quantityInput" style="display: none;" class="quantity-section">
+                        <label class="modal-label" id="quantityLabel">Amount</label>
+                        
+                        <!-- Quick Amount Buttons -->
+                        <div id="quickAmountButtons" class="quick-amounts"></div>
+                        
+                        <!-- Quantity Input -->
+                        <div class="quantity-input-group">
+                            <button class="qty-btn-modern" type="button" id="decreaseQty">
+                                <i class="fa-solid fa-minus"></i>
+                            </button>
+                            <input type="number" class="form-control qty-input-modern" id="quantity" value="100" min="0.1" step="0.1">
+                            <span class="qty-unit-modern" id="quantityUnit">g</span>
+                            <button class="qty-btn-modern" type="button" id="increaseQty">
+                                <i class="fa-solid fa-plus"></i>
                             </button>
                         </div>
-                        <div id="quickAmountButtons" class="mb-3"></div>
-                        <div class="input-group">
-                            <button class="btn btn-outline-secondary" type="button" id="decreaseQty">-</button>
-                            <input type="number" class="form-control text-center" id="quantity" value="100" min="1" step="1">
-                            <span class="input-group-text" id="quantityUnit">g</span>
-                            <button class="btn btn-outline-secondary" type="button" id="increaseQty">+</button>
-                        </div>
-                        <div id="calculatedInfo" class="mt-2 text-center" style="font-weight: 600; color: #0d6efd;"></div>
+                        
+                        <!-- Calculated Info -->
+                        <div id="calculatedInfo" class="calculated-info"></div>
                     </div>
                 </div>
                 <div class="modal-footer">

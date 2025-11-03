@@ -28,7 +28,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 LIMIT 20
             ");
             $stmt->execute(["%$search_term%"]);
-            $results = $stmt->fetchAll();
+            $foods = $stmt->fetchAll();
+            
+            // For each product, get available units
+            $results = [];
+            foreach ($foods as $food) {
+                $stmt_units = $pdo->prepare("
+                    SELECT * FROM product_units 
+                    WHERE food_id = ? 
+                    ORDER BY display_order ASC
+                ");
+                $stmt_units->execute([$food['id']]);
+                $units = $stmt_units->fetchAll(PDO::FETCH_ASSOC);
+                
+                $food['available_units'] = $units;
+                $results[] = $food;
+            }
             
             echo json_encode(['success' => true, 'results' => $results]);
         } catch(PDOException $e) {
@@ -39,6 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $food_id = intval($_POST['food_id'] ?? 0);
         $meal_type = $_POST['meal_type'] ?? '';
         $quantity = floatval($_POST['quantity'] ?? 1);
+        $selected_unit = $_POST['selected_unit'] ?? 'gram'; // Selected unit
         
         if ($food_id <= 0 || empty($meal_type)) {
             echo json_encode(['success' => false, 'error' => 'Invalid parameters']);
@@ -52,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         
         try {
-            
+            // Get product from database
             $stmt = $pdo->prepare("SELECT * FROM food_database WHERE id = ?");
             $stmt->execute([$food_id]);
             $food = $stmt->fetch();
@@ -62,7 +78,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit();
             }
             
+            // Get information about selected unit
+            $stmt_unit = $pdo->prepare("
+                SELECT * FROM product_units 
+                WHERE food_id = ? AND unit_name = ?
+            ");
+            $stmt_unit->execute([$food_id, $selected_unit]);
+            $unit_info = $stmt_unit->fetch();
             
+            if (!$unit_info) {
+                // Fallback - if no unit in new table, use old logic
+                if ($food['unit_type'] === 'pieces') {
+                    $weight_in_grams = $quantity * $food['weight_per_unit'];
+                } else {
+                    $weight_in_grams = $quantity;
+                }
+                $display_unit = $selected_unit;
+            } else {
+                // New logic - convert to grams based on selected unit
+                $weight_in_grams = $quantity * $unit_info['weight_in_grams'];
+                $display_unit = $unit_info['unit_display'];
+            }
+            
+            // Check/create today's log
             $today = date('Y-m-d');
             $stmt = $pdo->prepare("SELECT id FROM daily_logs WHERE user_id = ? AND log_date = ?");
             $stmt->execute([$_SESSION['user_id'], $today]);
@@ -76,16 +114,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $log_id = $log['id'];
             }
             
-            
-            
-            
-            if ($food['unit_type'] === 'pieces') {
-                
-                $multiplier = $quantity;
-            } else {
-                
-                $multiplier = $quantity / 100;
-            }
+            // Calculate nutritional values
+            // Database values are per 100g
+            $multiplier = $weight_in_grams / 100;
             
             $calories = $food['calories'] * $multiplier;
             $protein = $food['protein'] * $multiplier;
@@ -94,13 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $fiber = $food['fiber'] * $multiplier;
             $sugar = $food['sugar'] * $multiplier;
             
-            
-            $display_unit = $food['unit_name'] ?? 'g';
-            if ($food['unit_type'] !== 'pieces') {
-                $display_unit = 'g';
-            }
-            
-            
+            // Save entry to database
             $stmt = $pdo->prepare("
                 INSERT INTO food_entries 
                 (log_id, food_id, food_name, meal_type, quantity, quantity_unit, calories, protein, carbs, fat, fiber, sugar) 
@@ -123,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             $entry_id = $pdo->lastInsertId();
             
-            
+            // Update totals in daily_logs
             $stmt = $pdo->prepare("
                 UPDATE daily_logs 
                 SET total_calories = total_calories + ?, 
@@ -135,7 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ");
             $stmt->execute([$calories, $protein, $carbs, $fat, $fiber, $log_id]);
             
-            
+            // Get updated values
             $stmt = $pdo->prepare("SELECT * FROM daily_logs WHERE id = ?");
             $stmt->execute([$log_id]);
             $updated_log = $stmt->fetch();
