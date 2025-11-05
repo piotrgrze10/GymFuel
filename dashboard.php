@@ -426,7 +426,7 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                             </h5>
                         </div>
                         
-                        <div class="goals-item">
+                        <div class="goals-item goals-clickable" data-info-type="goal">
                             <div class="goals-icon-wrapper goal-icon">
                                 <i class="fa-solid fa-bullseye"></i>
                             </div>
@@ -434,9 +434,12 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                                 <div class="goals-label">Goal</div>
                                 <div class="goals-value"><?php echo ucfirst(str_replace('_', ' ', $user['goal'])); ?></div>
                             </div>
+                            <div class="goals-info-icon">
+                                <i class="fa-solid fa-circle-info"></i>
+                            </div>
                         </div>
 
-                        <div class="goals-item">
+                        <div class="goals-item goals-clickable" data-info-type="tdee">
                             <div class="goals-icon-wrapper target-icon">
                                 <i class="fa-solid fa-fire"></i>
                             </div>
@@ -444,15 +447,21 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                                 <div class="goals-label">Daily Target</div>
                                 <div class="goals-value"><?php echo number_format($user['tdee']); ?> <span class="goals-unit">kcal</span></div>
                             </div>
+                            <div class="goals-info-icon">
+                                <i class="fa-solid fa-circle-info"></i>
+                            </div>
                         </div>
 
-                        <div class="goals-item">
+                        <div class="goals-item goals-clickable" data-info-type="bmr">
                             <div class="goals-icon-wrapper bmr-icon">
                                 <i class="fa-solid fa-heart-pulse"></i>
                             </div>
                             <div class="goals-content">
                                 <div class="goals-label">BMR</div>
                                 <div class="goals-value"><?php echo number_format($user['bmr']); ?> <span class="goals-unit">kcal</span></div>
+                            </div>
+                            <div class="goals-info-icon">
+                                <i class="fa-solid fa-circle-info"></i>
                             </div>
                         </div>
                     </div>
@@ -690,6 +699,107 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                         <button type="button" class="btn btn-water-confirm px-4" id="confirmWaterResetBtn">
                             <i class="fa-solid fa-rotate-right me-2"></i>Reset
                         </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="goalInfoModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content info-modal-content">
+                <div class="modal-body p-5">
+                    <div class="info-modal-icon goal-modal-icon">
+                        <i class="fa-solid fa-bullseye"></i>
+                    </div>
+                    <h5 class="mb-3 fw-bold text-center info-modal-title">Your Fitness Goal</h5>
+                    <div class="info-modal-text">
+                        <p><strong>What is it?</strong></p>
+                        <p>Your fitness goal determines how your daily calorie target is calculated to help you achieve your desired body composition.</p>
+                        
+                        <p class="mt-3"><strong>Goal Types:</strong></p>
+                        <ul>
+                            <li><strong>Maintain:</strong> Keep your current weight. Your daily target equals your TDEE.</li>
+                            <li><strong>Lose Weight:</strong> Create a calorie deficit (typically 300-500 kcal below TDEE) for gradual fat loss.</li>
+                            <li><strong>Gain Muscle:</strong> Create a calorie surplus (typically 200-400 kcal above TDEE) for muscle growth.</li>
+                        </ul>
+
+                        <p class="mt-3"><strong>Impact on Calories:</strong></p>
+                        <p>Your goal directly adjusts your daily calorie target from your baseline TDEE to support your fitness objectives safely and effectively.</p>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button type="button" class="btn btn-primary px-5" data-bs-dismiss="modal">Got it!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="tdeeInfoModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content info-modal-content">
+                <div class="modal-body p-5">
+                    <div class="info-modal-icon tdee-modal-icon">
+                        <i class="fa-solid fa-fire"></i>
+                    </div>
+                    <h5 class="mb-3 fw-bold text-center info-modal-title">Daily Target (TDEE)</h5>
+                    <div class="info-modal-text">
+                        <p><strong>What is TDEE?</strong></p>
+                        <p>TDEE (Total Daily Energy Expenditure) is the total number of calories you burn in a day, including all activities.</p>
+                        
+                        <p class="mt-3"><strong>How is it calculated?</strong></p>
+                        <p>TDEE = BMR × Activity Level Multiplier</p>
+                        <ul>
+                            <li><strong>Sedentary:</strong> BMR × 1.2 (little to no exercise)</li>
+                            <li><strong>Light:</strong> BMR × 1.375 (1-3 days/week)</li>
+                            <li><strong>Moderate:</strong> BMR × 1.55 (3-5 days/week)</li>
+                            <li><strong>Active:</strong> BMR × 1.725 (6-7 days/week)</li>
+                            <li><strong>Very Active:</strong> BMR × 1.9 (intense daily training)</li>
+                        </ul>
+
+                        <p class="mt-3"><strong>Why it matters:</strong></p>
+                        <p>This is your maintenance calories. Eating at this level maintains your current weight. Your goal then adjusts this number up or down.</p>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button type="button" class="btn btn-primary px-5" data-bs-dismiss="modal">Got it!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="bmrInfoModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content info-modal-content">
+                <div class="modal-body p-5">
+                    <div class="info-modal-icon bmr-modal-icon">
+                        <i class="fa-solid fa-heart-pulse"></i>
+                    </div>
+                    <h5 class="mb-3 fw-bold text-center info-modal-title">BMR (Basal Metabolic Rate)</h5>
+                    <div class="info-modal-text">
+                        <p><strong>What is BMR?</strong></p>
+                        <p>BMR is the number of calories your body needs to perform basic life-sustaining functions while at complete rest.</p>
+                        
+                        <p class="mt-3"><strong>How is it calculated?</strong></p>
+                        <p>We use the Mifflin-St Jeor Equation:</p>
+                        <div class="formula-box">
+                            <p><strong>Men:</strong> (10 × weight in kg) + (6.25 × height in cm) - (5 × age) + 5</p>
+                            <p><strong>Women:</strong> (10 × weight in kg) + (6.25 × height in cm) - (5 × age) - 161</p>
+                        </div>
+
+                        <p class="mt-3"><strong>What does it include?</strong></p>
+                        <ul>
+                            <li>Breathing and circulation</li>
+                            <li>Cell production and repair</li>
+                            <li>Nutrient processing</li>
+                            <li>Brain and nerve function</li>
+                        </ul>
+
+                        <p class="mt-3"><strong>Important:</strong></p>
+                        <p>Your BMR is the minimum calories needed. Never eat significantly below this number as it can harm your metabolism and health.</p>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button type="button" class="btn btn-primary px-5" data-bs-dismiss="modal">Got it!</button>
                     </div>
                 </div>
             </div>

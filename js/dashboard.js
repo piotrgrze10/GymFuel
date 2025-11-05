@@ -782,3 +782,23 @@ if (document.getElementById('waterTrackerCard')) {
     });
 }
 
+document.querySelectorAll('.goals-clickable').forEach(item => {
+    item.addEventListener('click', function() {
+        const infoType = this.dataset.infoType;
+        let modalId = '';
+        
+        if (infoType === 'goal') {
+            modalId = 'goalInfoModal';
+        } else if (infoType === 'tdee') {
+            modalId = 'tdeeInfoModal';
+        } else if (infoType === 'bmr') {
+            modalId = 'bmrInfoModal';
+        }
+        
+        if (modalId) {
+            const modal = new bootstrap.Modal(document.getElementById(modalId));
+            modal.show();
+        }
+    });
+});
+
