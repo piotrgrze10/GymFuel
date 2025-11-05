@@ -1160,6 +1160,7 @@ a:hover {
 	.cards-wrapper {
 		flex-wrap: wrap;
 		gap: 20px;
+		justify-content: center;
 	}
 	
 	.overlap-card {
@@ -1167,6 +1168,201 @@ a:hover {
 		height: 380px;
 		margin-left: 0;
 		margin-bottom: 20px;
+		transform: none !important;
+	}
+	
+	.overlap-card:first-child,
+	.overlap-card:nth-child(2),
+	.overlap-card:nth-child(3),
+	.overlap-card:nth-child(4),
+	.overlap-card:nth-child(5) {
+		transform: none !important;
+		z-index: 1;
+	}
+}
+
+@media (max-width: 768px) {
+	.hero-title {
+		font-size: 2rem;
+	}
+	
+	.overlapping-cards {
+		padding: 60px 0;
+	}
+	
+	.cards-wrapper {
+		flex-wrap: nowrap;
+		justify-content: center;
+		gap: 0;
+	}
+	
+	.overlap-card:first-child,
+	.overlap-card:nth-child(5) {
+		display: none;
+	}
+	
+	.overlap-card {
+		width: 220px;
+		height: 300px;
+		margin-left: -20px;
+		transition: none;
+	}
+	
+	.overlap-card:nth-child(2) {
+		margin-left: 0;
+		transform: translateY(35px) scale(0.82);
+		z-index: 2;
+	}
+	
+	.overlap-card:nth-child(3) {
+		transform: translateY(0) scale(1);
+		z-index: 5;
+	}
+	
+	.overlap-card:nth-child(4) {
+		transform: translateY(35px) scale(0.82);
+		z-index: 2;
+	}
+	
+	.overlap-card:hover {
+		transform: translateY(35px) scale(0.82);
+		z-index: 2;
+	}
+	
+	.overlap-card:nth-child(3):hover {
+		transform: translateY(0) scale(1);
+		z-index: 5;
+	}
+	
+	.overlap-card:hover .card-img {
+		transform: scale(1);
+	}
+	
+	.overlap-card:hover .card-frame {
+		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+	}
+	
+	.card-img {
+		height: 190px;
+	}
+	
+	.card-caption {
+		font-size: 0.95rem;
+		padding: 18px 12px;
+		line-height: 1.4;
+	}
+	
+	.card-frame {
+		border-width: 6px;
+	}
+	
+	.aboutus-new .stat-item {
+		padding: 15px;
+	}
+	
+	.aboutus-new .stat-item i {
+		font-size: 2.5rem;
+	}
+	
+	.feature-offer-card {
+		margin-bottom: 20px;
+	}
+	
+	.feature-offer-icon i {
+		font-size: 2.5rem;
+	}
+	
+	.testimonial-card {
+		margin-bottom: 20px;
+	}
+}
+
+@media (max-width: 576px) {
+	.hero-title {
+		font-size: 1.75rem;
+	}
+	
+	.hero-text p {
+		font-size: 1rem;
+	}
+	
+	.section-title {
+		font-size: 1.75rem;
+	}
+	
+	.overlap-card:first-child,
+	.overlap-card:nth-child(5) {
+		display: none;
+	}
+	
+	.overlap-card {
+		width: 170px;
+		height: 250px;
+		margin-left: -15px;
+	}
+	
+	.overlap-card:nth-child(2) {
+		margin-left: 0;
+		transform: translateY(30px) scale(0.8);
+		z-index: 2;
+	}
+	
+	.overlap-card:nth-child(3) {
+		transform: translateY(0) scale(1);
+		z-index: 5;
+	}
+	
+	.overlap-card:nth-child(4) {
+		transform: translateY(30px) scale(0.8);
+		z-index: 2;
+	}
+	
+	.card-img {
+		height: 150px;
+	}
+	
+	.card-caption {
+		font-size: 0.85rem;
+		padding: 15px 10px;
+		line-height: 1.35;
+	}
+	
+	.card-frame {
+		border-width: 5px;
+		border-radius: 15px;
+	}
+	
+	.aboutus-new h3 {
+		font-size: 1.5rem;
+	}
+	
+	.aboutus-new .lead {
+		font-size: 1rem;
+	}
+	
+	.aboutus-new .stat-item h4 {
+		font-size: 1.5rem;
+	}
+	
+	.feature-offer-card h4 {
+		font-size: 1.25rem;
+	}
+	
+	.feature-offer-icon i {
+		font-size: 2rem;
+	}
+	
+	.testimonial-card h5 {
+		font-size: 1.1rem;
+	}
+	
+	footer h4, footer h5 {
+		font-size: 1.1rem;
+	}
+	
+	footer .social-links a {
+		font-size: 1.5rem;
+		margin-right: 15px !important;
 	}
 }
 
