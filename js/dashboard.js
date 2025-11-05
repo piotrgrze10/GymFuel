@@ -593,3 +593,231 @@ addFoodModal.addEventListener('hidden.bs.modal', function() {
     currentSelectedUnit = null;
 });
 
+class WaterTracker {
+    constructor() {
+        this.storageKey = 'waterIntake';
+        this.dateKey = 'waterIntakeDate';
+        this.defaultGoal = 2000;
+        this.currentIntake = 0;
+        this.dailyGoal = this.defaultGoal;
+        
+        this.elements = {
+            current: document.getElementById('waterCurrent'),
+            goal: document.getElementById('waterGoal'),
+            percentage: document.getElementById('waterPercentage'),
+            progressFill: document.getElementById('waterProgressFill'),
+            addBtn250: document.getElementById('addWater250'),
+            addBtn500: document.getElementById('addWater500'),
+            resetBtn: document.getElementById('waterResetBtn'),
+            card: document.getElementById('waterTrackerCard'),
+            tips: document.getElementById('waterTips')
+        };
+        
+        this.init();
+    }
+    
+    init() {
+        this.checkAndResetDaily();
+        this.loadFromStorage();
+        this.updateDisplay();
+        this.attachEventListeners();
+        this.startMidnightChecker();
+    }
+    
+    checkAndResetDaily() {
+        const today = new Date().toDateString();
+        const savedDate = localStorage.getItem(this.dateKey);
+        
+        if (savedDate !== today) {
+            localStorage.setItem(this.dateKey, today);
+            localStorage.setItem(this.storageKey, '0');
+            this.currentIntake = 0;
+        }
+    }
+    
+    loadFromStorage() {
+        const saved = localStorage.getItem(this.storageKey);
+        this.currentIntake = saved ? parseInt(saved, 10) : 0;
+        
+        if (this.currentIntake > 10000) {
+            this.currentIntake = 0;
+        }
+    }
+    
+    saveToStorage() {
+        localStorage.setItem(this.storageKey, this.currentIntake.toString());
+    }
+    
+    addWater(amount) {
+        this.currentIntake += amount;
+        
+        if (this.currentIntake > 10000) {
+            this.currentIntake = 10000;
+        }
+        
+        this.saveToStorage();
+        this.updateDisplay();
+        this.showToast(amount);
+        this.checkGoalReached();
+    }
+    
+    reset() {
+        const waterResetModal = new bootstrap.Modal(document.getElementById('waterResetModal'));
+        waterResetModal.show();
+    }
+    
+    confirmReset() {
+        this.currentIntake = 0;
+        this.saveToStorage();
+        this.updateDisplay();
+        this.elements.card.classList.remove('goal-reached');
+        
+        const waterResetModal = bootstrap.Modal.getInstance(document.getElementById('waterResetModal'));
+        if (waterResetModal) {
+            waterResetModal.hide();
+        }
+    }
+    
+    updateDisplay() {
+        const percentage = Math.min((this.currentIntake / this.dailyGoal) * 100, 100);
+        
+        this.elements.current.textContent = this.currentIntake;
+        this.elements.goal.textContent = this.dailyGoal;
+        this.elements.percentage.textContent = `${Math.round(percentage)}%`;
+        
+        this.elements.progressFill.style.width = `${percentage}%`;
+        
+        this.updateTip(percentage);
+        
+        this.elements.progressFill.classList.add('water-ripple');
+        setTimeout(() => {
+            this.elements.progressFill.classList.remove('water-ripple');
+        }, 600);
+    }
+    
+    updateTip(percentage) {
+        const tips = [
+            { threshold: 0, message: 'Start your hydration journey!', icon: '💧' },
+            { threshold: 25, message: 'Great start! Keep it up!', icon: '👍' },
+            { threshold: 50, message: 'Halfway there! You\'re doing amazing!', icon: '🌟' },
+            { threshold: 75, message: 'Almost at your goal! Keep going!', icon: '🎯' },
+            { threshold: 100, message: 'Goal reached! Excellent work!', icon: '🎉' },
+            { threshold: 110, message: 'You\'re well hydrated!', icon: '✨' }
+        ];
+        
+        let currentTip = tips[0];
+        for (const tip of tips) {
+            if (percentage >= tip.threshold) {
+                currentTip = tip;
+            }
+        }
+        
+        this.elements.tips.innerHTML = `
+            <i class="fa-solid fa-lightbulb"></i>
+            <span>${currentTip.message}</span>
+        `;
+    }
+    
+    checkGoalReached() {
+        const percentage = (this.currentIntake / this.dailyGoal) * 100;
+        
+        if (percentage >= 100 && !this.elements.card.classList.contains('goal-reached')) {
+            this.elements.card.classList.add('goal-reached');
+            this.showCelebration();
+        }
+    }
+    
+    showCelebration() {
+        const celebration = document.createElement('div');
+        celebration.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4rem;
+            z-index: 10000;
+            animation: celebrationPop 1s ease-out;
+            pointer-events: none;
+        `;
+        celebration.innerHTML = '🎉';
+        document.body.appendChild(celebration);
+        
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes celebrationPop {
+                0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+                50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+                100% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        setTimeout(() => {
+            celebration.remove();
+            style.remove();
+        }, 1000);
+    }
+    
+    showToast(amount) {
+        const existingToast = document.querySelector('.water-toast');
+        if (existingToast) {
+            existingToast.remove();
+        }
+        
+        const toast = document.createElement('div');
+        toast.className = 'water-toast';
+        toast.innerHTML = `
+            <i class="fa-solid fa-droplet"></i>
+            <span>Added ${amount} ml of water!</span>
+        `;
+        
+        document.body.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.classList.add('hiding');
+            setTimeout(() => {
+                toast.remove();
+            }, 400);
+        }, 2500);
+    }
+    
+    attachEventListeners() {
+        this.elements.addBtn250.addEventListener('click', (e) => {
+            this.addButtonRipple(e.currentTarget);
+            this.addWater(250);
+        });
+        
+        this.elements.addBtn500.addEventListener('click', (e) => {
+            this.addButtonRipple(e.currentTarget);
+            this.addWater(500);
+        });
+        
+        this.elements.resetBtn.addEventListener('click', () => {
+            this.reset();
+        });
+    }
+    
+    addButtonRipple(button) {
+        button.classList.add('water-ripple');
+        setTimeout(() => {
+            button.classList.remove('water-ripple');
+        }, 600);
+    }
+    
+    startMidnightChecker() {
+        setInterval(() => {
+            this.checkAndResetDaily();
+            this.loadFromStorage();
+            this.updateDisplay();
+        }, 60000);
+    }
+}
+
+if (document.getElementById('waterTrackerCard')) {
+    const waterTracker = new WaterTracker();
+    
+    document.getElementById('confirmWaterResetBtn').addEventListener('click', function() {
+        waterTracker.confirmReset();
+    });
+}
+

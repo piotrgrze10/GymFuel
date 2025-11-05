@@ -454,6 +454,55 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                         </div>
                     </div>
                 </div>
+
+                
+                <div class="card water-tracker-card mt-4" id="waterTrackerCard">
+                    <div class="card-body">
+                        <div class="water-header">
+                            <h5 class="fw-bold mb-0">
+                                <i class="fa-solid fa-droplet water-icon"></i>
+                                Water Intake
+                            </h5>
+                            <button class="btn-water-reset" id="waterResetBtn" title="Reset water intake">
+                                <i class="fa-solid fa-rotate-right"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="water-display">
+                            <div class="water-amount">
+                                <span class="water-current" id="waterCurrent">0</span>
+                                <span class="water-separator">/</span>
+                                <span class="water-goal" id="waterGoal">2000</span>
+                                <span class="water-unit">ml</span>
+                            </div>
+                            <div class="water-percentage" id="waterPercentage">0%</div>
+                        </div>
+
+                        <div class="water-progress-container">
+                            <div class="water-progress-bar" id="waterProgressBar">
+                                <div class="water-progress-fill" id="waterProgressFill" style="width: 0%">
+                                    <div class="water-wave"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="water-buttons">
+                            <button class="btn-water-add" id="addWater250" data-amount="250">
+                                <i class="fa-solid fa-plus"></i>
+                                <span class="btn-water-amount">250 ml</span>
+                            </button>
+                            <button class="btn-water-add" id="addWater500" data-amount="500">
+                                <i class="fa-solid fa-plus"></i>
+                                <span class="btn-water-amount">500 ml</span>
+                            </button>
+                        </div>
+
+                        <div class="water-tips" id="waterTips">
+                            <i class="fa-solid fa-lightbulb"></i>
+                            <span>Stay hydrated throughout the day!</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -565,6 +614,27 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                     <div class="d-flex gap-2 justify-content-center">
                         <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Cancel</button>
                         <button type="button" class="btn btn-danger px-4" id="confirmDeleteBtn">Remove</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="modal fade" id="waterResetModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content" style="border-radius: 20px; border: none; box-shadow: 0 10px 40px rgba(6, 182, 212, 0.3); overflow: hidden;">
+                <div class="modal-body text-center p-5" style="background: linear-gradient(135deg, #e0f7ff 0%, #f0fbff 100%);">
+                    <div class="water-modal-icon">
+                        <i class="fa-solid fa-droplet"></i>
+                    </div>
+                    <h5 class="mb-3 fw-bold" style="color: #0891b2;">Reset Water Intake?</h5>
+                    <p class="text-muted mb-4" style="font-size: 0.95rem;">Are you sure you want to reset your water intake for today?</p>
+                    <div class="d-flex gap-2 justify-content-center">
+                        <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal" style="border-radius: 12px;">Cancel</button>
+                        <button type="button" class="btn btn-water-confirm px-4" id="confirmWaterResetBtn">
+                            <i class="fa-solid fa-rotate-right me-2"></i>Reset
+                        </button>
                     </div>
                 </div>
             </div>
