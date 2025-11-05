@@ -486,7 +486,27 @@ document.getElementById('addFoodBtn').addEventListener('click', async function()
         const result = await response.json();
         
         if (result.success) {
-            window.location.reload();
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addFoodModal'));
+            modal.hide();
+            
+            const currentDateElement = document.getElementById('currentDate');
+            const currentDate = currentDateElement.dataset.date;
+            
+            await loadDayData(currentDate);
+            
+            const toast = document.createElement('div');
+            toast.className = 'water-toast';
+            toast.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+            toast.innerHTML = `
+                <i class="fa-solid fa-check-circle"></i>
+                <span>Food added successfully!</span>
+            `;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('hiding');
+                setTimeout(() => toast.remove(), 400);
+            }, 2500);
         } else {
             alert('Error: ' + result.error);
         }
@@ -526,12 +546,27 @@ document.getElementById('confirmDeleteBtn').addEventListener('click', async func
         const result = await response.json();
         
         if (result.success) {
-            
             const modal = bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal'));
             modal.hide();
             
+            const currentDateElement = document.getElementById('currentDate');
+            const currentDate = currentDateElement.dataset.date;
             
-            window.location.reload();
+            await loadDayData(currentDate);
+            
+            const toast = document.createElement('div');
+            toast.className = 'water-toast';
+            toast.style.background = 'linear-gradient(135deg, #dc3545 0%, #c82333 100%)';
+            toast.innerHTML = `
+                <i class="fa-solid fa-trash"></i>
+                <span>Food removed successfully!</span>
+            `;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('hiding');
+                setTimeout(() => toast.remove(), 400);
+            }, 2500);
         } else {
             alert('Error: ' + result.error);
         }
@@ -801,4 +836,491 @@ document.querySelectorAll('.goals-clickable').forEach(item => {
         }
     });
 });
+
+async function loadDayData(dateString) {
+    const navigator = document.querySelector('.date-navigator');
+    const allButtons = document.querySelectorAll('.date-nav-btn, .date-today-btn');
+    
+    navigator.classList.add('loading');
+    allButtons.forEach(btn => btn.classList.add('loading'));
+    addContentLoadingState();
+    
+    try {
+        let data;
+        
+        if (dayDataCache.has(dateString)) {
+            data = dayDataCache.get(dateString);
+            await new Promise(resolve => setTimeout(resolve, 150));
+        } else {
+            const response = await fetch(`api/get_day_data.php?date=${dateString}`);
+            data = await response.json();
+            
+            if (data.success) {
+                dayDataCache.set(dateString, data);
+            }
+        }
+        
+        if (!data.success) {
+            console.error('Error loading day data:', data.error);
+            navigator.classList.remove('loading');
+            allButtons.forEach(btn => btn.classList.remove('loading'));
+            removeContentLoadingState();
+            
+            showErrorToast('Unable to load date. Please try again.');
+            return;
+        }
+        
+        updateUI(data);
+        
+        const url = dateString === new Date().toISOString().split('T')[0] 
+            ? 'dashboard.php' 
+            : `dashboard.php?date=${dateString}`;
+        history.pushState({ date: dateString }, '', url);
+        
+        preloadAdjacentDays(dateString);
+        
+        setTimeout(() => {
+            navigator.classList.remove('loading');
+            allButtons.forEach(btn => btn.classList.remove('loading'));
+            removeContentLoadingState();
+        }, 300);
+        
+    } catch (error) {
+        console.error('Error fetching day data:', error);
+        navigator.classList.remove('loading');
+        allButtons.forEach(btn => btn.classList.remove('loading'));
+        removeContentLoadingState();
+        
+        showErrorToast('Network error. Please check your connection.');
+    }
+}
+
+function showErrorToast(message) {
+    const toast = document.createElement('div');
+    toast.className = 'water-toast';
+    toast.style.background = 'linear-gradient(135deg, #dc3545 0%, #c82333 100%)';
+    toast.innerHTML = `
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <span>${message}</span>
+    `;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.classList.add('hiding');
+        setTimeout(() => toast.remove(), 400);
+    }, 3000);
+}
+
+function updateUI(data) {
+    const currentDateElement = document.getElementById('currentDate');
+    currentDateElement.dataset.date = data.date;
+    currentDateElement.textContent = data.formatted_date;
+    
+    const dateLabel = document.querySelector('.date-label');
+    dateLabel.innerHTML = data.date_label;
+    
+    const nutritionLabel = document.querySelector('.calorie-overview .text-muted');
+    if (nutritionLabel) {
+        nutritionLabel.textContent = data.nutrition_label;
+    }
+    
+    const dateHeader = document.querySelector('.calorie-overview h3');
+    if (dateHeader) {
+        dateHeader.textContent = data.formatted_date.split(',').slice(0, 2).join(',');
+    }
+    
+    updateCalorieRing(data);
+    updateMacros(data.daily_log);
+    updateMeals(data.entries_by_meal, data.meal_calories);
+    updateDailyProgress(data);
+}
+
+function updateDailyProgress(data) {
+    const progressValue = document.querySelector('.progress-tracker-value');
+    if (progressValue) {
+        const totalCaloriesSpan = progressValue.childNodes[0];
+        if (totalCaloriesSpan) {
+            totalCaloriesSpan.textContent = Math.round(data.daily_log.total_calories).toLocaleString() + ' ';
+        }
+    }
+    
+    const progressPercentage = document.querySelector('.progress-tracker-percentage');
+    if (progressPercentage) {
+        progressPercentage.textContent = `${data.calorie_percentage.toFixed(1)}%`;
+    }
+    
+    const progressFill = document.querySelector('.progress-tracker-fill');
+    if (progressFill) {
+        progressFill.style.width = `${Math.min(data.calorie_percentage, 100)}%`;
+    }
+    
+    const progressStatus = document.querySelector('.progress-tracker-status');
+    if (progressStatus) {
+        if (data.remaining_calories > 0) {
+            progressStatus.innerHTML = `
+                <i class="fa-solid fa-circle-check" style="color: #10b981;"></i>
+                <span style="color: #10b981;">${Math.round(data.remaining_calories).toLocaleString()} kcal remaining</span>
+            `;
+        } else if (data.remaining_calories < 0) {
+            progressStatus.innerHTML = `
+                <i class="fa-solid fa-circle-exclamation" style="color: #f59e0b;"></i>
+                <span style="color: #f59e0b;">${Math.round(Math.abs(data.remaining_calories)).toLocaleString()} kcal over goal</span>
+            `;
+        } else {
+            progressStatus.innerHTML = `
+                <i class="fa-solid fa-circle-check" style="color: #10b981;"></i>
+                <span style="color: #10b981;">Perfect! Goal reached!</span>
+            `;
+        }
+    }
+}
+
+function updateCalorieRing(data) {
+    const caloriesElement = document.querySelector('.calorie-ring-text h2');
+    if (caloriesElement) {
+        caloriesElement.textContent = Math.round(data.daily_log.total_calories).toLocaleString();
+    }
+    
+    const percentageElement = document.querySelector('.calorie-percentage');
+    if (percentageElement) {
+        percentageElement.textContent = `${Math.round(data.calorie_percentage)}%`;
+    }
+    
+    const progressCircle = document.querySelector('.progress-circle');
+    if (progressCircle) {
+        const radius = 95;
+        const circumference = 2 * Math.PI * radius;
+        const offset = circumference * (1 - Math.min(data.calorie_percentage, 100) / 100);
+        progressCircle.style.strokeDashoffset = offset;
+        
+        const isOver = data.calorie_percentage >= 100;
+        const gradientId = isOver ? 'overGradient' : 'progressGradient';
+        progressCircle.setAttribute('stroke', `url(#${gradientId})`);
+    }
+    
+    const remainingBadge = document.querySelector('.remaining-calories .badge-remaining');
+    if (remainingBadge) {
+        if (data.remaining_calories > 0) {
+            remainingBadge.className = 'badge-remaining success';
+            remainingBadge.textContent = `${Math.round(data.remaining_calories).toLocaleString()} left`;
+        } else if (data.remaining_calories < 0) {
+            remainingBadge.className = 'badge-remaining danger';
+            remainingBadge.textContent = `${Math.round(Math.abs(data.remaining_calories)).toLocaleString()} over`;
+        } else {
+            remainingBadge.className = 'badge-remaining perfect';
+            remainingBadge.textContent = 'Perfect!';
+        }
+    }
+}
+
+function updateMacros(dailyLog) {
+    const macroCards = document.querySelectorAll('.macro-card');
+    
+    macroCards.forEach(card => {
+        const icon = card.querySelector('.macro-icon');
+        const h5 = card.querySelector('h5');
+        
+        if (!icon || !h5) return;
+        
+        if (icon.classList.contains('protein')) {
+            h5.textContent = `${parseFloat(dailyLog.total_protein).toFixed(1)}g`;
+        } else if (icon.classList.contains('carbs')) {
+            h5.textContent = `${parseFloat(dailyLog.total_carbs).toFixed(1)}g`;
+        } else if (icon.classList.contains('fat')) {
+            h5.textContent = `${parseFloat(dailyLog.total_fat).toFixed(1)}g`;
+        }
+    });
+}
+
+function updateMeals(entriesByMeal, mealCalories) {
+    const meals = ['breakfast', 'lunch', 'dinner', 'snack'];
+    
+    meals.forEach(meal => {
+        const mealContainer = document.getElementById(`${meal}-entries`);
+        const caloriesSpan = mealContainer.closest('.meal-card').querySelector('.meal-calories');
+        
+        if (caloriesSpan) {
+            caloriesSpan.textContent = `${Math.round(mealCalories[meal]).toLocaleString()} kcal`;
+        }
+        
+        if (!entriesByMeal[meal] || entriesByMeal[meal].length === 0) {
+            mealContainer.innerHTML = '';
+            return;
+        }
+        
+        mealContainer.innerHTML = entriesByMeal[meal].map(entry => {
+            const quantity = Math.round(entry.quantity);
+            let unit = entry.quantity_unit || 'g';
+            
+            if (unit !== 'g' && parseFloat(entry.quantity) > 1) {
+                const pluralMap = {
+                    'egg': 'eggs',
+                    'slice': 'slices',
+                    'tbsp': 'tbsp',
+                    'cup': 'cups',
+                    'serving': 'servings',
+                    'avocado': 'avocados',
+                    'orange': 'oranges'
+                };
+                unit = pluralMap[unit] || unit + 's';
+            }
+            
+            return `
+                <div class="entry-item" data-entry-id="${entry.id}">
+                    <div class="entry-name">
+                        <strong>${entry.food_name}</strong>
+                        <small class="text-muted d-block">${quantity} ${unit}</small>
+                        <div class="entry-macros mt-2">
+                            <small style="color: #6c757d;">
+                                ${Math.round(entry.calories)} kcal | 
+                                P: ${parseFloat(entry.protein).toFixed(1)}g | 
+                                C: ${parseFloat(entry.carbs).toFixed(1)}g | 
+                                F: ${parseFloat(entry.fat).toFixed(1)}g
+                            </small>
+                        </div>
+                    </div>
+                    <div class="entry-calories">
+                        <button class="btn-remove-entry" data-entry-id="${entry.id}">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+        
+        attachDeleteHandlers();
+    });
+}
+
+function attachDeleteHandlers() {
+    document.querySelectorAll('.btn-remove-entry').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const entryId = this.dataset.entryId;
+            pendingDeleteEntryId = entryId;
+            
+            const deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+            deleteModal.show();
+        });
+    });
+}
+
+function navigateToDate(dateString) {
+    const dateDisplay = document.querySelector('.date-display');
+    if (dateDisplay) {
+        dateDisplay.classList.add('date-changing');
+    }
+    
+    setTimeout(() => {
+        loadDayData(dateString);
+        setTimeout(() => {
+            if (dateDisplay) {
+                dateDisplay.classList.remove('date-changing');
+            }
+        }, 400);
+    }, 200);
+}
+
+function changeDate(days) {
+    const currentDateElement = document.getElementById('currentDate');
+    const currentDate = currentDateElement.dataset.date;
+    
+    const date = new Date(currentDate);
+    date.setDate(date.getDate() + days);
+    
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const newDate = `${year}-${month}-${day}`;
+    
+    navigateToDate(newDate);
+}
+
+const prevDayBtn = document.getElementById('prevDayBtn');
+if (prevDayBtn) {
+    prevDayBtn.addEventListener('click', function() {
+        changeDate(-1);
+    });
+}
+
+const nextDayBtn = document.getElementById('nextDayBtn');
+if (nextDayBtn) {
+    nextDayBtn.addEventListener('click', function() {
+        changeDate(1);
+    });
+}
+
+const todayBtn = document.getElementById('todayBtn');
+if (todayBtn) {
+    todayBtn.addEventListener('click', function() {
+        const today = new Date().toISOString().split('T')[0];
+        navigateToDate(today);
+    });
+}
+
+document.addEventListener('keydown', function(e) {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+        return;
+    }
+    
+    if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        changeDate(-1);
+    } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        changeDate(1);
+    } else if (e.key === 'h' || e.key === 'H') {
+        const today = new Date().toISOString().split('T')[0];
+        navigateToDate(today);
+    }
+});
+
+window.addEventListener('popstate', function(event) {
+    if (event.state && event.state.date) {
+        loadDayData(event.state.date);
+    } else {
+        const today = new Date().toISOString().split('T')[0];
+        loadDayData(today);
+    }
+});
+
+const dateDisplay = document.getElementById('dateDisplay');
+if (dateDisplay) {
+    dateDisplay.addEventListener('click', function() {
+        const datePickerModal = new bootstrap.Modal(document.getElementById('datePickerModal'));
+        const currentDate = document.getElementById('currentDate').dataset.date;
+        document.getElementById('customDateInput').value = currentDate;
+        datePickerModal.show();
+    });
+}
+
+document.querySelectorAll('.quick-date-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const days = parseInt(this.dataset.days);
+        const today = new Date();
+        const targetDate = new Date(today);
+        targetDate.setDate(targetDate.getDate() + days);
+        
+        const year = targetDate.getFullYear();
+        const month = String(targetDate.getMonth() + 1).padStart(2, '0');
+        const day = String(targetDate.getDate()).padStart(2, '0');
+        const dateString = `${year}-${month}-${day}`;
+        
+        const datePickerModal = bootstrap.Modal.getInstance(document.getElementById('datePickerModal'));
+        if (datePickerModal) {
+            datePickerModal.hide();
+        }
+        
+        navigateToDate(dateString);
+    });
+});
+
+const applyCustomDateBtn = document.getElementById('applyCustomDate');
+if (applyCustomDateBtn) {
+    applyCustomDateBtn.addEventListener('click', function() {
+        const customDate = document.getElementById('customDateInput').value;
+        
+        const datePickerModal = bootstrap.Modal.getInstance(document.getElementById('datePickerModal'));
+        if (datePickerModal) {
+            datePickerModal.hide();
+        }
+        
+        navigateToDate(customDate);
+    });
+}
+
+let touchStartX = 0;
+let touchEndX = 0;
+let touchStartY = 0;
+let touchEndY = 0;
+
+const mainContent = document.querySelector('.container-fluid');
+if (mainContent) {
+    mainContent.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+    
+    mainContent.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        touchEndY = e.changedTouches[0].screenY;
+        handleSwipe();
+    }, { passive: true });
+}
+
+function handleSwipe() {
+    const swipeThreshold = 80;
+    const xDiff = touchEndX - touchStartX;
+    const yDiff = Math.abs(touchEndY - touchStartY);
+    
+    if (yDiff > 100) {
+        return;
+    }
+    
+    if (xDiff > swipeThreshold) {
+        showSwipeIndicator('left');
+        changeDate(-1);
+    } else if (xDiff < -swipeThreshold) {
+        showSwipeIndicator('right');
+        changeDate(1);
+    }
+}
+
+function showSwipeIndicator(direction) {
+    const indicator = document.getElementById(direction === 'left' ? 'swipeLeft' : 'swipeRight');
+    if (indicator) {
+        indicator.classList.add('show');
+        setTimeout(() => {
+            indicator.classList.remove('show');
+        }, 600);
+    }
+}
+
+function addContentLoadingState() {
+    const mainContent = document.querySelector('.col-lg-8');
+    if (mainContent) {
+        mainContent.classList.add('content-loading');
+    }
+}
+
+function removeContentLoadingState() {
+    const mainContent = document.querySelector('.col-lg-8');
+    if (mainContent) {
+        mainContent.classList.remove('content-loading');
+    }
+}
+
+const dayDataCache = new Map();
+
+document.addEventListener('DOMContentLoaded', function() {
+    const currentDate = document.getElementById('currentDate')?.dataset.date;
+    if (currentDate) {
+        preloadAdjacentDays(currentDate);
+    }
+});
+
+async function preloadAdjacentDays(currentDate) {
+    const date = new Date(currentDate);
+    
+    const prevDate = new Date(date);
+    prevDate.setDate(prevDate.getDate() - 1);
+    const prevDateString = prevDate.toISOString().split('T')[0];
+    
+    const nextDate = new Date(date);
+    nextDate.setDate(nextDate.getDate() + 1);
+    const nextDateString = nextDate.toISOString().split('T')[0];
+    
+    [prevDateString, nextDateString].forEach(async (dateString) => {
+        if (!dayDataCache.has(dateString)) {
+            try {
+                const response = await fetch(`api/get_day_data.php?date=${dateString}`);
+                const data = await response.json();
+                if (data.success) {
+                    dayDataCache.set(dateString, data);
+                }
+            } catch (error) {
+                console.error('Preload error:', error);
+            }
+        }
+    });
+}
 

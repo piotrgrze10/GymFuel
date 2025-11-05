@@ -8,15 +8,29 @@ $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
 $stmt->execute([$_SESSION['user_id']]);
 $user = $stmt->fetch();
 
+$selected_date = isset($_GET['date']) ? $_GET['date'] : date('Y-m-d');
+
+if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $selected_date)) {
+    $selected_date = date('Y-m-d');
+}
+
+$date_limit_future = date('Y-m-d', strtotime('+30 days'));
+$date_limit_past = date('Y-m-d', strtotime('-365 days'));
+
+if ($selected_date > $date_limit_future || $selected_date < $date_limit_past) {
+    $selected_date = date('Y-m-d');
+}
+
 $today = date('Y-m-d');
+$is_today = ($selected_date === $today);
 
 $stmt = $pdo->prepare("SELECT * FROM daily_logs WHERE user_id = ? AND log_date = ?");
-$stmt->execute([$_SESSION['user_id'], $today]);
+$stmt->execute([$_SESSION['user_id'], $selected_date]);
 $today_log = $stmt->fetch();
 
 if (!$today_log) {
     $stmt = $pdo->prepare("INSERT INTO daily_logs (user_id, log_date) VALUES (?, ?)");
-    $stmt->execute([$_SESSION['user_id'], $today]);
+    $stmt->execute([$_SESSION['user_id'], $selected_date]);
     $today_log = [
         'id' => $pdo->lastInsertId(),
         'total_calories' => 0,
@@ -100,14 +114,85 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
     </nav>
 
     <div class="container-fluid px-4 py-4" style="margin-top: 80px;">
+        
+        <div class="date-navigator-container mb-4">
+            <div class="date-navigator">
+                <button class="date-nav-btn" id="prevDayBtn" title="Previous day">
+                    <i class="fa-solid fa-chevron-left"></i>
+                    <span class="nav-btn-text">Previous</span>
+                </button>
+                
+                <div class="date-display" id="dateDisplay" role="button" tabindex="0" title="Click to open calendar">
+                    <div class="date-icon">
+                        <i class="fa-solid fa-calendar-day"></i>
+                    </div>
+                    <div class="date-info">
+                        <div class="date-label">
+                            <?php 
+                            if ($is_today) {
+                                echo '<span class="today-badge">Today</span>';
+                            } else {
+                                $days_diff = (strtotime($selected_date) - strtotime($today)) / 86400;
+                                if ($days_diff == -1) {
+                                    echo 'Yesterday';
+                                } elseif ($days_diff == 1) {
+                                    echo 'Tomorrow';
+                                } elseif ($days_diff < 0) {
+                                    echo abs($days_diff) . ' days ago';
+                                } else {
+                                    echo 'In ' . $days_diff . ' days';
+                                }
+                            }
+                            ?>
+                        </div>
+                        <div class="date-value" id="currentDate" data-date="<?php echo $selected_date; ?>">
+                            <?php echo date('l, F j, Y', strtotime($selected_date)); ?>
+                        </div>
+                    </div>
+                    <div class="date-picker-hint">
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                </div>
+                
+                <button class="date-nav-btn" id="nextDayBtn" title="Next day">
+                    <span class="nav-btn-text">Next</span>
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+                
+                <button class="date-today-btn" id="todayBtn" title="Go to today">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Today</span>
+                </button>
+            </div>
+            
+            <div class="keyboard-hints">
+                <span class="keyboard-hint"><kbd>←</kbd> Previous</span>
+                <span class="keyboard-hint"><kbd>→</kbd> Next</span>
+                <span class="keyboard-hint"><kbd>H</kbd> Today</span>
+            </div>
+        </div>
+
         <div class="row g-4">
             <div class="col-lg-8">
                 <div class="card calorie-overview mb-4">
                     <div class="card-body p-4">
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <div>
-                                <h3 class="fw-bold mb-1"><?php echo date('l, F j'); ?></h3>
-                                <p class="text-muted mb-0">Today's Nutrition</p>
+                                <h3 class="fw-bold mb-1"><?php echo date('l, F j', strtotime($selected_date)); ?></h3>
+                                <p class="text-muted mb-0">
+                                    <?php 
+                                    if ($is_today) {
+                                        echo "Today's Nutrition";
+                                    } else {
+                                        $days_diff = (strtotime($selected_date) - strtotime($today)) / 86400;
+                                        if ($days_diff < 0) {
+                                            echo "Past Day Nutrition";
+                                        } else {
+                                            echo "Planned Nutrition";
+                                        }
+                                    }
+                                    ?>
+                                </p>
                             </div>
                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addFoodModal">
                                 <i class="fa-solid fa-plus"></i> Add Food
@@ -804,6 +889,60 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="modal fade" id="datePickerModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 20px; border: none; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);">
+                <div class="modal-body p-4">
+                    <div class="date-picker-header">
+                        <h5 class="fw-bold mb-0">
+                            <i class="fa-solid fa-calendar-days me-2"></i>
+                            Select Date
+                        </h5>
+                        <button type="button" class="btn-close-custom" data-bs-dismiss="modal">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="quick-date-buttons">
+                        <button class="quick-date-btn" data-days="-1">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            <span>Yesterday</span>
+                        </button>
+                        <button class="quick-date-btn" data-days="1">
+                            <i class="fa-solid fa-arrow-right"></i>
+                            <span>Tomorrow</span>
+                        </button>
+                        <button class="quick-date-btn quick-date-today" data-days="0">
+                            <i class="fa-solid fa-house"></i>
+                            <span>Today</span>
+                        </button>
+                    </div>
+                    
+                    <div class="custom-date-picker">
+                        <label class="date-picker-label">Or pick a custom date:</label>
+                        <input type="date" class="form-control date-picker-input" id="customDateInput" 
+                               min="<?php echo date('Y-m-d', strtotime('-365 days')); ?>" 
+                               max="<?php echo date('Y-m-d', strtotime('+30 days')); ?>"
+                               value="<?php echo $selected_date; ?>">
+                    </div>
+                    
+                    <div class="text-center mt-3">
+                        <button type="button" class="btn btn-primary w-100" id="applyCustomDate">
+                            <i class="fa-solid fa-check me-2"></i>Go to Date
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="swipe-indicator left" id="swipeLeft">
+        <i class="fa-solid fa-chevron-left"></i>
+    </div>
+    <div class="swipe-indicator right" id="swipeRight">
+        <i class="fa-solid fa-chevron-right"></i>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
