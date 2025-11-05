@@ -22,13 +22,8 @@ session_start();
     
     <nav class="navbar navbar-expand-lg position-fixed top-0 w-100 py-3">
         <div class="container">
-            <?php
-            $logged_in = isset($_SESSION['user_id']);
-            ?>
-            <a class="navbar-brand" href="<?php echo $logged_in ? 'dashboard.php' : 'index.php'; ?>">
-                <i class="fa-solid fa-fire-flame-curved logo-icon"></i> 
-                Gym<span class="blue-text">Fuel</span>
-            </a>
+            <?php $logged_in = isset($_SESSION['user_id']); ?>
+            <a class="navbar-brand" href="<?php echo $logged_in ? 'dashboard.php' : 'index.php'; ?>"><i class="fa-solid fa-fire-flame-curved logo-icon"></i> Gym<span class="blue-text">Fuel</span></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <i class="fa-solid fa-bars"></i>
             </button>

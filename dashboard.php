@@ -72,16 +72,13 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/897067be39.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body style="padding-top: 76px;">
-    <nav class="navbar navbar-expand-lg position-fixed top-0 w-100 py-3" style="z-index: 1000;">
+    <nav class="navbar navbar-expand-lg position-fixed top-0 w-100 py-3">
         <div class="container">
-            <a class="navbar-brand" href="dashboard.php">
-                <i class="fa-solid fa-fire-flame-curved logo-icon"></i> 
-                Gym<span class="blue-text">Fuel</span>
-            </a>
+            <a class="navbar-brand" href="dashboard.php"><i class="fa-solid fa-fire-flame-curved logo-icon"></i> Gym<span class="blue-text">Fuel</span></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <i class="fa-solid fa-bars"></i>
             </button>

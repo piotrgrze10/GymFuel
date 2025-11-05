@@ -34,82 +34,6 @@ html {
 .meal-card:nth-child(3) { animation-delay: 0.3s; }
 .meal-card:nth-child(4) { animation-delay: 0.4s; }
 
-
-nav.navbar {
-    background: rgba(0, 0, 0, 0.95) !important;
-    backdrop-filter: blur(20px);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-nav.navbar .nav-link {
-    color: #ffffff !important;
-    padding: 0.5rem 1rem !important;
-    border-radius: 10px;
-    transition: all 0.3s ease;
-    font-weight: 500;
-}
-
-nav.navbar .nav-link:hover {
-    color: #039dff !important;
-    background: rgba(3, 157, 255, 0.1);
-    transform: translateY(-2px);
-}
-
-nav.navbar .nav-link.active {
-    color: #039dff !important;
-    background: rgba(3, 157, 255, 0.15);
-}
-
-nav.navbar .navbar-brand {
-    color: #ffffff !important;
-    font-weight: 700;
-    font-size: 1.5rem;
-    transition: all 0.3s ease;
-}
-
-nav.navbar .navbar-brand:hover {
-    transform: scale(1.05);
-}
-
-nav.navbar .logo-icon {
-    color: #ff5757 !important;
-    font-size: 1.5rem;
-    animation: flameFlicker 2s ease-in-out infinite;
-}
-
-@keyframes flameFlicker {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-}
-
-nav.navbar .blue-text {
-    color: #039dff !important;
-}
-
-nav.navbar .navbar-toggler {
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    padding: 0.5rem 0.75rem;
-    transition: all 0.3s ease;
-}
-
-nav.navbar .navbar-toggler:hover {
-    background: rgba(3, 157, 255, 0.1);
-    border-color: #039dff;
-    transform: scale(1.05);
-}
-
-nav.navbar .navbar-toggler:focus {
-    box-shadow: 0 0 0 0.25rem rgba(3, 157, 255, 0.25);
-}
-
-nav.navbar .navbar-toggler i {
-    color: #ffffff;
-    font-size: 1.25rem;
-}
-
-
 .calorie-overview {
     border: none;
     background: linear-gradient(135deg, #ffffff 0%, #f8f9fc 100%);
@@ -1352,10 +1276,6 @@ nav.navbar .navbar-toggler i {
     
     .entry-item {
         padding: 1rem;
-    }
-    
-    nav.navbar .navbar-brand {
-        font-size: 1.25rem;
     }
     
     .btn-primary, .btn-secondary, .btn-danger {
