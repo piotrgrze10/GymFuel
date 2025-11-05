@@ -180,7 +180,6 @@ function setupCustomDropdown() {
         optionsContainer.classList.toggle('show');
         
         if (optionsContainer.classList.contains('show')) {
-            // Focus first selected option or first option
             const selectedOption = optionsContainer.querySelector('.custom-dropdown-option.selected');
             if (selectedOption) {
                 currentFocusedIndex = Array.from(options).indexOf(selectedOption);
@@ -188,7 +187,6 @@ function setupCustomDropdown() {
         }
     });
     
-    // Keyboard navigation
     selected.addEventListener('keydown', function(e) {
         if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
@@ -211,7 +209,6 @@ function setupCustomDropdown() {
         if (currentFocusedIndex < 0) currentFocusedIndex = options.length - 1;
         if (currentFocusedIndex >= options.length) currentFocusedIndex = 0;
         
-        // Visual feedback
         options.forEach((opt, idx) => {
             if (idx === currentFocusedIndex) {
                 opt.style.background = 'linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%)';
@@ -222,7 +219,6 @@ function setupCustomDropdown() {
         });
     }
     
-    // Close dropdown when clicking outside
     document.addEventListener('click', function(e) {
         if (!e.target.closest('.custom-dropdown-wrapper')) {
             selected.classList.remove('active');
@@ -230,7 +226,6 @@ function setupCustomDropdown() {
         }
     });
     
-    // Close dropdown on Escape key
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && optionsContainer.classList.contains('show')) {
             selected.classList.remove('active');
@@ -238,7 +233,6 @@ function setupCustomDropdown() {
         }
     });
     
-    // Handle option selection
     options.forEach((option, index) => {
         option.addEventListener('click', function() {
             selectOption(this);
@@ -250,14 +244,12 @@ function setupCustomDropdown() {
     });
     
     function selectOption(option) {
-        // Remove previous selection
         options.forEach(opt => {
             opt.classList.remove('selected');
             opt.style.background = '';
         });
         option.classList.add('selected');
         
-        // Update current unit
         currentSelectedUnit = {
             unit_name: option.dataset.unitName,
             weight_in_grams: parseFloat(option.dataset.weight),
@@ -265,21 +257,17 @@ function setupCustomDropdown() {
             unit_plural: option.dataset.plural
         };
         
-        // Update selected display
         const iconElement = option.querySelector('.custom-dropdown-option-icon').innerHTML;
         const textElement = option.querySelector('.custom-dropdown-option-text').childNodes[0].textContent.trim();
         
         document.querySelector('.custom-dropdown-icon').innerHTML = iconElement;
         document.getElementById('selectedUnitText').textContent = textElement;
         
-        // Sync hidden select
         document.getElementById('unitSelector').value = currentSelectedUnit.unit_name;
         
-        // Close dropdown
         selected.classList.remove('active');
         optionsContainer.classList.remove('show');
         
-        // Convert value when changing unit
         const currentGrams = getCurrentWeightInGrams();
         const newQuantity = currentGrams / currentSelectedUnit.weight_in_grams;
         document.getElementById('quantity').value = Math.max(0.1, Math.round(newQuantity * 10) / 10);
@@ -289,24 +277,20 @@ function setupCustomDropdown() {
         updateQuantityDisplay();
     }
     
-    // Make selected element focusable
     selected.setAttribute('tabindex', '0');
     
-    // Add unit count badge
     const container = document.getElementById('unitSelectorContainer');
     if (options.length > 1) {
         container.setAttribute('data-unit-count', options.length + ' units');
     }
 }
 
-// Gets current weight in grams
 function getCurrentWeightInGrams() {
     const quantity = parseFloat(document.getElementById('quantity').value) || 1;
     if (!currentSelectedUnit) return 100;
     return quantity * currentSelectedUnit.weight_in_grams;
 }
 
-// Updates unit display
 function updateUnitDisplay() {
     if (!currentSelectedUnit) return;
     
@@ -319,14 +303,12 @@ function updateUnitDisplay() {
 
 
 function selectFood(element) {
-    // Remove previous selection
     document.querySelectorAll('.food-item').forEach(item => {
         item.classList.remove('selected');
     });
     
     element.classList.add('selected');
     
-    // Parse available units
     let availableUnits = [];
     try {
         availableUnits = JSON.parse(element.dataset.foodUnits || '[]');
@@ -346,30 +328,25 @@ function selectFood(element) {
         availableUnits: availableUnits
     };
     
-    // Show sections
     document.getElementById('selectedFood').style.display = 'block';
     document.getElementById('quantityInput').style.display = 'block';
     document.getElementById('selectedFoodName').textContent = selectedFood.name;
     
-    // Display macros (per 100g)
     document.getElementById('selectedFoodCalories').textContent = formatNumber(selectedFood.calories);
     document.getElementById('selectedFoodProtein').textContent = formatNumber(selectedFood.protein);
     document.getElementById('selectedFoodCarbs').textContent = formatNumber(selectedFood.carbs);
     document.getElementById('selectedFoodFat').textContent = formatNumber(selectedFood.fat);
     
-    // Set default unit
     if (availableUnits.length > 0) {
         const defaultUnit = availableUnits.find(u => u.is_default == 1) || availableUnits[0];
         currentSelectedUnit = defaultUnit;
         
-        // Set initial quantity
         if (defaultUnit.unit_name === 'gram') {
             document.getElementById('quantity').value = 100;
         } else {
             document.getElementById('quantity').value = 1;
         }
     } else {
-        // Fallback - grams only
         currentSelectedUnit = {
             unit_name: 'gram',
             weight_in_grams: 1,
@@ -379,17 +356,13 @@ function selectFood(element) {
         document.getElementById('quantity').value = 100;
     }
     
-    // Create unit selector
     createUnitSelector();
     updateUnitDisplay();
     
-    // Create quick amount buttons
     createQuickAmountButtons();
     
-    // Enable add button
     document.getElementById('addFoodBtn').disabled = false;
     
-    // Update display
     updateQuantityDisplay();
 }
 
@@ -402,13 +375,11 @@ function createQuickAmountButtons() {
     
     let amounts = [];
     
-    // Generate suggestions based on unit type
     if (currentSelectedUnit.unit_name === 'gram') {
         amounts = [50, 100, 150, 200];
     } else if (currentSelectedUnit.unit_name === 'ml') {
         amounts = [100, 200, 250, 500];
     } else {
-        // For pieces, slices, servings, etc.
         amounts = [1, 2, 3, 4];
     }
     
@@ -417,12 +388,10 @@ function createQuickAmountButtons() {
             btn.type = 'button';
             btn.className = 'btn btn-outline-primary';
         
-        // Calculate calories
         const weightInGrams = amount * currentSelectedUnit.weight_in_grams;
-        const multiplier = weightInGrams / 100; // Database values are per 100g
+        const multiplier = weightInGrams / 100;
         const calories = Math.round(selectedFood.calories * multiplier);
         
-        // Determine unit text
         let unitText;
         if (amount === 1) {
             unitText = currentSelectedUnit.unit_display;
@@ -447,7 +416,6 @@ document.getElementById('increaseQty').addEventListener('click', function() {
     const quantityInput = document.getElementById('quantity');
     const currentValue = parseFloat(quantityInput.value) || 0;
     
-    // Determine step based on unit
     const increment = currentSelectedUnit.unit_name === 'gram' || currentSelectedUnit.unit_name === 'ml' ? 10 : 1;
     quantityInput.value = currentValue + increment;
     updateQuantityDisplay();
@@ -458,7 +426,6 @@ document.getElementById('decreaseQty').addEventListener('click', function() {
     const quantityInput = document.getElementById('quantity');
     const currentValue = parseFloat(quantityInput.value) || 0;
     
-    // Determine step and minimum based on unit
     const decrement = currentSelectedUnit.unit_name === 'gram' || currentSelectedUnit.unit_name === 'ml' ? 10 : 1;
     const minValue = currentSelectedUnit.unit_name === 'gram' || currentSelectedUnit.unit_name === 'ml' ? 10 : 0.1;
     
@@ -477,10 +444,8 @@ function updateQuantityDisplay() {
     
     const quantity = parseFloat(document.getElementById('quantity').value) || 1;
     
-    // Calculate weight in grams
     const weightInGrams = quantity * currentSelectedUnit.weight_in_grams;
     
-    // Calculate nutritional values (database values are per 100g)
     const multiplier = weightInGrams / 100;
     
     const calories = selectedFood.calories * multiplier;
@@ -488,16 +453,13 @@ function updateQuantityDisplay() {
     const carbs = selectedFood.carbs * multiplier;
     const fat = selectedFood.fat * multiplier;
     
-    // Update displayed values
     document.getElementById('selectedFoodCalories').textContent = formatNumber(Math.round(calories * 10) / 10);
     document.getElementById('selectedFoodProtein').textContent = formatNumber(Math.round(protein * 10) / 10);
     document.getElementById('selectedFoodCarbs').textContent = formatNumber(Math.round(carbs * 10) / 10);
     document.getElementById('selectedFoodFat').textContent = formatNumber(Math.round(fat * 10) / 10);
     
-    // Determine unit text
     const unitText = quantity === 1 ? currentSelectedUnit.unit_display : currentSelectedUnit.unit_plural;
     
-    // Update calculation info
     document.getElementById('calculatedInfo').textContent = `${quantity} ${unitText} = ${Math.round(calories * 10) / 10} kcal`;
 }
 
@@ -524,7 +486,6 @@ document.getElementById('addFoodBtn').addEventListener('click', async function()
         const result = await response.json();
         
         if (result.success) {
-            // Reload page after adding
             window.location.reload();
         } else {
             alert('Error: ' + result.error);

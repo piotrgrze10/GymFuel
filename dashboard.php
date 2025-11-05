@@ -417,40 +417,95 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
             
             <div class="col-lg-4">
                 
-                <div class="card mb-4">
+                <div class="card goals-card mb-4">
                     <div class="card-body">
-                        <h5 class="fw-bold mb-3">Your Goals</h5>
-                        <div class="info-item">
-                            <i class="fa-solid fa-bullseye text-primary"></i>
-                            <div>
-                                <strong>Goal:</strong> <?php echo ucfirst(str_replace('_', ' ', $user['goal'])); ?>
+                        <div class="goals-header">
+                            <h5 class="fw-bold mb-0">
+                                <i class="fa-solid fa-trophy goals-trophy-icon"></i>
+                                Your Goals
+                            </h5>
+                        </div>
+                        
+                        <div class="goals-item">
+                            <div class="goals-icon-wrapper goal-icon">
+                                <i class="fa-solid fa-bullseye"></i>
+                            </div>
+                            <div class="goals-content">
+                                <div class="goals-label">Goal</div>
+                                <div class="goals-value"><?php echo ucfirst(str_replace('_', ' ', $user['goal'])); ?></div>
                             </div>
                         </div>
-                        <div class="info-item mt-3">
-                            <i class="fa-solid fa-fire text-danger"></i>
-                            <div>
-                                <strong>Daily Target:</strong> <?php echo number_format($user['tdee']); ?> kcal
+
+                        <div class="goals-item">
+                            <div class="goals-icon-wrapper target-icon">
+                                <i class="fa-solid fa-fire"></i>
+                            </div>
+                            <div class="goals-content">
+                                <div class="goals-label">Daily Target</div>
+                                <div class="goals-value"><?php echo number_format($user['tdee']); ?> <span class="goals-unit">kcal</span></div>
                             </div>
                         </div>
-                        <div class="info-item mt-3">
-                            <i class="fa-solid fa-heart-pulse text-success"></i>
-                            <div>
-                                <strong>BMR:</strong> <?php echo number_format($user['bmr']); ?> kcal
+
+                        <div class="goals-item">
+                            <div class="goals-icon-wrapper bmr-icon">
+                                <i class="fa-solid fa-heart-pulse"></i>
+                            </div>
+                            <div class="goals-content">
+                                <div class="goals-label">BMR</div>
+                                <div class="goals-value"><?php echo number_format($user['bmr']); ?> <span class="goals-unit">kcal</span></div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 
-                <div class="card">
+                <div class="card progress-tracker-card">
                     <div class="card-body">
-                        <h5 class="fw-bold mb-3">Daily Progress</h5>
-                        <div class="progress-item">
-                            <small class="text-muted">Calories</small>
-                            <div class="progress" style="height: 8px;">
-                                <div class="progress-bar bg-primary" role="progressbar" style="width: <?php echo min($calorie_percentage, 100); ?>%"></div>
+                        <div class="progress-tracker-header">
+                            <h5 class="fw-bold mb-0">
+                                <i class="fa-solid fa-chart-line progress-chart-icon"></i>
+                                Daily Progress
+                            </h5>
+                        </div>
+                        
+                        <div class="progress-tracker-item">
+                            <div class="progress-tracker-top">
+                                <div class="progress-tracker-icon-wrapper">
+                                    <i class="fa-solid fa-fire-flame-curved"></i>
+                                </div>
+                                <div class="progress-tracker-info">
+                                    <div class="progress-tracker-label">Calories</div>
+                                    <div class="progress-tracker-value">
+                                        <?php echo number_format($today_log['total_calories']); ?> 
+                                        <span class="progress-tracker-total">/ <?php echo number_format($user['tdee']); ?></span>
+                                        <span class="progress-tracker-unit">kcal</span>
+                                    </div>
+                                </div>
+                                <div class="progress-tracker-percentage">
+                                    <?php echo number_format($calorie_percentage, 1); ?>%
+                                </div>
                             </div>
-                            <small class="text-muted"><?php echo number_format($calorie_percentage, 1); ?>% of goal</small>
+                            
+                            <div class="progress-tracker-bar-container">
+                                <div class="progress-tracker-bar">
+                                    <div class="progress-tracker-fill" style="width: <?php echo min($calorie_percentage, 100); ?>%">
+                                        <div class="progress-tracker-shine"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="progress-tracker-status">
+                                <?php if ($remaining_calories > 0): ?>
+                                    <i class="fa-solid fa-circle-check" style="color: #10b981;"></i>
+                                    <span style="color: #10b981;"><?php echo number_format($remaining_calories); ?> kcal remaining</span>
+                                <?php elseif ($remaining_calories < 0): ?>
+                                    <i class="fa-solid fa-circle-exclamation" style="color: #f59e0b;"></i>
+                                    <span style="color: #f59e0b;"><?php echo number_format(abs($remaining_calories)); ?> kcal over goal</span>
+                                <?php else: ?>
+                                    <i class="fa-solid fa-circle-check" style="color: #10b981;"></i>
+                                    <span style="color: #10b981;">Perfect! Goal reached!</span>
+                                <?php endif; ?>
+                            </div>
                         </div>
                     </div>
                 </div>

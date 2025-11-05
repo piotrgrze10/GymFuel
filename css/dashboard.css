@@ -7,12 +7,10 @@ body {
     min-height: 100vh;
 }
 
-/* Smooth scroll */
 html {
     scroll-behavior: smooth;
 }
 
-/* Page fade-in animation */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -28,7 +26,6 @@ html {
     animation: fadeIn 0.6s ease-out;
 }
 
-/* Stagger animation for meal cards */
 .meal-card:nth-child(1) { animation-delay: 0.1s; }
 .meal-card:nth-child(2) { animation-delay: 0.2s; }
 .meal-card:nth-child(3) { animation-delay: 0.3s; }
@@ -313,55 +310,210 @@ html {
 }
 
 
-.info-item {
+.progress-tracker-card {
+    background: #ffffff;
+    border: none;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-tracker-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.05) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.progress-tracker-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+.progress-tracker-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid rgba(16, 185, 129, 0.2);
+}
+
+.progress-tracker-header h5 {
+    color: #059669;
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding: 0.75rem;
-    border-radius: 12px;
+    gap: 0.5rem;
+    font-size: 1.15rem;
+}
+
+.progress-chart-icon {
+    color: #10b981;
+    font-size: 1.3rem;
+    animation: chartPulse 3s ease-in-out infinite;
+}
+
+@keyframes chartPulse {
+    0%, 100% { 
+        transform: scale(1);
+        filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.3));
+    }
+    50% { 
+        transform: scale(1.1);
+        filter: drop-shadow(0 6px 12px rgba(16, 185, 129, 0.6));
+    }
+}
+
+.progress-tracker-item {
+    background: white;
+    border-radius: 14px;
+    padding: 1.25rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(16, 185, 129, 0.1);
     transition: all 0.3s ease;
 }
 
-.info-item:hover {
-    background: rgba(13, 110, 253, 0.05);
-    transform: translateX(5px);
+.progress-tracker-item:hover {
+    box-shadow: 0 4px 16px rgba(16, 185, 129, 0.15);
+    border-color: rgba(16, 185, 129, 0.3);
 }
 
-.info-item i {
-    font-size: 1.5rem;
-    width: 40px;
-    height: 40px;
+.progress-tracker-top {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.progress-tracker-icon-wrapper {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 10px;
-    background: rgba(13, 110, 253, 0.1);
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 12px rgba(245, 87, 108, 0.3);
+    transition: all 0.3s ease;
+    flex-shrink: 0;
 }
 
-
-.progress-item {
-    margin-bottom: 1.5rem;
+.progress-tracker-item:hover .progress-tracker-icon-wrapper {
+    transform: scale(1.1) rotate(-5deg);
 }
 
-.progress-item:last-child {
-    margin-bottom: 0;
+.progress-tracker-info {
+    flex: 1;
 }
 
-.progress {
-    background: rgba(13, 110, 253, 0.1);
+.progress-tracker-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.25rem;
+}
+
+.progress-tracker-value {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #1a2332;
+    line-height: 1;
+}
+
+.progress-tracker-total {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #94a3b8;
+}
+
+.progress-tracker-unit {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.progress-tracker-percentage {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #10b981;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    flex-shrink: 0;
+}
+
+.progress-tracker-bar-container {
+    margin-bottom: 1rem;
+}
+
+.progress-tracker-bar {
+    height: 12px;
+    background: rgba(16, 185, 129, 0.1);
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+    position: relative;
 }
 
-.progress-bar {
-    background: linear-gradient(90deg, #0d6efd 0%, #667eea 100%) !important;
-    box-shadow: 0 2px 8px rgba(13, 110, 253, 0.3);
-    transition: width 0.6s ease;
+.progress-tracker-fill {
+    height: 100%;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border-radius: 10px;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+}
+
+.progress-tracker-shine {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.4) 50%, 
+        transparent 100%);
+    animation: progressShine 2s ease-in-out infinite;
+}
+
+@keyframes progressShine {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+.progress-tracker-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.5rem 0.75rem;
+    background: rgba(16, 185, 129, 0.05);
+    border-radius: 8px;
+}
+
+.progress-tracker-status i {
+    font-size: 1rem;
 }
 
 
-/* Custom Scrollbar */
 #foodResults::-webkit-scrollbar,
 .meal-entries::-webkit-scrollbar {
     width: 8px;
@@ -454,7 +606,6 @@ html {
 }
 
 
-/* Button Styles */
 .btn-primary {
     background: linear-gradient(135deg, #0d6efd 0%, #667eea 100%);
     border: none;
@@ -518,7 +669,6 @@ html {
     background: linear-gradient(135deg, #c82333 0%, #dc3545 100%);
 }
 
-/* Quick Amount Buttons */
 #quickAmountButtons .btn {
     border-radius: 10px;
     padding: 0.5rem 1rem;
@@ -532,7 +682,6 @@ html {
     transform: scale(1.05);
 }
 
-/* Modal Styles */
 .modal-content {
     border-radius: 20px;
     border: none;
@@ -575,7 +724,6 @@ html {
     background: rgba(248, 249, 252, 0.5);
 }
 
-/* Modern Modal Design */
 .modal-body {
     padding: 1.75rem !important;
 }
@@ -590,7 +738,6 @@ html {
     letter-spacing: 0.5px;
 }
 
-/* Meal Selector */
 .meal-selector {
     margin-bottom: 1.5rem;
 }
@@ -646,7 +793,6 @@ html {
     font-weight: 500;
 }
 
-/* Unit Selector Section */
 .unit-selector-section {
     margin-bottom: 1.5rem;
     padding: 1.25rem;
@@ -672,7 +818,6 @@ html {
     font-size: 1.2rem;
 }
 
-/* Custom Dropdown Styles */
 .custom-dropdown-wrapper {
     position: relative;
     width: 100%;
@@ -880,7 +1025,6 @@ html {
     color: #0d6efd;
 }
 
-/* Scrollbar for dropdown */
 .custom-dropdown-options::-webkit-scrollbar {
     width: 6px;
 }
@@ -900,18 +1044,15 @@ html {
     background: linear-gradient(135deg, #667eea 0%, #0d6efd 100%);
 }
 
-/* Fallback for native select (hidden) */
 .modern-select {
     display: none;
 }
 
-/* Additional visual effects - subtle only */
 .custom-dropdown-option-icon {
     position: relative;
     overflow: hidden;
 }
 
-/* Badge indicator for unit count */
 .unit-selector-section::after {
     content: attr(data-unit-count);
     position: absolute;
@@ -931,7 +1072,6 @@ html {
     display: block;
 }
 
-/* Food Search Section */
 .food-search-section {
     margin-bottom: 1.5rem;
 }
@@ -963,7 +1103,6 @@ html {
     box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
 }
 
-/* Food Results List */
 .food-results-list {
     max-height: 250px;
     overflow-y: auto;
@@ -1004,7 +1143,6 @@ html {
     font-weight: 500;
 }
 
-/* Selected Food Card */
 .selected-food-card {
     background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
     border: 2px solid #0d6efd;
@@ -1066,7 +1204,6 @@ html {
     font-size: 0.8rem;
 }
 
-/* Food Macros Grid */
 .food-macros-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -1098,7 +1235,6 @@ html {
     font-weight: 700;
 }
 
-/* Quantity Section */
 .quantity-section {
     animation: slideDown 0.4s ease-out;
 }
@@ -1126,7 +1262,6 @@ html {
     transform: translateY(-2px);
 }
 
-/* Quantity Input Group */
 .quantity-input-group {
     display: flex;
     align-items: center;
@@ -1182,7 +1317,6 @@ html {
     min-width: 30px;
 }
 
-/* Calculated Info */
 .calculated-info {
     background: linear-gradient(135deg, #e7f1ff 0%, #f0f7ff 100%);
     border: 2px solid rgba(13, 110, 253, 0.2);
@@ -1194,7 +1328,6 @@ html {
     font-size: 1rem;
 }
 
-/* Form Styles */
 .form-control, .form-select {
     border-radius: 12px;
     border: 1px solid rgba(0,0,0,0.1);
@@ -1216,7 +1349,6 @@ html {
 }
 
 
-/* Loading Animation */
 @keyframes shimmer {
     0% { background-position: -1000px 0; }
     100% { background-position: 1000px 0; }
@@ -1240,10 +1372,155 @@ html {
     border: 2px dashed rgba(13, 110, 253, 0.2);
 }
 
-.water-tracker-card {
-    background: linear-gradient(135deg, #e0f7ff 0%, #f0fbff 100%);
+.goals-card {
+    background: #ffffff;
     border: none;
-    box-shadow: 0 8px 32px rgba(79, 172, 254, 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.goals-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(251, 191, 36, 0.05) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.goals-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+.goals-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid rgba(251, 191, 36, 0.2);
+}
+
+.goals-header h5 {
+    color: #d97706;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.15rem;
+}
+
+.goals-trophy-icon {
+    color: #fbbf24;
+    font-size: 1.3rem;
+    animation: trophyShine 3s ease-in-out infinite;
+}
+
+@keyframes trophyShine {
+    0%, 100% { 
+        transform: scale(1);
+        filter: drop-shadow(0 2px 4px rgba(251, 191, 36, 0.3));
+    }
+    50% { 
+        transform: scale(1.1);
+        filter: drop-shadow(0 6px 12px rgba(251, 191, 36, 0.6));
+    }
+}
+
+.goals-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    background: white;
+    border-radius: 14px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(251, 191, 36, 0.1);
+}
+
+.goals-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 16px rgba(251, 191, 36, 0.15);
+    border-color: rgba(251, 191, 36, 0.3);
+}
+
+.goals-item:last-child {
+    margin-bottom: 0;
+}
+
+.goals-icon-wrapper {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.goals-item:hover .goals-icon-wrapper {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.goal-icon {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.target-icon {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(245, 87, 108, 0.3);
+}
+
+.bmr-icon {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(79, 172, 254, 0.3);
+}
+
+.goals-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.goals-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.goals-value {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #1a2332;
+    line-height: 1;
+}
+
+.goals-unit {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.water-tracker-card {
+    background: #ffffff;
+    border: none;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
@@ -1256,14 +1533,14 @@ html {
     right: -20%;
     width: 200px;
     height: 200px;
-    background: radial-gradient(circle, rgba(79, 172, 254, 0.1) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(79, 172, 254, 0.05) 0%, transparent 70%);
     border-radius: 50%;
     pointer-events: none;
 }
 
 .water-tracker-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 12px 40px rgba(79, 172, 254, 0.25);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
 }
 
 .water-header {
@@ -1681,7 +1958,6 @@ html {
         font-size: 0.95rem;
     }
     
-    /* Modal responsiveness */
     .modal-body {
         padding: 1.25rem !important;
     }
@@ -1699,7 +1975,6 @@ html {
         padding: 0.35rem 0.75rem;
     }
     
-    /* Custom dropdown mobile adjustments */
     .custom-dropdown-selected {
         padding: 0.875rem 2.5rem 0.875rem 1rem;
         font-size: 1rem;
@@ -1786,7 +2061,6 @@ html {
         grid-template-columns: repeat(2, 1fr);
     }
     
-    /* Custom dropdown for small screens */
     .custom-dropdown-selected {
         padding: 0.75rem 2rem 0.75rem 0.875rem;
         font-size: 0.95rem;
@@ -1855,6 +2129,42 @@ html {
         right: 15px;
         left: 15px;
         width: auto;
+    }
+    
+    .goals-icon-wrapper {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+    }
+    
+    .goals-value {
+        font-size: 1.1rem;
+    }
+    
+    .goals-label {
+        font-size: 0.75rem;
+    }
+    
+    .progress-tracker-icon-wrapper {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+    }
+    
+    .progress-tracker-value {
+        font-size: 1.1rem;
+    }
+    
+    .progress-tracker-total {
+        font-size: 0.9rem;
+    }
+    
+    .progress-tracker-percentage {
+        font-size: 1.3rem;
+    }
+    
+    .progress-tracker-status {
+        font-size: 0.85rem;
     }
 }
 
