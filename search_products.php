@@ -16,7 +16,7 @@ session_start();
     <script src="https://kit.fontawesome.com/897067be39.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/navbar.css">
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/search.css?v=1.0.0">
+    <link rel="stylesheet" href="css/search.css?v=1.0.3">
 </head>
 <body>
     
@@ -53,8 +53,25 @@ session_start();
                        id="searchInput" 
                        class="search-box" 
                        placeholder="Search for foods..."
-                       autocomplete="off"
-                       style="direction: ltr !important; text-align: left !important; unicode-bidi: plaintext !important;">
+                       autocomplete="off">
+                <button class="search-clear-btn" id="searchClearBtn">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <div class="search-filters" id="searchFilters" style="display: none;">
+                <div class="filter-group">
+                    <label class="filter-label">
+                        <i class="fa-solid fa-arrow-down-short-wide"></i> Sort by:
+                    </label>
+                    <select class="filter-select" id="sortSelect">
+                        <option value="relevance">Relevance</option>
+                        <option value="calories-low">Calories (Low to High)</option>
+                        <option value="calories-high">Calories (High to Low)</option>
+                        <option value="protein-high">Protein (High to Low)</option>
+                        <option value="name-az">Name (A-Z)</option>
+                    </select>
+                </div>
             </div>
             
             <div id="recentSearchesContainer" class="recent-searches-container" style="margin-top: 20px; display: none;">
@@ -68,8 +85,14 @@ session_start();
         <div id="errorMessage" class="error-message"></div>
 
         <div id="loadingSpinner" class="loading-spinner">
-            <i class="fa-solid fa-spinner fa-spin fa-2x"></i>
-            <p style="margin-top: 15px; font-size: 14px; font-weight: 500; color: #039dff;">Searching products...</p>
+            <div class="shimmer-wrapper">
+                <div class="shimmer-card"></div>
+                <div class="shimmer-card"></div>
+                <div class="shimmer-card"></div>
+                <div class="shimmer-card"></div>
+                <div class="shimmer-card"></div>
+                <div class="shimmer-card"></div>
+            </div>
         </div>
         
         <div id="clearCategoryWrapper" style="display: none; margin: 0 30px 20px; padding: 15px 20px; background: white; border: 2px solid #039dff; border-radius: 12px; box-shadow: 0 2px 8px rgba(3, 157, 255, 0.1);">

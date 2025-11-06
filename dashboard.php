@@ -113,7 +113,7 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
         </div>
     </nav>
 
-    <div class="container-fluid px-4 py-4" style="margin-top: 80px;">
+    <div class="container-fluid px-4 py-4" style="margin-top: 20px;">
         
         <div class="date-navigator-container mb-4">
             <div class="date-navigator">
@@ -163,12 +163,6 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                     <i class="fa-solid fa-house"></i>
                     <span>Today</span>
                 </button>
-            </div>
-            
-            <div class="keyboard-hints">
-                <span class="keyboard-hint"><kbd>←</kbd> Previous</span>
-                <span class="keyboard-hint"><kbd>→</kbd> Next</span>
-                <span class="keyboard-hint"><kbd>H</kbd> Today</span>
             </div>
         </div>
 

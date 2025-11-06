@@ -17,6 +17,8 @@ let allProducts = [];
 let currentPage = 1;
 const productsPerPage = 12;
 let currentProduct = null;
+let currentSort = 'relevance';
+let favorites = JSON.parse(localStorage.getItem('productFavorites') || '[]');
 
 const categoryTerms = {
     'fruits': ['apple', 'banana', 'orange'],
@@ -191,6 +193,58 @@ function searchByCategory(category) {
     }
 }
 
+function toggleFavorite(productName, event) {
+    event.stopPropagation();
+    
+    const index = favorites.indexOf(productName);
+    if (index > -1) {
+        favorites.splice(index, 1);
+    } else {
+        favorites.push(productName);
+    }
+    
+    localStorage.setItem('productFavorites', JSON.stringify(favorites));
+    
+    const btn = event.currentTarget;
+    const icon = btn.querySelector('i');
+    
+    if (favorites.includes(productName)) {
+        btn.classList.add('favorited');
+        icon.className = 'fa-solid fa-heart';
+        
+        btn.style.animation = 'heartBeat 0.6s ease';
+        setTimeout(() => {
+            btn.style.animation = '';
+        }, 600);
+    } else {
+        btn.classList.remove('favorited');
+        icon.className = 'fa-regular fa-heart';
+    }
+}
+
+function sortProducts(products) {
+    const sorted = [...products];
+    
+    switch (currentSort) {
+        case 'calories-low':
+            sorted.sort((a, b) => (a.nutriments['energy-kcal'] || 0) - (b.nutriments['energy-kcal'] || 0));
+            break;
+        case 'calories-high':
+            sorted.sort((a, b) => (b.nutriments['energy-kcal'] || 0) - (a.nutriments['energy-kcal'] || 0));
+            break;
+        case 'protein-high':
+            sorted.sort((a, b) => (b.nutriments['proteins'] || 0) - (a.nutriments['proteins'] || 0));
+            break;
+        case 'name-az':
+            sorted.sort((a, b) => a.product_name.localeCompare(b.product_name));
+            break;
+        default:
+            break;
+    }
+    
+    return sorted;
+}
+
 function displayProducts(products) {
     allProducts = products;
     currentPage = 1;
@@ -198,6 +252,7 @@ function displayProducts(products) {
     if (products.length > 0) {
         document.getElementById('categoriesSection').classList.add('hidden');
         document.getElementById('recentSearchesContainer').style.display = 'none';
+        document.getElementById('searchFilters').style.display = 'block';
     }
     
     document.getElementById('paginationContainer').style.display = 'none';
@@ -229,10 +284,12 @@ function renderProducts() {
     const wrapper = document.createElement('div');
     wrapper.className = 'results-wrapper';
     
-    const totalPages = Math.ceil(allProducts.length / productsPerPage);
+    const sortedProducts = sortProducts(allProducts);
+    
+    const totalPages = Math.ceil(sortedProducts.length / productsPerPage);
     const startIndex = (currentPage - 1) * productsPerPage;
     const endIndex = startIndex + productsPerPage;
-    const productsToShow = allProducts.slice(startIndex, endIndex);
+    const productsToShow = sortedProducts.slice(startIndex, endIndex);
     
     productsToShow.forEach(product => {
         if (!product.product_name || !product.nutriments) return;
@@ -253,7 +310,16 @@ function renderProducts() {
         card.className = 'product-card';
         
         const placeholderIcon = getPlaceholderIcon(productName);
-        const imageHTML = `<div class="product-image-wrapper"><div class="product-image-placeholder"><i class="fa-solid ${placeholderIcon}"></i></div></div>`;
+        const isFavorited = favorites.includes(product.product_name);
+        
+        const imageHTML = `
+            <div class="product-image-wrapper">
+                <div class="product-image-placeholder"><i class="fa-solid ${placeholderIcon}"></i></div>
+                <button class="product-favorite-btn ${isFavorited ? 'favorited' : ''}" onclick="toggleFavorite('${product.product_name.replace(/'/g, "\\'")}', event)">
+                    <i class="fa-${isFavorited ? 'solid' : 'regular'} fa-heart"></i>
+                </button>
+            </div>
+        `;
         
         const displayCal = calories !== null && calories !== undefined ? calories : '-';
         const displayProtein = protein !== null && protein !== undefined ? protein : '-';
@@ -279,7 +345,11 @@ function renderProducts() {
             </div>
         `;
         
-        card.onclick = () => openCalculator(product);
+        card.onclick = (e) => {
+            if (!e.target.closest('.product-favorite-btn')) {
+                openCalculator(product);
+            }
+        };
         card.style.cursor = 'pointer';
         wrapper.appendChild(card);
     });
@@ -462,13 +532,50 @@ function showError(message) {
     errorDiv.style.display = 'block';
 }
 
+function makeGlobalFunctions() {
+    window.toggleFavorite = toggleFavorite;
+}
+
+makeGlobalFunctions();
+
 document.addEventListener('DOMContentLoaded', function() {
     renderRecentSearches();
+    
+    const sortSelect = document.getElementById('sortSelect');
+    if (sortSelect) {
+        sortSelect.addEventListener('change', function() {
+            currentSort = this.value;
+            renderProducts();
+        });
+    }
+    
+    const searchClearBtn = document.getElementById('searchClearBtn');
+    const searchInput = document.getElementById('searchInput');
+    
+    if (searchClearBtn && searchInput) {
+        searchClearBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            searchInput.value = '';
+            searchInput.focus();
+            this.classList.remove('show');
+            
+            document.getElementById('results').innerHTML = '';
+            document.getElementById('categoriesSection').classList.remove('hidden');
+            document.getElementById('paginationContainer').style.display = 'none';
+            document.getElementById('clearCategoryWrapper').style.display = 'none';
+            document.getElementById('searchFilters').style.display = 'none';
+            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+            allProducts = [];
+            currentPage = 1;
+            renderRecentSearches();
+        });
+    }
     
     document.querySelectorAll('.category-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             const category = this.dataset.category;
             document.getElementById('searchInput').value = '';
+            if (searchClearBtn) searchClearBtn.classList.remove('show');
             document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
             this.classList.add('active');
             document.getElementById('loadingSpinner').classList.add('show');
@@ -480,6 +587,14 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('searchInput').addEventListener('input', function(e) {
         const query = e.target.value.trim();
         clearTimeout(searchTimeout);
+        
+        if (searchClearBtn) {
+            if (this.value.length > 0) {
+                searchClearBtn.classList.add('show');
+            } else {
+                searchClearBtn.classList.remove('show');
+            }
+        }
         
         document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
         document.getElementById('clearCategoryWrapper').style.display = 'none';
@@ -497,6 +612,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('categoriesSection').classList.remove('hidden');
             document.getElementById('paginationContainer').style.display = 'none';
             document.getElementById('clearCategoryWrapper').style.display = 'none';
+            document.getElementById('searchFilters').style.display = 'none';
             document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
             allProducts = [];
             currentPage = 1;

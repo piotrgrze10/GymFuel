@@ -238,41 +238,6 @@ html {
     100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-.keyboard-hints {
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    margin-top: 1rem;
-    opacity: 0.7;
-    transition: opacity 0.3s ease;
-}
-
-.keyboard-hints:hover {
-    opacity: 1;
-}
-
-.keyboard-hint {
-    font-size: 0.85rem;
-    color: #64748b;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.keyboard-hint kbd {
-    background: white;
-    border: 2px solid #e9ecef;
-    border-radius: 6px;
-    padding: 0.25rem 0.5rem;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: #0d6efd;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    min-width: 28px;
-    text-align: center;
-}
-
 .date-picker-header {
     display: flex;
     justify-content: space-between;
@@ -2800,10 +2765,6 @@ html {
     
     .date-today-btn {
         padding: 0.75rem 1rem;
-    }
-    
-    .keyboard-hints {
-        display: none;
     }
     
     .date-picker-hint {
