@@ -591,34 +591,153 @@ body {
   color: #ff6b6b !important;
 }
 
+/* Mobile Optimizations - 768px and below */
 @media (max-width: 768px) {
+    body {
+        font-size: 16px;
+        padding: 15px;
+    }
+    
+    .auth-container {
+        max-width: 100%;
+    }
+    
     .auth-card {
         padding: 30px 20px;
+        border-radius: 12px;
     }
+    
+    .auth-card.split {
+        flex-direction: column;
+    }
+    
+    .auth-left {
+        padding: 30px 20px;
+    }
+    
+    .auth-right {
+        min-height: 250px;
+        order: 2;
+    }
+    
     .registration-card { 
         height: auto;
+        max-height: none;
     }
     
     .reg-step {
         height: auto;
+        min-height: auto;
     }
     
+    /* Typography */
+    .auth-header h2 {
+        font-size: 1.4rem;
+    }
+    
+    .auth-header p {
+        font-size: 0.9rem;
+    }
+    
+    /* Buttons - touch-friendly (min 44x44px) */
+    .btn-auth {
+        min-height: 44px;
+        padding: 14px 24px;
+        font-size: 16px;
+    }
+    
+    /* Form inputs - touch-friendly */
+    .form-group input,
+    .form-group select {
+        font-size: 16px !important;
+        min-height: 44px;
+        padding: 12px 16px;
+    }
+    
+    .form-group label {
+        font-size: 0.95rem;
+    }
+    
+    /* Progress steps */
     .progress-steps .step {
-        width: 32px;
-        height: 32px;
-        font-size: 0.8rem;
+        width: 36px;
+        height: 36px;
+        font-size: 0.85rem;
+        min-width: 36px;
+        min-height: 36px;
     }
     
+    /* Activity options */
     .activity-options {
         grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 8px;
     }
     
     .activity-card {
         padding: 16px 10px;
+        min-height: 120px;
     }
     
     .activity-card i {
         font-size: 1.5rem;
+    }
+    
+    .activity-card h4 {
+        font-size: 0.8rem;
+    }
+    
+    /* Goal options */
+    .goal-options {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .goal-card {
+        padding: 16px 12px;
+        min-height: 100px;
+    }
+    
+    .goal-card i {
+        font-size: 1.6rem;
+    }
+}
+
+/* Small Mobile - 576px and below */
+@media (max-width: 576px) {
+    body {
+        padding: 10px;
+    }
+    
+    .auth-card {
+        padding: 25px 15px;
+    }
+    
+    .auth-left {
+        padding: 25px 15px;
+    }
+    
+    .auth-header h2 {
+        font-size: 1.3rem;
+    }
+    
+    .btn-auth {
+        min-height: 48px;
+        padding: 16px 24px;
+    }
+    
+    .form-group input,
+    .form-group select {
+        font-size: 16px !important;
+        min-height: 48px;
+    }
+    
+    .activity-options {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .activity-card {
+        padding: 20px 15px;
     }
     
     .goal-options {
@@ -626,14 +745,71 @@ body {
     }
 }
 
+/* Extra Small Mobile - 480px and below */
 @media (max-width: 480px) {
     .progress-steps .step {
-        width: 28px;
-        height: 28px;
-        font-size: 0.75rem;
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+        min-width: 32px;
+        min-height: 32px;
     }
     
     .activity-options {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
+    }
+    
+    .auth-card {
+        padding: 20px 12px;
+    }
+    
+    .auth-left {
+        padding: 20px 12px;
+    }
+    
+    .auth-header h2 {
+        font-size: 1.2rem;
+    }
+}
+
+/* Very Small Mobile - 375px and below */
+@media (max-width: 375px) {
+    body {
+        padding: 8px;
+    }
+    
+    .auth-card {
+        padding: 18px 10px;
+        border-radius: 10px;
+    }
+    
+    .auth-left {
+        padding: 18px 10px;
+    }
+    
+    .auth-header h2 {
+        font-size: 1.1rem;
+    }
+    
+    .btn-auth {
+        font-size: 15px;
+        padding: 14px 20px;
+    }
+}
+
+/* Tiny Mobile - 320px and below */
+@media (max-width: 320px) {
+    .auth-card {
+        padding: 15px 8px;
+    }
+    
+    .auth-left {
+        padding: 15px 8px;
+    }
+    
+    .progress-steps .step {
+        width: 30px;
+        height: 30px;
+        font-size: 0.75rem;
     }
 }

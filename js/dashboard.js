@@ -2,20 +2,105 @@ let selectedFood = null;
 let searchTimeout = null;
 let currentSelectedUnit = null;
 
-document.getElementById('foodSearch').addEventListener('input', function(e) {
-    const searchTerm = e.target.value.trim();
+function cleanupModalBackdrop() {
+    setTimeout(() => {
+        document.body.classList.remove('modal-open');
+        const backdrops = document.querySelectorAll('.modal-backdrop');
+        backdrops.forEach(backdrop => backdrop.remove());
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+    }, 100);
+}
+
+async function reloadCurrentDate() {
+    const currentDateElement = document.getElementById('currentDate');
+    const currentDate = currentDateElement.dataset.date;
     
-    clearTimeout(searchTimeout);
+    dayDataCache.delete(currentDate);
     
-    if (searchTerm.length < 2) {
+    await loadDayData(currentDate);
+}
+
+function setupMealDropdown() {
+    const selected = document.getElementById('mealDropdownSelected');
+    const optionsContainer = document.getElementById('mealDropdownOptions');
+    const options = optionsContainer.querySelectorAll('.meal-dropdown-option');
+    const hiddenSelect = document.getElementById('mealType');
+    
+    selected.addEventListener('click', function(e) {
+        e.stopPropagation();
+        this.classList.toggle('active');
+        optionsContainer.classList.toggle('show');
+    });
+    
+    options.forEach(option => {
+        option.addEventListener('click', function() {
+            const mealValue = this.dataset.meal;
+            const iconHTML = this.querySelector('.meal-dropdown-option-icon').innerHTML;
+            const text = this.querySelector('.meal-dropdown-option-text').textContent;
+            
+            document.querySelector('.meal-dropdown-icon').innerHTML = iconHTML;
+            document.getElementById('mealDropdownText').textContent = text;
+            
+            hiddenSelect.value = mealValue;
+            
+            options.forEach(opt => opt.classList.remove('selected'));
+            this.classList.add('selected');
+            
+            selected.classList.remove('active');
+            optionsContainer.classList.remove('show');
+        });
+    });
+    
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.meal-dropdown-wrapper')) {
+            selected.classList.remove('active');
+            optionsContainer.classList.remove('show');
+        }
+    });
+}
+
+if (document.getElementById('mealDropdownSelected')) {
+    setupMealDropdown();
+}
+
+const foodSearchInput = document.getElementById('foodSearch');
+const foodSearchClearBtn = document.getElementById('foodSearchClearBtn');
+
+if (foodSearchInput) {
+    foodSearchInput.addEventListener('input', function(e) {
+        const searchTerm = e.target.value.trim();
+        
+        clearTimeout(searchTimeout);
+        
+        if (foodSearchClearBtn) {
+            if (this.value.length > 0) {
+                foodSearchClearBtn.classList.add('show');
+            } else {
+                foodSearchClearBtn.classList.remove('show');
+            }
+        }
+        
+        if (searchTerm.length < 2) {
+            document.getElementById('foodResults').innerHTML = '';
+            return;
+        }
+        
+        searchTimeout = setTimeout(() => {
+            searchFoods(searchTerm);
+        }, 300);
+    });
+}
+
+if (foodSearchClearBtn && foodSearchInput) {
+    foodSearchClearBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        foodSearchInput.value = '';
+        foodSearchInput.focus();
+        foodSearchClearBtn.classList.remove('show');
         document.getElementById('foodResults').innerHTML = '';
-        return;
-    }
-    
-    searchTimeout = setTimeout(() => {
-        searchFoods(searchTerm);
-    }, 300);
-});
+    });
+}
 
 async function searchFoods(searchTerm) {
     const resultsDiv = document.getElementById('foodResults');
@@ -489,10 +574,7 @@ document.getElementById('addFoodBtn').addEventListener('click', async function()
             const modal = bootstrap.Modal.getInstance(document.getElementById('addFoodModal'));
             modal.hide();
             
-            const currentDateElement = document.getElementById('currentDate');
-            const currentDate = currentDateElement.dataset.date;
-            
-            await loadDayData(currentDate);
+            await reloadCurrentDate();
             
             const toast = document.createElement('div');
             toast.className = 'water-toast';
@@ -547,12 +629,13 @@ document.getElementById('confirmDeleteBtn').addEventListener('click', async func
         
         if (result.success) {
             const modal = bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal'));
-            modal.hide();
+            if (modal) {
+                modal.hide();
+            }
             
-            const currentDateElement = document.getElementById('currentDate');
-            const currentDate = currentDateElement.dataset.date;
+            cleanupModalBackdrop();
             
-            await loadDayData(currentDate);
+            await reloadCurrentDate();
             
             const toast = document.createElement('div');
             toast.className = 'water-toast';
@@ -587,12 +670,16 @@ addFoodModal.addEventListener('hidden.bs.modal', function() {
     document.getElementById('addFoodBtn').disabled = true;
     selectedFood = null;
     currentSelectedUnit = null;
+    
+    if (foodSearchClearBtn) {
+        foodSearchClearBtn.classList.remove('show');
+    }
 });
 
 class WaterTracker {
     constructor() {
-        this.storageKey = 'waterIntake';
-        this.dateKey = 'waterIntakeDate';
+        this.storageKey = 'waterIntakeByDate';
+        this.currentDate = this.getTodayString();
         this.defaultGoal = 2000;
         this.currentIntake = 0;
         this.dailyGoal = this.defaultGoal;
@@ -613,35 +700,57 @@ class WaterTracker {
     }
     
     init() {
-        this.checkAndResetDaily();
-        this.loadFromStorage();
+        const pageDate = document.getElementById('currentDate')?.dataset.date;
+        if (pageDate) {
+            this.currentDate = pageDate;
+        }
+        this.ensureStorageShape();
+        this.loadForDate(this.currentDate);
         this.updateDisplay();
         this.attachEventListeners();
         this.startMidnightChecker();
     }
     
-    checkAndResetDaily() {
-        const today = new Date().toDateString();
-        const savedDate = localStorage.getItem(this.dateKey);
-        
-        if (savedDate !== today) {
-            localStorage.setItem(this.dateKey, today);
-            localStorage.setItem(this.storageKey, '0');
+    ensureStorageShape() {
+        const raw = localStorage.getItem(this.storageKey);
+        if (!raw) {
+            localStorage.setItem(this.storageKey, JSON.stringify({}));
+        } else {
+            try {
+                const parsed = JSON.parse(raw);
+                if (parsed === null || typeof parsed !== 'object' || Array.isArray(parsed)) {
+                    localStorage.setItem(this.storageKey, JSON.stringify({}));
+                }
+            } catch (e) {
+                localStorage.setItem(this.storageKey, JSON.stringify({}));
+            }
+        }
+    }
+    
+    loadForDate(dateString) {
+        this.ensureStorageShape();
+        try {
+            const map = JSON.parse(localStorage.getItem(this.storageKey) || '{}');
+            const value = parseInt(map[dateString] || '0', 10);
+            this.currentIntake = isNaN(value) ? 0 : value;
+        } catch (e) {
             this.currentIntake = 0;
         }
     }
     
-    loadFromStorage() {
-        const saved = localStorage.getItem(this.storageKey);
-        this.currentIntake = saved ? parseInt(saved, 10) : 0;
-        
-        if (this.currentIntake > 10000) {
-            this.currentIntake = 0;
-        }
+    saveForDate(dateString) {
+        this.ensureStorageShape();
+        const map = JSON.parse(localStorage.getItem(this.storageKey) || '{}');
+        map[dateString] = this.currentIntake;
+        localStorage.setItem(this.storageKey, JSON.stringify(map));
     }
-    
-    saveToStorage() {
-        localStorage.setItem(this.storageKey, this.currentIntake.toString());
+
+    setDate(dateString) {
+        this.addTransition();
+        this.currentDate = dateString;
+        this.loadForDate(dateString);
+        this.updateDisplay();
+        this.removeTransition();
     }
     
     addWater(amount) {
@@ -651,7 +760,7 @@ class WaterTracker {
             this.currentIntake = 10000;
         }
         
-        this.saveToStorage();
+        this.saveForDate(this.currentDate);
         this.updateDisplay();
         this.showToast(amount);
         this.checkGoalReached();
@@ -664,7 +773,7 @@ class WaterTracker {
     
     confirmReset() {
         this.currentIntake = 0;
-        this.saveToStorage();
+        this.saveForDate(this.currentDate);
         this.updateDisplay();
         this.elements.card.classList.remove('goal-reached');
         
@@ -672,6 +781,8 @@ class WaterTracker {
         if (waterResetModal) {
             waterResetModal.hide();
         }
+        
+        cleanupModalBackdrop();
     }
     
     updateDisplay() {
@@ -802,18 +913,47 @@ class WaterTracker {
     
     startMidnightChecker() {
         setInterval(() => {
-            this.checkAndResetDaily();
-            this.loadFromStorage();
-            this.updateDisplay();
+            const today = this.getTodayString();
+            const pageDate = document.getElementById('currentDate')?.dataset.date;
+            if (pageDate === today && this.currentDate !== today) {
+                this.setDate(today);
+            }
+            if (this.currentDate === today) {
+                this.loadForDate(today);
+                this.updateDisplay();
+            }
         }, 60000);
+    }
+
+    addTransition() {
+        if (!this.elements.card) return;
+        const el = this.elements.card;
+        el.style.transition = 'opacity 220ms ease, transform 220ms ease';
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(6px)';
+    }
+    removeTransition() {
+        if (!this.elements.card) return;
+        const el = this.elements.card;
+        requestAnimationFrame(() => {
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0)';
+            setTimeout(() => {
+                el.style.transition = '';
+            }, 260);
+        });
+    }
+
+    getTodayString() {
+        return new Date().toISOString().split('T')[0];
     }
 }
 
+let waterTrackerInstance = null;
 if (document.getElementById('waterTrackerCard')) {
-    const waterTracker = new WaterTracker();
-    
+    waterTrackerInstance = new WaterTracker();
     document.getElementById('confirmWaterResetBtn').addEventListener('click', function() {
-        waterTracker.confirmReset();
+        waterTrackerInstance.confirmReset();
     });
 }
 
@@ -933,6 +1073,9 @@ function updateUI(data) {
     updateMacros(data.daily_log);
     updateMeals(data.entries_by_meal, data.meal_calories);
     updateDailyProgress(data);
+    if (waterTrackerInstance) {
+        waterTrackerInstance.setDate(data.date);
+    }
 }
 
 function updateDailyProgress(data) {
@@ -1044,7 +1187,12 @@ function updateMeals(entriesByMeal, mealCalories) {
         }
         
         if (!entriesByMeal[meal] || entriesByMeal[meal].length === 0) {
-            mealContainer.innerHTML = '';
+            mealContainer.innerHTML = `
+                <div class="empty-meal-placeholder">
+                    <i class="fa-solid fa-utensils-slash"></i>
+                    <p>No food added yet</p>
+                </div>
+            `;
             return;
         }
         
@@ -1296,6 +1444,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (currentDate) {
         preloadAdjacentDays(currentDate);
     }
+    
+    attachDeleteHandlers();
 });
 
 async function preloadAdjacentDays(currentDate) {
@@ -1323,4 +1473,34 @@ async function preloadAdjacentDays(currentDate) {
         }
     });
 }
+
+document.addEventListener('click', function(e) {
+    if (e.target.closest('.btn-add-meal-item')) {
+        const btn = e.target.closest('.btn-add-meal-item');
+        const mealType = btn.dataset.mealType;
+        if (mealType && document.getElementById('mealType')) {
+            document.getElementById('mealType').value = mealType;
+            
+            const mealDropdownOptions = document.getElementById('mealDropdownOptions');
+            if (mealDropdownOptions) {
+                const selectedOption = mealDropdownOptions.querySelector(`[data-meal="${mealType}"]`);
+                if (selectedOption) {
+                    const iconHTML = selectedOption.querySelector('.meal-dropdown-option-icon').innerHTML;
+                    const text = selectedOption.querySelector('.meal-dropdown-option-text').textContent;
+                    
+                    const mealDropdownIcon = document.querySelector('.meal-dropdown-icon');
+                    const mealDropdownText = document.getElementById('mealDropdownText');
+                    if (mealDropdownIcon) mealDropdownIcon.innerHTML = iconHTML;
+                    if (mealDropdownText) mealDropdownText.textContent = text;
+                    
+                    mealDropdownOptions.querySelectorAll('.meal-dropdown-option').forEach(opt => opt.classList.remove('selected'));
+                    selectedOption.classList.add('selected');
+                }
+            }
+            
+            const event = new Event('change', { bubbles: true });
+            document.getElementById('mealType').dispatchEvent(event);
+        }
+    }
+});
 

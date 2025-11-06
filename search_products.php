@@ -5,7 +5,7 @@ session_start();
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Search Products - GymFuel</title>
     <meta name="description" content="Search and track nutritional information for popular foods. Find calories, protein, carbs, and fat content for your favorite foods.">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔥</text></svg>">
@@ -49,11 +49,12 @@ session_start();
             </p>
             <div class="search-box-container">
                 <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                <input type="text" 
+                <input type="search" 
                        id="searchInput" 
                        class="search-box" 
                        placeholder="Search for foods..."
-                       autocomplete="off">
+                       autocomplete="off"
+                       inputmode="search">
                 <button class="search-clear-btn" id="searchClearBtn">
                     <i class="fa-solid fa-xmark"></i>
                 </button>

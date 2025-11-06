@@ -78,7 +78,7 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Dashboard - GymFuel</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔥</text></svg>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -87,7 +87,7 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/897067be39.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/navbar.css">
-    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/dashboard.css?v=fab-fixed-v12">
 </head>
 <body style="padding-top: 76px;">
     <nav class="navbar navbar-expand-lg position-fixed top-0 w-100 py-3">
@@ -117,11 +117,6 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
         
         <div class="date-navigator-container mb-4">
             <div class="date-navigator">
-                <button class="date-nav-btn" id="prevDayBtn" title="Previous day">
-                    <i class="fa-solid fa-chevron-left"></i>
-                    <span class="nav-btn-text">Previous</span>
-                </button>
-                
                 <div class="date-display" id="dateDisplay" role="button" tabindex="0" title="Click to open calendar">
                     <div class="date-icon">
                         <i class="fa-solid fa-calendar-day"></i>
@@ -154,15 +149,22 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                     </div>
                 </div>
                 
-                <button class="date-nav-btn" id="nextDayBtn" title="Next day">
-                    <span class="nav-btn-text">Next</span>
-                    <i class="fa-solid fa-chevron-right"></i>
-                </button>
-                
-                <button class="date-today-btn" id="todayBtn" title="Go to today">
-                    <i class="fa-solid fa-house"></i>
-                    <span>Today</span>
-                </button>
+                <div class="date-nav-buttons">
+                    <button class="date-nav-btn" id="prevDayBtn">
+                        <i class="fa-solid fa-chevron-left"></i>
+                        <span class="nav-btn-text">Previous</span>
+                    </button>
+                    
+                    <button class="date-today-btn" id="todayBtn">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Today</span>
+                    </button>
+                    
+                    <button class="date-nav-btn" id="nextDayBtn">
+                        <span class="nav-btn-text">Next</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -170,7 +172,7 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
             <div class="col-lg-8">
                 <div class="card calorie-overview mb-4">
                     <div class="card-body p-4">
-                        <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div class="calorie-overview-header mb-4">
                             <div>
                                 <h3 class="fw-bold mb-1"><?php echo date('l, F j', strtotime($selected_date)); ?></h3>
                                 <p class="text-muted mb-0">
@@ -188,13 +190,10 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                                     ?>
                                 </p>
                             </div>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addFoodModal">
-                                <i class="fa-solid fa-plus"></i> Add Food
-                            </button>
                         </div>
 
                         <div class="calorie-ring-container">
-                            <svg class="calorie-ring" width="240" height="240">
+                            <svg class="calorie-ring" viewBox="0 0 240 240" preserveAspectRatio="xMidYMid meet">
                                 <!-- Background circle -->
                                 <circle cx="120" cy="120" r="95" stroke="url(#bgGradient)" stroke-width="16" fill="none" opacity="0.15"></circle>
                                 <!-- Progress circle -->
@@ -271,7 +270,12 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                     <div class="meal-card">
                         <div class="meal-header">
                             <h4><i class="fa-solid fa-sun"></i> Breakfast</h4>
-                            <span class="meal-calories"><?php echo number_format($meal_calories['breakfast']); ?> kcal</span>
+                            <div class="meal-header-right">
+                                <span class="meal-calories"><?php echo number_format($meal_calories['breakfast']); ?> kcal</span>
+                                <button class="btn-add-meal-item" data-meal-type="breakfast" data-bs-toggle="modal" data-bs-target="#addFoodModal" title="Add food to Breakfast">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
                         </div>
                         <div class="meal-entries" id="breakfast-entries">
                             <?php 
@@ -317,7 +321,14 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                                     </div>
                                 </div>
                                 <?php 
-                                endforeach; 
+                                endforeach;
+                            else:
+                            ?>
+                                <div class="empty-meal-placeholder">
+                                    <i class="fa-solid fa-utensils-slash"></i>
+                                    <p>No food added yet</p>
+                                </div>
+                            <?php 
                             endif; 
                             ?>
                         </div>
@@ -327,7 +338,12 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                     <div class="meal-card">
                         <div class="meal-header">
                             <h4><i class="fa-solid fa-bowl-rice"></i> Lunch</h4>
-                            <span class="meal-calories"><?php echo number_format($meal_calories['lunch']); ?> kcal</span>
+                            <div class="meal-header-right">
+                                <span class="meal-calories"><?php echo number_format($meal_calories['lunch']); ?> kcal</span>
+                                <button class="btn-add-meal-item" data-meal-type="lunch" data-bs-toggle="modal" data-bs-target="#addFoodModal" title="Add food to Lunch">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
                         </div>
                         <div class="meal-entries" id="lunch-entries">
                             <?php 
@@ -373,7 +389,14 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                                     </div>
                                 </div>
                                 <?php 
-                                endforeach; 
+                                endforeach;
+                            else:
+                            ?>
+                                <div class="empty-meal-placeholder">
+                                    <i class="fa-solid fa-utensils-slash"></i>
+                                    <p>No food added yet</p>
+                                </div>
+                            <?php 
                             endif; 
                             ?>
                         </div>
@@ -383,7 +406,12 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                     <div class="meal-card">
                         <div class="meal-header">
                             <h4><i class="fa-solid fa-utensils"></i> Dinner</h4>
-                            <span class="meal-calories"><?php echo number_format($meal_calories['dinner']); ?> kcal</span>
+                            <div class="meal-header-right">
+                                <span class="meal-calories"><?php echo number_format($meal_calories['dinner']); ?> kcal</span>
+                                <button class="btn-add-meal-item" data-meal-type="dinner" data-bs-toggle="modal" data-bs-target="#addFoodModal" title="Add food to Dinner">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
                         </div>
                         <div class="meal-entries" id="dinner-entries">
                             <?php 
@@ -429,7 +457,14 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                                     </div>
                                 </div>
                                 <?php 
-                                endforeach; 
+                                endforeach;
+                            else:
+                            ?>
+                                <div class="empty-meal-placeholder">
+                                    <i class="fa-solid fa-utensils-slash"></i>
+                                    <p>No food added yet</p>
+                                </div>
+                            <?php 
                             endif; 
                             ?>
                         </div>
@@ -439,7 +474,12 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                     <div class="meal-card">
                         <div class="meal-header">
                             <h4><i class="fa-solid fa-cookie"></i> Snacks</h4>
-                            <span class="meal-calories"><?php echo number_format($meal_calories['snack']); ?> kcal</span>
+                            <div class="meal-header-right">
+                                <span class="meal-calories"><?php echo number_format($meal_calories['snack']); ?> kcal</span>
+                                <button class="btn-add-meal-item" data-meal-type="snack" data-bs-toggle="modal" data-bs-target="#addFoodModal" title="Add food to Snacks">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
                         </div>
                         <div class="meal-entries" id="snack-entries">
                             <?php 
@@ -485,7 +525,14 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                                     </div>
                                 </div>
                                 <?php 
-                                endforeach; 
+                                endforeach;
+                            else:
+                            ?>
+                                <div class="empty-meal-placeholder">
+                                    <i class="fa-solid fa-utensils-slash"></i>
+                                    <p>No food added yet</p>
+                                </div>
+                            <?php 
                             endif; 
                             ?>
                         </div>
@@ -656,26 +703,56 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Add Food</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close-custom" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <!-- Meal Selection -->
                     <div class="meal-selector">
                         <label class="modal-label">Select Meal</label>
-                        <select class="form-select modern-select" id="mealType">
-                            <option value="breakfast">🌅 Breakfast</option>
-                            <option value="lunch">🍽️ Lunch</option>
-                            <option value="dinner">🌙 Dinner</option>
-                            <option value="snack">🍪 Snack</option>
+                        <div class="meal-dropdown-wrapper">
+                            <div class="meal-dropdown-selected" id="mealDropdownSelected">
+                                <div class="meal-dropdown-icon"><i class="fa-solid fa-sun"></i></div>
+                                <div class="meal-dropdown-text" id="mealDropdownText">Breakfast</div>
+                                <i class="fa-solid fa-chevron-down meal-dropdown-arrow"></i>
+                            </div>
+                            <div class="meal-dropdown-options" id="mealDropdownOptions">
+                                <div class="meal-dropdown-option selected" data-meal="breakfast">
+                                    <div class="meal-dropdown-option-icon"><i class="fa-solid fa-sun"></i></div>
+                                    <div class="meal-dropdown-option-text">Breakfast</div>
+                                </div>
+                                <div class="meal-dropdown-option" data-meal="lunch">
+                                    <div class="meal-dropdown-option-icon"><i class="fa-solid fa-bowl-rice"></i></div>
+                                    <div class="meal-dropdown-option-text">Lunch</div>
+                                </div>
+                                <div class="meal-dropdown-option" data-meal="dinner">
+                                    <div class="meal-dropdown-option-icon"><i class="fa-solid fa-moon"></i></div>
+                                    <div class="meal-dropdown-option-text">Dinner</div>
+                                </div>
+                                <div class="meal-dropdown-option" data-meal="snack">
+                                    <div class="meal-dropdown-option-icon"><i class="fa-solid fa-cookie-bite"></i></div>
+                                    <div class="meal-dropdown-option-text">Snacks</div>
+                                </div>
+                            </div>
+                        </div>
+                        <select class="form-select modern-select" id="mealType" style="display: none;">
+                            <option value="breakfast">Breakfast</option>
+                            <option value="lunch">Lunch</option>
+                            <option value="dinner">Dinner</option>
+                            <option value="snack">Snack</option>
                         </select>
                     </div>
 
                     <!-- Food Search -->
                     <div class="food-search-section">
                         <label class="modal-label">Search Food</label>
-                        <div class="search-box">
-                            <i class="fa-solid fa-search"></i>
-                            <input type="text" class="form-control modern-input" id="foodSearch" placeholder="Type to search...">
+                        <div class="search-box-container">
+                            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                            <input type="search" class="search-box" id="foodSearch" placeholder="Type to search..." autocomplete="off" inputmode="search">
+                            <button class="search-clear-btn" id="foodSearchClearBtn" type="button">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
                         </div>
                         <div id="foodResults" class="food-results-list"></div>
                     </div>
@@ -725,7 +802,7 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                             <button class="qty-btn-modern" type="button" id="decreaseQty">
                                 <i class="fa-solid fa-minus"></i>
                             </button>
-                            <input type="number" class="form-control qty-input-modern" id="quantity" value="100" min="0.1" step="0.1">
+                            <input type="number" class="form-control qty-input-modern" id="quantity" value="100" min="0.1" step="0.1" inputmode="decimal">
                             <span class="qty-unit-modern" id="quantityUnit">g</span>
                             <button class="qty-btn-modern" type="button" id="increaseQty">
                                 <i class="fa-solid fa-plus"></i>
@@ -916,7 +993,8 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                     
                     <div class="custom-date-picker">
                         <label class="date-picker-label">Or pick a custom date:</label>
-                        <input type="date" class="form-control date-picker-input" id="customDateInput" 
+                        <input type="date" class="form-control date-picker-input" id="customDateInput"
+                               autocomplete="off" 
                                min="<?php echo date('Y-m-d', strtotime('-365 days')); ?>" 
                                max="<?php echo date('Y-m-d', strtotime('+30 days')); ?>"
                                value="<?php echo $selected_date; ?>">
@@ -938,6 +1016,12 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
     <div class="swipe-indicator right" id="swipeRight">
         <i class="fa-solid fa-chevron-right"></i>
     </div>
+
+    <!-- Floating Action Button -->
+    <button class="fab-add-food" data-bs-toggle="modal" data-bs-target="#addFoodModal">
+        <i class="fa-solid fa-plus"></i>
+        <span class="fab-tooltip">Add Food</span>
+    </button>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/dashboard.js"></script>

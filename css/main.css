@@ -1181,19 +1181,119 @@ a:hover {
 	}
 }
 
+/* Mobile Optimizations - 768px and below */
 @media (max-width: 768px) {
-	.hero-title {
-		font-size: 2rem;
+	/* Typography - ensure minimum 16px for readability */
+	body {
+		font-size: 16px;
 	}
 	
+	.hero-title {
+		font-size: 2rem;
+		line-height: 1.2;
+	}
+	
+	.hero-text p {
+		font-size: 1rem;
+	}
+	
+	.section-title {
+		font-size: 1.75rem;
+	}
+	
+	/* Buttons - ensure minimum 44x44px touch target */
+	.btn, .btn-outline-light, button {
+		min-height: 44px;
+		min-width: 44px;
+		padding: 12px 20px;
+		font-size: 16px;
+	}
+	
+	/* Form inputs - touch-friendly */
+	input[type="text"],
+	input[type="email"],
+	input[type="password"],
+	input[type="number"],
+	input[type="date"],
+	select,
+	textarea {
+		font-size: 16px !important;
+		min-height: 44px;
+		padding: 12px 16px;
+	}
+	
+	/* Container padding */
+	.container {
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+	
+	/* Section padding */
+	section {
+		padding: 40px 0 !important;
+	}
+	
+	.aboutus-new {
+		padding: 40px 0 !important;
+	}
+	
+	.features {
+		padding: 40px 0 !important;
+	}
+	
+	.success-stories-new {
+		padding: 40px 0 !important;
+	}
+	
+	/* Grid layouts - change to single column */
+	.row {
+		margin-left: -10px;
+		margin-right: -10px;
+	}
+	
+	.row > * {
+		padding-left: 10px;
+		padding-right: 10px;
+		margin-bottom: 20px;
+	}
+	
+	/* Feature cards - single column */
+	.feature-offer-card {
+		margin-bottom: 20px;
+		padding: 20px !important;
+	}
+	
+	.feature-offer-icon i {
+		font-size: 2.5rem;
+	}
+	
+	/* Testimonials - single column */
+	.testimonial-card {
+		margin-bottom: 20px;
+		padding: 20px !important;
+	}
+	
+	/* Stats grid - 2 columns on mobile */
+	.aboutus-new .stat-item {
+		padding: 15px;
+	}
+	
+	.aboutus-new .stat-item i {
+		font-size: 2.5rem;
+	}
+	
+	/* Overlapping cards */
 	.overlapping-cards {
-		padding: 60px 0;
+		padding: 40px 0;
 	}
 	
 	.cards-wrapper {
 		flex-wrap: nowrap;
 		justify-content: center;
 		gap: 0;
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+		padding: 10px 0;
 	}
 	
 	.overlap-card:first-child,
@@ -1206,6 +1306,7 @@ a:hover {
 		height: 300px;
 		margin-left: -20px;
 		transition: none;
+		flex-shrink: 0;
 	}
 	
 	.overlap-card:nth-child(2) {
@@ -1256,40 +1357,53 @@ a:hover {
 		border-width: 6px;
 	}
 	
-	.aboutus-new .stat-item {
-		padding: 15px;
+	/* Footer */
+	footer {
+		padding: 30px 15px !important;
 	}
 	
-	.aboutus-new .stat-item i {
-		font-size: 2.5rem;
+	footer .row {
+		margin-left: 0;
+		margin-right: 0;
 	}
 	
-	.feature-offer-card {
-		margin-bottom: 20px;
-	}
-	
-	.feature-offer-icon i {
-		font-size: 2.5rem;
-	}
-	
-	.testimonial-card {
-		margin-bottom: 20px;
+	footer .col-lg-4,
+	footer .col-lg-2,
+	footer .col-lg-3 {
+		margin-bottom: 30px;
 	}
 }
 
+/* Small Mobile - 576px and below */
 @media (max-width: 576px) {
 	.hero-title {
 		font-size: 1.75rem;
+		line-height: 1.2;
+		padding: 0 10px;
+	}
+	
+	.hero-text {
+		padding: 20px !important;
 	}
 	
 	.hero-text p {
 		font-size: 1rem;
+		margin-bottom: 20px;
 	}
 	
 	.section-title {
 		font-size: 1.75rem;
+		padding: 0 15px;
 	}
 	
+	/* Buttons - larger on small screens */
+	.btn, .btn-outline-light, button {
+		min-height: 48px;
+		padding: 14px 24px;
+		font-size: 16px;
+	}
+	
+	/* Overlapping cards - smaller on small screens */
 	.overlap-card:first-child,
 	.overlap-card:nth-child(5) {
 		display: none;
@@ -1332,6 +1446,7 @@ a:hover {
 		border-radius: 15px;
 	}
 	
+	/* Typography adjustments */
 	.aboutus-new h3 {
 		font-size: 1.5rem;
 	}
@@ -1356,6 +1471,7 @@ a:hover {
 		font-size: 1.1rem;
 	}
 	
+	/* Footer */
 	footer h4, footer h5 {
 		font-size: 1.1rem;
 	}
@@ -1363,6 +1479,95 @@ a:hover {
 	footer .social-links a {
 		font-size: 1.5rem;
 		margin-right: 15px !important;
+		min-width: 44px;
+		min-height: 44px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+	}
+}
+
+/* Extra Small Mobile - 414px and below */
+@media (max-width: 414px) {
+	.hero-title {
+		font-size: 1.5rem;
+	}
+	
+	.section-title {
+		font-size: 1.5rem;
+	}
+	
+	.container {
+		padding-left: 12px;
+		padding-right: 12px;
+	}
+	
+	section {
+		padding: 30px 0 !important;
+	}
+	
+	.overlap-card {
+		width: 150px;
+		height: 220px;
+	}
+	
+	.card-img {
+		height: 130px;
+	}
+	
+	.card-caption {
+		font-size: 0.8rem;
+		padding: 12px 8px;
+	}
+}
+
+/* Very Small Mobile - 375px and below */
+@media (max-width: 375px) {
+	.hero-title {
+		font-size: 1.4rem;
+	}
+	
+	.section-title {
+		font-size: 1.4rem;
+	}
+	
+	.overlap-card {
+		width: 140px;
+		height: 200px;
+	}
+	
+	.card-img {
+		height: 120px;
+	}
+}
+
+/* Tiny Mobile - 320px and below */
+@media (max-width: 320px) {
+	.hero-title {
+		font-size: 1.25rem;
+	}
+	
+	.section-title {
+		font-size: 1.25rem;
+	}
+	
+	.container {
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+	
+	.overlap-card {
+		width: 130px;
+		height: 180px;
+	}
+	
+	.card-img {
+		height: 110px;
+	}
+	
+	.card-caption {
+		font-size: 0.75rem;
+		padding: 10px 6px;
 	}
 }
 
