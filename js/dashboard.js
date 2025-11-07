@@ -128,30 +128,72 @@ async function searchFoods(searchTerm) {
     }
 }
 
+function getFoodIcon(foodName) {
+    const name = foodName.toLowerCase();
+    const iconMap = {
+        'chicken': 'fa-drumstick-bite',
+        'egg': 'fa-egg',
+        'milk': 'fa-cheese',
+        'cheese': 'fa-cheese',
+        'rice': 'fa-wheat-awn',
+        'oats': 'fa-wheat-awn',
+        'bread': 'fa-bread-slice',
+        'apple': 'fa-apple-whole',
+        'banana': 'fa-apple-whole',
+        'orange': 'fa-apple-whole',
+        'grape': 'fa-apple-whole',
+        'spinach': 'fa-carrot',
+        'carrot': 'fa-carrot',
+        'potato': 'fa-carrot',
+        'fish': 'fa-fish',
+        'meat': 'fa-drumstick-bite'
+    };
+    
+    for (let key in iconMap) {
+        if (name.includes(key)) {
+            return iconMap[key];
+        }
+    }
+    return 'fa-bowl-food';
+}
+
 function displayFoodResults(foods) {
     const resultsDiv = document.getElementById('foodResults');
     
     if (foods.length === 0) {
-        resultsDiv.innerHTML = '<p class="text-muted text-center" style="padding: 1rem;">No foods found</p>';
+        resultsDiv.innerHTML = `
+            <div style="text-align: center; padding: 2rem 1rem;">
+                <i class="fa-solid fa-magnifying-glass" style="font-size: 3rem; color: #94a3b8; margin-bottom: 1rem;"></i>
+                <p class="text-muted" style="font-weight: 600;">No foods found</p>
+                <p style="font-size: 0.875rem; color: #6c757d;">Try different keywords</p>
+            </div>
+        `;
         return;
     }
     
     resultsDiv.innerHTML = foods.map(food => {
         const unitsJson = JSON.stringify(food.available_units || []);
-        const defaultUnit = food.available_units && food.available_units[0] ? food.available_units[0].unit_display : 'g';
+        const iconClass = getFoodIcon(food.name);
+        const category = food.category || 'General';
         
         return `
         <div class="food-item" data-food-id="${food.id}" 
+             data-food-name="${food.name}"
+             data-food-category="${category}"
              data-food-calories="${food.calories}" 
              data-food-protein="${food.protein}" 
              data-food-carbs="${food.carbs}" 
              data-food-fat="${food.fat}" 
              data-food-fiber="${food.fiber}" 
              data-food-sugar="${food.sugar}"
+             data-food-icon="${iconClass}"
              data-food-units='${unitsJson.replace(/'/g, "&#39;")}'>
-            <h6>${food.name}</h6>
+            <h6>
+                <i class="fa-solid ${iconClass}" style="color: #0d6efd; margin-right: 0.5rem;"></i>
+                ${food.name}
+            </h6>
             <small>
-                ${food.calories} kcal per 100g
+                <strong>${food.calories} kcal</strong> per 100g
                 • P: ${food.protein}g • C: ${food.carbs}g • F: ${food.fat}g
             </small>
         </div>
@@ -199,58 +241,35 @@ function createUnitSelector() {
     const defaultUnit = selectedFood.availableUnits.find(u => u.is_default) || selectedFood.availableUnits[0];
     currentSelectedUnit = defaultUnit;
     
-    const customDropdownHTML = `
-        <div class="custom-dropdown-wrapper">
-            <div class="custom-dropdown-selected" id="customDropdownSelected">
-                <div class="custom-dropdown-text">
-                    <div class="custom-dropdown-icon">${getUnitIcon(defaultUnit.unit_name)}</div>
-                    <div>
-                        <div id="selectedUnitText">${defaultUnit.unit_display}</div>
-                    </div>
-                </div>
-                <i class="fa-solid fa-chevron-down custom-dropdown-arrow"></i>
-            </div>
-            <div class="custom-dropdown-options" id="customDropdownOptions">
-                ${selectedFood.availableUnits.map(unit => `
-                    <div class="custom-dropdown-option ${unit.unit_name === defaultUnit.unit_name ? 'selected' : ''}" 
-                         data-unit-name="${unit.unit_name}"
-                         data-weight="${unit.weight_in_grams}"
-                         data-display="${unit.unit_display}"
-                         data-plural="${unit.unit_plural}">
-                        <div class="custom-dropdown-option-icon">${getUnitIcon(unit.unit_name)}</div>
-                        <div class="custom-dropdown-option-text">
-                            ${unit.unit_display}
-                            <span>${unit.weight_in_grams}g ${unit.unit_name === 'gram' ? '' : 'per unit'}</span>
-                        </div>
-                    </div>
-                `).join('')}
-            </div>
-        </div>
-        <select class="form-select modern-select" id="unitSelector" style="display: none;">
-            ${selectedFood.availableUnits.map(unit => `
-                <option value="${unit.unit_name}" 
-                        data-weight="${unit.weight_in_grams}"
-                        data-display="${unit.unit_display}"
-                        data-plural="${unit.unit_plural}">
-                    ${unit.unit_display}
-                </option>
-            `).join('')}
-        </select>
-    `;
+    // Simple select dropdown
+    const unitSelector = document.getElementById('unitSelector');
+    unitSelector.innerHTML = selectedFood.availableUnits.map(unit => {
+        const weightInfo = unit.weight_in_grams > 1 ? ` (${unit.weight_in_grams}g)` : '';
+        return `
+            <option value="${unit.unit_name}" 
+                    data-weight="${unit.weight_in_grams}"
+                    data-display="${unit.unit_display}"
+                    data-plural="${unit.unit_plural}"
+                    ${unit.unit_name === defaultUnit.unit_name ? 'selected' : ''}>
+                ${unit.unit_display}${weightInfo}
+            </option>
+        `;
+    }).join('');
     
-    const existingWrapper = container.querySelector('.custom-dropdown-wrapper');
-    if (existingWrapper) {
-        existingWrapper.remove();
-    }
-    const existingSelect = container.querySelector('#unitSelector');
-    if (existingSelect) {
-        existingSelect.remove();
-    }
-    container.insertAdjacentHTML('beforeend', customDropdownHTML);
-    
-    setupCustomDropdown();
-    
-    document.getElementById('unitSelector').value = defaultUnit.unit_name;
+    // Event listener for unit change
+    unitSelector.onchange = function() {
+        const selectedOption = this.options[this.selectedIndex];
+        currentSelectedUnit = {
+            unit_name: selectedOption.value,
+            weight_in_grams: parseFloat(selectedOption.dataset.weight),
+            unit_display: selectedOption.dataset.display,
+            unit_plural: selectedOption.dataset.plural
+        };
+        
+        updateUnitDisplay();
+        createQuickAmountButtons();
+        updateQuantityDisplay();
+    };
 }
 
 function setupCustomDropdown() {
@@ -401,9 +420,16 @@ function selectFood(element) {
         console.error('Error parsing units:', e);
     }
     
+    // Get food name without icon
+    const foodName = element.dataset.foodName || element.querySelector('h6').textContent.trim();
+    const iconClass = element.dataset.foodIcon || getFoodIcon(foodName);
+    const category = element.dataset.foodCategory || 'General';
+    
     selectedFood = {
         id: element.dataset.foodId,
-        name: element.querySelector('h6').textContent,
+        name: foodName,
+        icon: iconClass,
+        category: category,
         calories: parseFloat(element.dataset.foodCalories),
         protein: parseFloat(element.dataset.foodProtein),
         carbs: parseFloat(element.dataset.foodCarbs),
@@ -413,14 +439,19 @@ function selectFood(element) {
         availableUnits: availableUnits
     };
     
-    document.getElementById('selectedFood').style.display = 'block';
+    const selectedFoodCard = document.getElementById('selectedFood');
+    selectedFoodCard.style.display = 'block';
     document.getElementById('quantityInput').style.display = 'block';
+    
+    // Update new modern UI
     document.getElementById('selectedFoodName').textContent = selectedFood.name;
+    document.getElementById('selectedFoodCategory').textContent = selectedFood.category;
+    document.getElementById('selectedFoodIcon').innerHTML = `<i class="fa-solid ${iconClass}"></i>`;
     
     document.getElementById('selectedFoodCalories').textContent = formatNumber(selectedFood.calories);
-    document.getElementById('selectedFoodProtein').textContent = formatNumber(selectedFood.protein);
-    document.getElementById('selectedFoodCarbs').textContent = formatNumber(selectedFood.carbs);
-    document.getElementById('selectedFoodFat').textContent = formatNumber(selectedFood.fat);
+    document.getElementById('selectedFoodProtein').textContent = formatNumber(selectedFood.protein) + 'g';
+    document.getElementById('selectedFoodCarbs').textContent = formatNumber(selectedFood.carbs) + 'g';
+    document.getElementById('selectedFoodFat').textContent = formatNumber(selectedFood.fat) + 'g';
     
     if (availableUnits.length > 0) {
         const defaultUnit = availableUnits.find(u => u.is_default == 1) || availableUnits[0];
@@ -538,14 +569,46 @@ function updateQuantityDisplay() {
     const carbs = selectedFood.carbs * multiplier;
     const fat = selectedFood.fat * multiplier;
     
-    document.getElementById('selectedFoodCalories').textContent = formatNumber(Math.round(calories * 10) / 10);
-    document.getElementById('selectedFoodProtein').textContent = formatNumber(Math.round(protein * 10) / 10);
-    document.getElementById('selectedFoodCarbs').textContent = formatNumber(Math.round(carbs * 10) / 10);
-    document.getElementById('selectedFoodFat').textContent = formatNumber(Math.round(fat * 10) / 10);
+    // Update unit conversion info
+    const conversionInfo = document.getElementById('unitConversionInfo');
+    const conversionText = document.getElementById('conversionText');
+    
+    if (currentSelectedUnit.unit_name !== 'gram' && currentSelectedUnit.weight_in_grams > 1) {
+        conversionInfo.style.display = 'flex';
+        const unitName = quantity === 1 ? currentSelectedUnit.unit_display : currentSelectedUnit.unit_plural;
+        conversionText.textContent = `${quantity} ${unitName} = ${Math.round(weightInGrams)}g`;
+    } else {
+        conversionInfo.style.display = 'none';
+    }
+    
+    // Update calculated nutrition preview
+    const calculatedInfo = document.getElementById('calculatedInfo');
+    calculatedInfo.innerHTML = `
+        <div class="nutrition-preview-title">
+            <i class="fa-solid fa-utensils"></i>
+            Your Serving
+        </div>
+        <div class="nutrition-preview-grid">
+            <div class="nutrition-preview-item total-calories-highlight">
+                <div class="nutrition-preview-value">${Math.round(calories)}</div>
+                <div class="nutrition-preview-label">Calories</div>
+            </div>
+            <div class="nutrition-preview-item">
+                <div class="nutrition-preview-value">${formatNumber(Math.round(protein * 10) / 10)}g</div>
+                <div class="nutrition-preview-label">Protein</div>
+            </div>
+            <div class="nutrition-preview-item">
+                <div class="nutrition-preview-value">${formatNumber(Math.round(carbs * 10) / 10)}g</div>
+                <div class="nutrition-preview-label">Carbs</div>
+            </div>
+            <div class="nutrition-preview-item">
+                <div class="nutrition-preview-value">${formatNumber(Math.round(fat * 10) / 10)}g</div>
+                <div class="nutrition-preview-label">Fat</div>
+            </div>
+        </div>
+    `;
     
     const unitText = quantity === 1 ? currentSelectedUnit.unit_display : currentSelectedUnit.unit_plural;
-    
-    document.getElementById('calculatedInfo').textContent = `${quantity} ${unitText} = ${Math.round(calories * 10) / 10} kcal`;
 }
 
 
@@ -1446,6 +1509,80 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     attachDeleteHandlers();
+    
+    // Change Food Button
+    const changeFoodBtn = document.getElementById('changeFoodBtn');
+    if (changeFoodBtn) {
+        changeFoodBtn.addEventListener('click', function() {
+            document.getElementById('selectedFood').style.display = 'none';
+            document.getElementById('quantityInput').style.display = 'none';
+            document.getElementById('unitSelectorContainer').style.display = 'none';
+            document.getElementById('foodSearch').value = '';
+            document.getElementById('foodResults').innerHTML = '';
+            document.querySelectorAll('.food-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            selectedFood = null;
+            document.getElementById('addFoodBtn').disabled = true;
+        });
+    }
+    
+    // Reset modal when opening
+    const addFoodModal = document.getElementById('addFoodModal');
+    if (addFoodModal) {
+        addFoodModal.addEventListener('show.bs.modal', function(e) {
+            // Reset UI
+            document.getElementById('selectedFood').style.display = 'none';
+            document.getElementById('quantityInput').style.display = 'none';
+            document.getElementById('unitSelectorContainer').style.display = 'none';
+            document.getElementById('foodResults').innerHTML = '';
+            
+            // Clear search
+            const foodSearch = document.getElementById('foodSearch');
+            if (foodSearch) {
+                foodSearch.value = '';
+                foodSearch.focus();
+            }
+            const searchClearBtn = document.getElementById('foodSearchClearBtn');
+            if (searchClearBtn) {
+                searchClearBtn.classList.remove('show');
+            }
+            
+            selectedFood = null;
+            
+            // Set meal type from button
+            const button = e.relatedTarget;
+            if (button && button.dataset.mealType) {
+                const mealType = button.dataset.mealType;
+                document.getElementById('mealType').value = mealType;
+                
+                // Update custom dropdown
+                const mealOptions = {
+                    'breakfast': { icon: 'fa-sun', text: 'Breakfast' },
+                    'lunch': { icon: 'fa-bowl-rice', text: 'Lunch' },
+                    'dinner': { icon: 'fa-moon', text: 'Dinner' },
+                    'snack': { icon: 'fa-cookie-bite', text: 'Snacks' }
+                };
+                
+                if (mealOptions[mealType]) {
+                    const mealIcon = document.querySelector('.meal-dropdown-icon');
+                    const mealText = document.getElementById('mealDropdownText');
+                    if (mealIcon && mealText) {
+                        mealIcon.innerHTML = `<i class="fa-solid ${mealOptions[mealType].icon}"></i>`;
+                        mealText.textContent = mealOptions[mealType].text;
+                    }
+                    
+                    // Update selected option
+                    document.querySelectorAll('.meal-dropdown-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        if (opt.dataset.meal === mealType) {
+                            opt.classList.add('selected');
+                        }
+                    });
+                }
+            }
+        });
+    }
 });
 
 async function preloadAdjacentDays(currentDate) {

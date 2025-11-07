@@ -746,10 +746,12 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
 
                     <!-- Food Search -->
                     <div class="food-search-section">
-                        <label class="modal-label">Search Food</label>
+                        <label class="modal-label">
+                            <i class="fa-solid fa-magnifying-glass"></i> Search Food
+                        </label>
                         <div class="search-box-container">
                             <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                            <input type="search" class="search-box" id="foodSearch" placeholder="Type to search..." autocomplete="off" inputmode="search">
+                            <input type="search" class="search-box" id="foodSearch" placeholder="Search by name, e.g. banana, chicken..." autocomplete="off" inputmode="search">
                             <button class="search-clear-btn" id="foodSearchClearBtn" type="button">
                                 <i class="fa-solid fa-xmark"></i>
                             </button>
@@ -758,41 +760,80 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                     </div>
 
                     <!-- Selected Food Display -->
-                    <div id="selectedFood" style="display: none;" class="selected-food-card">
-                        <div class="food-header">
-                            <h6 id="selectedFoodName"></h6>
+                    <div id="selectedFood" style="display: none;" class="selected-food-card-modern">
+                        <div class="selected-food-header">
+                            <div class="selected-food-icon" id="selectedFoodIcon">
+                                <i class="fa-solid fa-bowl-food"></i>
+                            </div>
+                            <div class="selected-food-info">
+                                <h6 id="selectedFoodName" class="selected-food-name"></h6>
+                                <span id="selectedFoodCategory" class="selected-food-category">Category</span>
+                            </div>
+                            <button class="btn-change-food" id="changeFoodBtn" type="button" title="Change food">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
                         </div>
-                        <div class="food-macros-grid">
-                            <div class="macro-item">
-                                <i class="fa-solid fa-fire-flame-curved"></i>
-                                <span><strong id="selectedFoodCalories"></strong> kcal</span>
+                        <div class="food-macros-grid-modern">
+                            <div class="macro-badge">
+                                <div class="macro-badge-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                                    <i class="fa-solid fa-fire-flame-curved"></i>
+                                </div>
+                                <div class="macro-badge-content">
+                                    <span class="macro-badge-label">Calories</span>
+                                    <strong id="selectedFoodCalories" class="macro-badge-value">0</strong>
+                                </div>
                             </div>
-                            <div class="macro-item">
-                                <i class="fa-solid fa-dumbbell"></i>
-                                <span><strong id="selectedFoodProtein"></strong>g protein</span>
+                            <div class="macro-badge">
+                                <div class="macro-badge-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                    <i class="fa-solid fa-dumbbell"></i>
+                                </div>
+                                <div class="macro-badge-content">
+                                    <span class="macro-badge-label">Protein</span>
+                                    <strong id="selectedFoodProtein" class="macro-badge-value">0g</strong>
+                                </div>
                             </div>
-                            <div class="macro-item">
-                                <i class="fa-solid fa-bolt"></i>
-                                <span><strong id="selectedFoodCarbs"></strong>g carbs</span>
+                            <div class="macro-badge">
+                                <div class="macro-badge-icon" style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);">
+                                    <i class="fa-solid fa-bolt"></i>
+                                </div>
+                                <div class="macro-badge-content">
+                                    <span class="macro-badge-label">Carbs</span>
+                                    <strong id="selectedFoodCarbs" class="macro-badge-value">0g</strong>
+                                </div>
                             </div>
-                            <div class="macro-item">
-                                <i class="fa-solid fa-droplet"></i>
-                                <span><strong id="selectedFoodFat"></strong>g fat</span>
+                            <div class="macro-badge">
+                                <div class="macro-badge-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                                    <i class="fa-solid fa-droplet"></i>
+                                </div>
+                                <div class="macro-badge-content">
+                                    <span class="macro-badge-label">Fat</span>
+                                    <strong id="selectedFoodFat" class="macro-badge-value">0g</strong>
+                                </div>
                             </div>
+                        </div>
+                        <div class="per-serving-note">
+                            <i class="fa-solid fa-info-circle"></i>
+                            Per 100g serving
                         </div>
                     </div>
 
                     <!-- Unit Selector -->
                     <div id="unitSelectorContainer" style="display: none;" class="unit-selector-section">
-                        <label class="modal-label">Unit</label>
-                        <select class="form-select modern-select" id="unitSelector">
-                            <option value="gram">gram</option>
-                        </select>
+                        <label class="modal-label">
+                            <i class="fa-solid fa-scale-balanced"></i> Unit
+                        </label>
+                        <div class="simple-unit-selector">
+                            <select class="form-select unit-select-modern" id="unitSelector">
+                                <option value="gram">Gram (g)</option>
+                            </select>
+                        </div>
                     </div>
 
                     <!-- Quantity Selection -->
                     <div id="quantityInput" style="display: none;" class="quantity-section">
-                        <label class="modal-label" id="quantityLabel">Amount</label>
+                        <label class="modal-label" id="quantityLabel">
+                            <i class="fa-solid fa-calculator"></i> Amount
+                        </label>
                         
                         <!-- Quick Amount Buttons -->
                         <div id="quickAmountButtons" class="quick-amounts"></div>
@@ -809,8 +850,14 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                             </button>
                         </div>
                         
-                        <!-- Calculated Info -->
-                        <div id="calculatedInfo" class="calculated-info"></div>
+                        <!-- Unit Conversion Info -->
+                        <div id="unitConversionInfo" class="unit-conversion-info" style="display: none;">
+                            <i class="fa-solid fa-scale-balanced"></i>
+                            <span id="conversionText"></span>
+                        </div>
+                        
+                        <!-- Calculated Nutrition Preview -->
+                        <div id="calculatedInfo" class="calculated-nutrition-preview"></div>
                     </div>
                 </div>
                 <div class="modal-footer">

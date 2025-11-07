@@ -1,15 +1,230 @@
 
 const rawFoods = {
-    'banana': { name: 'Banana', calories: 89, carbs: 23, protein: 1, fat: 0, fiber: 3, image: null },
-    'apple': { name: 'Apple', calories: 52, carbs: 14, protein: 0.3, fat: 0.2, fiber: 2.4, image: null },
-    'orange': { name: 'Orange', calories: 47, carbs: 12, protein: 0.9, fat: 0.1, fiber: 2.4, image: null },
-    'chicken': { name: 'Chicken Breast', calories: 165, carbs: 0, protein: 31, fat: 3.6, fiber: 0, image: null },
-    'eggs': { name: 'Eggs', calories: 155, carbs: 1.1, protein: 13, fat: 11, fiber: 0, image: null },
-    'milk': { name: 'Milk', calories: 42, carbs: 5, protein: 3.4, fat: 1, fiber: 0, image: null },
-    'rice': { name: 'White Rice', calories: 130, carbs: 28, protein: 2.7, fat: 0.3, fiber: 0.4, image: null },
-    'oats': { name: 'Oats', calories: 389, carbs: 66, protein: 17, fat: 7, fiber: 11, image: null },
-    'spinach': { name: 'Spinach', calories: 23, carbs: 4, protein: 2.9, fat: 0.4, fiber: 2.2, image: null },
-    'cheese': { name: 'Cheese', calories: 361, carbs: 1.3, protein: 23, fat: 29, fiber: 0, image: null }
+    'banana': { 
+        name: 'Banana', 
+        calories: 89, 
+        carbs: 23, 
+        protein: 1, 
+        fat: 0, 
+        fiber: 3, 
+        image: null,
+        category: 'Fruits',
+        units: [
+            { id: 'g', name: 'gram', plural: 'grams', grams: 1 },
+            { id: 'piece', name: 'piece', plural: 'pieces', grams: 118 }
+        ],
+        defaultUnit: 'piece',
+        defaultAmount: 1
+    },
+    'apple': { 
+        name: 'Apple', 
+        calories: 52, 
+        carbs: 14, 
+        protein: 0.3, 
+        fat: 0.2, 
+        fiber: 2.4, 
+        image: null,
+        category: 'Fruits',
+        units: [
+            { id: 'g', name: 'gram', plural: 'grams', grams: 1 },
+            { id: 'piece', name: 'piece', plural: 'pieces', grams: 182 }
+        ],
+        defaultUnit: 'piece',
+        defaultAmount: 1
+    },
+    'orange': { 
+        name: 'Orange', 
+        calories: 47, 
+        carbs: 12, 
+        protein: 0.9, 
+        fat: 0.1, 
+        fiber: 2.4, 
+        image: null,
+        category: 'Fruits',
+        units: [
+            { id: 'g', name: 'gram', plural: 'grams', grams: 1 },
+            { id: 'piece', name: 'piece', plural: 'pieces', grams: 131 }
+        ],
+        defaultUnit: 'piece',
+        defaultAmount: 1
+    },
+    'chicken': { 
+        name: 'Chicken Breast', 
+        calories: 165, 
+        carbs: 0, 
+        protein: 31, 
+        fat: 3.6, 
+        fiber: 0, 
+        image: null,
+        category: 'Meat',
+        units: [
+            { id: 'g', name: 'gram', plural: 'grams', grams: 1 },
+            { id: 'portion', name: 'portion', plural: 'portions', grams: 150 }
+        ],
+        defaultUnit: 'g',
+        defaultAmount: 100
+    },
+    'eggs': { 
+        name: 'Eggs', 
+        calories: 155, 
+        carbs: 1.1, 
+        protein: 13, 
+        fat: 11, 
+        fiber: 0, 
+        image: null,
+        category: 'Dairy',
+        units: [
+            { id: 'g', name: 'gram', plural: 'grams', grams: 1 },
+            { id: 'piece', name: 'egg', plural: 'eggs', grams: 50 }
+        ],
+        defaultUnit: 'piece',
+        defaultAmount: 2
+    },
+    'milk': { 
+        name: 'Milk', 
+        calories: 42, 
+        carbs: 5, 
+        protein: 3.4, 
+        fat: 1, 
+        fiber: 0, 
+        image: null,
+        category: 'Dairy',
+        units: [
+            { id: 'g', name: 'gram', plural: 'grams', grams: 1 },
+            { id: 'ml', name: 'ml', plural: 'ml', grams: 1 },
+            { id: 'cup', name: 'cup', plural: 'cups', grams: 240 }
+        ],
+        defaultUnit: 'ml',
+        defaultAmount: 250
+    },
+    'rice': { 
+        name: 'White Rice', 
+        calories: 130, 
+        carbs: 28, 
+        protein: 2.7, 
+        fat: 0.3, 
+        fiber: 0.4, 
+        image: null,
+        category: 'Grains',
+        units: [
+            { id: 'g', name: 'gram', plural: 'grams', grams: 1 },
+            { id: 'cup', name: 'cup', plural: 'cups', grams: 158 }
+        ],
+        defaultUnit: 'g',
+        defaultAmount: 100
+    },
+    'oats': { 
+        name: 'Oats', 
+        calories: 389, 
+        carbs: 66, 
+        protein: 17, 
+        fat: 7, 
+        fiber: 11, 
+        image: null,
+        category: 'Grains',
+        units: [
+            { id: 'g', name: 'gram', plural: 'grams', grams: 1 },
+            { id: 'cup', name: 'cup', plural: 'cups', grams: 80 }
+        ],
+        defaultUnit: 'g',
+        defaultAmount: 50
+    },
+    'spinach': { 
+        name: 'Spinach', 
+        calories: 23, 
+        carbs: 4, 
+        protein: 2.9, 
+        fat: 0.4, 
+        fiber: 2.2, 
+        image: null,
+        category: 'Vegetables',
+        units: [
+            { id: 'g', name: 'gram', plural: 'grams', grams: 1 },
+            { id: 'cup', name: 'cup', plural: 'cups', grams: 30 }
+        ],
+        defaultUnit: 'g',
+        defaultAmount: 100
+    },
+    'cheese': { 
+        name: 'Cheese', 
+        calories: 361, 
+        carbs: 1.3, 
+        protein: 23, 
+        fat: 29, 
+        fiber: 0, 
+        image: null,
+        category: 'Dairy',
+        units: [
+            { id: 'g', name: 'gram', plural: 'grams', grams: 1 },
+            { id: 'slice', name: 'slice', plural: 'slices', grams: 28 }
+        ],
+        defaultUnit: 'slice',
+        defaultAmount: 2
+    },
+    'bread': { 
+        name: 'Bread', 
+        calories: 265, 
+        carbs: 49, 
+        protein: 9, 
+        fat: 3.2, 
+        fiber: 2.7, 
+        image: null,
+        category: 'Grains',
+        units: [
+            { id: 'g', name: 'gram', plural: 'grams', grams: 1 },
+            { id: 'slice', name: 'slice', plural: 'slices', grams: 30 }
+        ],
+        defaultUnit: 'slice',
+        defaultAmount: 2
+    },
+    'potato': { 
+        name: 'Potato', 
+        calories: 77, 
+        carbs: 17, 
+        protein: 2, 
+        fat: 0.1, 
+        fiber: 2.1, 
+        image: null,
+        category: 'Vegetables',
+        units: [
+            { id: 'g', name: 'gram', plural: 'grams', grams: 1 },
+            { id: 'piece', name: 'piece', plural: 'pieces', grams: 173 }
+        ],
+        defaultUnit: 'piece',
+        defaultAmount: 1
+    },
+    'carrot': { 
+        name: 'Carrot', 
+        calories: 41, 
+        carbs: 10, 
+        protein: 0.9, 
+        fat: 0.2, 
+        fiber: 2.8, 
+        image: null,
+        category: 'Vegetables',
+        units: [
+            { id: 'g', name: 'gram', plural: 'grams', grams: 1 },
+            { id: 'piece', name: 'piece', plural: 'pieces', grams: 61 }
+        ],
+        defaultUnit: 'piece',
+        defaultAmount: 1
+    },
+    'grape': { 
+        name: 'Grapes', 
+        calories: 69, 
+        carbs: 18, 
+        protein: 0.7, 
+        fat: 0.2, 
+        fiber: 0.9, 
+        image: null,
+        category: 'Fruits',
+        units: [
+            { id: 'g', name: 'gram', plural: 'grams', grams: 1 },
+            { id: 'cup', name: 'cup', plural: 'cups', grams: 151 }
+        ],
+        defaultUnit: 'cup',
+        defaultAmount: 1
+    }
 };
 
 let searchTimeout;
