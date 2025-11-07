@@ -3,6 +3,20 @@ require_once 'includes/config.php';
 require_once 'includes/auth.php';
 requireLogin();
 
+function format_number($num, $decimals = 1) {
+    if ($num === null || !is_numeric($num)) return '0';
+    
+    $rounded = round($num, $decimals);
+    
+    $formatted = number_format($rounded, $decimals, '.', '');
+    
+    if ($decimals > 0) {
+        $formatted = rtrim(rtrim($formatted, '0'), '.');
+    }
+    
+    return $formatted;
+}
+
 
 $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
 $stmt->execute([$_SESSION['user_id']]);
@@ -114,7 +128,6 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
     </nav>
 
     <div class="container-fluid px-4 py-4" style="margin-top: 20px;">
-        
         <div class="date-navigator-container mb-4">
             <div class="date-navigator">
                 <div class="date-display" id="dateDisplay" role="button" tabindex="0" title="Click to open calendar">
@@ -171,16 +184,16 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
         <div class="row g-4">
             <div class="col-lg-8">
                 <div class="card calorie-overview mb-4">
-                    <div class="card-body p-4">
-                        <div class="calorie-overview-header mb-4">
-                            <div>
-                                <h3 class="fw-bold mb-1"><?php echo date('l, F j', strtotime($selected_date)); ?></h3>
-                                <p class="text-muted mb-0">
-                                    <?php 
-                                    if ($is_today) {
-                                        echo "Today's Nutrition";
-                                    } else {
-                                        $days_diff = (strtotime($selected_date) - strtotime($today)) / 86400;
+                <div class="card-body p-4">
+                    <div class="calorie-overview-header mb-4">
+                        <div>
+                            <h3 class="fw-bold mb-1"><?php echo date('l, F j', strtotime($selected_date)); ?></h3>
+                            <p class="text-muted mb-0">
+                                <?php
+                                if ($is_today) {
+                                    echo "Today's Nutrition";
+                                } else {
+                                    $days_diff = (strtotime($selected_date) - strtotime($today)) / 86400;
                                         if ($days_diff < 0) {
                                             echo "Past Day Nutrition";
                                         } else {
@@ -194,15 +207,12 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
 
                         <div class="calorie-ring-container">
                             <svg class="calorie-ring" viewBox="0 0 240 240" preserveAspectRatio="xMidYMid meet">
-                                <!-- Background circle -->
                                 <circle cx="120" cy="120" r="95" stroke="url(#bgGradient)" stroke-width="16" fill="none" opacity="0.15"></circle>
-                                <!-- Progress circle -->
                                 <circle cx="120" cy="120" r="95" stroke="url(#<?php echo $calorie_percentage >= 100 ? 'overGradient' : 'progressGradient'; ?>)" 
                                         stroke-width="16" fill="none" stroke-dasharray="<?php echo 2 * M_PI * 95; ?>"
                                         stroke-dashoffset="<?php echo 2 * M_PI * 95 * (1 - min($calorie_percentage, 100) / 100); ?>"
                                         stroke-linecap="round" transform="rotate(-90 120 120)" class="progress-circle">
                                 </circle>
-                                <!-- Gradient definitions -->
                                 <defs>
                                     <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                                         <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
@@ -240,7 +250,7 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                                     <div class="macro-icon protein">
                                         <i class="fa-solid fa-dumbbell"></i>
                                     </div>
-                                    <h5 class="mb-1"><?php echo number_format($today_log['total_protein'], 1); ?>g</h5>
+                                    <h5 class="mb-1"><?php echo format_number($today_log['total_protein'], 1); ?>g</h5>
                                     <p class="text-muted small mb-0">Protein</p>
                                 </div>
                             </div>
@@ -249,7 +259,7 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                                     <div class="macro-icon carbs">
                                         <i class="fa-solid fa-bolt"></i>
                                     </div>
-                                    <h5 class="mb-1"><?php echo number_format($today_log['total_carbs'], 1); ?>g</h5>
+                                    <h5 class="mb-1"><?php echo format_number($today_log['total_carbs'], 1); ?>g</h5>
                                     <p class="text-muted small mb-0">Carbs</p>
                                 </div>
                             </div>
@@ -258,7 +268,7 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                                     <div class="macro-icon fat">
                                         <i class="fa-solid fa-droplet"></i>
                                     </div>
-                                    <h5 class="mb-1"><?php echo number_format($today_log['total_fat'], 1); ?>g</h5>
+                                    <h5 class="mb-1"><?php echo format_number($today_log['total_fat'], 1); ?>g</h5>
                                     <p class="text-muted small mb-0">Fat</p>
                                 </div>
                             </div>
@@ -308,9 +318,9 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                                         <div class="entry-macros mt-2">
                                             <small style="color: #6c757d;">
                                                 <?php echo number_format($entry['calories']); ?> kcal | 
-                                                P: <?php echo number_format($entry['protein'], 1); ?>g | 
-                                                C: <?php echo number_format($entry['carbs'], 1); ?>g | 
-                                                F: <?php echo number_format($entry['fat'], 1); ?>g
+                                                P: <?php echo format_number($entry['protein'], 1); ?>g | 
+                                                C: <?php echo format_number($entry['carbs'], 1); ?>g | 
+                                                F: <?php echo format_number($entry['fat'], 1); ?>g
                                             </small>
                                         </div>
                                     </div>
@@ -376,9 +386,9 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                                         <div class="entry-macros mt-2">
                                             <small style="color: #6c757d;">
                                                 <?php echo number_format($entry['calories']); ?> kcal | 
-                                                P: <?php echo number_format($entry['protein'], 1); ?>g | 
-                                                C: <?php echo number_format($entry['carbs'], 1); ?>g | 
-                                                F: <?php echo number_format($entry['fat'], 1); ?>g
+                                                P: <?php echo format_number($entry['protein'], 1); ?>g | 
+                                                C: <?php echo format_number($entry['carbs'], 1); ?>g | 
+                                                F: <?php echo format_number($entry['fat'], 1); ?>g
                                             </small>
                                         </div>
                                     </div>
@@ -444,9 +454,9 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                                         <div class="entry-macros mt-2">
                                             <small style="color: #6c757d;">
                                                 <?php echo number_format($entry['calories']); ?> kcal | 
-                                                P: <?php echo number_format($entry['protein'], 1); ?>g | 
-                                                C: <?php echo number_format($entry['carbs'], 1); ?>g | 
-                                                F: <?php echo number_format($entry['fat'], 1); ?>g
+                                                P: <?php echo format_number($entry['protein'], 1); ?>g | 
+                                                C: <?php echo format_number($entry['carbs'], 1); ?>g | 
+                                                F: <?php echo format_number($entry['fat'], 1); ?>g
                                             </small>
                                         </div>
                                     </div>
@@ -512,9 +522,9 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                                         <div class="entry-macros mt-2">
                                             <small style="color: #6c757d;">
                                                 <?php echo number_format($entry['calories']); ?> kcal | 
-                                                P: <?php echo number_format($entry['protein'], 1); ?>g | 
-                                                C: <?php echo number_format($entry['carbs'], 1); ?>g | 
-                                                F: <?php echo number_format($entry['fat'], 1); ?>g
+                                                P: <?php echo format_number($entry['protein'], 1); ?>g | 
+                                                C: <?php echo format_number($entry['carbs'], 1); ?>g | 
+                                                F: <?php echo format_number($entry['fat'], 1); ?>g
                                             </small>
                                         </div>
                                     </div>
@@ -540,9 +550,7 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                 </div>
             </div>
 
-            
             <div class="col-lg-4">
-                
                 <div class="card goals-card mb-4">
                     <div class="card-body">
                         <div class="goals-header">
@@ -593,7 +601,6 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                     </div>
                 </div>
 
-                
                 <div class="card progress-tracker-card">
                     <div class="card-body">
                         <div class="progress-tracker-header">
@@ -617,7 +624,7 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                                     </div>
                                 </div>
                                 <div class="progress-tracker-percentage">
-                                    <?php echo number_format($calorie_percentage, 1); ?>%
+                                    <?php echo format_number($calorie_percentage, 1); ?>%
                                 </div>
                             </div>
                             
@@ -645,7 +652,6 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                     </div>
                 </div>
 
-                
                 <div class="card water-tracker-card mt-4" id="waterTrackerCard">
                     <div class="card-body">
                         <div class="water-header">
@@ -697,7 +703,6 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
         </div>
     </div>
 
-    
     <div class="modal fade" id="addFoodModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -708,7 +713,6 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                     </button>
                 </div>
                 <div class="modal-body">
-                    <!-- Meal Selection -->
                     <div class="meal-selector">
                         <label class="modal-label">Select Meal</label>
                         <div class="meal-dropdown-wrapper">
@@ -744,7 +748,6 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                         </select>
                     </div>
 
-                    <!-- Food Search -->
                     <div class="food-search-section">
                         <label class="modal-label">
                             <i class="fa-solid fa-magnifying-glass"></i> Search Food
@@ -759,7 +762,6 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                         <div id="foodResults" class="food-results-list"></div>
                     </div>
 
-                    <!-- Selected Food Display -->
                     <div id="selectedFood" style="display: none;" class="selected-food-card-modern">
                         <div class="selected-food-header">
                             <div class="selected-food-icon" id="selectedFoodIcon">
@@ -817,7 +819,6 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                         </div>
                     </div>
 
-                    <!-- Unit Selector -->
                     <div id="unitSelectorContainer" style="display: none;" class="unit-selector-section">
                         <label class="modal-label">
                             <i class="fa-solid fa-scale-balanced"></i> Unit
@@ -829,16 +830,13 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                         </div>
                     </div>
 
-                    <!-- Quantity Selection -->
                     <div id="quantityInput" style="display: none;" class="quantity-section">
                         <label class="modal-label" id="quantityLabel">
                             <i class="fa-solid fa-calculator"></i> Amount
                         </label>
                         
-                        <!-- Quick Amount Buttons -->
                         <div id="quickAmountButtons" class="quick-amounts"></div>
                         
-                        <!-- Quantity Input -->
                         <div class="quantity-input-group">
                             <button class="qty-btn-modern" type="button" id="decreaseQty">
                                 <i class="fa-solid fa-minus"></i>
@@ -850,13 +848,11 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
                             </button>
                         </div>
                         
-                        <!-- Unit Conversion Info -->
                         <div id="unitConversionInfo" class="unit-conversion-info" style="display: none;">
                             <i class="fa-solid fa-scale-balanced"></i>
                             <span id="conversionText"></span>
                         </div>
                         
-                        <!-- Calculated Nutrition Preview -->
                         <div id="calculatedInfo" class="calculated-nutrition-preview"></div>
                     </div>
                 </div>
@@ -868,7 +864,6 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
         </div>
     </div>
 
-    
     <div class="modal fade" id="deleteConfirmModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content" style="border-radius: 15px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
@@ -887,7 +882,6 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
         </div>
     </div>
 
-    
     <div class="modal fade" id="waterResetModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-sm">
             <div class="modal-content" style="border-radius: 20px; border: none; box-shadow: 0 10px 40px rgba(6, 182, 212, 0.3); overflow: hidden;">
@@ -1064,14 +1058,13 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
         <i class="fa-solid fa-chevron-right"></i>
     </div>
 
-    <!-- Floating Action Button -->
     <button class="fab-add-food" data-bs-toggle="modal" data-bs-target="#addFoodModal">
         <i class="fa-solid fa-plus"></i>
         <span class="fab-tooltip">Add Food</span>
     </button>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/dashboard.js"></script>
+    <script src="js/dashboard.js?v=<?php echo time(); ?>"></script>
 </body>
 </html>
 

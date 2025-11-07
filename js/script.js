@@ -23,11 +23,9 @@ document.addEventListener('DOMContentLoaded', function () {
 		})
 	)
 
-	
 	window.addEventListener('scroll', updateShadow, { passive: true })
 	window.addEventListener('click', updateShadow, { passive: true })
 
-	
 	updateShadow()
 })
 let products = []

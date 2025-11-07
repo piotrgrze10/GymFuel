@@ -2,6 +2,18 @@ let selectedFood = null;
 let searchTimeout = null;
 let currentSelectedUnit = null;
 
+function formatNumber(num, maxDecimals = 1) {
+    if (num === null || num === undefined) return '0';
+    
+    const parsed = Number(num);
+    if (!isFinite(parsed)) return '0';
+    
+    const rounded = Math.round(parsed * Math.pow(10, maxDecimals)) / Math.pow(10, maxDecimals);
+    const fixed = rounded.toFixed(maxDecimals);
+    
+    return fixed.replace(/\.?0+$/, '');
+}
+
 function cleanupModalBackdrop() {
     setTimeout(() => {
         document.body.classList.remove('modal-open');
@@ -99,6 +111,17 @@ if (foodSearchClearBtn && foodSearchInput) {
         foodSearchInput.focus();
         foodSearchClearBtn.classList.remove('show');
         document.getElementById('foodResults').innerHTML = '';
+        
+        document.getElementById('selectedFood').style.display = 'none';
+        document.getElementById('quantityInput').style.display = 'none';
+        document.getElementById('unitSelectorContainer').style.display = 'none';
+        selectedFood = null;
+        currentSelectedUnit = null;
+        document.getElementById('addFoodBtn').disabled = true;
+        
+        document.querySelectorAll('.food-item').forEach(item => {
+            item.classList.remove('selected');
+        });
     });
 }
 
@@ -193,8 +216,8 @@ function displayFoodResults(foods) {
                 ${food.name}
             </h6>
             <small>
-                <strong>${food.calories} kcal</strong> per 100g
-                • P: ${food.protein}g • C: ${food.carbs}g • F: ${food.fat}g
+                <strong>${formatNumber(food.calories, 0)} kcal</strong> per 100g
+                • P: ${formatNumber(food.protein, 1)}g • C: ${formatNumber(food.carbs, 1)}g • F: ${formatNumber(food.fat, 1)}g
             </small>
         </div>
         `;
@@ -205,10 +228,6 @@ function displayFoodResults(foods) {
             selectFood(this);
         });
     });
-}
-
-function formatNumber(num) {
-    return num.toString().replace(/\.0+$/, '');
 }
 
 function getUnitIcon(unitName) {
@@ -241,7 +260,6 @@ function createUnitSelector() {
     const defaultUnit = selectedFood.availableUnits.find(u => u.is_default) || selectedFood.availableUnits[0];
     currentSelectedUnit = defaultUnit;
     
-    // Simple select dropdown
     const unitSelector = document.getElementById('unitSelector');
     unitSelector.innerHTML = selectedFood.availableUnits.map(unit => {
         const weightInfo = unit.weight_in_grams > 1 ? ` (${unit.weight_in_grams}g)` : '';
@@ -256,7 +274,6 @@ function createUnitSelector() {
         `;
     }).join('');
     
-    // Event listener for unit change
     unitSelector.onchange = function() {
         const selectedOption = this.options[this.selectedIndex];
         currentSelectedUnit = {
@@ -420,7 +437,6 @@ function selectFood(element) {
         console.error('Error parsing units:', e);
     }
     
-    // Get food name without icon
     const foodName = element.dataset.foodName || element.querySelector('h6').textContent.trim();
     const iconClass = element.dataset.foodIcon || getFoodIcon(foodName);
     const category = element.dataset.foodCategory || 'General';
@@ -443,7 +459,6 @@ function selectFood(element) {
     selectedFoodCard.style.display = 'block';
     document.getElementById('quantityInput').style.display = 'block';
     
-    // Update new modern UI
     document.getElementById('selectedFoodName').textContent = selectedFood.name;
     document.getElementById('selectedFoodCategory').textContent = selectedFood.category;
     document.getElementById('selectedFoodIcon').innerHTML = `<i class="fa-solid ${iconClass}"></i>`;
@@ -499,7 +514,7 @@ function createQuickAmountButtons() {
         amounts = [1, 2, 3, 4];
     }
     
-        amounts.forEach(amount => {
+    amounts.forEach(amount => {
             const btn = document.createElement('button');
             btn.type = 'button';
             btn.className = 'btn btn-outline-primary';
@@ -569,7 +584,6 @@ function updateQuantityDisplay() {
     const carbs = selectedFood.carbs * multiplier;
     const fat = selectedFood.fat * multiplier;
     
-    // Update unit conversion info
     const conversionInfo = document.getElementById('unitConversionInfo');
     const conversionText = document.getElementById('conversionText');
     
@@ -581,7 +595,6 @@ function updateQuantityDisplay() {
         conversionInfo.style.display = 'none';
     }
     
-    // Update calculated nutrition preview
     const calculatedInfo = document.getElementById('calculatedInfo');
     calculatedInfo.innerHTML = `
         <div class="nutrition-preview-title">
@@ -590,19 +603,19 @@ function updateQuantityDisplay() {
         </div>
         <div class="nutrition-preview-grid">
             <div class="nutrition-preview-item total-calories-highlight">
-                <div class="nutrition-preview-value">${Math.round(calories)}</div>
+                <div class="nutrition-preview-value">${formatNumber(calories, 0)}</div>
                 <div class="nutrition-preview-label">Calories</div>
             </div>
             <div class="nutrition-preview-item">
-                <div class="nutrition-preview-value">${formatNumber(Math.round(protein * 10) / 10)}g</div>
+                <div class="nutrition-preview-value">${formatNumber(protein, 1)}g</div>
                 <div class="nutrition-preview-label">Protein</div>
             </div>
             <div class="nutrition-preview-item">
-                <div class="nutrition-preview-value">${formatNumber(Math.round(carbs * 10) / 10)}g</div>
+                <div class="nutrition-preview-value">${formatNumber(carbs, 1)}g</div>
                 <div class="nutrition-preview-label">Carbs</div>
             </div>
             <div class="nutrition-preview-item">
-                <div class="nutrition-preview-value">${formatNumber(Math.round(fat * 10) / 10)}g</div>
+                <div class="nutrition-preview-value">${formatNumber(fat, 1)}g</div>
                 <div class="nutrition-preview-label">Fat</div>
             </div>
         </div>
@@ -663,7 +676,6 @@ document.getElementById('addFoodBtn').addEventListener('click', async function()
 
 let pendingDeleteEntryId = null;
 
-
 document.querySelectorAll('.btn-remove-entry').forEach(btn => {
     btn.addEventListener('click', function() {
         const entryId = this.dataset.entryId;
@@ -673,7 +685,6 @@ document.querySelectorAll('.btn-remove-entry').forEach(btn => {
         deleteModal.show();
     });
 });
-
 
 document.getElementById('confirmDeleteBtn').addEventListener('click', async function() {
     if (!pendingDeleteEntryId) return;
@@ -1152,7 +1163,7 @@ function updateDailyProgress(data) {
     
     const progressPercentage = document.querySelector('.progress-tracker-percentage');
     if (progressPercentage) {
-        progressPercentage.textContent = `${data.calorie_percentage.toFixed(1)}%`;
+        progressPercentage.textContent = `${formatNumber(data.calorie_percentage, 1)}%`;
     }
     
     const progressFill = document.querySelector('.progress-tracker-fill');
@@ -1229,11 +1240,11 @@ function updateMacros(dailyLog) {
         if (!icon || !h5) return;
         
         if (icon.classList.contains('protein')) {
-            h5.textContent = `${parseFloat(dailyLog.total_protein).toFixed(1)}g`;
+            h5.textContent = `${formatNumber(parseFloat(dailyLog.total_protein), 1)}g`;
         } else if (icon.classList.contains('carbs')) {
-            h5.textContent = `${parseFloat(dailyLog.total_carbs).toFixed(1)}g`;
+            h5.textContent = `${formatNumber(parseFloat(dailyLog.total_carbs), 1)}g`;
         } else if (icon.classList.contains('fat')) {
-            h5.textContent = `${parseFloat(dailyLog.total_fat).toFixed(1)}g`;
+            h5.textContent = `${formatNumber(parseFloat(dailyLog.total_fat), 1)}g`;
         }
     });
 }
@@ -1284,9 +1295,9 @@ function updateMeals(entriesByMeal, mealCalories) {
                         <div class="entry-macros mt-2">
                             <small style="color: #6c757d;">
                                 ${Math.round(entry.calories)} kcal | 
-                                P: ${parseFloat(entry.protein).toFixed(1)}g | 
-                                C: ${parseFloat(entry.carbs).toFixed(1)}g | 
-                                F: ${parseFloat(entry.fat).toFixed(1)}g
+                                P: ${formatNumber(parseFloat(entry.protein), 1)}g | 
+                                C: ${formatNumber(parseFloat(entry.carbs), 1)}g | 
+                                F: ${formatNumber(parseFloat(entry.fat), 1)}g
                             </small>
                         </div>
                     </div>
@@ -1510,7 +1521,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     attachDeleteHandlers();
     
-    // Change Food Button
     const changeFoodBtn = document.getElementById('changeFoodBtn');
     if (changeFoodBtn) {
         changeFoodBtn.addEventListener('click', function() {
@@ -1527,17 +1537,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Reset modal when opening
     const addFoodModal = document.getElementById('addFoodModal');
     if (addFoodModal) {
         addFoodModal.addEventListener('show.bs.modal', function(e) {
-            // Reset UI
             document.getElementById('selectedFood').style.display = 'none';
             document.getElementById('quantityInput').style.display = 'none';
             document.getElementById('unitSelectorContainer').style.display = 'none';
             document.getElementById('foodResults').innerHTML = '';
             
-            // Clear search
             const foodSearch = document.getElementById('foodSearch');
             if (foodSearch) {
                 foodSearch.value = '';
@@ -1550,13 +1557,11 @@ document.addEventListener('DOMContentLoaded', function() {
             
             selectedFood = null;
             
-            // Set meal type from button
             const button = e.relatedTarget;
             if (button && button.dataset.mealType) {
                 const mealType = button.dataset.mealType;
                 document.getElementById('mealType').value = mealType;
                 
-                // Update custom dropdown
                 const mealOptions = {
                     'breakfast': { icon: 'fa-sun', text: 'Breakfast' },
                     'lunch': { icon: 'fa-bowl-rice', text: 'Lunch' },
@@ -1572,7 +1577,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         mealText.textContent = mealOptions[mealType].text;
                     }
                     
-                    // Update selected option
                     document.querySelectorAll('.meal-dropdown-option').forEach(opt => {
                         opt.classList.remove('selected');
                         if (opt.dataset.meal === mealType) {

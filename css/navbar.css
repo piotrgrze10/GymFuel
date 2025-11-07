@@ -108,7 +108,6 @@ nav .navbar-brand:hover .blue-text {
     }
 }
 
-/* Mobile Optimizations */
 @media (max-width: 768px) {
     nav.navbar {
         padding: 0.5rem 0 !important;

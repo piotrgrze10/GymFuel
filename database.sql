@@ -87,7 +87,6 @@ CREATE INDEX idx_log_date ON daily_logs(log_date);
 CREATE INDEX idx_log_user ON daily_logs(user_id);
 CREATE INDEX idx_entry_log ON food_entries(log_id);
 
--- Insert sample food data
 INSERT INTO food_database (name, calories, protein, carbs, fat, fiber, sugar, unit_type, unit_name, weight_per_unit) VALUES
 ('Apple', 52, 0.3, 14, 0.2, 2.4, 10.4, 'grams', 'g', 100.00),
 ('Banana', 89, 1.1, 23, 0.3, 2.6, 12.2, 'grams', 'g', 100.00),

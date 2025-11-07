@@ -1,4 +1,3 @@
-
 const rawFoods = {
     'banana': { 
         name: 'Banana', 
@@ -234,6 +233,18 @@ const productsPerPage = 12;
 let currentProduct = null;
 let currentSort = 'relevance';
 let favorites = JSON.parse(localStorage.getItem('productFavorites') || '[]');
+
+function formatNumber(num, maxDecimals = 1) {
+    if (num === null || num === undefined) return '0';
+    
+    const parsed = Number(num);
+    if (!isFinite(parsed)) return '0';
+    
+    const rounded = Math.round(parsed * Math.pow(10, maxDecimals)) / Math.pow(10, maxDecimals);
+    const fixed = rounded.toFixed(maxDecimals);
+    
+    return fixed.replace(/\.?0+$/, '');
+}
 
 const categoryTerms = {
     'fruits': ['apple', 'banana', 'orange'],
@@ -687,28 +698,28 @@ function calculateNutrition(weightInGrams) {
     const nutrition = currentProduct.nutriments;
     const multiplier = weightInGrams / 100;
     
-    const calories = nutrition['energy-kcal'] != null ? Math.round(nutrition['energy-kcal'] * multiplier) : 0;
-    const carbs = nutrition['carbohydrates'] != null ? Math.round(nutrition['carbohydrates'] * multiplier) : 0;
-    const protein = nutrition['proteins'] != null ? Math.round(nutrition['proteins'] * multiplier) : 0;
-    const fat = nutrition['fat'] != null ? Math.round(nutrition['fat'] * multiplier) : 0;
+    const calories = nutrition['energy-kcal'] != null ? nutrition['energy-kcal'] * multiplier : 0;
+    const carbs = nutrition['carbohydrates'] != null ? nutrition['carbohydrates'] * multiplier : 0;
+    const protein = nutrition['proteins'] != null ? nutrition['proteins'] * multiplier : 0;
+    const fat = nutrition['fat'] != null ? nutrition['fat'] * multiplier : 0;
     
     const display = document.getElementById('nutritionDisplay');
     display.innerHTML = `
         <div class="calories-container">
-            <div class="main-value">${calories}</div>
+            <div class="main-value">${formatNumber(calories, 0)}</div>
             <div class="main-label">Calories</div>
         </div>
         <div class="nutrition-details">
             <div class="nutrition-item">
-                <div class="nutrition-item-value">${protein}g</div>
+                <div class="nutrition-item-value">${formatNumber(protein, 1)}g</div>
                 <div class="nutrition-item-label">Protein</div>
             </div>
             <div class="nutrition-item">
-                <div class="nutrition-item-value">${carbs}g</div>
+                <div class="nutrition-item-value">${formatNumber(carbs, 1)}g</div>
                 <div class="nutrition-item-label">Carbs</div>
             </div>
             <div class="nutrition-item">
-                <div class="nutrition-item-value">${fat}g</div>
+                <div class="nutrition-item-value">${formatNumber(fat, 1)}g</div>
                 <div class="nutrition-item-label">Fat</div>
             </div>
         </div>

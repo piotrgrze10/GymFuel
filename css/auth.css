@@ -228,7 +228,6 @@ body {
 }
 
 .form-group label i {
-    
     color: #3C4B7E;
     font-size: 0.9rem;
 }
@@ -591,7 +590,6 @@ body {
   color: #ff6b6b !important;
 }
 
-/* Mobile Optimizations - 768px and below */
 @media (max-width: 768px) {
     body {
         font-size: 16px;
@@ -630,7 +628,6 @@ body {
         min-height: auto;
     }
     
-    /* Typography */
     .auth-header h2 {
         font-size: 1.4rem;
     }
@@ -639,14 +636,12 @@ body {
         font-size: 0.9rem;
     }
     
-    /* Buttons - touch-friendly (min 44x44px) */
     .btn-auth {
         min-height: 44px;
         padding: 14px 24px;
         font-size: 16px;
     }
     
-    /* Form inputs - touch-friendly */
     .form-group input,
     .form-group select {
         font-size: 16px !important;
@@ -658,7 +653,6 @@ body {
         font-size: 0.95rem;
     }
     
-    /* Progress steps */
     .progress-steps .step {
         width: 36px;
         height: 36px;
@@ -667,7 +661,6 @@ body {
         min-height: 36px;
     }
     
-    /* Activity options */
     .activity-options {
         grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
         gap: 8px;
@@ -686,7 +679,6 @@ body {
         font-size: 0.8rem;
     }
     
-    /* Goal options */
     .goal-options {
         grid-template-columns: 1fr;
         gap: 10px;
@@ -702,7 +694,6 @@ body {
     }
 }
 
-/* Small Mobile - 576px and below */
 @media (max-width: 576px) {
     body {
         padding: 10px;
@@ -745,7 +736,6 @@ body {
     }
 }
 
-/* Extra Small Mobile - 480px and below */
 @media (max-width: 480px) {
     .progress-steps .step {
         width: 32px;
@@ -772,7 +762,6 @@ body {
     }
 }
 
-/* Very Small Mobile - 375px and below */
 @media (max-width: 375px) {
     body {
         padding: 8px;
@@ -797,7 +786,6 @@ body {
     }
 }
 
-/* Tiny Mobile - 320px and below */
 @media (max-width: 320px) {
     .auth-card {
         padding: 15px 8px;

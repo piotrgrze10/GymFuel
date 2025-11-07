@@ -19,7 +19,6 @@ session_start();
     <link rel="stylesheet" href="css/search.css?v=1.0.3">
 </head>
 <body>
-    
     <nav class="navbar navbar-expand-lg position-fixed top-0 w-100 py-3">
         <div class="container">
             <?php $logged_in = isset($_SESSION['user_id']); ?>
@@ -176,11 +175,10 @@ session_start();
                 <div id="calcProductImage" style="width: 60px; height: 60px; margin: 0 auto 10px; border-radius: 10px; overflow: hidden; background: linear-gradient(135deg, #039dff 0%, #0066cc 100%); display: flex; align-items: center; justify-content: center;">
                     <i class="fa-solid fa-bowl-food" style="font-size: 24px; color: white;"></i>
                 </div>
-                <h2 id="calcProductName"></h2>
+                    <h2 id="calcProductName"></h2>
                 <p>Select portion size or enter custom weight (grams)</p>
             </div>
             <div class="serving-options" id="servingOptions">
-            
             </div>
             <input type="number" 
                    id="customWeight" 
@@ -190,12 +188,11 @@ session_start();
                    step="0.1"
                    style="direction: ltr !important; text-align: left !important;">
             <div class="nutrition-display" id="nutritionDisplay">
-                
             </div>
         </div>
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/search_products.js?v=1.0.0"></script>
+    <script src="js/search_products.js?v=999999"></script>
 </body>
 </html>

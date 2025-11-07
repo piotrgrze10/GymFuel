@@ -127,7 +127,6 @@ header.hero-img {
 	background-image: url('../img/diet-695723_640.jpg');
 	background-size: cover;
 	background-position: center;
-	
 	background-attachment: scroll;
 	color: #fff;
 	z-index: 0;
@@ -253,7 +252,6 @@ header.hero-img .fa-chevron-down {
 	background-image: url('../img/cosmos-1866820_1280.jpg');
 	background-size: cover;
 	background-position: center;
-	
 	background-attachment: scroll;
 	color: white;
 	z-index: 0;
@@ -1053,7 +1051,6 @@ a:hover {
 	background: white;
 	display: flex;
 	flex-direction: column;
-	
 	contain: paint;
 }
 
@@ -1111,7 +1108,6 @@ a:hover {
 	height: 300px;
 	object-fit: cover;
 	transition: transform 0.4s ease;
-	
 	will-change: transform;
 	transform: translateZ(0);
 }
@@ -1181,9 +1177,7 @@ a:hover {
 	}
 }
 
-/* Mobile Optimizations - 768px and below */
 @media (max-width: 768px) {
-	/* Typography - ensure minimum 16px for readability */
 	body {
 		font-size: 16px;
 	}
@@ -1201,7 +1195,6 @@ a:hover {
 		font-size: 1.75rem;
 	}
 	
-	/* Buttons - ensure minimum 44x44px touch target */
 	.btn, .btn-outline-light, button {
 		min-height: 44px;
 		min-width: 44px;
@@ -1209,7 +1202,6 @@ a:hover {
 		font-size: 16px;
 	}
 	
-	/* Form inputs - touch-friendly */
 	input[type="text"],
 	input[type="email"],
 	input[type="password"],
@@ -1222,13 +1214,11 @@ a:hover {
 		padding: 12px 16px;
 	}
 	
-	/* Container padding */
 	.container {
 		padding-left: 15px;
 		padding-right: 15px;
 	}
 	
-	/* Section padding */
 	section {
 		padding: 40px 0 !important;
 	}
@@ -1245,7 +1235,6 @@ a:hover {
 		padding: 40px 0 !important;
 	}
 	
-	/* Grid layouts - change to single column */
 	.row {
 		margin-left: -10px;
 		margin-right: -10px;
@@ -1257,7 +1246,6 @@ a:hover {
 		margin-bottom: 20px;
 	}
 	
-	/* Feature cards - single column */
 	.feature-offer-card {
 		margin-bottom: 20px;
 		padding: 20px !important;
@@ -1267,13 +1255,11 @@ a:hover {
 		font-size: 2.5rem;
 	}
 	
-	/* Testimonials - single column */
 	.testimonial-card {
 		margin-bottom: 20px;
 		padding: 20px !important;
 	}
 	
-	/* Stats grid - 2 columns on mobile */
 	.aboutus-new .stat-item {
 		padding: 15px;
 	}
@@ -1282,7 +1268,6 @@ a:hover {
 		font-size: 2.5rem;
 	}
 	
-	/* Overlapping cards */
 	.overlapping-cards {
 		padding: 40px 0;
 	}
@@ -1357,7 +1342,6 @@ a:hover {
 		border-width: 6px;
 	}
 	
-	/* Footer */
 	footer {
 		padding: 30px 15px !important;
 	}
@@ -1374,7 +1358,6 @@ a:hover {
 	}
 }
 
-/* Small Mobile - 576px and below */
 @media (max-width: 576px) {
 	.hero-title {
 		font-size: 1.75rem;
@@ -1396,14 +1379,12 @@ a:hover {
 		padding: 0 15px;
 	}
 	
-	/* Buttons - larger on small screens */
 	.btn, .btn-outline-light, button {
 		min-height: 48px;
 		padding: 14px 24px;
 		font-size: 16px;
 	}
 	
-	/* Overlapping cards - smaller on small screens */
 	.overlap-card:first-child,
 	.overlap-card:nth-child(5) {
 		display: none;
@@ -1446,7 +1427,6 @@ a:hover {
 		border-radius: 15px;
 	}
 	
-	/* Typography adjustments */
 	.aboutus-new h3 {
 		font-size: 1.5rem;
 	}
@@ -1471,7 +1451,6 @@ a:hover {
 		font-size: 1.1rem;
 	}
 	
-	/* Footer */
 	footer h4, footer h5 {
 		font-size: 1.1rem;
 	}
@@ -1487,7 +1466,6 @@ a:hover {
 	}
 }
 
-/* Extra Small Mobile - 414px and below */
 @media (max-width: 414px) {
 	.hero-title {
 		font-size: 1.5rem;
@@ -1521,7 +1499,6 @@ a:hover {
 	}
 }
 
-/* Very Small Mobile - 375px and below */
 @media (max-width: 375px) {
 	.hero-title {
 		font-size: 1.4rem;
@@ -1541,7 +1518,6 @@ a:hover {
 	}
 }
 
-/* Tiny Mobile - 320px and below */
 @media (max-width: 320px) {
 	.hero-title {
 		font-size: 1.25rem;
