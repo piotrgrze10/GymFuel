@@ -26,6 +26,7 @@ if ($logged_in) {
     <script src="https://kit.fontawesome.com/897067be39.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/navbar.css?v=NOWRAP_FIX">
     <link rel="stylesheet" href="css/bmi.css?v=2.0">
+    <link rel="stylesheet" href="css/footer.css">
 </head>
 <body style="padding-top: 76px;" class="bmi-page">
     <nav class="navbar navbar-expand-lg position-fixed top-0 w-100 py-3">
@@ -41,6 +42,7 @@ if ($logged_in) {
                     <li class="nav-item"><a class="nav-link active" href="bmi_calculator.php">BMI Calculator</a></li>
                     <?php if ($logged_in): ?>
                         <li class="nav-item"><a class="nav-link" href="dashboard.php">Dashboard</a></li>
+                        <li class="nav-item"><a class="nav-link" href="profile.php">Profile</a></li>
                         <li class="nav-item">
                             <span class="nav-link text-primary">
                                 <i class="fa-solid fa-user"></i> <?php echo htmlspecialchars($user['first_name'] . ' ' . $user['last_name']); ?>
@@ -179,6 +181,8 @@ if ($logged_in) {
             <?php endif; ?>
         </div>
     </div>
+
+    <?php include 'includes/footer.php'; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>

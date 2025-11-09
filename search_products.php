@@ -15,8 +15,8 @@ session_start();
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/897067be39.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/navbar.css?v=NOWRAP_FIX">
-    <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/search.css?v=1.0.3">
+    <link rel="stylesheet" href="css/footer.css">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg position-fixed top-0 w-100 py-3">
@@ -32,6 +32,7 @@ session_start();
                     <li class="nav-item"><a class="nav-link active" href="search_products.php">Search Products</a></li>
                     <?php if ($logged_in): ?>
                         <li class="nav-item"><a class="nav-link" href="bmi_calculator.php">BMI Calculator</a></li>
+                        <li class="nav-item"><a class="nav-link" href="profile.php">Profile</a></li>
                         <li class="nav-item"><a class="nav-link" href="auth/logout.php">Logout</a></li>
                     <?php else: ?>
                         <li class="nav-item"><a class="nav-link" href="auth/login.php">Login</a></li>
@@ -145,29 +146,6 @@ session_start();
         </div>
     </div>
 
-    <div class="footer">
-        <div class="footer-content">
-            <h3><i class="fa-solid fa-fire-flame-curved"></i> Gym<span style="color: #039dff;">Fuel</span></h3>
-            <p>Track your nutrition and fuel your fitness journey</p>
-            <p style="font-size: 13px; color: #999;">Complete nutritional database for your fitness goals</p>
-            <div class="footer-links">
-                <a href="<?php echo $logged_in ? 'dashboard.php' : 'index.php'; ?>">
-                    <i class="fa-solid fa-home"></i> Home
-                </a>
-                <a href="search_products.php">
-                    <i class="fa-solid fa-magnifying-glass"></i> Search
-                </a>
-                <?php if ($logged_in): ?>
-                    <a href="dashboard.php">
-                        <i class="fa-solid fa-dashboard"></i> Dashboard
-                    </a>
-                <?php endif; ?>
-            </div>
-            <div class="footer-copyright">
-                <p>&copy; <?php echo date('Y'); ?> GymFuel. Complete nutritional data for fitness.</p>
-            </div>
-        </div>
-    </div>
 
     <div id="calculatorModal" class="calculator-modal">
         <div class="calculator-content" style="position: relative;">
@@ -193,6 +171,11 @@ session_start();
         </div>
     </div>
     
+    <?php 
+    $logged_in = isset($_SESSION['user_id']);
+    include 'includes/footer.php'; 
+    ?>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/search_products.js?v=999999"></script>
 </body>

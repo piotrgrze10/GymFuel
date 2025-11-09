@@ -119,6 +119,7 @@ $nutrition_label = $is_today ? "Today's Nutrition" : ($days_diff < 0 ? "Past Day
     <script src="https://kit.fontawesome.com/897067be39.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/navbar.css?v=NOWRAP_FIX">
     <link rel="stylesheet" href="css/dashboard.css?v=fab-fixed-v12">
+    <link rel="stylesheet" href="css/footer.css">
 </head>
 <body style="padding-top: 76px;">
     <nav class="navbar navbar-expand-lg position-fixed top-0 w-100 py-3">
@@ -132,6 +133,7 @@ $nutrition_label = $is_today ? "Today's Nutrition" : ($days_diff < 0 ? "Past Day
                     <li class="nav-item"><a class="nav-link active" href="dashboard.php">Dashboard</a></li>
                     <li class="nav-item"><a class="nav-link" href="search_products.php">Search Products</a></li>
                     <li class="nav-item"><a class="nav-link" href="bmi_calculator.php">BMI Calculator</a></li>
+                    <li class="nav-item"><a class="nav-link" href="profile.php">Profile</a></li>
                     <li class="nav-item">
                         <span class="nav-link text-primary">
                             <i class="fa-solid fa-user"></i> <?php echo htmlspecialchars($_SESSION['user_name']); ?>
@@ -1078,6 +1080,11 @@ $nutrition_label = $is_today ? "Today's Nutrition" : ($days_diff < 0 ? "Past Day
         <i class="fa-solid fa-plus"></i>
         <span class="fab-tooltip">Add Food</span>
     </button>
+
+    <?php 
+    $logged_in = true; // Always logged in on dashboard
+    include 'includes/footer.php'; 
+    ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
