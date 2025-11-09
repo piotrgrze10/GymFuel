@@ -25,7 +25,7 @@ require_once 'includes/config.php';
     <link rel="preload" as="image" href="./img/person1.jpg">
     <link rel="preload" as="image" href="./img/person2.jpg">
     <link rel="preload" as="image" href="./img/person3.jpg">
-    <link rel="stylesheet" href="./css/navbar.css?v=ULTRAFIX">
+    <link rel="stylesheet" href="./css/navbar.css?v=NOWRAP_FIX">
     <link rel="stylesheet" href="./css/main.css?v=MOBILE_VISIBLE_TEXT">
     <script src="https://kit.fontawesome.com/897067be39.js" crossorigin="anonymous"></script>
 </head>
@@ -45,6 +45,7 @@ require_once 'includes/config.php';
                     <li class="nav-item"><a class="nav-link" href="#features">Offer</a></li>
                     <li class="nav-item"><a class="nav-link" href="#achievements">Achievements</a></li>
                     <li class="nav-item"><a class="nav-link" href="./search_products.php">Search products</a></li>
+                    <li class="nav-item"><a class="nav-link" href="bmi_calculator.php">BMI Calculator</a></li>
                     <?php if (isLoggedIn()): ?>
                         <li class="nav-item"><a class="nav-link" href="dashboard.php">Dashboard</a></li>
                         <li class="nav-item"><a class="nav-link" href="auth/logout.php">Logout</a></li>

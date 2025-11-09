@@ -1,6 +1,14 @@
 let selectedFood = null;
 let searchTimeout = null;
 let currentSelectedUnit = null;
+const dayDataCache = new Map();
+
+if (window.initialDashboardData) {
+    dayDataCache.set(window.initialDashboardData.date, {
+        success: true,
+        ...window.initialDashboardData
+    });
+}
 
 function formatNumber(num, maxDecimals = 1) {
     if (num === null || num === undefined) return '0';
@@ -779,10 +787,20 @@ class WaterTracker {
             this.currentDate = pageDate;
         }
         this.ensureStorageShape();
-        this.loadForDate(this.currentDate);
+        this.loadFromDayData();
         this.updateDisplay();
         this.attachEventListeners();
         this.startMidnightChecker();
+    }
+    
+    loadFromDayData(dateString = null) {
+        const targetDate = dateString || this.currentDate;
+        const currentData = dayDataCache.get(targetDate);
+        if (currentData && currentData.daily_log) {
+            this.currentIntake = parseInt(currentData.daily_log.water_intake || 0);
+        } else {
+            this.loadForDate(targetDate);
+        }
     }
     
     ensureStorageShape() {
@@ -812,29 +830,52 @@ class WaterTracker {
         }
     }
     
-    saveForDate(dateString) {
+    async saveForDate(dateString) {
         this.ensureStorageShape();
         const map = JSON.parse(localStorage.getItem(this.storageKey) || '{}');
         map[dateString] = this.currentIntake;
         localStorage.setItem(this.storageKey, JSON.stringify(map));
+        
+        try {
+            const formData = new FormData();
+            formData.append('action', 'update_water');
+            formData.append('date', dateString);
+            formData.append('water_intake', this.currentIntake);
+            
+            const response = await fetch('api/dashboard_handler.php', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            
+            if (result.success && dayDataCache.has(dateString)) {
+                const cached = dayDataCache.get(dateString);
+                if (cached.daily_log) {
+                    cached.daily_log.water_intake = this.currentIntake;
+                }
+            }
+        } catch (error) {
+            console.error('Error saving water intake:', error);
+        }
     }
 
     setDate(dateString) {
         this.addTransition();
         this.currentDate = dateString;
-        this.loadForDate(dateString);
+        this.loadFromDayData(dateString);
         this.updateDisplay();
         this.removeTransition();
     }
     
-    addWater(amount) {
+    async addWater(amount) {
         this.currentIntake += amount;
         
         if (this.currentIntake > 10000) {
             this.currentIntake = 10000;
         }
         
-        this.saveForDate(this.currentDate);
+        await this.saveForDate(this.currentDate);
         this.updateDisplay();
         this.showToast(amount);
         this.checkGoalReached();
@@ -845,9 +886,9 @@ class WaterTracker {
         waterResetModal.show();
     }
     
-    confirmReset() {
+    async confirmReset() {
         this.currentIntake = 0;
-        this.saveForDate(this.currentDate);
+        await this.saveForDate(this.currentDate);
         this.updateDisplay();
         this.elements.card.classList.remove('goal-reached');
         
@@ -963,14 +1004,14 @@ class WaterTracker {
     }
     
     attachEventListeners() {
-        this.elements.addBtn250.addEventListener('click', (e) => {
+        this.elements.addBtn250.addEventListener('click', async (e) => {
             this.addButtonRipple(e.currentTarget);
-            this.addWater(250);
+            await this.addWater(250);
         });
         
-        this.elements.addBtn500.addEventListener('click', (e) => {
+        this.elements.addBtn500.addEventListener('click', async (e) => {
             this.addButtonRipple(e.currentTarget);
-            this.addWater(500);
+            await this.addWater(500);
         });
         
         this.elements.resetBtn.addEventListener('click', () => {
@@ -993,7 +1034,7 @@ class WaterTracker {
                 this.setDate(today);
             }
             if (this.currentDate === today) {
-                this.loadForDate(today);
+                this.loadFromDayData();
                 this.updateDisplay();
             }
         }, 60000);
@@ -1026,8 +1067,8 @@ class WaterTracker {
 let waterTrackerInstance = null;
 if (document.getElementById('waterTrackerCard')) {
     waterTrackerInstance = new WaterTracker();
-    document.getElementById('confirmWaterResetBtn').addEventListener('click', function() {
-        waterTrackerInstance.confirmReset();
+    document.getElementById('confirmWaterResetBtn').addEventListener('click', async function() {
+        await waterTrackerInstance.confirmReset();
     });
 }
 
@@ -1510,8 +1551,6 @@ function removeContentLoadingState() {
         mainContent.classList.remove('content-loading');
     }
 }
-
-const dayDataCache = new Map();
 
 document.addEventListener('DOMContentLoaded', function() {
     const currentDate = document.getElementById('currentDate')?.dataset.date;

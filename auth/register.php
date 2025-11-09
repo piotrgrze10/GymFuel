@@ -17,6 +17,17 @@ redirectIfLoggedIn();
     <link rel="stylesheet" href="../css/auth.css?v=unified-1">
 </head>
 <body>
+    <!-- Toast Notification for Errors -->
+    <div id="error-toast" class="error-toast" style="display:none;">
+        <div class="toast-content">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span id="error-toast-message"></span>
+        </div>
+        <button class="toast-close" onclick="document.getElementById('error-toast').style.display='none'">
+            <i class="fa-solid fa-times"></i>
+        </button>
+    </div>
+
     <div class="auth-container narrow">
         <div class="auth-card registration-card">
             
@@ -42,8 +53,6 @@ redirectIfLoggedIn();
                 <h2 id="step-title">Create Your Account</h2>
                 <p id="step-subtitle">Start your fitness journey with us</p>
             </div>
-
-            <div id="error-message" class="alert alert-danger" style="display:none;" role="alert"></div>
 
             <div class="modal fade" id="successModal" tabindex="-1">
                 <div class="modal-dialog modal-dialog-centered">
@@ -411,11 +420,63 @@ redirectIfLoggedIn();
             const password = document.getElementById('password').value;
             const confirm = document.getElementById('confirm_password').value;
             
-            const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-            const passValid = password.length >= 6;
-            const match = password && password === confirm;
+            if (!email) {
+                return false;
+            }
             
-            return emailValid && passValid && match;
+            const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            if (!emailValid) {
+                return false;
+            }
+            
+            if (!password || password.length < 6) {
+                return false;
+            }
+            
+            if (password !== confirm) {
+                return false;
+            }
+            
+            return true;
+        }
+        
+        function validateStep1WithMessages() {
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const confirm = document.getElementById('confirm_password').value;
+            
+            if (!email) {
+                showErrorToast('Please enter your email address');
+                return false;
+            }
+            
+            const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            if (!emailValid) {
+                showErrorToast('Please enter a valid email address');
+                return false;
+            }
+            
+            if (!password) {
+                showErrorToast('Please enter a password');
+                return false;
+            }
+            
+            if (password.length < 6) {
+                showErrorToast('Password must be at least 6 characters long');
+                return false;
+            }
+            
+            if (!confirm) {
+                showErrorToast('Please confirm your password');
+                return false;
+            }
+            
+            if (password !== confirm) {
+                showErrorToast('Passwords do not match');
+                return false;
+            }
+            
+            return true;
         }
 
         function validateStep2() {
@@ -423,6 +484,29 @@ redirectIfLoggedIn();
             const last = document.getElementById('last_name').value.trim();
             const gender = document.getElementById('gender').value;
             return first && last && gender;
+        }
+        
+        function validateStep2WithMessages() {
+            const first = document.getElementById('first_name').value.trim();
+            const last = document.getElementById('last_name').value.trim();
+            const gender = document.getElementById('gender').value;
+            
+            if (!first) {
+                showErrorToast('Please enter your first name');
+                return false;
+            }
+            
+            if (!last) {
+                showErrorToast('Please enter your last name');
+                return false;
+            }
+            
+            if (!gender) {
+                showErrorToast('Please select your gender');
+                return false;
+            }
+            
+            return true;
         }
 
         function validateStep3() {
@@ -436,13 +520,67 @@ redirectIfLoggedIn();
             
             return ageOk && heightOk && weightOk;
         }
+        
+        function validateStep3WithMessages() {
+            const age = parseInt(document.getElementById('age').value, 10);
+            const height = parseFloat(document.getElementById('height').value);
+            const weight = parseFloat(document.getElementById('weight').value);
+            
+            if (isNaN(age) || !document.getElementById('age').value) {
+                showErrorToast('Please enter your age');
+                return false;
+            }
+            
+            if (age < 13 || age > 120) {
+                showErrorToast('Age must be between 13 and 120 years');
+                return false;
+            }
+            
+            if (isNaN(height) || !document.getElementById('height').value) {
+                showErrorToast('Please enter your height');
+                return false;
+            }
+            
+            if (height < 50 || height > 250) {
+                showErrorToast('Height must be between 50 and 250 cm');
+                return false;
+            }
+            
+            if (isNaN(weight) || !document.getElementById('weight').value) {
+                showErrorToast('Please enter your weight');
+                return false;
+            }
+            
+            if (weight < 20 || weight > 300) {
+                showErrorToast('Weight must be between 20 and 300 kg');
+                return false;
+            }
+            
+            return true;
+        }
 
         function validateStep4() {
             return document.getElementById('activity_level').value !== '';
         }
+        
+        function validateStep4WithMessages() {
+            if (!document.getElementById('activity_level').value) {
+                showErrorToast('Please select your activity level');
+                return false;
+            }
+            return true;
+        }
 
         function validateStep5() {
             return document.getElementById('goal').value !== '';
+        }
+        
+        function validateStep5WithMessages() {
+            if (!document.getElementById('goal').value) {
+                showErrorToast('Please select your fitness goal');
+                return false;
+            }
+            return true;
         }
 
         function validateCurrentStep() {
@@ -508,11 +646,38 @@ redirectIfLoggedIn();
             }
         });
 
+        function showErrorToast(message) {
+            const toast = document.getElementById('error-toast');
+            const toastMessage = document.getElementById('error-toast-message');
+            toastMessage.textContent = message;
+            toast.style.display = 'flex';
+            toast.classList.add('show');
+            
+            // Auto hide after 5 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    toast.style.display = 'none';
+                }, 300);
+            }, 5000);
+        }
+
         document.getElementById('registration-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const errorDiv = document.getElementById('error-message');
-            errorDiv.style.display = 'none';
+            // Validate current step with messages
+            let isValid = false;
+            switch(currentStep) {
+                case 1: isValid = validateStep1WithMessages(); break;
+                case 2: isValid = validateStep2WithMessages(); break;
+                case 3: isValid = validateStep3WithMessages(); break;
+                case 4: isValid = validateStep4WithMessages(); break;
+                case 5: isValid = validateStep5WithMessages(); break;
+            }
+            
+            if (!isValid) {
+                return; // Stop if validation fails
+            }
             
             const formData = new FormData(this);
             formData.append('action', `step${currentStep}`);
@@ -556,14 +721,12 @@ redirectIfLoggedIn();
                 } else {
                     btn.disabled = false;
                     btn.innerHTML = originalHtml;
-                    errorDiv.textContent = result.error || 'An error occurred';
-                    errorDiv.style.display = 'block';
+                    showErrorToast(result.error || 'An error occurred');
                 }
             } catch (error) {
                 btn.disabled = false;
                 btn.innerHTML = originalHtml;
-                errorDiv.textContent = 'Network error. Please try again.';
-                errorDiv.style.display = 'block';
+                showErrorToast('Network error. Please try again.');
             }
         });
 

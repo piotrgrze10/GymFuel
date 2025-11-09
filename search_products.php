@@ -14,7 +14,7 @@ session_start();
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/897067be39.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/navbar.css?v=NOWRAP_FIX">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/search.css?v=1.0.3">
 </head>
@@ -31,6 +31,7 @@ session_start();
                     <li class="nav-item"><a class="nav-link" href="<?php echo $logged_in ? 'dashboard.php' : 'index.php'; ?>">Home</a></li>
                     <li class="nav-item"><a class="nav-link active" href="search_products.php">Search Products</a></li>
                     <?php if ($logged_in): ?>
+                        <li class="nav-item"><a class="nav-link" href="bmi_calculator.php">BMI Calculator</a></li>
                         <li class="nav-item"><a class="nav-link" href="auth/logout.php">Logout</a></li>
                     <?php else: ?>
                         <li class="nav-item"><a class="nav-link" href="auth/login.php">Login</a></li>

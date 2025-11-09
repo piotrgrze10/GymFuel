@@ -48,7 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } catch(PDOException $e) {
             echo json_encode(['success' => false, 'error' => $e->getMessage()]);
         }
-        
     } elseif ($action === 'add_food') {
         $food_id = intval($_POST['food_id'] ?? 0);
         $meal_type = $_POST['meal_type'] ?? '';
@@ -169,7 +168,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } catch(PDOException $e) {
             echo json_encode(['success' => false, 'error' => $e->getMessage()]);
         }
-        
     } elseif ($action === 'remove_food') {
         $entry_id = intval($_POST['entry_id'] ?? 0);
         
@@ -237,11 +235,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } catch(PDOException $e) {
             echo json_encode(['success' => false, 'error' => $e->getMessage()]);
         }
+    } elseif ($action === 'update_water') {
+        $date = $_POST['date'] ?? date('Y-m-d');
+        $water_intake = intval($_POST['water_intake'] ?? 0);
         
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+            echo json_encode(['success' => false, 'error' => 'Invalid date format']);
+            exit();
+        }
+        
+        if ($water_intake < 0 || $water_intake > 10000) {
+            echo json_encode(['success' => false, 'error' => 'Invalid water intake value']);
+            exit();
+        }
+        
+        try {
+            $stmt = $pdo->prepare("SELECT id FROM daily_logs WHERE user_id = ? AND log_date = ?");
+            $stmt->execute([$_SESSION['user_id'], $date]);
+            $log = $stmt->fetch();
+            
+            if (!$log) {
+                $stmt = $pdo->prepare("INSERT INTO daily_logs (user_id, log_date, water_intake) VALUES (?, ?, ?)");
+                $stmt->execute([$_SESSION['user_id'], $date, $water_intake]);
+            } else {
+                $stmt = $pdo->prepare("UPDATE daily_logs SET water_intake = ? WHERE id = ?");
+                $stmt->execute([$water_intake, $log['id']]);
+            }
+            
+            echo json_encode(['success' => true, 'water_intake' => $water_intake]);
+            
+        } catch(PDOException $e) {
+            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+        }
     } else {
         echo json_encode(['success' => false, 'error' => 'Invalid action']);
     }
 } else {
     echo json_encode(['success' => false, 'error' => 'Invalid request method']);
 }
-

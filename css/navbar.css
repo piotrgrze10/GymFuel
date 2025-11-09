@@ -13,6 +13,7 @@ nav.navbar {
     left: 0 !important;
     right: 0 !important;
     width: 100% !important;
+    font-family: 'Montserrat', sans-serif !important;
 }
 
 nav .container {
@@ -31,9 +32,15 @@ nav .navbar-toggler-icon {
     color: #ffffff !important;
 }
 
+nav .navbar-nav .nav-item {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
 nav .nav-link {
     transition: color 0.3s;
     text-decoration: none;
+    white-space: nowrap;
 }
 
 nav .nav-link:focus,
@@ -115,6 +122,11 @@ nav .navbar-brand:hover .blue-text {
     
     nav .navbar-brand {
         font-size: 1.1rem;
+    }
+    
+    nav .navbar-nav .nav-item {
+        padding-left: 0;
+        padding-right: 0;
     }
     
     nav .nav-link {

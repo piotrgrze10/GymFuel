@@ -5,17 +5,13 @@ require_once '../includes/auth.php';
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
     $csrf = $_POST['csrf_token'] ?? '';
     if (!isset($_SESSION['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $csrf)) {
         echo json_encode(['success' => false, 'error' => 'Invalid request token']);
         exit();
     }
-
     $action = $_POST['action'] ?? '';
-    
     if ($action === 'reset_flow') {
-        
         foreach (array_keys($_SESSION) as $k) {
             if (strpos($k, 'reg_') === 0) {
                 unset($_SESSION[$k]);
@@ -24,9 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['success' => true]);
         exit();
     }
-
     if ($action === 'step1') {
-
         $email = trim($_POST['email'] ?? '');
         $password = $_POST['password'] ?? '';
         $confirm_password = $_POST['confirm_password'] ?? '';
@@ -59,12 +53,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['reg_email'] = $email;
         $_SESSION['reg_password'] = $password;
         $_SESSION['reg_step'] = 1;
-        
+        session_write_close();
+        session_start();
         echo json_encode(['success' => true]);
-        
     } elseif ($action === 'step2') {
-
-        if (!isset($_SESSION['reg_step']) || $_SESSION['reg_step'] != 1) {
+        if (!isset($_SESSION['reg_email']) || !isset($_SESSION['reg_password'])) {
             echo json_encode(['success' => false, 'error' => 'Please complete step 1 first']);
             exit();
         }
@@ -87,12 +80,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['reg_last_name'] = $last_name;
         $_SESSION['reg_gender'] = $gender;
         $_SESSION['reg_step'] = 2;
-        
+        session_write_close();
+        session_start();
         echo json_encode(['success' => true]);
-        
     } elseif ($action === 'step3') {
-
-        if (!isset($_SESSION['reg_step']) || $_SESSION['reg_step'] != 2) {
+        if (!isset($_SESSION['reg_first_name']) || !isset($_SESSION['reg_last_name']) || !isset($_SESSION['reg_gender'])) {
             echo json_encode(['success' => false, 'error' => 'Please complete previous steps first']);
             exit();
         }
@@ -120,12 +112,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['reg_height'] = $height;
         $_SESSION['reg_weight'] = $weight;
         $_SESSION['reg_step'] = 3;
-        
+        session_write_close();
+        session_start();
         echo json_encode(['success' => true]);
-        
     } elseif ($action === 'step4') {
-
-        if (!isset($_SESSION['reg_step']) || $_SESSION['reg_step'] != 3) {
+        if (!isset($_SESSION['reg_age']) || !isset($_SESSION['reg_height']) || !isset($_SESSION['reg_weight'])) {
             echo json_encode(['success' => false, 'error' => 'Please complete previous steps first']);
             exit();
         }
@@ -140,12 +131,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         $_SESSION['reg_activity_level'] = $activity_level;
         $_SESSION['reg_step'] = 4;
-        
+        session_write_close();
+        session_start();
         echo json_encode(['success' => true]);
-        
     } elseif ($action === 'step5') {
-
-        if (!isset($_SESSION['reg_step']) || $_SESSION['reg_step'] != 4) {
+        if (!isset($_SESSION['reg_activity_level'])) {
             echo json_encode(['success' => false, 'error' => 'Please complete previous steps first']);
             exit();
         }
@@ -172,16 +162,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ];
 
         $result = registerUser($reg_data);
-        
         if ($result['success']) {
-
-            
             foreach (array_keys($_SESSION) as $k) {
                 if (strpos($k, 'reg_') === 0) {
                     unset($_SESSION[$k]);
                 }
             }
-            
             echo json_encode([
                 'success' => true,
                 'calories' => $result['calories'],
@@ -196,5 +182,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } else {
     echo json_encode(['success' => false, 'error' => 'Invalid request method']);
 }
-?>
-

@@ -39,6 +39,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="../css/auth.css?v=login-split-4">
 </head>
 <body>
+    <!-- Toast Notification for Errors -->
+    <div id="error-toast" class="error-toast" style="display:none;">
+        <div class="toast-content">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span id="error-toast-message"></span>
+        </div>
+        <button class="toast-close" onclick="document.getElementById('error-toast').style.display='none'">
+            <i class="fa-solid fa-times"></i>
+        </button>
+    </div>
+
     <div class="auth-container">
         <div class="auth-card split">
             <div class="auth-left">
@@ -50,12 +61,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <h2>Welcome Back</h2>
                 <p>Sign in to continue your fitness journey</p>
                 </div>
-
-                <?php if (!empty($error)): ?>
-                    <div class="alert alert-danger" role="alert">
-                        <i class="fa-solid fa-circle-exclamation"></i> <?php echo htmlspecialchars($error); ?>
-                    </div>
-                <?php endif; ?>
 
                 <form method="POST" action="" class="auth-form">
                     <div class="form-group">
@@ -90,6 +95,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <?php if (!empty($error)): ?>
+    <script>
+        function showErrorToast(message) {
+            const toast = document.getElementById('error-toast');
+            const toastMessage = document.getElementById('error-toast-message');
+            toastMessage.textContent = message;
+            toast.style.display = 'flex';
+            toast.classList.add('show');
+            
+            // Auto hide after 5 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    toast.style.display = 'none';
+                }, 300);
+            }, 5000);
+        }
+        
+        // Show error on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            showErrorToast('<?php echo addslashes($error); ?>');
+        });
+    </script>
+    <?php endif; ?>
 </body>
 </html>
 

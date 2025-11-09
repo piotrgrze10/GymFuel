@@ -87,6 +87,23 @@ foreach ($entries_by_meal as $meal_type => $entries) {
 
 $remaining_calories = $user['tdee'] - floatval($today_log['total_calories']);
 $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user['tdee']) * 100 : 0;
+
+$days_diff = (strtotime($selected_date) - strtotime($today)) / 86400;
+$date_label = '';
+
+if ($is_today) {
+    $date_label = '<span class="today-badge">Today</span>';
+} elseif ($days_diff == -1) {
+    $date_label = 'Yesterday';
+} elseif ($days_diff == 1) {
+    $date_label = 'Tomorrow';
+} elseif ($days_diff < 0) {
+    $date_label = abs($days_diff) . ' days ago';
+} else {
+    $date_label = 'In ' . $days_diff . ' days';
+}
+
+$nutrition_label = $is_today ? "Today's Nutrition" : ($days_diff < 0 ? "Past Day Nutrition" : "Planned Nutrition");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -100,7 +117,7 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/897067be39.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/navbar.css?v=NOWRAP_FIX">
     <link rel="stylesheet" href="css/dashboard.css?v=fab-fixed-v12">
 </head>
 <body style="padding-top: 76px;">
@@ -113,9 +130,8 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link active" href="dashboard.php">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#bmi-calculator">BMI Calculator</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#ffmi-calculator">FFMI Calculator</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#progress">Progress</a></li>
+                    <li class="nav-item"><a class="nav-link" href="search_products.php">Search Products</a></li>
+                    <li class="nav-item"><a class="nav-link" href="bmi_calculator.php">BMI Calculator</a></li>
                     <li class="nav-item">
                         <span class="nav-link text-primary">
                             <i class="fa-solid fa-user"></i> <?php echo htmlspecialchars($_SESSION['user_name']); ?>
@@ -1064,6 +1080,22 @@ $calorie_percentage = $user['tdee'] > 0 ? ($today_log['total_calories'] / $user[
     </button>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Initialize with data from PHP
+        window.initialDashboardData = <?php echo json_encode([
+            'date' => $selected_date,
+            'formatted_date' => date('l, F j, Y', strtotime($selected_date)),
+            'date_label' => $date_label,
+            'nutrition_label' => $nutrition_label,
+            'is_today' => $is_today,
+            'daily_log' => $today_log,
+            'entries_by_meal' => $entries_by_meal,
+            'meal_calories' => $meal_calories,
+            'remaining_calories' => $remaining_calories,
+            'calorie_percentage' => $calorie_percentage,
+            'tdee' => $user['tdee']
+        ]); ?>;
+    </script>
     <script src="js/dashboard.js?v=<?php echo time(); ?>"></script>
 </body>
 </html>
