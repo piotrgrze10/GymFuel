@@ -37,21 +37,17 @@ if ($logged_in) {
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="<?php echo $logged_in ? 'dashboard.php' : 'index.php'; ?>">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="search_products.php">Search Products</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="bmi_calculator.php">BMI Calculator</a></li>
                     <?php if ($logged_in): ?>
                         <li class="nav-item"><a class="nav-link" href="dashboard.php">Dashboard</a></li>
+                        <li class="nav-item"><a class="nav-link" href="search_products.php">Search Products</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="bmi_calculator.php">BMI Calculator</a></li>
                         <li class="nav-item"><a class="nav-link" href="profile.php">Profile</a></li>
-                        <li class="nav-item">
-                            <span class="nav-link text-primary">
-                                <i class="fa-solid fa-user"></i> <?php echo htmlspecialchars($user['first_name'] . ' ' . $user['last_name']); ?>
-                            </span>
-                        </li>
                         <li class="nav-item"><a class="nav-link" href="auth/logout.php">Logout</a></li>
                     <?php else: ?>
+                        <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="search_products.php">Search Products</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="bmi_calculator.php">BMI Calculator</a></li>
                         <li class="nav-item"><a class="nav-link" href="auth/login.php">Login</a></li>
-                        <li class="nav-item"><a class="nav-link" href="auth/register.php">Register</a></li>
                     <?php endif; ?>
                 </ul>
             </div>

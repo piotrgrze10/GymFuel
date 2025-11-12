@@ -114,7 +114,6 @@ $initials = strtoupper(substr($names[0], 0, 1) . (isset($names[1]) ? substr($nam
     <link rel="stylesheet" href="css/footer.css">
 </head>
 <body>
-    <!-- Navigation -->
     <nav class="navbar navbar-expand-lg position-fixed top-0 w-100 py-3">
         <div class="container">
             <a class="navbar-brand" href="dashboard.php">
@@ -129,11 +128,6 @@ $initials = strtoupper(substr($names[0], 0, 1) . (isset($names[1]) ? substr($nam
                     <li class="nav-item"><a class="nav-link" href="search_products.php">Search Products</a></li>
                     <li class="nav-item"><a class="nav-link" href="bmi_calculator.php">BMI Calculator</a></li>
                     <li class="nav-item"><a class="nav-link active" href="profile.php">Profile</a></li>
-                    <li class="nav-item">
-                        <span class="nav-link text-primary">
-                            <i class="fa-solid fa-user"></i> <?php echo htmlspecialchars($_SESSION['user_name']); ?>
-                        </span>
-                    </li>
                     <li class="nav-item"><a class="nav-link" href="auth/logout.php">Logout</a></li>
                 </ul>
             </div>

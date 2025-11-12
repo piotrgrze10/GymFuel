@@ -134,11 +134,6 @@ $nutrition_label = $is_today ? "Today's Nutrition" : ($days_diff < 0 ? "Past Day
                     <li class="nav-item"><a class="nav-link" href="search_products.php">Search Products</a></li>
                     <li class="nav-item"><a class="nav-link" href="bmi_calculator.php">BMI Calculator</a></li>
                     <li class="nav-item"><a class="nav-link" href="profile.php">Profile</a></li>
-                    <li class="nav-item">
-                        <span class="nav-link text-primary">
-                            <i class="fa-solid fa-user"></i> <?php echo htmlspecialchars($_SESSION['user_name']); ?>
-                        </span>
-                    </li>
                     <li class="nav-item"><a class="nav-link" href="auth/logout.php">Logout</a></li>
                 </ul>
             </div>

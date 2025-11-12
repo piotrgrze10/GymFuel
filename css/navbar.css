@@ -58,6 +58,7 @@ nav .navbar-brand {
     margin: 0 !important;
     padding: 0 !important;
     font-size: 1.25rem;
+    position: relative !important;
 }
 
 nav .navbar-brand:hover,
@@ -112,6 +113,12 @@ nav .navbar-brand:hover .blue-text {
     50% {
         transform: scale(1.1);
         text-shadow: 0 0 15px rgba(255, 107, 107, 0.9);
+    }
+}
+
+@media (min-width: 769px) {
+    nav .navbar-brand {
+        left: -130px !important;
     }
 }
 

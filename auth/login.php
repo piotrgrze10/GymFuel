@@ -39,7 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="../css/auth.css?v=login-split-4">
 </head>
 <body>
-    <!-- Toast Notification for Errors -->
     <div id="error-toast" class="error-toast" style="display:none;">
         <div class="toast-content">
             <i class="fa-solid fa-circle-exclamation"></i>

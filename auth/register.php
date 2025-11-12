@@ -17,7 +17,6 @@ redirectIfLoggedIn();
     <link rel="stylesheet" href="../css/auth.css?v=unified-1">
 </head>
 <body>
-    <!-- Toast Notification for Errors -->
     <div id="error-toast" class="error-toast" style="display:none;">
         <div class="toast-content">
             <i class="fa-solid fa-circle-exclamation"></i>

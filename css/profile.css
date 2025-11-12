@@ -363,7 +363,6 @@ body {
     font-size: 1.1rem;
 }
 
-/* Profile Container */
 .profile-container {
     min-height: calc(100vh - 66px);
 }
@@ -637,7 +636,6 @@ body {
     min-width: 40px;
 }
 
-/* Macros Grid - Mobile First: 1 column on mobile */
 .macros-grid {
     display: grid;
     grid-template-columns: 1fr;
