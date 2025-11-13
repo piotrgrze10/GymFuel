@@ -100,10 +100,10 @@ session_start();
             </div>
         </div>
         
-        <div id="clearCategoryWrapper" style="display: none; margin: 0 30px 20px; padding: 15px 20px; background: white; border: 2px solid #039dff; border-radius: 12px; box-shadow: 0 2px 8px rgba(3, 157, 255, 0.1);">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div style="font-weight: 600; color: #333;">
-                    <i class="fa-solid fa-tags" style="color: #039dff; margin-right: 8px;"></i>
+        <div id="clearCategoryWrapper" style="display: none;">
+            <div>
+                <div>
+                    <i class="fa-solid fa-tags"></i>
                     <span id="activeCategoryName">Showing category products</span>
                 </div>
                 <button id="clearCategoryBtnTop" class="btn-clear-category" onclick="clearCategorySelection(); return false;">

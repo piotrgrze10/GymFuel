@@ -219,7 +219,7 @@ class BMICalculator {
     }
 
     displayHistory() {
-        if (!this.historyList) return; // Element not found (user not logged in)
+        if (!this.historyList) return;
         
         if (this.history.length === 0) {
             this.historyList.innerHTML = '<p class="no-history">No calculations yet</p>';

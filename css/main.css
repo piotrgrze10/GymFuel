@@ -1204,15 +1204,16 @@ a:hover {
 	
 	.overlapping-cards {
 		padding: 40px 0;
+		overflow-x: hidden;
 	}
 	
 	.cards-wrapper {
 		flex-wrap: nowrap;
 		justify-content: center;
 		gap: 0;
-		overflow-x: auto;
-		-webkit-overflow-scrolling: touch;
+		overflow-x: hidden;
 		padding: 10px 0;
+		width: 100%;
 	}
 	
 	.overlap-card:first-child,
@@ -1221,16 +1222,18 @@ a:hover {
 	}
 	
 	.overlap-card {
-		width: 220px;
-		height: 300px;
+		width: calc((100% - 30px) / 3);
+		max-width: 150px;
+		min-width: 110px;
+		height: 360px;
 		margin-left: -20px;
-		transition: none;
+		transition: transform 0.3s ease;
 		flex-shrink: 0;
 	}
 	
 	.overlap-card:nth-child(2) {
 		margin-left: 0;
-		transform: translateY(35px) scale(0.82);
+		transform: translateY(35px) scale(0.85);
 		z-index: 2;
 	}
 	
@@ -1240,18 +1243,18 @@ a:hover {
 	}
 	
 	.overlap-card:nth-child(4) {
-		transform: translateY(35px) scale(0.82);
+		transform: translateY(35px) scale(0.85);
 		z-index: 2;
 	}
 	
 	.overlap-card:hover {
-		transform: translateY(35px) scale(0.82);
+		transform: translateY(35px) scale(0.85);
 		z-index: 2;
 	}
 	
 	.overlap-card:nth-child(3):hover {
-		transform: translateY(0) scale(1);
-		z-index: 5;
+		transform: translateY(0) scale(1.05);
+		z-index: 10;
 	}
 	
 	.overlap-card:hover .card-img {
@@ -1263,12 +1266,12 @@ a:hover {
 	}
 	
 	.card-img {
-		height: 190px;
+		height: 240px;
 	}
 	
 	.card-caption {
-		font-size: 0.95rem;
-		padding: 18px 12px;
+		font-size: 1rem;
+		padding: 20px 14px;
 		line-height: 1.4;
 	}
 	
@@ -1325,14 +1328,18 @@ a:hover {
 	}
 	
 	.overlap-card {
-		width: 170px;
-		height: 250px;
-		margin-left: -15px;
+		width: calc((100% - 24px) / 3);
+		max-width: 140px;
+		min-width: 100px;
+		height: 340px;
+		margin-left: -18px;
+		transition: transform 0.3s ease;
+		flex-shrink: 0;
 	}
 	
 	.overlap-card:nth-child(2) {
 		margin-left: 0;
-		transform: translateY(30px) scale(0.8);
+		transform: translateY(30px) scale(0.82);
 		z-index: 2;
 	}
 	
@@ -1342,17 +1349,27 @@ a:hover {
 	}
 	
 	.overlap-card:nth-child(4) {
-		transform: translateY(30px) scale(0.8);
+		transform: translateY(30px) scale(0.82);
 		z-index: 2;
 	}
 	
+	.overlap-card:hover {
+		transform: translateY(30px) scale(0.82);
+		z-index: 2;
+	}
+	
+	.overlap-card:nth-child(3):hover {
+		transform: translateY(0) scale(1.05);
+		z-index: 10;
+	}
+	
 	.card-img {
-		height: 150px;
+		height: 220px;
 	}
 	
 	.card-caption {
-		font-size: 0.85rem;
-		padding: 15px 10px;
+		font-size: 0.9rem;
+		padding: 18px 12px;
 		line-height: 1.35;
 	}
 	
@@ -1419,17 +1436,24 @@ a:hover {
 	}
 	
 	.overlap-card {
-		width: 150px;
-		height: 220px;
+		width: calc((100% - 20px) / 3);
+		max-width: 130px;
+		min-width: 95px;
+		height: 260px;
+		margin-left: -15px;
+	}
+	
+	.overlap-card:nth-child(2) {
+		margin-left: 0;
 	}
 	
 	.card-img {
-		height: 130px;
+		height: 160px;
 	}
 	
 	.card-caption {
-		font-size: 0.8rem;
-		padding: 12px 8px;
+		font-size: 0.85rem;
+		padding: 14px 10px;
 	}
 }
 
@@ -1443,12 +1467,24 @@ a:hover {
 	}
 	
 	.overlap-card {
-		width: 140px;
-		height: 200px;
+		width: calc((100% - 20px) / 3);
+		max-width: 125px;
+		min-width: 90px;
+		height: 240px;
+		margin-left: -15px;
+	}
+	
+	.overlap-card:nth-child(2) {
+		margin-left: 0;
 	}
 	
 	.card-img {
-		height: 120px;
+		height: 150px;
+	}
+	
+	.card-caption {
+		font-size: 0.85rem;
+		padding: 14px 10px;
 	}
 }
 
@@ -1467,12 +1503,19 @@ a:hover {
 	}
 	
 	.overlap-card {
-		width: 130px;
-		height: 180px;
+		width: calc((100% - 16px) / 3);
+		max-width: 115px;
+		min-width: 85px;
+		height: 220px;
+		margin-left: -12px;
+	}
+	
+	.overlap-card:nth-child(2) {
+		margin-left: 0;
 	}
 	
 	.card-img {
-		height: 110px;
+		height: 135px;
 	}
 	
 	.card-caption {

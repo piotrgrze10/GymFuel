@@ -490,12 +490,15 @@ function displayProducts(products) {
     
     renderProducts();
     
-    setTimeout(() => {
-        document.getElementById('resultsScrollTarget').scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-        });
-    }, 100);
+    const clearCategoryWrapper = document.getElementById('clearCategoryWrapper');
+    if (clearCategoryWrapper && clearCategoryWrapper.style.display !== 'none') {
+        setTimeout(() => {
+            clearCategoryWrapper.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }, 100);
+    }
 }
 
 function renderProducts() {
