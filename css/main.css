@@ -2023,6 +2023,199 @@ a:hover {
 	}
 }
 
+.why-gymfuel-section {
+	background: #ffffff;
+	position: relative;
+	overflow: hidden;
+}
+
+.why-gymfuel-header {
+	margin-bottom: 60px;
+}
+
+.why-gymfuel-subtitle {
+	font-size: 1.1rem;
+	font-weight: 400;
+	letter-spacing: 0.5px;
+}
+
+.why-gymfuel-panels {
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+}
+
+.why-panel {
+	padding: 80px 0;
+	position: relative;
+	overflow: hidden;
+}
+
+.why-panel-1 {
+	background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+}
+
+.why-panel-2 {
+	background: linear-gradient(135deg, #00b4a6 0%, #008b8b 100%);
+}
+
+.why-panel-3 {
+	background: linear-gradient(135deg, #2ed573 0%, #1e90ff 100%);
+}
+
+.why-panel-4 {
+	background: linear-gradient(135deg, #ffa502 0%, #ff6348 100%);
+}
+
+.why-panel-content {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 20px;
+	display: flex;
+	align-items: center;
+	gap: 60px;
+}
+
+.why-panel-2 .why-panel-content,
+.why-panel-4 .why-panel-content {
+	flex-direction: row-reverse;
+}
+
+.why-panel-text {
+	flex: 1;
+	color: white;
+}
+
+.why-panel-heading {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-bottom: 20px;
+	color: white;
+	line-height: 1.2;
+}
+
+.why-panel-description {
+	font-size: 1.2rem;
+	line-height: 1.8;
+	color: rgba(255, 255, 255, 0.95);
+	font-weight: 400;
+}
+
+.why-panel-visual {
+	flex: 0 0 300px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.why-panel-icon-wrapper {
+	width: 200px;
+	height: 200px;
+	background: rgba(255, 255, 255, 0.2);
+	border-radius: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	backdrop-filter: blur(10px);
+	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.why-panel-icon-wrapper i {
+	font-size: 5rem;
+	color: white;
+}
+
+.why-panel:hover .why-panel-icon-wrapper {
+	transform: scale(1.1) rotate(5deg);
+	box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 992px) {
+	.why-panel-content {
+		flex-direction: column !important;
+		gap: 40px;
+		text-align: center;
+	}
+
+	.why-panel-visual {
+		flex: 0 0 auto;
+	}
+
+	.why-panel-heading {
+		font-size: 2rem;
+	}
+
+	.why-panel-description {
+		font-size: 1.1rem;
+	}
+
+	.why-panel-icon-wrapper {
+		width: 150px;
+		height: 150px;
+	}
+
+	.why-panel-icon-wrapper i {
+		font-size: 4rem;
+	}
+}
+
+@media (max-width: 768px) {
+	.why-gymfuel-subtitle {
+		font-size: 1rem;
+	}
+
+	.why-panel {
+		padding: 60px 0;
+	}
+
+	.why-panel-heading {
+		font-size: 1.75rem;
+		margin-bottom: 15px;
+	}
+
+	.why-panel-description {
+		font-size: 1rem;
+		line-height: 1.6;
+	}
+
+	.why-panel-icon-wrapper {
+		width: 120px;
+		height: 120px;
+	}
+
+	.why-panel-icon-wrapper i {
+		font-size: 3rem;
+	}
+}
+
+@media (max-width: 576px) {
+	.why-gymfuel-title {
+		font-size: 1.75rem;
+	}
+
+	.why-panel {
+		padding: 40px 0;
+	}
+
+	.why-panel-heading {
+		font-size: 1.5rem;
+	}
+
+	.why-panel-description {
+		font-size: 0.95rem;
+	}
+
+	.why-panel-icon-wrapper {
+		width: 100px;
+		height: 100px;
+	}
+
+	.why-panel-icon-wrapper i {
+		font-size: 2.5rem;
+	}
+}
+
 footer {
 	background-color: #000 !important;
 }

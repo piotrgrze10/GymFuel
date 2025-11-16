@@ -345,6 +345,74 @@ require_once 'includes/config.php';
             </div>
         </section>
 
+        <section id="why-gymfuel" class="why-gymfuel-section py-5">
+            <div class="container">
+                <div class="why-gymfuel-header text-center mb-5">
+                    <h2 class="section-title mb-3">Why use GymFuel?</h2>
+                    <div class="underline mx-auto mb-4"></div>
+                    <p class="why-gymfuel-subtitle text-muted">Our comprehensive nutrition tracking tools will help you</p>
+                </div>
+
+                <div class="why-gymfuel-panels">
+                    <div class="why-panel why-panel-1">
+                        <div class="why-panel-content">
+                            <div class="why-panel-text">
+                                <h3 class="why-panel-heading">Track Your Macros & Nutrients</h3>
+                                <p class="why-panel-description">Monitor your protein, carbs, fats, and calories with detailed food logging. See exactly what you're eating and make informed decisions to optimize your nutrition.</p>
+                            </div>
+                            <div class="why-panel-visual">
+                                <div class="why-panel-icon-wrapper">
+                                    <i class="fa-solid fa-chart-pie"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="why-panel why-panel-2">
+                        <div class="why-panel-content">
+                            <div class="why-panel-text">
+                                <h3 class="why-panel-heading">Reach & Maintain Your Goal Weight</h3>
+                                <p class="why-panel-description">Monitor your food intake with detailed food journaling, verified nutrition information, and personalized calorie targets to keep yourself accountable and achieve your fitness goals.</p>
+                            </div>
+                            <div class="why-panel-visual">
+                                <div class="why-panel-icon-wrapper">
+                                    <i class="fa-solid fa-weight-scale"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="why-panel why-panel-3">
+                        <div class="why-panel-content">
+                            <div class="why-panel-text">
+                                <h3 class="why-panel-heading">Get a Complete View of Your Health</h3>
+                                <p class="why-panel-description">Track your daily nutrition, monitor your BMI, calculate your BMR and TDEE, and visualize your progress with comprehensive analytics to understand your health journey.</p>
+                            </div>
+                            <div class="why-panel-visual">
+                                <div class="why-panel-icon-wrapper">
+                                    <i class="fa-solid fa-heart-pulse"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="why-panel why-panel-4">
+                        <div class="why-panel-content">
+                            <div class="why-panel-text">
+                                <h3 class="why-panel-heading">Gain a Trustworthy Companion</h3>
+                                <p class="why-panel-description">We're proud to offer accurate nutrition information within a secure framework to keep your data safe. We encrypt all data, uphold industry best practices, and enforce strict access controls.</p>
+                            </div>
+                            <div class="why-panel-visual">
+                                <div class="why-panel-icon-wrapper">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section id="achievements" class="success-stories-new py-5 bg-white">
             <div class="container">
                 <h2 class="section-title">Success Stories</h2>
