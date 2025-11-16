@@ -104,8 +104,8 @@ require_once 'includes/config.php';
                                         <i class="fa-solid fa-check-circle"></i>
                                     </div>
                                     <span class="feature-text">Visualize your progress with real-time analytics</span>
-                                </div>
-                            </div>
+                        </div>
+                        </div>
                         </div>
                     </div>
                     
@@ -153,43 +153,138 @@ require_once 'includes/config.php';
             </div>
         </section>
 
-        <section class="overlapping-cards py-5 bg-light">
+        <section class="simple-cards-section py-5 bg-light">
             <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-12">
-                        <div class="cards-wrapper">
-                            <div class="overlap-card">
-                                <div class="card-frame">
-                                    <img src="./img/card1.jpg" alt="Reach & Maintain Your Goal Weight" class="card-img" loading="eager" fetchpriority="high" decoding="sync">
-                                    <h4 class="card-caption">Reach & Maintain Your Goal Weight</h4>
+                <div class="row g-2 g-md-4 justify-content-center">
+                    <div class="col-lg col-md-4 col-sm-4">
+                        <div class="simple-card">
+                            <div class="simple-card-image">
+                                <img src="./img/card1.jpg" alt="Reach & Maintain Your Goal Weight" class="simple-card-img" loading="lazy">
+                            </div>
+                            <div class="simple-card-caption simple-card-caption-1">
+                                <h4>Reach & Maintain Your Goal Weight</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-2 col-md-4 col-sm-4">
+                        <div class="simple-card">
+                            <div class="simple-card-image">
+                                <img src="./img/card2.jpeg" alt="Track Your Progress" class="simple-card-img" loading="lazy">
+                            </div>
+                            <div class="simple-card-caption simple-card-caption-2">
+                                <h4>Track Your Progress</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-2 col-md-4 col-sm-4">
+                        <div class="simple-card">
+                            <div class="simple-card-image">
+                                <img src="./img/card3.jpg" alt="Build Healthy Habits" class="simple-card-img" loading="lazy">
+                            </div>
+                            <div class="simple-card-caption simple-card-caption-3">
+                                <h4>Build Healthy Habits</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-2 col-md-4 col-sm-4">
+                        <div class="simple-card">
+                            <div class="simple-card-image">
+                                <img src="./img/card4.jpg" alt="Monitor Nutrients" class="simple-card-img" loading="lazy">
+                            </div>
+                            <div class="simple-card-caption simple-card-caption-4">
+                                <h4>Monitor Nutrients</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-2 col-md-4 col-sm-4">
+                        <div class="simple-card">
+                            <div class="simple-card-image">
+                                <img src="./img/card5.jpg" alt="Achieve Your Goals" class="simple-card-img" loading="lazy">
+                            </div>
+                            <div class="simple-card-caption simple-card-caption-5">
+                                <h4>Achieve Your Goals</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="help" class="help-section py-5">
+            <div class="container">
+                <div class="help-header text-center mb-5">
+                    <h2 class="section-title mb-3">How can we help?</h2>
+                    <p class="help-subtitle text-muted">I want to use GymFuel to…</p>
+                </div>
+                
+                <div class="row g-4">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="help-card h-100">
+                            <div class="help-card-content">
+                                <h4 class="help-card-title">Keep track of my food intake</h4>
+                                <div class="help-card-arrow">
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </div>
+                            </div>
+                            <div class="help-card-image">
+                                <div class="help-image-placeholder">
+                                    <i class="fa-solid fa-image"></i>
+                                    <span>Image placeholder</span>
+                                </div>
+                            </div>
                                 </div>
                             </div>
 
-                            <div class="overlap-card">
-                                <div class="card-frame">
-                                    <img src="./img/card2.jpeg" alt="Track Your Progress" class="card-img" loading="eager" fetchpriority="high" decoding="sync">
-                                    <h4 class="card-caption">Track Your Progress</h4>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="help-card h-100">
+                            <div class="help-card-content">
+                                <h4 class="help-card-title">Monitor my health metrics</h4>
+                                <div class="help-card-arrow">
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </div>
+                            </div>
+                            <div class="help-card-image">
+                                <div class="help-image-placeholder">
+                                    <i class="fa-solid fa-image"></i>
+                                    <span>Image placeholder</span>
+                                </div>
+                            </div>
                                 </div>
                             </div>
 
-                            <div class="overlap-card">
-                                <div class="card-frame">
-                                    <img src="./img/card3.jpg" alt="Build Healthy Habits" class="card-img" loading="eager" fetchpriority="high" decoding="sync">
-                                    <h4 class="card-caption">Build Healthy Habits</h4>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="help-card h-100">
+                            <div class="help-card-content">
+                                <h4 class="help-card-title">Optimize and refine my diet</h4>
+                                <div class="help-card-arrow">
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </div>
+                            </div>
+                            <div class="help-card-image">
+                                <div class="help-image-placeholder">
+                                    <i class="fa-solid fa-image"></i>
+                                    <span>Image placeholder</span>
+                                </div>
+                            </div>
                                 </div>
                             </div>
 
-                            <div class="overlap-card">
-                                <div class="card-frame">
-                                    <img src="./img/card4.jpg" alt="Monitor Nutrients" class="card-img" loading="eager" fetchpriority="high" decoding="sync">
-                                    <h4 class="card-caption">Monitor Nutrients</h4>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="help-card h-100">
+                            <div class="help-card-content">
+                                <h4 class="help-card-title">Analyze my diet progress</h4>
+                                <div class="help-card-arrow">
+                                    <i class="fa-solid fa-arrow-right"></i>
                                 </div>
                             </div>
-
-                            <div class="overlap-card">
-                                <div class="card-frame">
-                                    <img src="./img/card5.jpg" alt="Achieve Your Goals" class="card-img" loading="eager" fetchpriority="high" decoding="sync">
-                                    <h4 class="card-caption">Achieve Your Goals</h4>
+                            <div class="help-card-image">
+                                <div class="help-image-placeholder">
+                                    <i class="fa-solid fa-image"></i>
+                                    <span>Image placeholder</span>
                                 </div>
                             </div>
                         </div>

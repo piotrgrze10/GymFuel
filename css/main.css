@@ -1014,6 +1014,150 @@ a:hover {
 	text-align: center;
 }
 
+.help-section {
+	background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 50%, #f0f4f8 100%);
+	position: relative;
+	overflow: hidden;
+}
+
+.help-section::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: radial-gradient(circle at 50% 50%, rgba(3, 157, 255, 0.04) 0%, transparent 60%);
+	pointer-events: none;
+	z-index: 0;
+}
+
+.help-section .container {
+	position: relative;
+	z-index: 1;
+}
+
+.help-header {
+	margin-bottom: 60px;
+}
+
+.help-subtitle {
+	font-size: 1.1rem;
+	font-weight: 400;
+	letter-spacing: 0.5px;
+}
+
+.help-card {
+	background: white;
+	border-radius: 20px;
+	overflow: hidden;
+	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+	transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	border: 2px solid transparent;
+	display: flex;
+	flex-direction: column;
+	cursor: pointer;
+}
+
+.help-card:hover {
+	transform: translateY(-10px) scale(1.02);
+	box-shadow: 0 15px 50px rgba(3, 157, 255, 0.25);
+	border-color: #039dff;
+}
+
+.help-card-content {
+	padding: 30px 25px;
+	background: white;
+	position: relative;
+}
+
+.help-card-title {
+	color: #333;
+	font-weight: 700;
+	font-size: 1.2rem;
+	margin-bottom: 15px;
+	line-height: 1.4;
+	transition: color 0.3s ease;
+}
+
+.help-card:hover .help-card-title {
+	color: #039dff;
+}
+
+.help-card-arrow {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	background: linear-gradient(135deg, #039dff 0%, #0066cc 100%);
+	border-radius: 50%;
+	color: white;
+	font-size: 1.1rem;
+	transition: all 0.4s ease;
+	box-shadow: 0 4px 15px rgba(3, 157, 255, 0.3);
+}
+
+.help-card:hover .help-card-arrow {
+	transform: translateX(5px) scale(1.1);
+	box-shadow: 0 6px 20px rgba(3, 157, 255, 0.4);
+}
+
+.help-card-image {
+	width: 100%;
+	height: 250px;
+	overflow: hidden;
+	background: #f8f9fa;
+	position: relative;
+	flex-grow: 1;
+}
+
+.help-image-placeholder {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+	color: #6c757d;
+	transition: all 0.3s ease;
+}
+
+.help-image-placeholder i {
+	font-size: 3rem;
+	margin-bottom: 10px;
+	opacity: 0.5;
+}
+
+.help-image-placeholder span {
+	font-size: 0.9rem;
+	font-weight: 500;
+	opacity: 0.7;
+}
+
+.help-card:hover .help-image-placeholder {
+	background: linear-gradient(135deg, #dee2e6 0%, #ced4da 100%);
+}
+
+.help-card-image img,
+.help-img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 0.4s ease;
+	display: block;
+}
+
+.help-card:hover .help-card-image img,
+.help-card:hover .help-img {
+	transform: scale(1.1);
+}
+
+.help-card-image:has(img) .help-image-placeholder {
+	display: none;
+}
+
 .story-card {
 	background: white;
 	border-radius: 15px;
@@ -1282,198 +1426,124 @@ a:hover {
 	box-shadow: 0 5px 15px rgba(3, 157, 255, 0.3);
 }
 
-.overlapping-cards {
-	position: relative;
-	overflow: hidden;
-	padding: 100px 0;
+.simple-cards-section {
+	padding: 60px 0;
+	background: #f8f9fa;
 }
 
-.cards-wrapper {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	gap: -100px;
-	flex-wrap: nowrap;
-	position: relative;
+.simple-cards-section .row {
+	max-width: 1400px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
-.overlap-card {
-	position: relative;
-	width: 300px;
-	height: 400px;
-	margin-left: -60px;
-	transition: transform 0.4s ease, z-index 0.4s ease, scale 0.4s ease;
-	z-index: 1;
+.simple-cards-section .col-lg {
+	flex: 0 0 auto;
+	width: auto;
+	max-width: 240px;
+	min-width: 200px;
 }
 
-.overlap-card:first-child {
-	margin-left: 0;
-	transform: translateY(60px) scale(0.85);
-	z-index: 2;
-}
-
-.overlap-card:nth-child(2) {
-	transform: translateY(30px) scale(0.9);
-	z-index: 3;
-}
-
-.overlap-card:nth-child(3) {
-	transform: translateY(0) scale(1);
-	z-index: 5;
-}
-
-.overlap-card:nth-child(4) {
-	transform: translateY(30px) scale(0.9);
-	z-index: 3;
-}
-
-.overlap-card:nth-child(5) {
-	transform: translateY(60px) scale(0.85);
-	z-index: 2;
-}
-
-.overlap-card:hover {
-	transform: scale(1.03);
-	z-index: 999;
-}
-
-.card-frame {
-	position: relative;
-	width: 100%;
-	height: 100%;
-	border: 8px solid white;
-	border-radius: 20px;
-	overflow: hidden;
-	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-	transition: box-shadow 0.4s ease, border-color 0.4s ease;
+.simple-card {
 	background: white;
+	border-radius: 12px;
+	overflow: hidden;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	height: 100%;
 	display: flex;
 	flex-direction: column;
-	contain: paint;
 }
 
-.overlap-card:nth-child(1) .card-frame {
-	border-color: #FF6B6B;
-}
-
-.overlap-card:nth-child(1) .card-caption {
-	background: #FF6B6B;
-	color: white;
-}
-
-.overlap-card:nth-child(2) .card-frame {
-	border-color: #4ECDC4;
-}
-
-.overlap-card:nth-child(2) .card-caption {
-	background: #4ECDC4;
-	color: white;
-}
-
-.overlap-card:nth-child(3) .card-frame {
-	border-color: #45B7D1;
-}
-
-.overlap-card:nth-child(3) .card-caption {
-	background: #45B7D1;
-	color: white;
-}
-
-.overlap-card:nth-child(4) .card-frame {
-	border-color: #FFA07A;
-}
-
-.overlap-card:nth-child(4) .card-caption {
-	background: #FFA07A;
-	color: white;
-}
-
-.overlap-card:nth-child(5) .card-frame {
-	border-color: #98D8C8;
-}
-
-.overlap-card:nth-child(5) .card-caption {
-	background: #98D8C8;
-	color: white;
-}
-
-.overlap-card:hover .card-frame {
-	box-shadow: 0 20px 60px rgba(3, 157, 255, 0.4);
-}
-
-.card-img {
+.simple-card-image {
 	width: 100%;
-	height: 300px;
-	object-fit: cover;
-	transition: transform 0.4s ease;
-	will-change: transform;
-	transform: translateZ(0);
+	height: 280px;
+	overflow: hidden;
+	background: #f8f9fa;
 }
 
-.overlap-card:hover .card-img {
-	transform: scale(1.1);
+.simple-card-img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	display: block;
+	background: #f8f9fa;
 }
 
-.card-caption {
-	font-size: 1.15rem;
-	font-weight: bold;
+.simple-card-caption {
+	padding: 20px 15px;
 	text-align: center;
-	margin: 0;
-	padding: 25px 15px;
-	background: white;
 	flex-grow: 1;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+
+.simple-card-caption h4 {
+	margin: 0;
+	font-size: 1rem;
+	font-weight: 600;
 	line-height: 1.4;
-	position: relative;
-	z-index: 10;
+	color: white;
 }
 
-.overlap-card:hover .card-caption {
-	z-index: 9999;
+.simple-card-caption-1 {
+	background: #17a2b8;
+	border-top: 4px solid #17a2b8;
 }
 
-@media (max-width: 1400px) {
-	.overlap-card {
-		width: 250px;
-		height: 350px;
-		margin-left: -80px;
-	}
+.simple-card-caption-2 {
+	background: #ffc107;
+	border-top: 4px solid #ffc107;
 }
 
-@media (max-width: 1200px) {
-	.overlap-card {
-		width: 220px;
-		height: 320px;
-		margin-left: -100px;
-	}
+.simple-card-caption-3 {
+	background: #fd7e14;
+	border-top: 4px solid #fd7e14;
+}
+
+.simple-card-caption-4 {
+	background: #0066cc;
+	border-top: 4px solid #0066cc;
+}
+
+.simple-card-caption-5 {
+	background: #5bc0de;
+	border-top: 4px solid #5bc0de;
 }
 
 @media (max-width: 992px) {
-	.cards-wrapper {
-		flex-wrap: wrap;
-		gap: 20px;
-		justify-content: center;
-	}
-	
-	.overlap-card {
-		width: 280px;
-		height: 380px;
-		margin-left: 0;
-		margin-bottom: 20px;
-		transform: none !important;
-	}
-	
-	.overlap-card:first-child,
-	.overlap-card:nth-child(2),
-	.overlap-card:nth-child(3),
-	.overlap-card:nth-child(4),
-	.overlap-card:nth-child(5) {
-		transform: none !important;
-		z-index: 1;
+	.simple-cards-section .col-lg {
+		max-width: 100%;
+		min-width: auto;
 	}
 }
+
+@media (max-width: 576px) {
+	.simple-cards-section .col-md-4,
+	.simple-cards-section .col-sm-4 {
+		flex: 0 0 auto;
+		width: 33.333333%;
+	}
+	
+	.simple-cards-section .col-lg {
+		max-width: 100%;
+		min-width: auto;
+	}
+	
+	.simple-card-image {
+		height: 180px;
+	}
+	
+	.simple-card-caption {
+		padding: 12px 8px;
+	}
+	
+	.simple-card-caption h4 {
+		font-size: 0.75rem;
+		line-height: 1.3;
+	}
+}
+
 
 @media (max-width: 768px) {
 	body {
@@ -1523,6 +1593,38 @@ a:hover {
 	
 	.aboutus-new {
 		padding: 40px 0 !important;
+	}
+	
+	.help-section {
+		padding: 40px 0 !important;
+	}
+	
+	.help-header {
+		margin-bottom: 40px;
+	}
+	
+	.help-subtitle {
+		font-size: 1rem;
+	}
+	
+	.help-card-content {
+		padding: 25px 20px;
+	}
+	
+	.help-card-title {
+		font-size: 1.1rem;
+	}
+	
+	.help-card-image {
+		height: 200px;
+	}
+	
+	.help-image-placeholder i {
+		font-size: 2.5rem;
+	}
+	
+	.help-image-placeholder span {
+		font-size: 0.85rem;
 	}
 	
 	.aboutus-content {
@@ -1635,81 +1737,20 @@ a:hover {
 		font-size: 2.5rem;
 	}
 	
-	.overlapping-cards {
+	.simple-cards-section {
 		padding: 40px 0;
-		overflow-x: hidden;
 	}
 	
-	.cards-wrapper {
-		flex-wrap: nowrap;
-		justify-content: center;
-		gap: 0;
-		overflow-x: hidden;
-		padding: 10px 0;
-		width: 100%;
+	.simple-card-image {
+		height: 220px;
 	}
 	
-	.overlap-card:first-child,
-	.overlap-card:nth-child(5) {
-		display: none;
+	.simple-card-caption {
+		padding: 18px 12px;
 	}
 	
-	.overlap-card {
-		width: calc((100% - 30px) / 3);
-		max-width: 150px;
-		min-width: 110px;
-		height: 360px;
-		margin-left: -20px;
-		transition: transform 0.3s ease;
-		flex-shrink: 0;
-	}
-	
-	.overlap-card:nth-child(2) {
-		margin-left: 0;
-		transform: translateY(35px) scale(0.85);
-		z-index: 2;
-	}
-	
-	.overlap-card:nth-child(3) {
-		transform: translateY(0) scale(1);
-		z-index: 5;
-	}
-	
-	.overlap-card:nth-child(4) {
-		transform: translateY(35px) scale(0.85);
-		z-index: 2;
-	}
-	
-	.overlap-card:hover {
-		transform: translateY(35px) scale(0.85);
-		z-index: 2;
-	}
-	
-	.overlap-card:nth-child(3):hover {
-		transform: translateY(0) scale(1.05);
-		z-index: 10;
-	}
-	
-	.overlap-card:hover .card-img {
-		transform: scale(1);
-	}
-	
-	.overlap-card:hover .card-frame {
-		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-	}
-	
-	.card-img {
-		height: 240px;
-	}
-	
-	.card-caption {
-		font-size: 1rem;
-		padding: 20px 14px;
-		line-height: 1.4;
-	}
-	
-	.card-frame {
-		border-width: 6px;
+	.simple-card-caption h4 {
+		font-size: 0.95rem;
 	}
 	
 	footer {
@@ -1755,66 +1796,22 @@ a:hover {
 		font-size: 16px;
 	}
 	
-	.overlap-card:first-child,
-	.overlap-card:nth-child(5) {
-		display: none;
+	.simple-card-image {
+		height: 200px;
 	}
 	
-	.overlap-card {
-		width: calc((100% - 24px) / 3);
-		max-width: 140px;
-		min-width: 100px;
-		height: 340px;
-		margin-left: -18px;
-		transition: transform 0.3s ease;
-		flex-shrink: 0;
+	.simple-card-caption {
+		padding: 16px 10px;
 	}
 	
-	.overlap-card:nth-child(2) {
-		margin-left: 0;
-		transform: translateY(30px) scale(0.82);
-		z-index: 2;
-	}
-	
-	.overlap-card:nth-child(3) {
-		transform: translateY(0) scale(1);
-		z-index: 5;
-	}
-	
-	.overlap-card:nth-child(4) {
-		transform: translateY(30px) scale(0.82);
-		z-index: 2;
-	}
-	
-	.overlap-card:hover {
-		transform: translateY(30px) scale(0.82);
-		z-index: 2;
-	}
-	
-	.overlap-card:nth-child(3):hover {
-		transform: translateY(0) scale(1.05);
-		z-index: 10;
-	}
-	
-	.card-img {
-		height: 220px;
-	}
-	
-	.card-caption {
-		font-size: 0.9rem;
-		padding: 18px 12px;
-		line-height: 1.35;
-	}
-	
-	.card-frame {
-		border-width: 5px;
-		border-radius: 15px;
+	.simple-card-caption h4 {
+		font-size: 0.85rem;
 	}
 	
 	.aboutus-title {
 		font-size: 1.4rem;
 	}
-
+	
 	.aboutus-lead {
 		font-size: 1rem;
 	}
@@ -1856,6 +1853,34 @@ a:hover {
 	
 	.feature-text {
 		font-size: 0.9rem;
+	}
+	
+	.help-card-content {
+		padding: 20px 18px;
+	}
+	
+	.help-card-title {
+		font-size: 1rem;
+		margin-bottom: 12px;
+	}
+	
+	.help-card-arrow {
+		width: 35px;
+		height: 35px;
+		font-size: 1rem;
+	}
+	
+	.help-card-image {
+		height: 180px;
+	}
+	
+	.help-image-placeholder i {
+		font-size: 2rem;
+		margin-bottom: 8px;
+	}
+	
+	.help-image-placeholder span {
+		font-size: 0.8rem;
 	}
 	
 	.feature-offer-card {
@@ -1917,25 +1942,16 @@ a:hover {
 		padding: 30px 0 !important;
 	}
 	
-	.overlap-card {
-		width: calc((100% - 20px) / 3);
-		max-width: 130px;
-		min-width: 95px;
-		height: 260px;
-		margin-left: -15px;
-	}
-	
-	.overlap-card:nth-child(2) {
-		margin-left: 0;
-	}
-	
-	.card-img {
+	.simple-card-image {
 		height: 160px;
 	}
 	
-	.card-caption {
-		font-size: 0.85rem;
-		padding: 14px 10px;
+	.simple-card-caption {
+		padding: 12px 6px;
+	}
+	
+	.simple-card-caption h4 {
+		font-size: 0.75rem;
 	}
 }
 
@@ -1948,25 +1964,16 @@ a:hover {
 		font-size: 1.4rem;
 	}
 	
-	.overlap-card {
-		width: calc((100% - 20px) / 3);
-		max-width: 125px;
-		min-width: 90px;
-		height: 240px;
-		margin-left: -15px;
-	}
-	
-	.overlap-card:nth-child(2) {
-		margin-left: 0;
-	}
-	
-	.card-img {
+	.simple-card-image {
 		height: 150px;
 	}
 	
-	.card-caption {
-		font-size: 0.85rem;
-		padding: 14px 10px;
+	.simple-card-caption {
+		padding: 10px 5px;
+	}
+	
+	.simple-card-caption h4 {
+		font-size: 0.7rem;
 	}
 }
 
@@ -1984,25 +1991,16 @@ a:hover {
 		padding-right: 10px;
 	}
 	
-	.overlap-card {
-		width: calc((100% - 16px) / 3);
-		max-width: 115px;
-		min-width: 85px;
-		height: 220px;
-		margin-left: -12px;
+	.simple-card-image {
+		height: 130px;
 	}
 	
-	.overlap-card:nth-child(2) {
-		margin-left: 0;
+	.simple-card-caption {
+		padding: 8px 4px;
 	}
 	
-	.card-img {
-		height: 135px;
-	}
-	
-	.card-caption {
-		font-size: 0.75rem;
-		padding: 10px 6px;
+	.simple-card-caption h4 {
+		font-size: 0.65rem;
 	}
 }
 
