@@ -157,7 +157,7 @@ require_once 'includes/config.php';
             <div class="container">
                 <div class="row g-2 g-md-4 justify-content-center">
                     <div class="col-lg col-md-4 col-sm-4">
-                        <div class="simple-card">
+                        <div class="simple-card simple-card-1">
                             <div class="simple-card-image">
                                 <img src="./img/card1.jpg" alt="Reach & Maintain Your Goal Weight" class="simple-card-img" loading="lazy">
                             </div>
@@ -168,7 +168,7 @@ require_once 'includes/config.php';
                     </div>
 
                     <div class="col-lg-2 col-md-4 col-sm-4">
-                        <div class="simple-card">
+                        <div class="simple-card simple-card-2">
                             <div class="simple-card-image">
                                 <img src="./img/card2.jpeg" alt="Track Your Progress" class="simple-card-img" loading="lazy">
                             </div>
@@ -179,7 +179,7 @@ require_once 'includes/config.php';
                     </div>
 
                     <div class="col-lg-2 col-md-4 col-sm-4">
-                        <div class="simple-card">
+                        <div class="simple-card simple-card-3">
                             <div class="simple-card-image">
                                 <img src="./img/card3.jpg" alt="Build Healthy Habits" class="simple-card-img" loading="lazy">
                             </div>
@@ -190,7 +190,7 @@ require_once 'includes/config.php';
                     </div>
 
                     <div class="col-lg-2 col-md-4 col-sm-4">
-                        <div class="simple-card">
+                        <div class="simple-card simple-card-4">
                             <div class="simple-card-image">
                                 <img src="./img/card4.jpg" alt="Monitor Nutrients" class="simple-card-img" loading="lazy">
                             </div>
@@ -201,7 +201,7 @@ require_once 'includes/config.php';
                     </div>
 
                     <div class="col-lg-2 col-md-4 col-sm-4">
-                        <div class="simple-card">
+                        <div class="simple-card simple-card-5">
                             <div class="simple-card-image">
                                 <img src="./img/card5.jpg" alt="Achieve Your Goals" class="simple-card-img" loading="lazy">
                             </div>
