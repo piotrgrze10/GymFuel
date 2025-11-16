@@ -155,8 +155,8 @@ require_once 'includes/config.php';
 
         <section class="simple-cards-section py-5 bg-light">
             <div class="container">
-                <div class="row g-2 g-md-4 justify-content-center">
-                    <div class="col-lg col-md-4 col-sm-4">
+                <div class="row g-4 justify-content-center simple-cards-row">
+                    <div class="col-lg col-md-6 col-sm-6">
                         <div class="simple-card simple-card-1">
                             <div class="simple-card-image">
                                 <img src="./img/card1.jpg" alt="Reach & Maintain Your Goal Weight" class="simple-card-img" loading="lazy">
@@ -167,7 +167,7 @@ require_once 'includes/config.php';
                         </div>
                     </div>
 
-                    <div class="col-lg-2 col-md-4 col-sm-4">
+                    <div class="col-lg col-md-6 col-sm-6">
                         <div class="simple-card simple-card-2">
                             <div class="simple-card-image">
                                 <img src="./img/card2.jpeg" alt="Track Your Progress" class="simple-card-img" loading="lazy">
@@ -178,7 +178,7 @@ require_once 'includes/config.php';
                         </div>
                     </div>
 
-                    <div class="col-lg-2 col-md-4 col-sm-4">
+                    <div class="col-lg col-md-6 col-sm-6">
                         <div class="simple-card simple-card-3">
                             <div class="simple-card-image">
                                 <img src="./img/card3.jpg" alt="Build Healthy Habits" class="simple-card-img" loading="lazy">
@@ -189,7 +189,7 @@ require_once 'includes/config.php';
                         </div>
                     </div>
 
-                    <div class="col-lg-2 col-md-4 col-sm-4">
+                    <div class="col-lg col-md-6 col-sm-6">
                         <div class="simple-card simple-card-4">
                             <div class="simple-card-image">
                                 <img src="./img/card4.jpg" alt="Monitor Nutrients" class="simple-card-img" loading="lazy">
@@ -200,7 +200,7 @@ require_once 'includes/config.php';
                         </div>
                     </div>
 
-                    <div class="col-lg-2 col-md-4 col-sm-4">
+                    <div class="col-lg col-md-6 col-sm-6">
                         <div class="simple-card simple-card-5">
                             <div class="simple-card-image">
                                 <img src="./img/card5.jpg" alt="Achieve Your Goals" class="simple-card-img" loading="lazy">
@@ -218,6 +218,7 @@ require_once 'includes/config.php';
             <div class="container">
                 <div class="help-header text-center mb-5">
                     <h2 class="section-title mb-3">How can we help?</h2>
+                    <div class="underline mx-auto mb-4"></div>
                     <p class="help-subtitle text-muted">I want to use GymFuel to…</p>
                 </div>
                 
@@ -415,15 +416,17 @@ require_once 'includes/config.php';
 
         <section id="achievements" class="success-stories-new py-5 bg-white">
             <div class="container">
-                <h2 class="section-title">Success Stories</h2>
-                <div class="underline"></div>
-                <p class="text-center mb-5 text-muted">Real people, real results</p>
+                <div class="success-stories-header text-center mb-5">
+                    <h2 class="section-title mb-3">Success Stories</h2>
+                    <div class="underline mx-auto mb-4"></div>
+                    <p class="success-stories-subtitle text-muted">Real people, real results</p>
+                </div>
                 
                 <div class="row g-4">
                     <div class="col-lg-4">
                         <div class="testimonial-card text-center p-4 bg-light rounded">
                             <div class="testimonial-image mb-3">
-                                <img src="./img/person1.jpg" alt="Sarah Mitchell" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover;" loading="eager" fetchpriority="high" decoding="sync">
+                                <img src="./img/person1.jpg" alt="Sarah Mitchell" class="rounded-circle testimonial-img" loading="eager" fetchpriority="high" decoding="sync">
                             </div>
                             <h5>Sarah Mitchell</h5>
                             <div class="text-warning mb-2">
@@ -441,7 +444,7 @@ require_once 'includes/config.php';
                     <div class="col-lg-4">
                         <div class="testimonial-card text-center p-4 bg-light rounded border border-warning border-2">
                             <div class="testimonial-image mb-3">
-                                <img src="./img/person2.jpg" alt="Alex & Jordan Miller" class="rounded-circle testimonial-img-pair" style="width: 100px; height: 100px; object-fit: cover; object-position: center;" loading="eager" fetchpriority="high" decoding="sync">
+                                <img src="./img/person2.jpg" alt="Alex & Jordan Miller" class="rounded-circle testimonial-img testimonial-img-pair" loading="eager" fetchpriority="high" decoding="sync">
                             </div>
                             <h5>Alex & Jordan Miller</h5>
                             <div class="text-warning mb-2">
@@ -459,7 +462,7 @@ require_once 'includes/config.php';
                     <div class="col-lg-4">
                         <div class="testimonial-card text-center p-4 bg-light rounded">
                             <div class="testimonial-image mb-3">
-                                <img src="./img/person3.jpg" alt="David Thompson" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover;" loading="eager" fetchpriority="high" decoding="sync">
+                                <img src="./img/person3.jpg" alt="David Thompson" class="rounded-circle testimonial-img" loading="eager" fetchpriority="high" decoding="sync">
                             </div>
                             <h5>David Thompson</h5>
                             <div class="text-warning mb-2">
