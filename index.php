@@ -26,7 +26,7 @@ require_once 'includes/config.php';
     <link rel="preload" as="image" href="./img/person2.jpg">
     <link rel="preload" as="image" href="./img/person3.jpg">
     <link rel="stylesheet" href="./css/navbar.css?v=NOWRAP_FIX">
-    <link rel="stylesheet" href="./css/main.css?v=STAT_CARD_BLACK_TEXT">
+    <link rel="stylesheet" href="./css/main.css?v=SUCCESS_STORIES_CLEAN">
     <script src="https://kit.fontawesome.com/897067be39.js" crossorigin="anonymous"></script>
 </head>
 
@@ -414,67 +414,91 @@ require_once 'includes/config.php';
             </div>
         </section>
 
-        <section id="achievements" class="success-stories-new py-5 bg-white">
+        <section id="achievements" class="success-stories-new py-5">
             <div class="container">
                 <div class="success-stories-header text-center mb-5">
                     <h2 class="section-title mb-3">Success Stories</h2>
                     <div class="underline mx-auto mb-4"></div>
-                    <p class="success-stories-subtitle text-muted">Real people, real results</p>
+                    <p class="success-stories-subtitle text-muted">Real transformations from real people</p>
                 </div>
                 
                 <div class="row g-4">
-                    <div class="col-lg-4">
-                        <div class="testimonial-card text-center p-4 bg-light rounded">
-                            <div class="testimonial-image mb-3">
-                                <img src="./img/person1.jpg" alt="Sarah Mitchell" class="rounded-circle testimonial-img" loading="eager" fetchpriority="high" decoding="sync">
+                    <div class="col-lg-4 col-md-6">
+                        <article class="testimonial-clean">
+                            <div class="testimonial-header-clean">
+                                <div class="testimonial-avatar-clean">
+                                    <img src="./img/person1.jpg" alt="Sarah" loading="lazy">
+                                </div>
+                                <div class="testimonial-info-clean">
+                                    <h4 class="testimonial-name-clean">Sarah M.</h4>
+                                    <div class="testimonial-result-clean">-25kg in 6 months</div>
+                                </div>
                             </div>
-                            <h5>Sarah Mitchell</h5>
-                            <div class="text-warning mb-2">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
+                            <div class="testimonial-body-clean">
+                                <p class="testimonial-text-clean">"Finally found something that actually works. Tracking meals became a habit, not a chore. Best part? I can still enjoy my favorite foods."</p>
                             </div>
-                            <p class="mb-2 text-muted small"><strong>-25kg</strong> in 6 months</p>
-                            <p class="mb-0">"GymFuel changed my life! The calorie tracking made it so easy to stay on track."</p>
-                        </div>
+                            <div class="testimonial-footer-clean">
+                                <div class="testimonial-rating-clean">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                            </div>
+                        </article>
                     </div>
 
-                    <div class="col-lg-4">
-                        <div class="testimonial-card text-center p-4 bg-light rounded border border-warning border-2">
-                            <div class="testimonial-image mb-3">
-                                <img src="./img/person2.jpg" alt="Alex & Jordan Miller" class="rounded-circle testimonial-img testimonial-img-pair" loading="eager" fetchpriority="high" decoding="sync">
+                    <div class="col-lg-4 col-md-6">
+                        <article class="testimonial-clean">
+                            <div class="testimonial-header-clean">
+                                <div class="testimonial-avatar-clean">
+                                    <img src="./img/person2.jpg" alt="Alex & Jordan" loading="lazy">
+                                </div>
+                                <div class="testimonial-info-clean">
+                                    <h4 class="testimonial-name-clean">Alex & Jordan</h4>
+                                    <div class="testimonial-result-clean">-35kg combined</div>
+                                </div>
                             </div>
-                            <h5>Alex & Jordan Miller</h5>
-                            <div class="text-warning mb-2">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
+                            <div class="testimonial-body-clean">
+                                <p class="testimonial-text-clean">"We tried everything before this. What made the difference? Seeing our progress together. The dashboard keeps us both accountable and motivated."</p>
                             </div>
-                            <p class="mb-2 text-muted small"><strong>-35kg combined</strong> in 10 months</p>
-                            <p class="mb-0">"We started our fitness journey together. Lost 35kg and gained a healthier relationship with food!"</p>
-                        </div>
+                            <div class="testimonial-footer-clean">
+                                <div class="testimonial-rating-clean">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                            </div>
+                        </article>
                     </div>
 
-                    <div class="col-lg-4">
-                        <div class="testimonial-card text-center p-4 bg-light rounded">
-                            <div class="testimonial-image mb-3">
-                                <img src="./img/person3.jpg" alt="David Thompson" class="rounded-circle testimonial-img" loading="eager" fetchpriority="high" decoding="sync">
+                    <div class="col-lg-4 col-md-6">
+                        <article class="testimonial-clean">
+                            <div class="testimonial-header-clean">
+                                <div class="testimonial-avatar-clean">
+                                    <img src="./img/person3.jpg" alt="David" loading="lazy">
+                                </div>
+                                <div class="testimonial-info-clean">
+                                    <h4 class="testimonial-name-clean">David T.</h4>
+                                    <div class="testimonial-result-clean testimonial-result-muscle-clean">+12kg muscle gain</div>
+                                </div>
                             </div>
-                            <h5>David Thompson</h5>
-                            <div class="text-warning mb-2">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
+                            <div class="testimonial-body-clean">
+                                <p class="testimonial-text-clean">"Bulking was always a guessing game. Now I hit my protein goals every day. The macro breakdown is exactly what I needed to see real gains."</p>
                             </div>
-                            <p class="mb-2 text-muted small"><strong>+12kg muscle</strong> in 7 months</p>
-                            <p class="mb-0">"GymFuel helped me track my macros perfectly for bulking. Gained 12kg of lean muscle!"</p>
-                        </div>
+                            <div class="testimonial-footer-clean">
+                                <div class="testimonial-rating-clean">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                            </div>
+                        </article>
                     </div>
                 </div>
             </div>
