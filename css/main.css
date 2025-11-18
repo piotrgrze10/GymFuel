@@ -381,19 +381,28 @@ header.hero-img .fa-chevron-down {
 	transform: scale(1.1) rotate(5deg);
 }
 
-.stat-number {
-	color: #333;
+.stat-card .stat-number,
+.stat-card h4.stat-number,
+.aboutus-new .stat-card .stat-number,
+.aboutus-new .stat-card h4.stat-number {
+	color: #000 !important;
 	font-weight: 700;
 	font-size: 2.2rem;
 	transition: color 0.3s ease;
 }
 
-.stat-card:hover .stat-number {
-	color: #039dff;
+.stat-card:hover .stat-number,
+.stat-card:hover h4.stat-number,
+.aboutus-new .stat-card:hover .stat-number,
+.aboutus-new .stat-card:hover h4.stat-number {
+	color: #039dff !important;
 }
 
-.stat-label {
-	color: #666;
+.stat-card .stat-label,
+.stat-card p.stat-label,
+.aboutus-new .stat-card .stat-label,
+.aboutus-new .stat-card p.stat-label {
+	color: #000 !important;
 	font-size: 0.95rem;
 	font-weight: 500;
 	text-transform: uppercase;
@@ -1286,7 +1295,7 @@ a:hover {
 	text-align: center;
 }
 
-.stat-number {
+.story-stat .stat-number {
 	font-size: 2.8rem;
 	font-weight: bold;
 	color: white;
@@ -1294,7 +1303,7 @@ a:hover {
 	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.stat-label {
+.story-stat .stat-label {
 	color: rgba(255, 255, 255, 0.95);
 	font-size: 1rem;
 	margin-top: 8px;
@@ -1748,8 +1757,9 @@ a:hover {
 		font-size: 2rem;
 	}
 	
-	.stat-number {
+	.stat-card .stat-number {
 		font-size: 1.8rem;
+		color: #000 !important;
 	}
 	
 	.feature-icon-wrapper {
@@ -1925,12 +1935,14 @@ a:hover {
 		font-size: 1.8rem;
 	}
 	
-	.stat-number {
+	.stat-card .stat-number {
 		font-size: 1.6rem;
+		color: #000 !important;
 	}
 	
-	.stat-label {
+	.stat-card .stat-label {
 		font-size: 0.85rem;
+		color: #000 !important;
 	}
 	
 	.feature-icon-wrapper {
