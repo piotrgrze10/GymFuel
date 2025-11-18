@@ -118,7 +118,7 @@ $nutrition_label = $is_today ? "Today's Nutrition" : ($days_diff < 0 ? "Past Day
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/897067be39.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/navbar.css?v=NOWRAP_FIX">
-    <link rel="stylesheet" href="css/dashboard.css?v=fab-fixed-v12">
+    <link rel="stylesheet" href="css/dashboard.css?v=WATER_GOAL_EDIT">
     <link rel="stylesheet" href="css/footer.css">
 </head>
 <body style="padding-top: 76px;">
@@ -672,9 +672,14 @@ $nutrition_label = $is_today ? "Today's Nutrition" : ($days_diff < 0 ? "Past Day
                                 <i class="fa-solid fa-droplet water-icon"></i>
                                 Water Intake
                             </h5>
-                            <button class="btn-water-reset" id="waterResetBtn" title="Reset water intake">
-                                <i class="fa-solid fa-rotate-right"></i>
-                            </button>
+                            <div class="water-header-buttons">
+                                <button class="btn-water-edit" id="waterEditGoalBtn" title="Edit water goal">
+                                    <i class="fa-solid fa-sliders"></i>
+                                </button>
+                                <button class="btn-water-reset" id="waterResetBtn" title="Reset water intake">
+                                    <i class="fa-solid fa-rotate-right"></i>
+                                </button>
+                            </div>
                         </div>
                         
                         <div class="water-display">
@@ -915,6 +920,38 @@ $nutrition_label = $is_today ? "Today's Nutrition" : ($days_diff < 0 ? "Past Day
         </div>
     </div>
 
+    <div class="modal fade" id="waterGoalModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content" style="border-radius: 20px; border: none; box-shadow: 0 10px 40px rgba(6, 182, 212, 0.3); overflow: hidden;">
+                <div class="modal-body text-center p-5" style="background: linear-gradient(135deg, #e0f7ff 0%, #f0fbff 100%);">
+                    <div class="water-modal-icon">
+                        <i class="fa-solid fa-sliders"></i>
+                    </div>
+                    <h5 class="mb-3 fw-bold" style="color: #0891b2;">Set Water Goal</h5>
+                    <p class="text-muted mb-4" style="font-size: 0.95rem;">Enter your daily water intake goal (ml)</p>
+                    <div class="mb-4">
+                        <div class="input-group" style="max-width: 200px; margin: 0 auto;">
+                            <button class="btn btn-outline-secondary" type="button" id="decreaseWaterGoal" style="border-radius: 12px 0 0 12px;">
+                                <i class="fa-solid fa-minus"></i>
+                            </button>
+                            <input type="number" class="form-control text-center" id="waterGoalInput" value="2000" min="500" max="10000" step="100" style="border-radius: 0; font-weight: 600; font-size: 1.1rem;">
+                            <button class="btn btn-outline-secondary" type="button" id="increaseWaterGoal" style="border-radius: 0 12px 12px 0;">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                        <small class="text-muted d-block mt-2">ml</small>
+                    </div>
+                    <div class="d-flex gap-2 justify-content-center">
+                        <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal" style="border-radius: 12px;">Cancel</button>
+                        <button type="button" class="btn btn-water-confirm px-4" id="confirmWaterGoalBtn">
+                            <i class="fa-solid fa-check me-2"></i>Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="goalInfoModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content info-modal-content">
@@ -1077,13 +1114,12 @@ $nutrition_label = $is_today ? "Today's Nutrition" : ($days_diff < 0 ? "Past Day
     </button>
 
     <?php 
-    $logged_in = true; // Always logged in on dashboard
+    $logged_in = true;
     include 'includes/footer.php'; 
     ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Initialize with data from PHP
         window.initialDashboardData = <?php echo json_encode([
             'date' => $selected_date,
             'formatted_date' => date('l, F j, Y', strtotime($selected_date)),

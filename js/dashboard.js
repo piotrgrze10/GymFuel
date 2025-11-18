@@ -761,10 +761,11 @@ addFoodModal.addEventListener('hidden.bs.modal', function() {
 class WaterTracker {
     constructor() {
         this.storageKey = 'waterIntakeByDate';
+        this.goalStorageKey = 'waterGoal';
         this.currentDate = this.getTodayString();
         this.defaultGoal = 2000;
         this.currentIntake = 0;
-        this.dailyGoal = this.defaultGoal;
+        this.dailyGoal = this.loadGoal();
         
         this.elements = {
             current: document.getElementById('waterCurrent'),
@@ -774,11 +775,27 @@ class WaterTracker {
             addBtn250: document.getElementById('addWater250'),
             addBtn500: document.getElementById('addWater500'),
             resetBtn: document.getElementById('waterResetBtn'),
+            editBtn: document.getElementById('waterEditGoalBtn'),
             card: document.getElementById('waterTrackerCard'),
             tips: document.getElementById('waterTips')
         };
         
         this.init();
+    }
+    
+    loadGoal() {
+        const savedGoal = localStorage.getItem(this.goalStorageKey);
+        if (savedGoal) {
+            const goal = parseInt(savedGoal, 10);
+            return isNaN(goal) ? this.defaultGoal : Math.max(500, Math.min(10000, goal));
+        }
+        return this.defaultGoal;
+    }
+    
+    saveGoal(goal) {
+        this.dailyGoal = Math.max(500, Math.min(10000, goal));
+        localStorage.setItem(this.goalStorageKey, this.dailyGoal.toString());
+        this.updateDisplay();
     }
     
     init() {
@@ -1017,6 +1034,36 @@ class WaterTracker {
         this.elements.resetBtn.addEventListener('click', () => {
             this.reset();
         });
+        
+        if (this.elements.editBtn) {
+            this.elements.editBtn.addEventListener('click', () => {
+                this.openGoalModal();
+            });
+        }
+    }
+    
+    openGoalModal() {
+        const modal = new bootstrap.Modal(document.getElementById('waterGoalModal'));
+        const input = document.getElementById('waterGoalInput');
+        if (input) {
+            input.value = this.dailyGoal;
+        }
+        modal.show();
+    }
+    
+    async saveNewGoal() {
+        const input = document.getElementById('waterGoalInput');
+        if (input) {
+            const newGoal = parseInt(input.value, 10);
+            if (!isNaN(newGoal) && newGoal >= 500 && newGoal <= 10000) {
+                this.saveGoal(newGoal);
+                const modal = bootstrap.Modal.getInstance(document.getElementById('waterGoalModal'));
+                if (modal) {
+                    modal.hide();
+                }
+                cleanupModalBackdrop();
+            }
+        }
     }
     
     addButtonRipple(button) {
@@ -1070,6 +1117,33 @@ if (document.getElementById('waterTrackerCard')) {
     document.getElementById('confirmWaterResetBtn').addEventListener('click', async function() {
         await waterTrackerInstance.confirmReset();
     });
+    
+    const confirmWaterGoalBtn = document.getElementById('confirmWaterGoalBtn');
+    if (confirmWaterGoalBtn) {
+        confirmWaterGoalBtn.addEventListener('click', async function() {
+            await waterTrackerInstance.saveNewGoal();
+        });
+    }
+    
+    const increaseWaterGoalBtn = document.getElementById('increaseWaterGoal');
+    const decreaseWaterGoalBtn = document.getElementById('decreaseWaterGoal');
+    const waterGoalInput = document.getElementById('waterGoalInput');
+    
+    if (increaseWaterGoalBtn && waterGoalInput) {
+        increaseWaterGoalBtn.addEventListener('click', function() {
+            const current = parseInt(waterGoalInput.value, 10) || 2000;
+            const newValue = Math.min(10000, current + 100);
+            waterGoalInput.value = newValue;
+        });
+    }
+    
+    if (decreaseWaterGoalBtn && waterGoalInput) {
+        decreaseWaterGoalBtn.addEventListener('click', function() {
+            const current = parseInt(waterGoalInput.value, 10) || 2000;
+            const newValue = Math.max(500, current - 100);
+            waterGoalInput.value = newValue;
+        });
+    }
 }
 
 document.querySelectorAll('.goals-clickable').forEach(item => {

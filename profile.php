@@ -508,6 +508,37 @@ $initials = strtoupper(substr($names[0], 0, 1) . (isset($names[1]) ? substr($nam
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/profile.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedGoal = localStorage.getItem('waterGoal');
+            if (savedGoal) {
+                const goal = parseInt(savedGoal, 10);
+                if (!isNaN(goal) && goal >= 500 && goal <= 10000) {
+                    const waterCard = document.querySelector('.water-card');
+                    if (waterCard) {
+                        const statUnit = waterCard.querySelector('.stat-unit');
+                        const progressFill = waterCard.querySelector('.progress-fill');
+                        const progressPercentage = waterCard.querySelector('.progress-percentage');
+                        
+                        if (statUnit) {
+                            statUnit.textContent = `/ ${goal} ml`;
+                        }
+                        
+                        const waterIntake = <?php echo $today_log['water_intake']; ?>;
+                        const percentage = Math.min((waterIntake / goal) * 100, 100);
+                        
+                        if (progressFill) {
+                            progressFill.style.width = percentage + '%';
+                        }
+                        
+                        if (progressPercentage) {
+                            progressPercentage.textContent = Math.round(percentage) + '%';
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>
 

@@ -373,10 +373,11 @@ function searchByCategory(category) {
     try {
         const terms = categoryTerms[category];
         let productsArray = [];
+        const allowedProducts = ['apple', 'banana'];
         
         for (let term of terms) {
             const lowerTerm = term.toLowerCase();
-            if (rawFoods[lowerTerm]) {
+            if (rawFoods[lowerTerm] && allowedProducts.includes(lowerTerm)) {
                 const rawFood = rawFoods[lowerTerm];
                 const rawProduct = {
                     product_name: rawFood.name,
@@ -472,10 +473,13 @@ function sortProducts(products) {
 }
 
 function displayProducts(products) {
-    allProducts = products;
+    const allowedProducts = ['Apple', 'Banana'];
+    allProducts = products.filter(product => 
+        allowedProducts.includes(product.product_name)
+    );
     currentPage = 1;
     
-    if (products.length > 0) {
+    if (allProducts.length > 0) {
         document.getElementById('categoriesSection').classList.add('hidden');
         document.getElementById('recentSearchesContainer').style.display = 'none';
         document.getElementById('searchFilters').style.display = 'block';
@@ -541,7 +545,22 @@ function renderProducts() {
         const placeholderIcon = getPlaceholderIcon(productName);
         const isFavorited = favorites.includes(product.product_name);
         
-        const imageHTML = `
+        let imagePath = null;
+        if (product.product_name === 'Apple') {
+            imagePath = './img/products/apple.jpg';
+        } else if (product.product_name === 'Banana') {
+            imagePath = './img/products/banana.jpg';
+        }
+        
+        const imageHTML = imagePath ? `
+            <div class="product-image-wrapper">
+                <img src="${imagePath}" alt="${productName}" class="product-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="product-image-placeholder" style="display: none;"><i class="fa-solid ${placeholderIcon}"></i></div>
+                <button class="product-favorite-btn ${isFavorited ? 'favorited' : ''}" onclick="toggleFavorite('${product.product_name.replace(/'/g, "\\'")}', event)">
+                    <i class="fa-${isFavorited ? 'solid' : 'regular'} fa-heart"></i>
+                </button>
+            </div>
+        ` : `
             <div class="product-image-wrapper">
                 <div class="product-image-placeholder"><i class="fa-solid ${placeholderIcon}"></i></div>
                 <button class="product-favorite-btn ${isFavorited ? 'favorited' : ''}" onclick="toggleFavorite('${product.product_name.replace(/'/g, "\\'")}', event)">
