@@ -42,8 +42,9 @@ require_once 'includes/config.php';
                 <ul class="navbar-nav ms-auto">
                     <?php if (isLoggedIn()): ?>
                         <li class="nav-item"><a class="nav-link" href="dashboard.php">Dashboard</a></li>
+                        <li class="nav-item"><a class="nav-link" href="charts.php">Charts</a></li>
                         <li class="nav-item"><a class="nav-link" href="./search_products.php">Search Products</a></li>
-                        <li class="nav-item"><a class="nav-link" href="bmi_calculator.php">BMI Calculator</a></li>
+                        <li class="nav-item"><a class="nav-link" href="bmi_calculator.php">Calculators</a></li>
                         <li class="nav-item"><a class="nav-link" href="profile.php">Profile</a></li>
                         <li class="nav-item"><a class="nav-link" href="auth/logout.php">Logout</a></li>
                     <?php else: ?>
@@ -52,7 +53,7 @@ require_once 'includes/config.php';
                         <li class="nav-item"><a class="nav-link" href="#features">Offer</a></li>
                         <li class="nav-item"><a class="nav-link" href="#achievements">Achievements</a></li>
                         <li class="nav-item"><a class="nav-link" href="./search_products.php">Search Products</a></li>
-                        <li class="nav-item"><a class="nav-link" href="bmi_calculator.php">BMI Calculator</a></li>
+                        <li class="nav-item"><a class="nav-link" href="bmi_calculator.php">Calculators</a></li>
                         <li class="nav-item"><a class="nav-link" href="auth/login.php">Login</a></li>
                     <?php endif; ?>
                 </ul>

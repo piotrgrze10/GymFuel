@@ -125,8 +125,9 @@ $initials = strtoupper(substr($names[0], 0, 1) . (isset($names[1]) ? substr($nam
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="dashboard.php">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="charts.php">Charts</a></li>
                     <li class="nav-item"><a class="nav-link" href="search_products.php">Search Products</a></li>
-                    <li class="nav-item"><a class="nav-link" href="bmi_calculator.php">BMI Calculator</a></li>
+                        <li class="nav-item"><a class="nav-link" href="bmi_calculator.php">Calculators</a></li>
                     <li class="nav-item"><a class="nav-link active" href="profile.php">Profile</a></li>
                     <li class="nav-item"><a class="nav-link" href="auth/logout.php">Logout</a></li>
                 </ul>

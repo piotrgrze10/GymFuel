@@ -30,7 +30,7 @@
                 <ul class="footer-links">
                     <li><a href="<?php echo $logged_in ? 'dashboard.php' : 'index.php'; ?>">Home</a></li>
                     <li><a href="search_products.php">Search Products</a></li>
-                    <li><a href="bmi_calculator.php">BMI Calculator</a></li>
+                    <li><a href="bmi_calculator.php">Calculators</a></li>
                     <?php if ($logged_in): ?>
                         <li><a href="profile.php">My Profile</a></li>
                     <?php endif; ?>
