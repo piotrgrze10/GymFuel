@@ -410,6 +410,20 @@ function searchByCategory(category) {
             document.getElementById('clearCategoryWrapper').style.display = 'block';
             displayProducts(productsArray);
             document.getElementById('categoriesSection').classList.add('hidden');
+            
+            setTimeout(() => {
+                const clearCategoryWrapper = document.getElementById('clearCategoryWrapper');
+                if (clearCategoryWrapper) {
+                    const navbarHeight = 80;
+                    const elementPosition = clearCategoryWrapper.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+                    
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            }, 100);
         } else {
             showNoResults();
         }
@@ -497,9 +511,13 @@ function displayProducts(products) {
     const clearCategoryWrapper = document.getElementById('clearCategoryWrapper');
     if (clearCategoryWrapper && clearCategoryWrapper.style.display !== 'none') {
         setTimeout(() => {
-            clearCategoryWrapper.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
+            const navbarHeight = 80;
+            const elementPosition = clearCategoryWrapper.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+            
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
             });
         }, 100);
     }
