@@ -211,6 +211,20 @@ class BMICalculator {
     showFfmiResult() {
         if (this.ffmiResult) this.ffmiResult.classList.add('show');
         this.hideFfmiError();
+        
+        setTimeout(() => {
+            if (this.ffmiResult) {
+                const navbarHeight = 76;
+                const extraOffset = 30;
+                const elementPosition = this.ffmiResult.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - navbarHeight - extraOffset;
+                
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        }, 100);
     }
     
     hideFfmiResult() {
@@ -393,6 +407,20 @@ class BMICalculator {
             this.bmiResult.classList.add('show');
         }
         this.hideError();
+        
+        setTimeout(() => {
+            if (this.bmiResult) {
+                const navbarHeight = 76;
+                const extraOffset = 30;
+                const elementPosition = this.bmiResult.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - navbarHeight - extraOffset;
+                
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        }, 100);
     }
 
     hideResult() {
