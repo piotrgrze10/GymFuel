@@ -53,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $meal_type = $_POST['meal_type'] ?? '';
         $quantity = floatval($_POST['quantity'] ?? 1);
         $selected_unit = $_POST['selected_unit'] ?? 'gram';
+        $log_date = trim($_POST['log_date'] ?? date('Y-m-d'));
         
         if ($food_id <= 0 || empty($meal_type)) {
             echo json_encode(['success' => false, 'error' => 'Invalid parameters']);
@@ -62,6 +63,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $valid_meals = ['breakfast', 'lunch', 'dinner', 'snack'];
         if (!in_array($meal_type, $valid_meals)) {
             echo json_encode(['success' => false, 'error' => 'Invalid meal type']);
+            exit();
+        }
+
+        $log_date_obj = DateTime::createFromFormat('Y-m-d', $log_date);
+        if (!$log_date_obj || $log_date_obj->format('Y-m-d') !== $log_date) {
+            echo json_encode(['success' => false, 'error' => 'Invalid date format']);
+            exit();
+        }
+
+        $date_limit_future = (new DateTime('+30 days'))->format('Y-m-d');
+        $date_limit_past = (new DateTime('-365 days'))->format('Y-m-d');
+        if ($log_date > $date_limit_future || $log_date < $date_limit_past) {
+            echo json_encode(['success' => false, 'error' => 'Date out of range']);
             exit();
         }
         
@@ -94,14 +108,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $display_unit = $unit_info['unit_display'];
             }
             
-            $today = date('Y-m-d');
             $stmt = $pdo->prepare("SELECT id FROM daily_logs WHERE user_id = ? AND log_date = ?");
-            $stmt->execute([$_SESSION['user_id'], $today]);
+            $stmt->execute([$_SESSION['user_id'], $log_date]);
             $log = $stmt->fetch();
             
             if (!$log) {
                 $stmt = $pdo->prepare("INSERT INTO daily_logs (user_id, log_date) VALUES (?, ?)");
-                $stmt->execute([$_SESSION['user_id'], $today]);
+                $stmt->execute([$_SESSION['user_id'], $log_date]);
                 $log_id = $pdo->lastInsertId();
             } else {
                 $log_id = $log['id'];

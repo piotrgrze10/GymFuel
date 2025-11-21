@@ -646,6 +646,10 @@ document.getElementById('addFoodBtn').addEventListener('click', async function()
         formData.append('meal_type', mealType);
         formData.append('quantity', quantity);
         formData.append('selected_unit', currentSelectedUnit.unit_name);
+        const modalDate = document.getElementById('currentDate')?.dataset?.date;
+        if (modalDate) {
+            formData.append('log_date', modalDate);
+        }
         
         const response = await fetch('api/dashboard_handler.php', {
             method: 'POST',
@@ -1390,15 +1394,16 @@ function updateMeals(entriesByMeal, mealCalories) {
             let unit = entry.quantity_unit || 'g';
             
             if (unit !== 'g' && parseFloat(entry.quantity) > 1) {
-                const pluralMap = {
-                    'egg': 'eggs',
-                    'slice': 'slices',
-                    'tbsp': 'tbsp',
-                    'cup': 'cups',
-                    'serving': 'servings',
-                    'avocado': 'avocados',
-                    'orange': 'oranges'
-                };
+            const pluralMap = {
+                'egg': 'eggs',
+                'slice': 'slices',
+                'tbsp': 'tbsp',
+                'cup': 'cups',
+                'serving': 'servings',
+                'avocado': 'avocados',
+                'orange': 'oranges',
+                'ml': 'ml'
+            };
                 unit = pluralMap[unit] || unit + 's';
             }
             

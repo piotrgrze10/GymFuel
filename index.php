@@ -339,8 +339,8 @@ require_once 'includes/config.php';
                                 <p class="why-panel-description">Monitor your protein, carbs, fats, and calories with detailed food logging. See exactly what you're eating and make informed decisions to optimize your nutrition.</p>
                             </div>
                             <div class="why-panel-visual">
-                                <div class="why-panel-icon-wrapper">
-                                    <i class="fa-solid fa-chart-pie"></i>
+                                <div class="why-panel-icon-wrapper why-panel-icon-wrapper--image">
+                                    <img src="./img/ss1.png" alt="Nutrition tracking highlight" class="why-panel-image">
                                 </div>
                             </div>
                         </div>
@@ -353,8 +353,8 @@ require_once 'includes/config.php';
                                 <p class="why-panel-description">Monitor your food intake with detailed food journaling, verified nutrition information, and personalized calorie targets to keep yourself accountable and achieve your fitness goals.</p>
                             </div>
                             <div class="why-panel-visual">
-                                <div class="why-panel-icon-wrapper">
-                                    <i class="fa-solid fa-weight-scale"></i>
+                                <div class="why-panel-icon-wrapper why-panel-icon-wrapper--image">
+                                    <img src="./img/ss2.png" alt="Goal weight tracking" class="why-panel-image">
                                 </div>
                             </div>
                         </div>

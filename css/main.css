@@ -2278,8 +2278,8 @@ a:hover {
 }
 
 .why-panel-icon-wrapper {
-	width: 200px;
-	height: 200px;
+	width: 360px;
+	height: 360px;
 	background: rgba(255, 255, 255, 0.2);
 	border-radius: 30px;
 	display: flex;
@@ -2287,7 +2287,6 @@ a:hover {
 	justify-content: center;
 	backdrop-filter: blur(10px);
 	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-	transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .why-panel-icon-wrapper i {
@@ -2295,9 +2294,16 @@ a:hover {
 	color: white;
 }
 
-.why-panel:hover .why-panel-icon-wrapper {
-	transform: scale(1.1) rotate(5deg);
-	box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+.why-panel-icon-wrapper img {
+	width: 120%;
+	height: 120%;
+	object-fit: contain;
+}
+
+.why-panel-icon-wrapper--image {
+	background: transparent;
+	box-shadow: none;
+	backdrop-filter: none;
 }
 
 @media (max-width: 992px) {
