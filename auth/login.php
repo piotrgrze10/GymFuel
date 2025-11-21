@@ -104,7 +104,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             toast.style.display = 'flex';
             toast.classList.add('show');
             
-            // Auto hide after 5 seconds
             setTimeout(() => {
                 toast.classList.remove('show');
                 setTimeout(() => {
@@ -113,7 +112,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }, 5000);
         }
         
-        // Show error on page load
         window.addEventListener('DOMContentLoaded', function() {
             showErrorToast('<?php echo addslashes($error); ?>');
         });

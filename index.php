@@ -83,24 +83,24 @@ require_once 'includes/config.php';
                 <div class="row align-items-center py-4">
                     <div class="col-lg-6 mb-5 mb-lg-0">
                         <div class="aboutus-content">
-                            <h3 class="aboutus-title mb-4">Transform Your Nutrition Journey</h3>
-                            <p class="aboutus-lead mb-4">Your ultimate companion for achieving fitness goals through intelligent nutrition tracking.</p>
-                            <p class="aboutus-text mb-4">Whether you're looking to lose weight, gain muscle, or maintain a healthy lifestyle, we provide the tools and insights you need to succeed.</p>
+                            <h3 class="aboutus-title mb-3">Transform Your Nutrition Journey</h3>
+                            <p class="aboutus-lead mb-3">Your ultimate companion for achieving fitness goals through intelligent nutrition tracking.</p>
+                            <p class="aboutus-text mb-3">Whether you're looking to lose weight, gain muscle, or maintain a healthy lifestyle, we provide the tools and insights you need to succeed.</p>
                             
                             <div class="aboutus-features">
-                                <div class="feature-item mb-3">
+                                <div class="feature-item mb-2">
                                     <div class="feature-icon-wrapper">
                                         <i class="fa-solid fa-check-circle"></i>
                                     </div>
                                     <span class="feature-text">Track calories with 14+ million food products</span>
                                 </div>
-                                <div class="feature-item mb-3">
+                                <div class="feature-item mb-2">
                                     <div class="feature-icon-wrapper">
                                         <i class="fa-solid fa-check-circle"></i>
                                     </div>
                                     <span class="feature-text">Monitor macros and nutrients effortlessly</span>
                                 </div>
-                                <div class="feature-item mb-3">
+                                <div class="feature-item mb-0">
                                     <div class="feature-icon-wrapper">
                                         <i class="fa-solid fa-check-circle"></i>
                                     </div>
@@ -148,6 +148,114 @@ require_once 'includes/config.php';
                                     <p class="stat-label mb-0">Rating</p>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="help" class="help-section py-5">
+            <div class="container">
+                <div class="help-header text-center mb-5">
+                    <h2 class="section-title mb-3">How can we help?</h2>
+                    <div class="underline mx-auto mb-4"></div>
+                    <p class="help-subtitle text-muted">I want to use GymFuel to…</p>
+                </div>
+                
+                <div class="row g-4">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="help-card h-100">
+                            <div class="help-card-content">
+                                <h4 class="help-card-title">Keep track of my food intake</h4>
+                            </div>
+                            <div class="help-card-image">
+                                <img src="./img/products/person1.jpg" alt="Keep track of my food intake" class="help-card-img" loading="lazy">
+                            </div>
+                                </div>
+                            </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="help-card h-100">
+                            <div class="help-card-content">
+                                <h4 class="help-card-title">Monitor my health metrics</h4>
+                            </div>
+                            <div class="help-card-image">
+                                <img src="./img/products/person2.jpg" alt="Monitor my health metrics" class="help-card-img" loading="lazy">
+                            </div>
+                                </div>
+                            </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="help-card h-100">
+                            <div class="help-card-content">
+                                <h4 class="help-card-title">Optimize and refine my diet</h4>
+                            </div>
+                            <div class="help-card-image">
+                                <img src="./img/products/person3.jpg" alt="Optimize and refine my diet" class="help-card-img" loading="lazy">
+                            </div>
+                                </div>
+                            </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="help-card h-100">
+                            <div class="help-card-content">
+                                <h4 class="help-card-title">Analyze my diet progress</h4>
+                            </div>
+                            <div class="help-card-image">
+                                <img src="./img/products/person4.jpg" alt="Analyze my diet progress" class="help-card-img" loading="lazy">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="features py-5">
+            <div class="container">
+                <div class="features-header text-center mb-5">
+                    <h2 class="section-title mb-3">What We Offer</h2>
+                    <div class="underline mx-auto mb-4"></div>
+                    <p class="features-subtitle text-muted">Everything you need for successful nutrition tracking</p>
+                </div>
+                
+                <div class="row g-4">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="feature-offer-card h-100">
+                            <div class="feature-offer-icon-wrapper feature-icon-1">
+                                <i class="fa-solid fa-bullseye"></i>
+                            </div>
+                            <h4 class="feature-offer-title mb-3">Suggested Calorie Goals</h4>
+                            <p class="feature-offer-text mb-0">Let our intelligent system calculate your optimal daily calorie intake based on your age, weight, height, activity level, and fitness objectives.</p>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-md-6">
+                        <div class="feature-offer-card h-100">
+                            <div class="feature-offer-icon-wrapper feature-icon-2">
+                                <i class="fa-solid fa-sliders"></i>
+                            </div>
+                            <h4 class="feature-offer-title mb-3">Custom Calorie Goals</h4>
+                            <p class="feature-offer-text mb-0">Set your own personalized calorie targets. Have complete control over your daily intake limits to match your unique preferences and goals.</p>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-md-6">
+                        <div class="feature-offer-card h-100">
+                            <div class="feature-offer-icon-wrapper feature-icon-3">
+                                <i class="fa-solid fa-utensils"></i>
+                            </div>
+                            <h4 class="feature-offer-title mb-3">Flexible Meal Structure</h4>
+                            <p class="feature-offer-text mb-0">Log your meals however you want! Track breakfast, lunch, dinner, and snacks with complete freedom to organize your nutrition your way.</p>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-md-6">
+                        <div class="feature-offer-card h-100">
+                            <div class="feature-offer-icon-wrapper feature-icon-4">
+                                <i class="fa-solid fa-droplet"></i>
+                            </div>
+                            <h4 class="feature-offer-title mb-3">Water Tracking</h4>
+                            <p class="feature-offer-text mb-0">Monitor your daily hydration with our water tracking feature. Stay on top of your fluid intake to maintain optimal health and performance.</p>
                         </div>
                     </div>
                 </div>
@@ -209,138 +317,6 @@ require_once 'includes/config.php';
                             <div class="simple-card-caption simple-card-caption-5">
                                 <h4>Achieve Your Goals</h4>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="help" class="help-section py-5">
-            <div class="container">
-                <div class="help-header text-center mb-5">
-                    <h2 class="section-title mb-3">How can we help?</h2>
-                    <div class="underline mx-auto mb-4"></div>
-                    <p class="help-subtitle text-muted">I want to use GymFuel to…</p>
-                </div>
-                
-                <div class="row g-4">
-                    <div class="col-lg-3 col-md-6">
-                        <div class="help-card h-100">
-                            <div class="help-card-content">
-                                <h4 class="help-card-title">Keep track of my food intake</h4>
-                                <div class="help-card-arrow">
-                                    <i class="fa-solid fa-arrow-right"></i>
-                                </div>
-                            </div>
-                            <div class="help-card-image">
-                                <div class="help-image-placeholder">
-                                    <i class="fa-solid fa-image"></i>
-                                    <span>Image placeholder</span>
-                                </div>
-                            </div>
-                                </div>
-                            </div>
-
-                    <div class="col-lg-3 col-md-6">
-                        <div class="help-card h-100">
-                            <div class="help-card-content">
-                                <h4 class="help-card-title">Monitor my health metrics</h4>
-                                <div class="help-card-arrow">
-                                    <i class="fa-solid fa-arrow-right"></i>
-                                </div>
-                            </div>
-                            <div class="help-card-image">
-                                <div class="help-image-placeholder">
-                                    <i class="fa-solid fa-image"></i>
-                                    <span>Image placeholder</span>
-                                </div>
-                            </div>
-                                </div>
-                            </div>
-
-                    <div class="col-lg-3 col-md-6">
-                        <div class="help-card h-100">
-                            <div class="help-card-content">
-                                <h4 class="help-card-title">Optimize and refine my diet</h4>
-                                <div class="help-card-arrow">
-                                    <i class="fa-solid fa-arrow-right"></i>
-                                </div>
-                            </div>
-                            <div class="help-card-image">
-                                <div class="help-image-placeholder">
-                                    <i class="fa-solid fa-image"></i>
-                                    <span>Image placeholder</span>
-                                </div>
-                            </div>
-                                </div>
-                            </div>
-
-                    <div class="col-lg-3 col-md-6">
-                        <div class="help-card h-100">
-                            <div class="help-card-content">
-                                <h4 class="help-card-title">Analyze my diet progress</h4>
-                                <div class="help-card-arrow">
-                                    <i class="fa-solid fa-arrow-right"></i>
-                                </div>
-                            </div>
-                            <div class="help-card-image">
-                                <div class="help-image-placeholder">
-                                    <i class="fa-solid fa-image"></i>
-                                    <span>Image placeholder</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="features" class="features py-5">
-            <div class="container">
-                <div class="features-header text-center mb-5">
-                    <h2 class="section-title mb-3">What We Offer</h2>
-                    <div class="underline mx-auto mb-4"></div>
-                    <p class="features-subtitle text-muted">Everything you need for successful nutrition tracking</p>
-                </div>
-                
-                <div class="row g-4">
-                    <div class="col-lg-6 col-md-6">
-                        <div class="feature-offer-card h-100">
-                            <div class="feature-offer-icon-wrapper feature-icon-1">
-                                <i class="fa-solid fa-bullseye"></i>
-                            </div>
-                            <h4 class="feature-offer-title mb-3">Suggested Calorie Goals</h4>
-                            <p class="feature-offer-text mb-0">Let our intelligent system calculate your optimal daily calorie intake based on your age, weight, height, activity level, and fitness objectives.</p>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6 col-md-6">
-                        <div class="feature-offer-card h-100">
-                            <div class="feature-offer-icon-wrapper feature-icon-2">
-                                <i class="fa-solid fa-sliders"></i>
-                            </div>
-                            <h4 class="feature-offer-title mb-3">Custom Calorie Goals</h4>
-                            <p class="feature-offer-text mb-0">Set your own personalized calorie targets. Have complete control over your daily intake limits to match your unique preferences and goals.</p>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6 col-md-6">
-                        <div class="feature-offer-card h-100">
-                            <div class="feature-offer-icon-wrapper feature-icon-3">
-                                <i class="fa-solid fa-utensils"></i>
-                            </div>
-                            <h4 class="feature-offer-title mb-3">Flexible Meal Structure</h4>
-                            <p class="feature-offer-text mb-0">Log your meals however you want! Track breakfast, lunch, dinner, and snacks with complete freedom to organize your nutrition your way.</p>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6 col-md-6">
-                        <div class="feature-offer-card h-100">
-                            <div class="feature-offer-icon-wrapper feature-icon-4">
-                                <i class="fa-solid fa-droplet"></i>
-                            </div>
-                            <h4 class="feature-offer-title mb-3">Water Tracking</h4>
-                            <p class="feature-offer-text mb-0">Monitor your daily hydration with our water tracking feature. Stay on top of your fluid intake to maintain optimal health and performance.</p>
                         </div>
                     </div>
                 </div>

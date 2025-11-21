@@ -652,7 +652,6 @@ redirectIfLoggedIn();
             toast.style.display = 'flex';
             toast.classList.add('show');
             
-            // Auto hide after 5 seconds
             setTimeout(() => {
                 toast.classList.remove('show');
                 setTimeout(() => {
@@ -664,7 +663,6 @@ redirectIfLoggedIn();
         document.getElementById('registration-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            // Validate current step with messages
             let isValid = false;
             switch(currentStep) {
                 case 1: isValid = validateStep1WithMessages(); break;
@@ -675,7 +673,7 @@ redirectIfLoggedIn();
             }
             
             if (!isValid) {
-                return; // Stop if validation fails
+                return;
             }
             
             const formData = new FormData(this);

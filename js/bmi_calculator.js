@@ -8,7 +8,6 @@ class BMICalculator {
     }
 
     detectCalculatorType() {
-        // Detect which calculator page we're on
         if (document.getElementById('ffmiPanel') || document.getElementById('ffmiHeight')) {
             return 'ffmi';
         } else if (document.getElementById('bmiPanel') || document.getElementById('height')) {
@@ -475,7 +474,6 @@ class BMICalculator {
     displayHistory() {
         if (!this.historyList) return;
         
-        // Filter history by calculator type if on separate pages
         let filteredHistory = this.history;
         if (this.calculatorType === 'bmi') {
             filteredHistory = this.history.filter(entry => entry.type === 'bmi' || !entry.type);

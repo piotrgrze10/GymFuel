@@ -221,7 +221,6 @@
     max-width: 100%;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .charts-title {
         font-size: 2rem;
@@ -297,7 +296,6 @@
     }
 }
 
-/* Loading state */
 .chart-loading {
     display: flex;
     align-items: center;
@@ -320,7 +318,6 @@
     }
 }
 
-/* Chart specific styling */
 .chart-card:nth-child(1) .chart-title i {
     color: #f5576c;
 }
