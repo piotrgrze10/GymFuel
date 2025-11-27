@@ -1,5 +1,6 @@
 <?php
 require_once 'config.php';
+require_once __DIR__ . '/weight_history.php';
 
 function calculateBMR($weight, $height, $age, $gender) {
     if ($gender === 'male') {
@@ -64,6 +65,8 @@ function registerUser($data) {
             $bmr,
             $final_calories
         ]);
+
+        logWeightSnapshot($pdo, (int)$pdo->lastInsertId(), (float)$data['weight']);
         
         return ['success' => true, 'user_id' => $pdo->lastInsertId(), 'calories' => $final_calories, 'bmr' => $bmr];
     } catch(PDOException $e) {

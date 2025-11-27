@@ -1,6 +1,7 @@
 <?php
 require_once '../includes/config.php';
 require_once '../includes/auth.php';
+require_once '../includes/weight_history.php';
 
 header('Content-Type: application/json');
 
@@ -91,17 +92,29 @@ try {
             'water' => intval($log['water_intake'])
         ];
 
-        $weight_data[] = [
-            'date' => $date,
-            'date_formatted' => $date_formatted,
-            'weight' => floatval($user['weight'])
-        ];
-
         $bmi_data[] = [
             'date' => $date,
             'date_formatted' => $date_formatted,
             'bmi' => round($current_bmi, 1),
             'ffmi' => round($current_ffmi, 1)
+        ];
+    }
+    
+    $weight_entries = fetchWeightHistory($pdo, $user_id, $start_date, $end_date);
+    if (empty($weight_entries)) {
+        $weight_entries[] = [
+            'weight' => floatval($user['weight']),
+            'recorded_at' => $end_date . ' 23:59:59'
+        ];
+    }
+
+    $weight_data = [];
+    foreach ($weight_entries as $entry) {
+        $entryDate = substr($entry['recorded_at'], 0, 10);
+        $weight_data[] = [
+            'date' => $entryDate,
+            'date_formatted' => date('M j', strtotime($entryDate)),
+            'weight' => floatval($entry['weight'])
         ];
     }
 

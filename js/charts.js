@@ -284,11 +284,21 @@ function createEnergyChart(data) {
 
 function createWeightChart(data) {
     const ctx = document.getElementById('weightChart').getContext('2d');
-    
+
     if (weightChart) {
         weightChart.destroy();
     }
-    
+
+    const weightValues = data.weight_data.map(item => item.weight);
+    const minWeight = Math.min(...weightValues);
+    const maxWeight = Math.max(...weightValues);
+    const range = Math.max(1, maxWeight - minWeight);
+    const padding = range * 0.1;
+    const minAxis = Math.max(0, Math.floor(minWeight));
+    const maxAxis = Math.ceil(maxWeight + padding);
+
+    const highlightColor = '#4FACEF';
+
     weightChart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -296,24 +306,50 @@ function createWeightChart(data) {
             datasets: [{
                 label: 'Weight',
                 data: data.weight_data.map(item => item.weight),
-                backgroundColor: chartColors.weight.background,
-                borderColor: chartColors.weight.border,
+                borderColor: highlightColor,
                 borderWidth: 3,
-                fill: true,
+                fill: false,
                 tension: 0.4,
-                pointRadius: 4,
-                pointHoverRadius: 6,
-                pointBackgroundColor: chartColors.weight.border,
+                pointRadius: 6,
+                pointHoverRadius: 8,
+                pointBackgroundColor: highlightColor,
                 pointBorderColor: '#fff',
-                pointBorderWidth: 2
+                pointBorderWidth: 2,
+                cubicInterpolationMode: 'monotone'
             }]
         },
         options: {
             ...commonChartOptions,
+            elements: {
+                line: {
+                    borderCapStyle: 'round',
+                    borderJoinStyle: 'round'
+                }
+            },
+            layout: {
+                padding: {
+                    top: 10,
+                    bottom: 10,
+                    left: 0,
+                    right: 0
+                }
+            },
             scales: {
                 ...commonChartOptions.scales,
                 y: {
                     ...commonChartOptions.scales.y,
+                    min: minAxis,
+                    max: maxAxis,
+                    ticks: {
+                        ...commonChartOptions.scales.y.ticks,
+                        stepSize: 2,
+                        color: '#6c757d'
+                    },
+                    grid: {
+                        color: 'rgba(33, 37, 41, 0.12)',
+                        borderDash: [5, 5],
+                        drawBorder: false
+                    },
                     title: {
                         display: true,
                         text: 'Weight (kg)',
@@ -321,6 +357,38 @@ function createWeightChart(data) {
                             family: "'Montserrat', sans-serif",
                             size: 12,
                             weight: '600'
+                        },
+                        color: '#6c757d'
+                    }
+                },
+                x: {
+                    ...commonChartOptions.scales.x,
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        ...commonChartOptions.scales.x.ticks,
+                        maxRotation: 0,
+                        autoSkipPadding: 18,
+                        color: '#6c757d'
+                    }
+                }
+            },
+            plugins: {
+                ...commonChartOptions.plugins,
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    ...commonChartOptions.plugins.tooltip,
+                    backgroundColor: 'rgba(255,255,255,0.95)',
+                    titleColor: '#1c2345',
+                    bodyColor: '#1c2345',
+                    borderColor: 'rgba(0,0,0,0.08)',
+                    borderWidth: 1,
+                    callbacks: {
+                        label: function(context) {
+                            return `${context.parsed.y} kg on ${context.label}`;
                         }
                     }
                 }

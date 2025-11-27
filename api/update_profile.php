@@ -9,8 +9,9 @@ header('Content-Type: application/json');
 header('Cache-Control: no-cache, must-revalidate');
 
 try {
-    require_once '../includes/config.php';
-    require_once '../includes/auth.php';
+require_once '../includes/config.php';
+require_once '../includes/auth.php';
+require_once '../includes/weight_history.php';
 } catch (Exception $e) {
     ob_end_clean();
     http_response_code(500);
@@ -136,6 +137,8 @@ try {
     $_SESSION['user_name'] = $firstName . ' ' . $lastName;
     $_SESSION['user_calories'] = $finalCalories;
     $_SESSION['user_bmr'] = $bmr;
+
+    logWeightSnapshot($pdo, (int)$_SESSION['user_id'], $weight);
     
     ob_end_clean();
     
