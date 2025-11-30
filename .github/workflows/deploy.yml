@@ -1,0 +1,99 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # Pozwala na ręczne uruchomienie
+
+jobs:
+  security-check:
+    name: Security & Code Quality Checks
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Check for hardcoded credentials
+        run: |
+          if grep -r "DB_PASS.*=.*['\"].*[^=].*['\"]" --include="*.php" .; then
+            echo "⚠️  Warning: Possible hardcoded credentials found"
+          fi
+      
+      - name: Check for .env file in repo
+        run: |
+          if [ -f .env ]; then
+            echo "❌ ERROR: .env file should not be in repository!"
+            exit 1
+          fi
+
+  deploy:
+    name: Deploy to Server
+    runs-on: ubuntu-latest
+    needs: security-check
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Create deployment package
+        run: |
+          # Wyklucz pliki które nie powinny być na produkcji
+          zip -r deployment.zip . \
+            -x "*.git*" \
+            -x ".env*" \
+            -x "*.log" \
+            -x ".DS_Store" \
+            -x "Thumbs.db" \
+            -x "*.swp" \
+            -x ".idea/*" \
+            -x ".vscode/*"
+      
+      - name: Create .env from template
+        run: |
+          if [ ! -f env.example ]; then
+            echo "⚠️  env.example not found"
+          else
+            echo "✅ env.example found - remember to configure .env on server"
+          fi
+      
+      - name: Display deployment info
+        run: |
+          echo "📦 Deployment package created"
+          echo "⚠️  Remember to:"
+          echo "   1. Upload deployment.zip to server"
+          echo "   2. Extract files"
+          echo "   3. Configure .env file"
+          echo "   4. Run database migrations"
+          echo "   5. Set proper file permissions"
+      
+      # Uncomment and configure below for automatic FTP/SFTP deployment
+      # - name: Deploy via FTP
+      #   uses: SamKirkland/FTP-Deploy-Action@4.3.0
+      #   with:
+      #     server: ${{ secrets.FTP_SERVER }}
+      #     username: ${{ secrets.FTP_USERNAME }}
+      #     password: ${{ secrets.FTP_PASSWORD }}
+      #     server-dir: /public_html/
+      #     exclude: |
+      #       **/.git*
+      #       **/.env*
+      #       **/*.log
+      
+      # Uncomment and configure below for automatic SSH deployment
+      # - name: Deploy via SSH
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ secrets.SSH_HOST }}
+      #     username: ${{ secrets.SSH_USER }}
+      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
+      #     script: |
+      #       cd /path/to/your/app
+      #       git pull origin main
+      #       # Configure .env if needed
+      #       # Run migrations
+      #       # Restart services if needed
+
+

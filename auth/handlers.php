@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $_SESSION['reg_email'] = $email;
-        $_SESSION['reg_password'] = $password;
+        $_SESSION['reg_password'] = $password; // Temporary storage during registration flow
         $_SESSION['reg_step'] = 1;
         session_write_close();
         session_start();

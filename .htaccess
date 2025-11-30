@@ -49,8 +49,9 @@
     Header unset X-Powered-By
     Header always unset X-Powered-By
 </IfModule>
-ErrorDocument 404 /404.php
-ErrorDocument 500 /500.php
+# Error documents (commented out for local - create these files or remove for local dev)
+# ErrorDocument 404 /404.php
+# ErrorDocument 500 /500.php
 
 <FilesMatch "\.(sql|md|env|git|htaccess)$">
     Order allow,deny
@@ -61,6 +62,12 @@ ErrorDocument 500 /500.php
     Order allow,deny
     Deny from all
 </FilesMatch>
+
+# Protect logs directory (commented out for local XAMPP - works on production)
+# <DirectoryMatch "^.*/logs/">
+#     Order allow,deny
+#     Deny from all
+# </DirectoryMatch>
 
 Options -Indexes
 Options +FollowSymLinks

@@ -24,6 +24,13 @@ package-lock.json
 # PHP
 *.cache
 .env
+.env.local
+logs/
+*.log
 
 # XAMPP
 xampp-control.ini
+
+# Local deployment scripts (not needed in repo - local helpers only)
+deploy.ps1
+deploy.sh

@@ -14,8 +14,12 @@ require_once '../includes/auth.php';
 require_once '../includes/weight_history.php';
 } catch (Exception $e) {
     ob_end_clean();
+    error_log("Configuration error in update_profile: " . $e->getMessage());
     http_response_code(500);
-    echo json_encode(['success' => false, 'message' => 'Server configuration error: ' . $e->getMessage()]);
+    $errorMsg = (defined('APP_ENV') && APP_ENV === 'production') 
+        ? 'Server configuration error. Please contact administrator.' 
+        : 'Server configuration error: ' . $e->getMessage();
+    echo json_encode(['success' => false, 'message' => $errorMsg]);
     exit;
 }
 

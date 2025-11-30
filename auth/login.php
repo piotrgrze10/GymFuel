@@ -7,20 +7,26 @@ redirectIfLoggedIn();
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['email'] ?? '';
-    $password = $_POST['password'] ?? '';
-    
-    if (!empty($email) && !empty($password)) {
-        $result = loginUser($email, $password);
-        
-        if ($result['success']) {
-            header('Location: ../dashboard.php');
-            exit();
-        } else {
-            $error = $result['error'];
-        }
+    // CSRF Protection
+    $csrf = $_POST['csrf_token'] ?? '';
+    if (!isset($_SESSION['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $csrf)) {
+        $error = 'Invalid request. Please try again.';
     } else {
-        $error = 'Please fill in all fields';
+        $email = $_POST['email'] ?? '';
+        $password = $_POST['password'] ?? '';
+        
+        if (!empty($email) && !empty($password)) {
+            $result = loginUser($email, $password);
+            
+            if ($result['success']) {
+                header('Location: ../dashboard.php');
+                exit();
+            } else {
+                $error = $result['error'];
+            }
+        } else {
+            $error = 'Please fill in all fields';
+        }
     }
 }
 ?>
@@ -62,6 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <form method="POST" action="" class="auth-form">
+                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+                    
                     <div class="form-group">
                         <label for="email">
                             <i class="fa-solid fa-envelope"></i> Email
@@ -113,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         
         window.addEventListener('DOMContentLoaded', function() {
-            showErrorToast('<?php echo addslashes($error); ?>');
+            showErrorToast(<?php echo json_encode($error, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>);
         });
     </script>
     <?php endif; ?>

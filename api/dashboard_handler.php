@@ -46,7 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             echo json_encode(['success' => true, 'results' => $results]);
         } catch(PDOException $e) {
-            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+            error_log("Database error in dashboard_handler: " . $e->getMessage());
+            echo json_encode(['success' => false, 'error' => 'An error occurred. Please try again.']);
         }
     } elseif ($action === 'add_food') {
         $food_id = intval($_POST['food_id'] ?? 0);
@@ -179,7 +180,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
             
         } catch(PDOException $e) {
-            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+            error_log("Database error in dashboard_handler (add_food): " . $e->getMessage());
+            echo json_encode(['success' => false, 'error' => getSafeErrorMessage($e)]);
         }
     } elseif ($action === 'remove_food') {
         $entry_id = intval($_POST['entry_id'] ?? 0);
@@ -246,7 +248,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
             
         } catch(PDOException $e) {
-            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+            error_log("Database error in dashboard_handler (remove_food): " . $e->getMessage());
+            echo json_encode(['success' => false, 'error' => getSafeErrorMessage($e)]);
         }
     } elseif ($action === 'update_water') {
         $date = $_POST['date'] ?? date('Y-m-d');
@@ -278,7 +281,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo json_encode(['success' => true, 'water_intake' => $water_intake]);
             
         } catch(PDOException $e) {
-            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+            error_log("Database error in dashboard_handler (update_water): " . $e->getMessage());
+            echo json_encode(['success' => false, 'error' => getSafeErrorMessage($e)]);
         }
     } else {
         echo json_encode(['success' => false, 'error' => 'Invalid action']);
