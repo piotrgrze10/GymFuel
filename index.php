@@ -49,9 +49,9 @@ require_once 'includes/config.php';
                         <li class="nav-item"><a class="nav-link" href="auth/logout.php">Logout</a></li>
                     <?php else: ?>
                         <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#why-gymfuel">Why GymFuel?</a></li>
                         <li class="nav-item"><a class="nav-link" href="#aboutus">About us</a></li>
                         <li class="nav-item"><a class="nav-link" href="#features">Offer</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#achievements">Achievements</a></li>
                         <li class="nav-item"><a class="nav-link" href="./search_products.php">Search Products</a></li>
                         <li class="nav-item"><a class="nav-link" href="bmi_calculator.php">Calculators</a></li>
                         <li class="nav-item"><a class="nav-link" href="auth/login.php">Login</a></li>
@@ -72,6 +72,74 @@ require_once 'includes/config.php';
         <a href="#aboutus"><i class="fa-solid fa-chevron-down"></i></a>
     </header>
     <main>
+        <section id="why-gymfuel" class="why-gymfuel-section py-5">
+            <div class="container">
+                <div class="why-gymfuel-header text-center mb-5">
+                    <h2 class="section-title mb-3">Why use GymFuel?</h2>
+                    <div class="underline mx-auto mb-4"></div>
+                    <p class="why-gymfuel-subtitle text-muted">Our comprehensive nutrition tracking tools will help you</p>
+                </div>
+
+                <div class="why-gymfuel-panels">
+                    <div class="why-panel why-panel-1">
+                        <div class="why-panel-content">
+                            <div class="why-panel-text">
+                                <h3 class="why-panel-heading">Track Your Macros & Nutrients</h3>
+                                <p class="why-panel-description">Monitor your protein, carbs, fats, and calories with detailed food logging. See exactly what you're eating and make informed decisions to optimize your nutrition.</p>
+                            </div>
+                            <div class="why-panel-visual">
+                                <div class="why-panel-icon-wrapper why-panel-icon-wrapper--image">
+                                    <img src="./img/ss1.png" alt="Nutrition tracking highlight" class="why-panel-image">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="why-panel why-panel-2">
+                        <div class="why-panel-content">
+                            <div class="why-panel-text">
+                                <h3 class="why-panel-heading">Reach & Maintain Your Goal Weight</h3>
+                                <p class="why-panel-description">Monitor your food intake with detailed food journaling, verified nutrition information, and personalized calorie targets to keep yourself accountable and achieve your fitness goals.</p>
+                            </div>
+                            <div class="why-panel-visual">
+                                <div class="why-panel-icon-wrapper why-panel-icon-wrapper--image">
+                                    <img src="./img/ss2.png" alt="Goal weight tracking" class="why-panel-image">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="why-panel why-panel-3">
+                        <div class="why-panel-content">
+                            <div class="why-panel-text">
+                                <h3 class="why-panel-heading">Get a Complete View of Your Health</h3>
+                                <p class="why-panel-description">Track your daily nutrition, monitor your BMI, calculate your BMR and TDEE, and visualize your progress with comprehensive analytics to understand your health journey.</p>
+                            </div>
+                            <div class="why-panel-visual">
+                                <div class="why-panel-icon-wrapper why-panel-icon-wrapper--image">
+                                    <img src="./img/ss3.png" alt="Complete health view" class="why-panel-image">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="why-panel why-panel-4">
+                        <div class="why-panel-content">
+                            <div class="why-panel-text">
+                                <h3 class="why-panel-heading">Gain a Trustworthy Companion</h3>
+                                <p class="why-panel-description">We're proud to offer accurate nutrition information within a secure framework to keep your data safe. We encrypt all data, uphold industry best practices, and enforce strict access controls.</p>
+                            </div>
+                            <div class="why-panel-visual">
+                                <div class="why-panel-icon-wrapper why-panel-icon-wrapper--image">
+                                    <img src="./img/ss4.png" alt="Trustworthy companion" class="why-panel-image">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section id="aboutus" class="aboutus-new py-5">
             <div class="container">
                 <div class="aboutus-header text-center mb-5">
@@ -264,6 +332,12 @@ require_once 'includes/config.php';
 
         <section class="simple-cards-section py-5 bg-light">
             <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="section-title mb-3">Register now</h2>
+                    <div class="underline mx-auto mb-4"></div>
+                    <p class="simple-cards-title mb-3">Whether you're counting calories, macros, or micronutrients, you can count on us</p>
+                    <a href="auth/register.php" class="btn btn-primary btn-lg mt-3 text-uppercase">Sign up</a>
+                </div>
                 <div class="row g-4 justify-content-center simple-cards-row">
                     <div class="col-lg col-md-6 col-sm-6">
                         <div class="simple-card simple-card-1">
@@ -323,164 +397,6 @@ require_once 'includes/config.php';
             </div>
         </section>
 
-        <section id="why-gymfuel" class="why-gymfuel-section py-5">
-            <div class="container">
-                <div class="why-gymfuel-header text-center mb-5">
-                    <h2 class="section-title mb-3">Why use GymFuel?</h2>
-                    <div class="underline mx-auto mb-4"></div>
-                    <p class="why-gymfuel-subtitle text-muted">Our comprehensive nutrition tracking tools will help you</p>
-                </div>
-
-                <div class="why-gymfuel-panels">
-                    <div class="why-panel why-panel-1">
-                        <div class="why-panel-content">
-                            <div class="why-panel-text">
-                                <h3 class="why-panel-heading">Track Your Macros & Nutrients</h3>
-                                <p class="why-panel-description">Monitor your protein, carbs, fats, and calories with detailed food logging. See exactly what you're eating and make informed decisions to optimize your nutrition.</p>
-                            </div>
-                            <div class="why-panel-visual">
-                                <div class="why-panel-icon-wrapper why-panel-icon-wrapper--image">
-                                    <img src="./img/ss1.png" alt="Nutrition tracking highlight" class="why-panel-image">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="why-panel why-panel-2">
-                        <div class="why-panel-content">
-                            <div class="why-panel-text">
-                                <h3 class="why-panel-heading">Reach & Maintain Your Goal Weight</h3>
-                                <p class="why-panel-description">Monitor your food intake with detailed food journaling, verified nutrition information, and personalized calorie targets to keep yourself accountable and achieve your fitness goals.</p>
-                            </div>
-                            <div class="why-panel-visual">
-                                <div class="why-panel-icon-wrapper why-panel-icon-wrapper--image">
-                                    <img src="./img/ss2.png" alt="Goal weight tracking" class="why-panel-image">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="why-panel why-panel-3">
-                        <div class="why-panel-content">
-                            <div class="why-panel-text">
-                                <h3 class="why-panel-heading">Get a Complete View of Your Health</h3>
-                                <p class="why-panel-description">Track your daily nutrition, monitor your BMI, calculate your BMR and TDEE, and visualize your progress with comprehensive analytics to understand your health journey.</p>
-                            </div>
-                            <div class="why-panel-visual">
-                                <div class="why-panel-icon-wrapper why-panel-icon-wrapper--image">
-                                    <img src="./img/ss3.png" alt="Complete health view" class="why-panel-image">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="why-panel why-panel-4">
-                        <div class="why-panel-content">
-                            <div class="why-panel-text">
-                                <h3 class="why-panel-heading">Gain a Trustworthy Companion</h3>
-                                <p class="why-panel-description">We're proud to offer accurate nutrition information within a secure framework to keep your data safe. We encrypt all data, uphold industry best practices, and enforce strict access controls.</p>
-                            </div>
-                            <div class="why-panel-visual">
-                                <div class="why-panel-icon-wrapper why-panel-icon-wrapper--image">
-                                    <img src="./img/ss4.png" alt="Trustworthy companion" class="why-panel-image">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="achievements" class="success-stories-new py-5">
-            <div class="container">
-                <div class="success-stories-header text-center mb-5">
-                    <h2 class="section-title mb-3">Success Stories</h2>
-                    <div class="underline mx-auto mb-4"></div>
-                    <p class="success-stories-subtitle text-muted">Real transformations from real people</p>
-                </div>
-                
-                <div class="row g-4">
-                    <div class="col-lg-4 col-md-6">
-                        <article class="testimonial-clean">
-                            <div class="testimonial-header-clean">
-                                <div class="testimonial-avatar-clean">
-                                    <img src="./img/person1.jpg" alt="Sarah" loading="lazy">
-                                </div>
-                                <div class="testimonial-info-clean">
-                                    <h4 class="testimonial-name-clean">Sarah M.</h4>
-                                    <div class="testimonial-result-clean">-25kg in 6 months</div>
-                                </div>
-                            </div>
-                            <div class="testimonial-body-clean">
-                                <p class="testimonial-text-clean">"Finally found something that actually works. Tracking meals became a habit, not a chore. Best part? I can still enjoy my favorite foods."</p>
-                            </div>
-                            <div class="testimonial-footer-clean">
-                                <div class="testimonial-rating-clean">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6">
-                        <article class="testimonial-clean">
-                            <div class="testimonial-header-clean">
-                                <div class="testimonial-avatar-clean">
-                                    <img src="./img/person2.jpg" alt="Alex & Jordan" loading="lazy">
-                                </div>
-                                <div class="testimonial-info-clean">
-                                    <h4 class="testimonial-name-clean">Alex & Jordan</h4>
-                                    <div class="testimonial-result-clean">-35kg combined</div>
-                                </div>
-                            </div>
-                            <div class="testimonial-body-clean">
-                                <p class="testimonial-text-clean">"We tried everything before this. What made the difference? Seeing our progress together. The dashboard keeps us both accountable and motivated."</p>
-                            </div>
-                            <div class="testimonial-footer-clean">
-                                <div class="testimonial-rating-clean">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6">
-                        <article class="testimonial-clean">
-                            <div class="testimonial-header-clean">
-                                <div class="testimonial-avatar-clean">
-                                    <img src="./img/person3.jpg" alt="David" loading="lazy">
-                                </div>
-                                <div class="testimonial-info-clean">
-                                    <h4 class="testimonial-name-clean">David T.</h4>
-                                    <div class="testimonial-result-clean testimonial-result-muscle-clean">+12kg muscle gain</div>
-                                </div>
-                            </div>
-                            <div class="testimonial-body-clean">
-                                <p class="testimonial-text-clean">"Bulking was always a guessing game. Now I hit my protein goals every day. The macro breakdown is exactly what I needed to see real gains."</p>
-                            </div>
-                            <div class="testimonial-footer-clean">
-                                <div class="testimonial-rating-clean">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <footer class="bg-dark text-white py-5">
             <div class="container">
                 <div class="row">
@@ -500,7 +416,6 @@ require_once 'includes/config.php';
                         <ul class="list-unstyled">
                             <li class="mb-2"><a href="#home" class="text-white-50 text-decoration-none">Home</a></li>
                             <li class="mb-2"><a href="#aboutus" class="text-white-50 text-decoration-none">About Us</a></li>
-                            <li class="mb-2"><a href="#achievements" class="text-white-50 text-decoration-none">Success Stories</a></li>
                             <li class="mb-2"><a href="#features" class="text-white-50 text-decoration-none">Features</a></li>
                         </ul>
                     </div>
