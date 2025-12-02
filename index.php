@@ -367,8 +367,8 @@ require_once 'includes/config.php';
                                 <p class="why-panel-description">Track your daily nutrition, monitor your BMI, calculate your BMR and TDEE, and visualize your progress with comprehensive analytics to understand your health journey.</p>
                             </div>
                             <div class="why-panel-visual">
-                                <div class="why-panel-icon-wrapper">
-                                    <i class="fa-solid fa-heart-pulse"></i>
+                                <div class="why-panel-icon-wrapper why-panel-icon-wrapper--image">
+                                    <img src="./img/ss3.png" alt="Complete health view" class="why-panel-image">
                                 </div>
                             </div>
                         </div>
@@ -381,8 +381,8 @@ require_once 'includes/config.php';
                                 <p class="why-panel-description">We're proud to offer accurate nutrition information within a secure framework to keep your data safe. We encrypt all data, uphold industry best practices, and enforce strict access controls.</p>
                             </div>
                             <div class="why-panel-visual">
-                                <div class="why-panel-icon-wrapper">
-                                    <i class="fa-solid fa-shield-halved"></i>
+                                <div class="why-panel-icon-wrapper why-panel-icon-wrapper--image">
+                                    <img src="./img/ss4.png" alt="Trustworthy companion" class="why-panel-image">
                                 </div>
                             </div>
                         </div>

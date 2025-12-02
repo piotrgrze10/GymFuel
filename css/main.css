@@ -2289,6 +2289,11 @@ a:hover {
 	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
 }
 
+.why-panel-4 .why-panel-icon-wrapper {
+	width: 500px;
+	height: 500px;
+}
+
 .why-panel-icon-wrapper i {
 	font-size: 5rem;
 	color: white;
@@ -2297,6 +2302,12 @@ a:hover {
 .why-panel-icon-wrapper img {
 	width: 120%;
 	height: 120%;
+	object-fit: contain;
+}
+
+.why-panel-4 .why-panel-icon-wrapper img {
+	width: 170%;
+	height: 170%;
 	object-fit: contain;
 }
 

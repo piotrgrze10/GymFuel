@@ -1,7 +1,27 @@
+# ============================================
+# .htaccess dla home.pl - GymFuel (MINIMALNA WERSJA)
+# ============================================
+# 
+# Ta wersja zawiera tylko podstawowe ustawienia
+# które na pewno działają na home.pl
+#
+# ============================================
+
+# ============================================
+# 1. MOD_REWRITE - Przepisywanie URL
+# ============================================
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /
+    
+    # Przekierowanie z HTTP na HTTPS (odkomentuj gdy masz SSL)
+    # RewriteCond %{HTTPS} off
+    # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 </IfModule>
+
+# ============================================
+# 2. CACHE - Optymalizacja wydajności
+# ============================================
 <IfModule mod_expires.c>
     ExpiresActive On
     ExpiresByType image/jpg "access plus 1 year"
@@ -16,13 +36,13 @@
     ExpiresByType text/javascript "access plus 1 month"
     ExpiresByType font/woff "access plus 1 year"
     ExpiresByType font/woff2 "access plus 1 year"
-    ExpiresByType font/ttf "access plus 1 year"
-    ExpiresByType font/otf "access plus 1 year"
-    ExpiresByType application/font-woff "access plus 1 year"
-    ExpiresByType application/font-woff2 "access plus 1 year"
     ExpiresByType text/html "access plus 0 seconds"
     ExpiresDefault "access plus 2 days"
 </IfModule>
+
+# ============================================
+# 3. KOMPRESJA - Zmniejszenie rozmiaru plików
+# ============================================
 <IfModule mod_deflate.c>
     AddOutputFilterByType DEFLATE text/html
     AddOutputFilterByType DEFLATE text/plain
@@ -32,54 +52,67 @@
     AddOutputFilterByType DEFLATE application/javascript
     AddOutputFilterByType DEFLATE application/json
     AddOutputFilterByType DEFLATE application/xml
-    AddOutputFilterByType DEFLATE application/xhtml+xml
-    AddOutputFilterByType DEFLATE font/truetype
-    AddOutputFilterByType DEFLATE font/opentype
     AddOutputFilterByType DEFLATE image/svg+xml
-    BrowserMatch ^Mozilla/4 gzip-only-text/html
-    BrowserMatch ^Mozilla/4\.0[678] no-gzip
-    BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
-    Header append Vary User-Agent
 </IfModule>
+
+# ============================================
+# 4. BEZPIECZEŃSTWO - Nagłówki HTTP
+# ============================================
 <IfModule mod_headers.c>
     Header always set X-Frame-Options "SAMEORIGIN"
     Header always set X-XSS-Protection "1; mode=block"
     Header always set X-Content-Type-Options "nosniff"
     Header always set Referrer-Policy "strict-origin-when-cross-origin"
     Header unset X-Powered-By
-    Header always unset X-Powered-By
 </IfModule>
-# Error documents (commented out for local - create these files or remove for local dev)
-# ErrorDocument 404 /404.php
-# ErrorDocument 500 /500.php
 
-<FilesMatch "\.(sql|md|env|git|htaccess)$">
-    Order allow,deny
-    Deny from all
+# ============================================
+# 5. OCHRONA PLIKÓW - Blokowanie dostępu
+# ============================================
+# Blokowanie dostępu do plików konfiguracyjnych
+<FilesMatch "\.(sql|md|env|git|htaccess|htpasswd|ini|log)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
 </FilesMatch>
 
-<FilesMatch "^(config|database)\.(php|ini)$">
-    Order allow,deny
-    Deny from all
+# Blokowanie plików konfiguracyjnych PHP
+<FilesMatch "^(config|database|\.env)\.(php|ini)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
 </FilesMatch>
 
-# Protect logs directory (commented out for local XAMPP - works on production)
-# <DirectoryMatch "^.*/logs/">
-#     Order allow,deny
-#     Deny from all
-# </DirectoryMatch>
-
+# ============================================
+# 6. USTAWIENIA KATALOGU
+# ============================================
 Options -Indexes
 Options +FollowSymLinks
 AddDefaultCharset UTF-8
-<IfModule mod_php7.c>
-    php_value upload_max_filesize 10M
-    php_value post_max_size 10M
-    php_value max_execution_time 300
-    php_value max_input_time 300
-    php_value memory_limit 128M
-</IfModule>
-<IfModule mod_charset.c>
-    CharsetSourceEnc UTF-8
-    CharsetDefault UTF-8
-</IfModule>
+DirectoryIndex index.php index.html index.htm
+
+# ============================================
+# UWAGA: USTAWIENIA PHP ZAKOMENTOWANE
+# ============================================
+# Na home.pl ustawienia PHP w .htaccess są często zablokowane
+# Jeśli potrzebujesz zmienić limity PHP, zrób to przez panel home.pl
+# lub plik php.ini (jeśli dostępny)
+#
+# <IfModule mod_php.c>
+#     php_value upload_max_filesize 10M
+#     php_value post_max_size 10M
+#     php_value max_execution_time 300
+#     php_value memory_limit 128M
+# </IfModule>
+
+# ============================================
+# KONIEC KONFIGURACJI
+# ============================================
