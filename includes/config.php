@@ -31,6 +31,13 @@ if (APP_ENV === 'production') {
     ini_set('display_errors', 1);
 }
 
+// Set session save path - create directory if it doesn't exist
+$session_path = __DIR__ . '/../sessions';
+if (!file_exists($session_path)) {
+    mkdir($session_path, 0755, true);
+}
+ini_set('session.save_path', $session_path);
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
