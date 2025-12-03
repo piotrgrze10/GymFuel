@@ -1,5 +1,6 @@
 <?php
 require_once 'includes/config.php';
+redirectIfLoggedIn();
 ?>
 <!doctype html>
 <html lang="en">
@@ -8,7 +9,7 @@ require_once 'includes/config.php';
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>GymFuel</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔥</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E🔥%3C/text%3E%3C/svg%3E">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -173,8 +174,8 @@ require_once 'includes/config.php';
                                         <i class="fa-solid fa-check-circle"></i>
                                     </div>
                                     <span class="feature-text">Visualize your progress with real-time analytics</span>
-                        </div>
-                        </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
@@ -239,8 +240,8 @@ require_once 'includes/config.php';
                             <div class="help-card-image">
                                 <img src="./img/products/person1.jpg" alt="Keep track of my food intake" class="help-card-img" loading="lazy">
                             </div>
-                                </div>
-                            </div>
+                        </div>
+                    </div>
 
                     <div class="col-lg-3 col-md-6">
                         <div class="help-card h-100">
@@ -250,8 +251,8 @@ require_once 'includes/config.php';
                             <div class="help-card-image">
                                 <img src="./img/products/person2.jpg" alt="Monitor my health metrics" class="help-card-img" loading="lazy">
                             </div>
-                                </div>
-                            </div>
+                        </div>
+                    </div>
 
                     <div class="col-lg-3 col-md-6">
                         <div class="help-card h-100">
@@ -261,8 +262,8 @@ require_once 'includes/config.php';
                             <div class="help-card-image">
                                 <img src="./img/products/person3.jpg" alt="Optimize and refine my diet" class="help-card-img" loading="lazy">
                             </div>
-                                </div>
-                            </div>
+                        </div>
+                    </div>
 
                     <div class="col-lg-3 col-md-6">
                         <div class="help-card h-100">
@@ -404,10 +405,10 @@ require_once 'includes/config.php';
                         <h4 class="mb-3"><i class="fa-solid fa-fire-flame-curved text-danger"></i> Gym<span class="text-primary">Fuel</span></h4>
                         <p class="text-white-50">Your ultimate nutrition tracking companion for achieving your fitness goals.</p>
                         <div class="social-links mt-3">
-                            <a href="#" class="text-white me-3 fs-4"><i class="fa-brands fa-facebook"></i></a>
-                            <a href="#" class="text-white me-3 fs-4"><i class="fa-brands fa-instagram"></i></a>
-                            <a href="#" class="text-white me-3 fs-4"><i class="fa-brands fa-twitter"></i></a>
-                            <a href="#" class="text-white me-3 fs-4"><i class="fa-brands fa-youtube"></i></a>
+                            <a href="#" class="text-white me-3 fs-4" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+                            <a href="#" class="text-white me-3 fs-4" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="#" class="text-white me-3 fs-4" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                            <a href="#" class="text-white me-3 fs-4" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
                         </div>
                     </div>
                     
@@ -423,10 +424,10 @@ require_once 'includes/config.php';
                     <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
                         <h5 class="mb-3">Support</h5>
                         <ul class="list-unstyled">
-                            <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Help Center</a></li>
-                            <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Contact Us</a></li>
-                            <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Privacy Policy</a></li>
-                            <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Terms of Service</a></li>
+                            <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none" aria-label="Help Center">Help Center</a></li>
+                            <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none" aria-label="Contact Us">Contact Us</a></li>
+                            <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none" aria-label="Privacy Policy">Privacy Policy</a></li>
+                            <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none" aria-label="Terms of Service">Terms of Service</a></li>
                         </ul>
                     </div>
                     
