@@ -34,7 +34,7 @@ redirectIfLoggedIn();
 <body>
     <nav class="navbar navbar-expand-lg position-fixed top-0 w-100 py-3">
         <div class="container">
-            <a class="navbar-brand" href="index.php"><i class="fa-solid fa-fire-flame-curved logo-icon"></i> Gym<span class="blue-text">Fuel</span></a>
+            <a class="navbar-brand" href="/"><i class="fa-solid fa-fire-flame-curved logo-icon"></i> Gym<span class="blue-text">Fuel</span></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fa-solid fa-bars"></i>
@@ -42,20 +42,20 @@ redirectIfLoggedIn();
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <?php if (isLoggedIn()): ?>
-                        <li class="nav-item"><a class="nav-link" href="dashboard.php">Dashboard</a></li>
-                        <li class="nav-item"><a class="nav-link" href="charts.php">Charts</a></li>
-                        <li class="nav-item"><a class="nav-link" href="./search_products.php">Search Products</a></li>
-                        <li class="nav-item"><a class="nav-link" href="bmi_calculator.php">Calculators</a></li>
-                        <li class="nav-item"><a class="nav-link" href="profile.php">Profile</a></li>
-                        <li class="nav-item"><a class="nav-link" href="auth/logout.php">Logout</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/charts">Charts</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/search_products">Search Products</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/bmi_calculator">Calculators</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/profile">Profile</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
                     <?php else: ?>
                         <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="#why-gymfuel">Why GymFuel?</a></li>
                         <li class="nav-item"><a class="nav-link" href="#aboutus">About us</a></li>
                         <li class="nav-item"><a class="nav-link" href="#features">Offer</a></li>
-                        <li class="nav-item"><a class="nav-link" href="./search_products.php">Search Products</a></li>
-                        <li class="nav-item"><a class="nav-link" href="bmi_calculator.php">Calculators</a></li>
-                        <li class="nav-item"><a class="nav-link" href="auth/login.php">Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/search_products">Search Products</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/bmi_calculator">Calculators</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
                     <?php endif; ?>
                 </ul>
             </div>
@@ -337,7 +337,7 @@ redirectIfLoggedIn();
                     <h2 class="section-title mb-3">Register now</h2>
                     <div class="underline mx-auto mb-4"></div>
                     <p class="simple-cards-title mb-3">Whether you're counting calories, macros, or micronutrients, you can count on us</p>
-                    <a href="auth/register.php" class="btn btn-primary btn-lg mt-3 text-uppercase">Sign up</a>
+                    <a href="/register" class="btn btn-primary btn-lg mt-3 text-uppercase">Sign up</a>
                 </div>
                 <div class="row g-4 justify-content-center simple-cards-row">
                     <div class="col-lg col-md-6 col-sm-6">

@@ -17,6 +17,26 @@
     # Przekierowanie z HTTP na HTTPS (odkomentuj gdy masz SSL)
     # RewriteCond %{HTTPS} off
     # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+    
+    # Przepisywanie URL dla autoryzacji - czyste URL-e
+    RewriteRule ^login$ auth/login.php [L]
+    RewriteRule ^register$ auth/register.php [L]
+    RewriteRule ^logout$ auth/logout.php [L]
+    
+    # Usuwanie .php z końca URL-i (jeśli plik istnieje)
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME}\.php -f
+    RewriteRule ^(.*)\.php$ /$1 [R=301,L]
+    
+    # Dodawanie .php do URL-i bez rozszerzenia (jeśli plik istnieje)
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME}\.php -f
+    RewriteRule ^(.*)$ $1.php [L]
+    
+    # Redirect z index.php na /
+    RewriteCond %{THE_REQUEST} /index\.php[\s?] [NC]
+    RewriteRule ^index\.php$ / [R=301,L]
 </IfModule>
 
 # ============================================

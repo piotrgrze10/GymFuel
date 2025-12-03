@@ -75,14 +75,14 @@ function isLoggedIn() {
 
 function requireLogin() {
     if (!isLoggedIn()) {
-        header('Location: auth/login.php');
+        header('Location: /login');
         exit();
     }
 }
 
 function redirectIfLoggedIn() {
     if (isLoggedIn()) {
-        header('Location: /dashboard.php');
+        header('Location: /dashboard');
         exit();
     }
 }

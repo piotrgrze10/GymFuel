@@ -1206,8 +1206,8 @@ async function loadDayData(dateString) {
         updateUI(data);
         
         const url = dateString === new Date().toISOString().split('T')[0] 
-            ? 'dashboard.php' 
-            : `dashboard.php?date=${dateString}`;
+            ? '/dashboard' 
+            : `/dashboard?date=${dateString}`;
         history.pushState({ date: dateString }, '', url);
         
         preloadAdjacentDays(dateString);

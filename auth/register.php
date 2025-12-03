@@ -45,7 +45,7 @@ redirectIfLoggedIn();
             </div>
 
             <div class="auth-header">
-                <a href="../index.php" class="auth-logo logo-home">
+                <a href="/" class="auth-logo logo-home">
                     <i class="fa-solid fa-fire-flame-curved logo-icon"></i>
                     <span>Gym<span class="blue-text">Fuel</span></span>
                 </a>
@@ -63,7 +63,7 @@ redirectIfLoggedIn();
                             <h2 class="mb-3 fw-bold" style="color: #2c3e50;">Account Created Successfully!</h2>
                             <p class="text-muted mb-4" id="success-message" style="font-size: 0.95rem;"></p>
                             <div class="d-flex gap-2 justify-content-center">
-                                <button type="button" class="btn-auth" onclick="window.location.href='login.php'">
+                                <button type="button" class="btn-auth" onclick="window.location.href='/login'">
                                     <i class="fa-solid fa-sign-in-alt"></i> Sign In
                                 </button>
                             </div>
@@ -202,7 +202,7 @@ redirectIfLoggedIn();
                 </div>
 
                 <div class="auth-footer" id="auth-footer" style="display:none;">
-                    <p>Already have an account? <a href="login.php">Sign in</a></p>
+                    <p>Already have an account? <a href="/login">Sign in</a></p>
                 </div>
             </form>
         </div>

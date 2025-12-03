@@ -99,7 +99,7 @@ function loginUser($email, $password) {
 
 function logoutUser() {
     session_destroy();
-    header('Location: login.php');
+    header('Location: /login');
     exit();
 }
 

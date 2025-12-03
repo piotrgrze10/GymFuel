@@ -124,18 +124,18 @@ $nutrition_label = $is_today ? "Today's Nutrition" : ($days_diff < 0 ? "Past Day
 <body style="padding-top: 76px;">
     <nav class="navbar navbar-expand-lg position-fixed top-0 w-100 py-3">
         <div class="container">
-            <a class="navbar-brand" href="dashboard.php"><i class="fa-solid fa-fire-flame-curved logo-icon"></i> Gym<span class="blue-text">Fuel</span></a>
+            <a class="navbar-brand" href="/dashboard"><i class="fa-solid fa-fire-flame-curved logo-icon"></i> Gym<span class="blue-text">Fuel</span></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <i class="fa-solid fa-bars"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link active" href="dashboard.php">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link" href="charts.php">Charts</a></li>
-                    <li class="nav-item"><a class="nav-link" href="search_products.php">Search Products</a></li>
-                        <li class="nav-item"><a class="nav-link" href="bmi_calculator.php">Calculators</a></li>
-                    <li class="nav-item"><a class="nav-link" href="profile.php">Profile</a></li>
-                    <li class="nav-item"><a class="nav-link" href="auth/logout.php">Logout</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/dashboard">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/charts">Charts</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/search_products">Search Products</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/bmi_calculator">Calculators</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/profile">Profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
                 </ul>
             </div>
         </div>

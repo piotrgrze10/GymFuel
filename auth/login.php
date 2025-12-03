@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $result = loginUser($email, $password);
             
             if ($result['success']) {
-                header('Location: ../dashboard.php');
+                header('Location: /dashboard');
                 exit();
             } else {
                 $error = $result['error'];
@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="auth-card split">
             <div class="auth-left">
                 <div class="auth-header">
-                <a href="../index.php" class="auth-logo logo-home">
+                <a href="/" class="auth-logo logo-home">
                     <i class="fa-solid fa-fire-flame-curved logo-icon"></i>
                     <span>Gym<span class="blue-text">Fuel</span></span>
                 </a>
@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
 
                     <div class="auth-footer">
-                        <p>Don't have an account? <a href="register.php">Create one</a></p>
+                        <p>Don't have an account? <a href="/register">Create one</a></p>
                     </div>
                 </form>
             </div>

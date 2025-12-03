@@ -28,11 +28,11 @@
             <div class="footer-section">
                 <h4 class="footer-title">Quick Links</h4>
                 <ul class="footer-links">
-                    <li><a href="<?php echo $logged_in ? 'dashboard.php' : 'index.php'; ?>">Home</a></li>
-                    <li><a href="search_products.php">Search Products</a></li>
-                    <li><a href="bmi_calculator.php">Calculators</a></li>
+                    <li><a href="<?php echo $logged_in ? '/dashboard' : '/'; ?>">Home</a></li>
+                    <li><a href="/search_products">Search Products</a></li>
+                    <li><a href="/bmi_calculator">Calculators</a></li>
                     <?php if ($logged_in): ?>
-                        <li><a href="profile.php">My Profile</a></li>
+                        <li><a href="/profile">My Profile</a></li>
                     <?php endif; ?>
                 </ul>
             </div>

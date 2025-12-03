@@ -116,7 +116,7 @@ $initials = strtoupper(substr($names[0], 0, 1) . (isset($names[1]) ? substr($nam
 <body>
     <nav class="navbar navbar-expand-lg position-fixed top-0 w-100 py-3">
         <div class="container">
-            <a class="navbar-brand" href="dashboard.php">
+            <a class="navbar-brand" href="/dashboard">
                 <i class="fa-solid fa-fire-flame-curved logo-icon"></i> Gym<span class="blue-text">Fuel</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -124,12 +124,12 @@ $initials = strtoupper(substr($names[0], 0, 1) . (isset($names[1]) ? substr($nam
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="dashboard.php">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link" href="charts.php">Charts</a></li>
-                    <li class="nav-item"><a class="nav-link" href="search_products.php">Search Products</a></li>
-                        <li class="nav-item"><a class="nav-link" href="bmi_calculator.php">Calculators</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="profile.php">Profile</a></li>
-                    <li class="nav-item"><a class="nav-link" href="auth/logout.php">Logout</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/charts">Charts</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/search_products">Search Products</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/bmi_calculator">Calculators</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/profile">Profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
                 </ul>
             </div>
         </div>
@@ -372,7 +372,7 @@ $initials = strtoupper(substr($names[0], 0, 1) . (isset($names[1]) ? substr($nam
                         <i class="fa-solid fa-calendar-xmark"></i>
                         <h3>No Recent Activity</h3>
                         <p>Start tracking your meals to see your activity here!</p>
-                        <a href="dashboard.php" class="btn-primary">Go to Dashboard</a>
+                        <a href="/dashboard" class="btn-primary">Go to Dashboard</a>
                     </div>
                 <?php endif; ?>
             </div>
