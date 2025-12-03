@@ -2320,8 +2320,16 @@ a:hover {
 	object-fit: contain;
 }
 
+.why-panel-3 .why-panel-icon-wrapper {
+	width: 500px;
+	height: 350px;
+}
+
 .why-panel-3 .why-panel-image {
 	border-radius: 20px;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
 }
 
 .why-panel-icon-wrapper--image {
