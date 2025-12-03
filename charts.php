@@ -22,7 +22,7 @@ $user = $stmt->fetch();
     <link rel="stylesheet" href="css/navbar.css">
     <link rel="stylesheet" href="css/charts.css">
     <link rel="stylesheet" href="css/footer.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.44.0/dist/apexcharts.min.js"></script>
 </head>
 <body style="padding-top: 76px;">
     <nav class="navbar navbar-expand-lg position-fixed top-0 w-100 py-3">
@@ -85,10 +85,6 @@ $user = $stmt->fetch();
                     <i class="fa-solid fa-droplet"></i>
                     <span>Water Intake</span>
                 </button>
-                <button class="chart-btn" data-chart="bmi">
-                    <i class="fa-solid fa-heart-pulse"></i>
-                    <span>BMI / FFMI</span>
-                </button>
             </div>
 
             <div id="noDataMessage" class="no-data-message" style="display: none;">
@@ -112,7 +108,7 @@ $user = $stmt->fetch();
                         <div class="chart-subtitle">Daily calories (kcal)</div>
                     </div>
                     <div class="chart-container">
-                        <canvas id="energyChart"></canvas>
+                        <div id="energyChart"></div>
                     </div>
                 </div>
 
@@ -125,7 +121,7 @@ $user = $stmt->fetch();
                         <div class="chart-subtitle">Body weight (kg)</div>
                     </div>
                     <div class="chart-container">
-                        <canvas id="weightChart"></canvas>
+                        <div id="weightChart"></div>
                     </div>
                 </div>
 
@@ -138,7 +134,7 @@ $user = $stmt->fetch();
                         <div class="chart-subtitle">Protein, Carbs, Fat (g)</div>
                     </div>
                     <div class="chart-container">
-                        <canvas id="macrosChart"></canvas>
+                        <div id="macrosChart"></div>
                     </div>
                 </div>
 
@@ -151,22 +147,10 @@ $user = $stmt->fetch();
                         <div class="chart-subtitle">Daily hydration (ml)</div>
                     </div>
                     <div class="chart-container">
-                        <canvas id="waterChart"></canvas>
+                        <div id="waterChart"></div>
                     </div>
                 </div>
 
-                <div class="chart-card" data-chart-type="bmi">
-                    <div class="chart-header">
-                        <h3 class="chart-title">
-                            <i class="fa-solid fa-heart-pulse"></i>
-                            BMI / FFMI Trend
-                        </h3>
-                        <div class="chart-subtitle">Body composition metrics</div>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="bmiChart"></canvas>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

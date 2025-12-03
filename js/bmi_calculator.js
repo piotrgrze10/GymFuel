@@ -244,7 +244,7 @@ class BMICalculator {
         }
     }
     
-    saveFfmiToHistory(ffmi, height, weight, bodyFat) {
+    async saveFfmiToHistory(ffmi, height, weight, bodyFat) {
         const category = this.getFFMICategory(ffmi);
         const entry = {
             type: 'ffmi',
@@ -257,13 +257,37 @@ class BMICalculator {
             timestamp: new Date().toISOString()
         };
 
+        // Zapisz do localStorage
         this.history.unshift(entry);
-
         if (this.history.length > 3) {
             this.history = this.history.slice(0, 3);
         }
-
         localStorage.setItem('bmiHistory', JSON.stringify(this.history));
+
+        // Zapisz do bazy danych
+        if (this.isLoggedIn) {
+            try {
+                const formData = new FormData();
+                formData.append('calculation_type', 'ffmi');
+                formData.append('height', height);
+                formData.append('weight', weight);
+                formData.append('body_fat_percentage', bodyFat);
+                formData.append('ffmi_value', ffmi);
+                formData.append('category', category.name);
+
+                const response = await fetch('api/save_calculation.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                if (!result.success) {
+                    console.error('Failed to save FFMI to database:', result.error);
+                }
+            } catch (error) {
+                console.error('Error saving FFMI to database:', error);
+            }
+        }
 
         this.displayHistory();
     }
@@ -442,7 +466,7 @@ class BMICalculator {
         }
     }
 
-    saveToHistory(bmi, height, weight) {
+    async saveToHistory(bmi, height, weight) {
         const category = this.getBMICategory(bmi);
         const entry = {
             type: 'bmi',
@@ -455,13 +479,36 @@ class BMICalculator {
             timestamp: new Date().toISOString()
         };
 
+        // Zapisz do localStorage
         this.history.unshift(entry);
-
         if (this.history.length > 3) {
             this.history = this.history.slice(0, 3);
         }
-
         localStorage.setItem('bmiHistory', JSON.stringify(this.history));
+
+        // Zapisz do bazy danych
+        if (this.isLoggedIn) {
+            try {
+                const formData = new FormData();
+                formData.append('calculation_type', 'bmi');
+                formData.append('height', this.currentUnit === 'metric' ? height : height * 2.54);
+                formData.append('weight', this.currentUnit === 'metric' ? weight : weight * 0.453592);
+                formData.append('bmi_value', bmi);
+                formData.append('category', category.name);
+
+                const response = await fetch('api/save_calculation.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                if (!result.success) {
+                    console.error('Failed to save BMI to database:', result.error);
+                }
+            } catch (error) {
+                console.error('Error saving BMI to database:', error);
+            }
+        }
 
         this.displayHistory();
     }

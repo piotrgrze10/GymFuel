@@ -210,15 +210,15 @@
 
 .chart-container {
     position: relative;
-    height: 320px;
+    height: 350px;
     width: 100%;
-    max-width: 90%;
+    max-width: 100%;
     margin: 0 auto;
 }
 
-.chart-container canvas {
-    max-height: 100%;
-    max-width: 100%;
+.chart-container > div {
+    height: 100%;
+    width: 100%;
 }
 
 @media (max-width: 768px) {
@@ -249,8 +249,8 @@
     }
 
     .chart-container {
-        height: 250px;
-        max-width: 95%;
+        height: 300px;
+        max-width: 100%;
     }
 
     .control-select {
@@ -283,8 +283,8 @@
     }
 
     .chart-container {
-        height: 200px;
-        max-width: 98%;
+        height: 280px;
+        max-width: 100%;
     }
 
     .chart-card {
@@ -334,7 +334,7 @@
     color: #00f2fe;
 }
 
-.chart-card:nth-child(5) .chart-title i {
-    color: #f093fb;
+.chart-card:nth-child(4) .chart-title i {
+    color: #00f2fe;
 }
 

@@ -2,130 +2,136 @@ let energyChart = null;
 let weightChart = null;
 let macrosChart = null;
 let waterChart = null;
-let bmiChart = null;
 
 let currentChartType = 'energy';
 let chartData = null;
 
 const chartColors = {
     energy: {
-        background: 'rgba(245, 87, 108, 0.2)',
-        border: 'rgba(245, 87, 108, 1)',
-        hover: 'rgba(245, 87, 108, 0.4)'
+        gradient: ['#f5576c', '#f093fb'],
+        solid: '#f5576c'
     },
     weight: {
-        background: 'rgba(79, 172, 254, 0.2)',
-        border: 'rgba(79, 172, 254, 1)',
-        hover: 'rgba(79, 172, 254, 0.4)'
+        gradient: ['#4facfe', '#00f2fe'],
+        solid: '#4facfe'
     },
-    protein: {
-        background: 'rgba(102, 126, 234, 0.8)',
-        border: 'rgba(102, 126, 234, 1)'
-    },
-    carbs: {
-        background: 'rgba(251, 191, 36, 0.8)',
-        border: 'rgba(251, 191, 36, 1)'
-    },
-    fat: {
-        background: 'rgba(0, 242, 254, 0.8)',
-        border: 'rgba(0, 242, 254, 1)'
-    },
+    protein: '#667eea',
+    carbs: '#fbbf24',
+    fat: '#00f2fe',
     water: {
-        background: 'rgba(0, 242, 254, 0.3)',
-        border: 'rgba(0, 242, 254, 1)',
-        fill: 'rgba(0, 242, 254, 0.1)'
-    },
-    bmi: {
-        background: 'rgba(240, 147, 251, 0.2)',
-        border: 'rgba(240, 147, 251, 1)'
-    },
-    ffmi: {
-        background: 'rgba(102, 126, 234, 0.2)',
-        border: 'rgba(102, 126, 234, 1)'
+        gradient: ['#00f2fe', '#4facfe'],
+        solid: '#00f2fe'
     }
 };
 
 const commonChartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-        legend: {
-            display: true,
-            position: 'top',
-            labels: {
-                usePointStyle: true,
-                padding: 15,
-                font: {
-                    family: "'Montserrat', sans-serif",
-                    size: 12,
-                    weight: '600'
-                }
-            }
+    chart: {
+        type: 'line',
+        height: 350,
+        fontFamily: "'Montserrat', sans-serif",
+        toolbar: {
+            show: false
         },
-        tooltip: {
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-            padding: 12,
-            titleFont: {
-                family: "'Montserrat', sans-serif",
-                size: 13,
-                weight: '700'
+        animations: {
+            enabled: true,
+            easing: 'easeinout',
+            speed: 800,
+            animateGradually: {
+                enabled: true,
+                delay: 150
             },
-            bodyFont: {
-                family: "'Montserrat', sans-serif",
-                size: 12
-            },
-            cornerRadius: 8,
-            displayColors: true,
-            callbacks: {
-                label: function(context) {
-                    let label = context.dataset.label || '';
-                    if (label) {
-                        label += ': ';
-                    }
-                    if (context.parsed.y !== null) {
-                        label += context.parsed.y.toFixed(1);
-                        if (context.dataset.label === 'Energy Consumed') {
-                            label += ' kcal';
-                        } else if (context.dataset.label === 'Weight') {
-                            label += ' kg';
-                        } else if (context.dataset.label === 'Water Intake') {
-                            label += ' ml';
-                        } else if (context.dataset.label.includes('Protein') || 
-                                   context.dataset.label.includes('Carbs') || 
-                                   context.dataset.label.includes('Fat')) {
-                            label += ' g';
-                        }
-                    }
-                    return label;
-                }
+            dynamicAnimation: {
+                enabled: true,
+                speed: 350
             }
         }
     },
-    scales: {
-        x: {
+    stroke: {
+        curve: 'smooth',
+        width: 3
+    },
+    fill: {
+        type: 'gradient',
+        gradient: {
+            shadeIntensity: 1,
+            opacityFrom: 0.7,
+            opacityTo: 0.3,
+            stops: [0, 90, 100]
+        }
+    },
             grid: {
-                display: false
-            },
-            ticks: {
-                font: {
-                    family: "'Montserrat', sans-serif",
-                    size: 11
-                },
-                maxRotation: 45,
-                minRotation: 0
+        borderColor: '#e7e7e7',
+        strokeDashArray: 5,
+        xaxis: {
+            lines: {
+                show: false
             }
         },
+        yaxis: {
+            lines: {
+                show: true
+            }
+        },
+        padding: {
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0
+        }
+    },
+    xaxis: {
+        labels: {
+            style: {
+                colors: '#666',
+                fontSize: '11px',
+                fontFamily: "'Montserrat', sans-serif",
+                fontWeight: 500
+            }
+        },
+        axisBorder: {
+            show: false
+        },
+        axisTicks: {
+            show: false
+        }
+    },
+    yaxis: {
+        labels: {
+            style: {
+                colors: '#666',
+                fontSize: '11px',
+                fontFamily: "'Montserrat', sans-serif",
+                fontWeight: 500
+            }
+        }
+    },
+    tooltip: {
+        theme: 'dark',
+        style: {
+            fontSize: '12px',
+            fontFamily: "'Montserrat', sans-serif"
+        },
         y: {
-            grid: {
-                color: 'rgba(0, 0, 0, 0.05)'
-            },
-            ticks: {
-                font: {
-                    family: "'Montserrat', sans-serif",
-                    size: 11
-                }
-            },
-            beginAtZero: true
+            formatter: function(val) {
+                return val.toFixed(1);
+            }
+        }
+    },
+    legend: {
+        show: true,
+        position: 'top',
+        horizontalAlign: 'right',
+        fontSize: '12px',
+        fontFamily: "'Montserrat', sans-serif",
+        fontWeight: 600,
+        markers: {
+            width: 12,
+            height: 12,
+            radius: 6
+        },
+        itemMargin: {
+            horizontal: 15,
+            vertical: 5
         }
     }
 };
@@ -141,7 +147,13 @@ async function fetchChartData(range = '30') {
             return null;
         }
         
-        if (data.energy_data.length === 0) {
+        // Sprawdź czy są jakieś dane w ogóle (energia, waga, makroskładniki, woda)
+        const hasAnyData = (data.energy_data && data.energy_data.length > 0) ||
+                          (data.weight_data && data.weight_data.length > 0) ||
+                          (data.macros_data && data.macros_data.length > 0) ||
+                          (data.water_data && data.water_data.length > 0);
+        
+        if (!hasAnyData) {
             showNoDataMessage();
             return null;
         }
@@ -156,14 +168,18 @@ async function fetchChartData(range = '30') {
 }
 
 function showNoDataMessage() {
-    document.getElementById('noDataMessage').style.display = 'block';
-    document.getElementById('chartDisplay').style.display = 'none';
+    const noDataMsg = document.getElementById('noDataMessage');
+    const chartDisplay = document.getElementById('chartDisplay');
+    if (noDataMsg) noDataMsg.style.display = 'block';
+    if (chartDisplay) chartDisplay.style.display = 'none';
     destroyAllCharts();
 }
 
 function hideNoDataMessage() {
-    document.getElementById('noDataMessage').style.display = 'none';
-    document.getElementById('chartDisplay').style.display = 'block';
+    const noDataMsg = document.getElementById('noDataMessage');
+    const chartDisplay = document.getElementById('chartDisplay');
+    if (noDataMsg) noDataMsg.style.display = 'none';
+    if (chartDisplay) chartDisplay.style.display = 'block';
 }
 
 function destroyAllCharts() {
@@ -182,10 +198,6 @@ function destroyAllCharts() {
     if (waterChart) {
         waterChart.destroy();
         waterChart = null;
-    }
-    if (bmiChart) {
-        bmiChart.destroy();
-        bmiChart = null;
     }
 }
 
@@ -228,359 +240,380 @@ function createChartForType(chartType) {
         case 'water':
             createWaterChart(chartData);
             break;
-        case 'bmi':
-            createBMIChart(chartData);
-            break;
     }
 }
 
 function createEnergyChart(data) {
-    const ctx = document.getElementById('energyChart').getContext('2d');
+    const chartElement = document.getElementById('energyChart');
+    if (!chartElement) return;
     
     if (energyChart) {
         energyChart.destroy();
     }
     
-    energyChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: data.energy_data.map(item => item.date_formatted),
-            datasets: [{
-                label: 'Energy Consumed',
-                data: data.energy_data.map(item => item.calories),
-                backgroundColor: chartColors.energy.background,
-                borderColor: chartColors.energy.border,
-                borderWidth: 2,
-                borderRadius: 8,
-                borderSkipped: false
-            }]
+    if (!data.energy_data || data.energy_data.length === 0) {
+        chartElement.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999;">No energy data available</div>';
+        return;
+    }
+    
+    const options = {
+        ...commonChartOptions,
+        chart: {
+            ...commonChartOptions.chart,
+            type: 'area'
         },
-        options: {
-            ...commonChartOptions,
-            plugins: {
-                ...commonChartOptions.plugins,
-                title: {
-                    display: false
-                }
-            },
-            scales: {
-                ...commonChartOptions.scales,
-                y: {
-                    ...commonChartOptions.scales.y,
+        series: [{
+            name: 'Energy Consumed',
+            data: data.energy_data.map(item => item.calories)
+        }],
+        colors: [chartColors.energy.solid],
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shade: 'dark',
+                type: 'vertical',
+                shadeIntensity: 0.5,
+                gradientToColors: [chartColors.energy.gradient[1]],
+                inverseColors: false,
+                opacityFrom: 0.8,
+                opacityTo: 0.2,
+                stops: [0, 50, 100]
+            }
+        },
+        stroke: {
+            ...commonChartOptions.stroke,
+            width: 3
+        },
+        markers: {
+            size: 5,
+            colors: [chartColors.energy.solid],
+            strokeColors: '#fff',
+            strokeWidth: 2,
+            hover: {
+                size: 7
+            }
+        },
+        xaxis: {
+            ...commonChartOptions.xaxis,
+            categories: data.energy_data.map(item => item.date_formatted)
+        },
+        yaxis: {
+            ...commonChartOptions.yaxis,
                     title: {
-                        display: true,
                         text: 'Calories (kcal)',
-                        font: {
-                            family: "'Montserrat', sans-serif",
-                            size: 12,
-                            weight: '600'
-                        }
-                    }
+                style: {
+                    color: '#666',
+                    fontSize: '12px',
+                    fontFamily: "'Montserrat', sans-serif",
+                    fontWeight: 600
+                }
+            }
+        },
+        tooltip: {
+            ...commonChartOptions.tooltip,
+            y: {
+                formatter: function(val) {
+                    return val.toFixed(0) + ' kcal';
                 }
             }
         }
-    });
+    };
+    
+    energyChart = new ApexCharts(chartElement, options);
+    energyChart.render();
 }
 
 function createWeightChart(data) {
-    const ctx = document.getElementById('weightChart').getContext('2d');
-
+    const chartElement = document.getElementById('weightChart');
+    if (!chartElement) return;
+    
     if (weightChart) {
         weightChart.destroy();
     }
-
+    
+    if (!data.weight_data || data.weight_data.length === 0) {
+        chartElement.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999;">No weight data available</div>';
+        return;
+    }
+    
     const weightValues = data.weight_data.map(item => item.weight);
     const minWeight = Math.min(...weightValues);
     const maxWeight = Math.max(...weightValues);
     const range = Math.max(1, maxWeight - minWeight);
-    const padding = range * 0.1;
-    const minAxis = Math.max(0, Math.floor(minWeight));
-    const maxAxis = Math.ceil(maxWeight + padding);
-
-    const highlightColor = '#4FACEF';
-
-    weightChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: data.weight_data.map(item => item.date_formatted),
-            datasets: [{
-                label: 'Weight',
-                data: data.weight_data.map(item => item.weight),
-                borderColor: highlightColor,
-                borderWidth: 3,
-                fill: false,
-                tension: 0.4,
-                pointRadius: 6,
-                pointHoverRadius: 8,
-                pointBackgroundColor: highlightColor,
-                pointBorderColor: '#fff',
-                pointBorderWidth: 2,
-                cubicInterpolationMode: 'monotone'
-            }]
+    
+    // Lepsze obliczanie zakresu - jeśli zakres jest mały, użyj mniejszego padding
+    let padding;
+    if (range < 5) {
+        padding = Math.max(0.5, range * 0.15);
+    } else {
+        padding = range * 0.1;
+    }
+    
+    const minAxis = Math.max(0, Math.floor((minWeight - padding) * 10) / 10);
+    const maxAxis = Math.ceil((maxWeight + padding) * 10) / 10;
+    
+    const options = {
+        ...commonChartOptions,
+        chart: {
+            ...commonChartOptions.chart,
+            type: 'line'
         },
-        options: {
-            ...commonChartOptions,
-            elements: {
-                line: {
-                    borderCapStyle: 'round',
-                    borderJoinStyle: 'round'
-                }
-            },
-            layout: {
-                padding: {
-                    top: 10,
-                    bottom: 10,
-                    left: 0,
-                    right: 0
-                }
-            },
-            scales: {
-                ...commonChartOptions.scales,
-                y: {
-                    ...commonChartOptions.scales.y,
+        series: [{
+            name: 'Weight',
+            data: data.weight_data.map(item => item.weight)
+        }],
+        colors: [chartColors.weight.solid],
+        fill: {
+            enabled: false
+        },
+        stroke: {
+            ...commonChartOptions.stroke,
+            width: 3,
+            curve: 'smooth'
+        },
+        markers: {
+            size: 5,
+            colors: [chartColors.weight.solid],
+            strokeColors: '#fff',
+            strokeWidth: 2,
+            hover: {
+                size: 7
+            }
+        },
+        xaxis: {
+            ...commonChartOptions.xaxis,
+            categories: data.weight_data.map(item => item.date_formatted)
+        },
+        yaxis: {
+            ...commonChartOptions.yaxis,
                     min: minAxis,
                     max: maxAxis,
-                    ticks: {
-                        ...commonChartOptions.scales.y.ticks,
-                        stepSize: 2,
-                        color: '#6c757d'
-                    },
-                    grid: {
-                        color: 'rgba(33, 37, 41, 0.12)',
-                        borderDash: [5, 5],
-                        drawBorder: false
-                    },
+            forceNiceScale: true,
+            decimalsInFloat: 1,
                     title: {
-                        display: true,
                         text: 'Weight (kg)',
-                        font: {
-                            family: "'Montserrat', sans-serif",
-                            size: 12,
-                            weight: '600'
-                        },
-                        color: '#6c757d'
-                    }
-                },
-                x: {
-                    ...commonChartOptions.scales.x,
-                    grid: {
-                        display: false
-                    },
-                    ticks: {
-                        ...commonChartOptions.scales.x.ticks,
-                        maxRotation: 0,
-                        autoSkipPadding: 18,
-                        color: '#6c757d'
-                    }
+                style: {
+                    color: '#666',
+                    fontSize: '12px',
+                    fontFamily: "'Montserrat', sans-serif",
+                    fontWeight: 600
                 }
             },
-            plugins: {
-                ...commonChartOptions.plugins,
-                legend: {
-                    display: false
-                },
-                tooltip: {
-                    ...commonChartOptions.plugins.tooltip,
-                    backgroundColor: 'rgba(255,255,255,0.95)',
-                    titleColor: '#1c2345',
-                    bodyColor: '#1c2345',
-                    borderColor: 'rgba(0,0,0,0.08)',
-                    borderWidth: 1,
-                    callbacks: {
-                        label: function(context) {
-                            return `${context.parsed.y} kg on ${context.label}`;
-                        }
-                    }
+            labels: {
+                ...commonChartOptions.yaxis.labels,
+                formatter: function(val) {
+                    return val.toFixed(1);
                 }
             }
+                },
+                tooltip: {
+            ...commonChartOptions.tooltip,
+            y: {
+                formatter: function(val) {
+                    return val.toFixed(1) + ' kg';
+                }
+            }
+        },
+        legend: {
+            ...commonChartOptions.legend,
+            show: false
+        },
+        grid: {
+            ...commonChartOptions.grid,
+            yaxis: {
+                lines: {
+                    show: true
+                }
+            },
+            padding: {
+                top: 10,
+                right: 10,
+                bottom: 0,
+                left: 10
+            }
         }
-    });
+    };
+    
+    weightChart = new ApexCharts(chartElement, options);
+    weightChart.render();
 }
 
 function createMacrosChart(data) {
-    const ctx = document.getElementById('macrosChart').getContext('2d');
+    const chartElement = document.getElementById('macrosChart');
+    if (!chartElement) return;
     
     if (macrosChart) {
         macrosChart.destroy();
     }
     
-    macrosChart = new Chart(ctx, {
+    if (!data.macros_data || data.macros_data.length === 0) {
+        chartElement.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999;">No macros data available</div>';
+        return;
+    }
+    
+    const options = {
+        ...commonChartOptions,
+        chart: {
+            ...commonChartOptions.chart,
         type: 'bar',
-        data: {
-            labels: data.macros_data.map(item => item.date_formatted),
-            datasets: [
-                {
-                    label: 'Protein',
-                    data: data.macros_data.map(item => item.protein),
-                    backgroundColor: chartColors.protein.background,
-                    borderColor: chartColors.protein.border,
-                    borderWidth: 2,
-                    borderRadius: 8
-                },
-                {
-                    label: 'Carbs',
-                    data: data.macros_data.map(item => item.carbs),
-                    backgroundColor: chartColors.carbs.background,
-                    borderColor: chartColors.carbs.border,
-                    borderWidth: 2,
-                    borderRadius: 8
-                },
-                {
-                    label: 'Fat',
-                    data: data.macros_data.map(item => item.fat),
-                    backgroundColor: chartColors.fat.background,
-                    borderColor: chartColors.fat.border,
-                    borderWidth: 2,
-                    borderRadius: 8
-                }
-            ]
+            stacked: true
         },
-        options: {
-            ...commonChartOptions,
-            scales: {
-                ...commonChartOptions.scales,
-                x: {
-                    ...commonChartOptions.scales.x,
-                    stacked: true
-                },
-                y: {
-                    ...commonChartOptions.scales.y,
-                    stacked: true,
+        series: [
+            {
+                name: 'Protein',
+                data: data.macros_data.map(item => item.protein)
+            },
+            {
+                name: 'Carbs',
+                data: data.macros_data.map(item => item.carbs)
+            },
+            {
+                name: 'Fat',
+                data: data.macros_data.map(item => item.fat)
+            }
+        ],
+        colors: [chartColors.protein, chartColors.carbs, chartColors.fat],
+        fill: {
+            type: 'solid',
+            opacity: 0.9
+        },
+        stroke: {
+            ...commonChartOptions.stroke,
+            width: 2,
+            colors: ['#fff']
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 8,
+                columnWidth: '60%',
+                dataLabels: {
+                    position: 'center'
+                }
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        xaxis: {
+            ...commonChartOptions.xaxis,
+            categories: data.macros_data.map(item => item.date_formatted)
+        },
+        yaxis: {
+            ...commonChartOptions.yaxis,
                     title: {
-                        display: true,
                         text: 'Amount (g)',
-                        font: {
-                            family: "'Montserrat', sans-serif",
-                            size: 12,
-                            weight: '600'
-                        }
-                    }
+                style: {
+                    color: '#666',
+                    fontSize: '12px',
+                    fontFamily: "'Montserrat', sans-serif",
+                    fontWeight: 600
+                }
+            }
+        },
+        tooltip: {
+            ...commonChartOptions.tooltip,
+            y: {
+                formatter: function(val) {
+                    return val.toFixed(1) + ' g';
                 }
             }
         }
-    });
+    };
+    
+    macrosChart = new ApexCharts(chartElement, options);
+    macrosChart.render();
 }
 
 function createWaterChart(data) {
-    const ctx = document.getElementById('waterChart').getContext('2d');
+    const chartElement = document.getElementById('waterChart');
+    if (!chartElement) return;
     
     if (waterChart) {
         waterChart.destroy();
     }
     
-    waterChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: data.water_data.map(item => item.date_formatted),
-            datasets: [{
-                label: 'Water Intake',
-                data: data.water_data.map(item => item.water),
-                backgroundColor: chartColors.water.fill,
-                borderColor: chartColors.water.border,
-                borderWidth: 3,
-                fill: true,
-                tension: 0.4,
-                pointRadius: 4,
-                pointHoverRadius: 6,
-                pointBackgroundColor: chartColors.water.border,
-                pointBorderColor: '#fff',
-                pointBorderWidth: 2
-            }]
-        },
-        options: {
-            ...commonChartOptions,
-            scales: {
-                ...commonChartOptions.scales,
-                y: {
-                    ...commonChartOptions.scales.y,
-                    title: {
-                        display: true,
-                        text: 'Water (ml)',
-                        font: {
-                            family: "'Montserrat', sans-serif",
-                            size: 12,
-                            weight: '600'
-                        }
-                    }
-                }
-            }
-        }
-    });
-}
-
-function createBMIChart(data) {
-    const ctx = document.getElementById('bmiChart').getContext('2d');
-    
-    if (bmiChart) {
-        bmiChart.destroy();
+    if (!data.water_data || data.water_data.length === 0) {
+        chartElement.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999;">No water data available</div>';
+        return;
     }
     
-    bmiChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: data.bmi_data.map(item => item.date_formatted),
-            datasets: [
-                {
-                    label: 'BMI',
-                    data: data.bmi_data.map(item => item.bmi),
-                    backgroundColor: chartColors.bmi.background,
-                    borderColor: chartColors.bmi.border,
-                    borderWidth: 3,
-                    fill: false,
-                    tension: 0.4,
-                    pointRadius: 4,
-                    pointHoverRadius: 6,
-                    pointBackgroundColor: chartColors.bmi.border,
-                    pointBorderColor: '#fff',
-                    pointBorderWidth: 2,
-                    yAxisID: 'y'
-                },
-                {
-                    label: 'FFMI',
-                    data: data.bmi_data.map(item => item.ffmi),
-                    backgroundColor: chartColors.ffmi.background,
-                    borderColor: chartColors.ffmi.border,
-                    borderWidth: 3,
-                    fill: false,
-                    tension: 0.4,
-                    pointRadius: 4,
-                    pointHoverRadius: 6,
-                    pointBackgroundColor: chartColors.ffmi.border,
-                    pointBorderColor: '#fff',
-                    pointBorderWidth: 2,
-                    yAxisID: 'y'
-                }
-            ]
+    const options = {
+        ...commonChartOptions,
+        chart: {
+            ...commonChartOptions.chart,
+            type: 'area'
         },
-        options: {
-            ...commonChartOptions,
-            scales: {
-                ...commonChartOptions.scales,
-                y: {
-                    ...commonChartOptions.scales.y,
+        series: [{
+            name: 'Water Intake',
+            data: data.water_data.map(item => item.water)
+        }],
+        colors: [chartColors.water.solid],
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shade: 'dark',
+                type: 'vertical',
+                shadeIntensity: 0.5,
+                gradientToColors: [chartColors.water.gradient[1]],
+                inverseColors: false,
+                opacityFrom: 0.7,
+                opacityTo: 0.2,
+                stops: [0, 50, 100]
+            }
+        },
+        stroke: {
+            ...commonChartOptions.stroke,
+            width: 3
+        },
+        markers: {
+            size: 5,
+            colors: [chartColors.water.solid],
+            strokeColors: '#fff',
+            strokeWidth: 2,
+            hover: {
+                size: 7
+            }
+        },
+        xaxis: {
+            ...commonChartOptions.xaxis,
+            categories: data.water_data.map(item => item.date_formatted)
+        },
+        yaxis: {
+            ...commonChartOptions.yaxis,
                     title: {
-                        display: true,
-                        text: 'Value',
-                        font: {
-                            family: "'Montserrat', sans-serif",
-                            size: 12,
-                            weight: '600'
-                        }
-                    }
+                        text: 'Water (ml)',
+                style: {
+                    color: '#666',
+                    fontSize: '12px',
+                    fontFamily: "'Montserrat', sans-serif",
+                    fontWeight: 600
+                }
+            }
+        },
+        tooltip: {
+            ...commonChartOptions.tooltip,
+            y: {
+                formatter: function(val) {
+                    return val.toFixed(0) + ' ml';
                 }
             }
         }
-    });
+    };
+    
+    waterChart = new ApexCharts(chartElement, options);
+    waterChart.render();
 }
 
 async function loadCharts(range = '30') {
     const data = await fetchChartData(range);
     
     if (!data) {
+        console.log('No chart data available');
         return;
     }
     
     chartData = data;
+    console.log('Chart data loaded:', data);
     
     createChartForType(currentChartType);
 }
@@ -605,24 +638,10 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('resize', function() {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(function() {
-            switch(currentChartType) {
-                case 'energy':
-                    if (energyChart) energyChart.resize();
-                    break;
-                case 'weight':
-                    if (weightChart) weightChart.resize();
-                    break;
-                case 'macros':
-                    if (macrosChart) macrosChart.resize();
-                    break;
-                case 'water':
-                    if (waterChart) waterChart.resize();
-                    break;
-                case 'bmi':
-                    if (bmiChart) bmiChart.resize();
-                    break;
-            }
+            if (energyChart) energyChart.updateOptions({}, false, true, true);
+            if (weightChart) weightChart.updateOptions({}, false, true, true);
+            if (macrosChart) macrosChart.updateOptions({}, false, true, true);
+            if (waterChart) waterChart.updateOptions({}, false, true, true);
         }, 250);
     });
 });
-

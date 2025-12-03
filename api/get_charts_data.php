@@ -59,14 +59,6 @@ try {
     $weight_data = [];
     $macros_data = [];
     $water_data = [];
-    $bmi_data = [];
-
-    $height_m = $user['height'] / 100;
-    $current_bmi = $user['weight'] / ($height_m * $height_m);
-    
-    $body_fat_percentage = 15;
-    $lean_body_mass = $user['weight'] * (1 - $body_fat_percentage / 100);
-    $current_ffmi = $lean_body_mass / ($height_m * $height_m);
 
     foreach ($logs as $log) {
         $date = $log['log_date'];
@@ -91,13 +83,6 @@ try {
             'date_formatted' => $date_formatted,
             'water' => intval($log['water_intake'])
         ];
-
-        $bmi_data[] = [
-            'date' => $date,
-            'date_formatted' => $date_formatted,
-            'bmi' => round($current_bmi, 1),
-            'ffmi' => round($current_ffmi, 1)
-        ];
     }
     
     $weight_entries = fetchWeightHistory($pdo, $user_id, $start_date, $end_date);
@@ -118,6 +103,10 @@ try {
         ];
     }
 
+    // Oblicz aktualne BMI dla user_info
+    $height_m = $user['height'] / 100;
+    $current_bmi = $user['weight'] / ($height_m * $height_m);
+    
     if (empty($logs)) {
         echo json_encode([
             'success' => true,
@@ -128,11 +117,9 @@ try {
             'weight_data' => [],
             'macros_data' => [],
             'water_data' => [],
-            'bmi_data' => [],
             'user_info' => [
                 'current_weight' => floatval($user['weight']),
                 'current_bmi' => round($current_bmi, 1),
-                'current_ffmi' => round($current_ffmi, 1),
                 'tdee' => floatval($user['tdee'])
             ]
         ]);
@@ -147,13 +134,11 @@ try {
         'energy_data' => $energy_data,
         'weight_data' => $weight_data,
         'macros_data' => $macros_data,
-        'water_data' => $water_data,
-        'bmi_data' => $bmi_data,
+            'water_data' => $water_data,
         'user_info' => [
-            'current_weight' => floatval($user['weight']),
-            'current_bmi' => round($current_bmi, 1),
-            'current_ffmi' => round($current_ffmi, 1),
-            'tdee' => floatval($user['tdee'])
+                'current_weight' => floatval($user['weight']),
+                'current_bmi' => round($current_bmi, 1),
+                'tdee' => floatval($user['tdee'])
         ]
     ]);
 
