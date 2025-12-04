@@ -109,9 +109,9 @@ $initials = strtoupper(substr($names[0], 0, 1) . (isset($names[1]) ? substr($nam
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/897067be39.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="css/navbar.css">
-    <link rel="stylesheet" href="css/profile.css">
-    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="<?php echo asset('css/navbar.css'); ?>">
+    <link rel="stylesheet" href="<?php echo asset('css/profile.css'); ?>">
+    <link rel="stylesheet" href="<?php echo asset('css/footer.css'); ?>">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg position-fixed top-0 w-100 py-3">

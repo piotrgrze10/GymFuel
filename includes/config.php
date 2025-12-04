@@ -98,3 +98,25 @@ function getSafeErrorMessage($exception, $defaultMessage = 'An error occurred. P
         return $exception->getMessage();
     }
 }
+
+/**
+ * Generates cache-busting version parameter based on file modification time
+ * This ensures browsers always load the latest version of CSS/JS files
+ * 
+ * @param string $file_path Relative path to the file (e.g., 'css/main.css')
+ * @return string URL with version parameter (e.g., 'css/main.css?v=1234567890')
+ */
+function asset($file_path) {
+    $full_path = __DIR__ . '/../' . ltrim($file_path, '/');
+    
+    // Check if file exists
+    if (file_exists($full_path)) {
+        // Use file modification time as version - changes automatically when file is updated
+        $version = filemtime($full_path);
+        $separator = strpos($file_path, '?') !== false ? '&' : '?';
+        return $file_path . $separator . 'v=' . $version;
+    }
+    
+    // If file doesn't exist, return original path
+    return $file_path;
+}

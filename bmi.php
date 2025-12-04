@@ -24,9 +24,9 @@ if ($logged_in) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/897067be39.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="css/navbar.css?v=NOWRAP_FIX">
-    <link rel="stylesheet" href="css/bmi.css?v=MODERN_REDESIGN">
-    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="<?php echo asset('css/navbar.css'); ?>">
+    <link rel="stylesheet" href="<?php echo asset('css/bmi.css'); ?>">
+    <link rel="stylesheet" href="<?php echo asset('css/footer.css'); ?>">
 </head>
 <body style="padding-top: 76px;" class="bmi-page">
     <nav class="navbar navbar-expand-lg position-fixed top-0 w-100 py-3">

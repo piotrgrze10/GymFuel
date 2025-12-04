@@ -19,9 +19,9 @@ $user = $stmt->fetch();
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/897067be39.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="css/navbar.css">
-    <link rel="stylesheet" href="css/charts.css">
-    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="<?php echo asset('css/navbar.css'); ?>">
+    <link rel="stylesheet" href="<?php echo asset('css/charts.css'); ?>">
+    <link rel="stylesheet" href="<?php echo asset('css/footer.css'); ?>">
     <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.44.0/dist/apexcharts.min.js"></script>
 </head>
 <body style="padding-top: 76px;">

@@ -14,7 +14,7 @@ redirectIfLoggedIn();
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/897067be39.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../css/auth.css?v=unified-1">
+    <link rel="stylesheet" href="<?php echo asset('../css/auth.css'); ?>">
 </head>
 <body>
     <div id="error-toast" class="error-toast" style="display:none;">
