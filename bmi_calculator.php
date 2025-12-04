@@ -64,18 +64,10 @@ if ($logged_in) {
             </div>
 
             <?php if (!$logged_in): ?>
-            <div class="cta-banner">
-                <div class="cta-content">
-                    <i class="fas fa-star"></i>
-                    <div class="cta-text">
-                        <strong>Want to save your results?</strong>
-                        <p>Create a free account to track your calculations history and access full nutrition tracking!</p>
-                    </div>
-                </div>
-                <div class="cta-buttons">
-                    <a href="/register" class="cta-btn primary">Register Free</a>
-                    <a href="/login" class="cta-btn secondary">Login</a>
-                </div>
+            <div class="info-notification">
+                <i class="fas fa-info-circle"></i>
+                <span>Register to save your calculation results and track your progress over time.</span>
+                <a href="/register" class="info-link">Sign up</a>
             </div>
             <?php endif; ?>
 

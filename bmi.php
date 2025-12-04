@@ -69,18 +69,10 @@ if ($logged_in) {
             </div>
 
             <?php if (!$logged_in): ?>
-            <div class="cta-banner">
-                <div class="cta-content">
-                    <i class="fas fa-star"></i>
-                    <div class="cta-text">
-                        <strong>Want to save your results?</strong>
-                        <p>Create a free account to track your calculations history and access full nutrition tracking!</p>
-                    </div>
-                </div>
-                <div class="cta-buttons">
-                    <a href="/register" class="cta-btn primary">Register Free</a>
-                    <a href="/login" class="cta-btn secondary">Login</a>
-                </div>
+            <div class="info-notification">
+                <i class="fas fa-info-circle"></i>
+                <span>Register to save your calculation results and track your progress over time.</span>
+                <a href="/register" class="info-link">Sign up</a>
             </div>
             <?php endif; ?>
 
@@ -132,16 +124,25 @@ if ($logged_in) {
                             </div>
                         </div>
 
-                        <button class="calculate-btn" id="calculateBtn">
-                            <i class="fas fa-calculator"></i>
-                            Calculate BMI
-                        </button>
+                        <div class="form-actions">
+                            <button class="calculate-btn" id="calculateBtn">
+                                <i class="fas fa-calculator"></i>
+                                <span>Calculate BMI</span>
+                            </button>
+                            <button class="reset-btn" id="resetBtn" style="display: none;">
+                                <i class="fas fa-redo"></i>
+                                <span>Reset</span>
+                            </button>
+                        </div>
 
                         <div class="error-message" id="errorMessage"></div>
                     </div>
 
                     <div class="bmi-result" id="bmiResult">
                         <div class="result-content">
+                            <div class="result-icon-wrapper">
+                                <i class="result-icon" id="resultIcon"></i>
+                            </div>
                             <div class="result-value">
                                 <span class="bmi-number" id="bmiValue">0.0</span>
                                 <span class="bmi-label">Your BMI</span>
@@ -149,6 +150,27 @@ if ($logged_in) {
                             <div class="result-category" id="bmiCategory">
                                 <span class="category-badge" id="categoryBadge"></span>
                                 <p class="category-description" id="categoryDescription"></p>
+                            </div>
+                            <div class="result-legend" id="bmiLegend">
+                                <p class="legend-title"><i class="fas fa-info-circle"></i> BMI Reference</p>
+                                <div class="legend-items">
+                                    <div class="legend-item">
+                                        <span class="legend-color" style="background: #bee3f8;"></span>
+                                        <span class="legend-text">&lt; 18.5 - Underweight</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span class="legend-color" style="background: #c6f6d5;"></span>
+                                        <span class="legend-text">18.5 - 24.9 - Normal Weight</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span class="legend-color" style="background: #feebc8;"></span>
+                                        <span class="legend-text">25.0 - 29.9 - Overweight</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span class="legend-color" style="background: #fed7d7;"></span>
+                                        <span class="legend-text">≥ 30.0 - Obese</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

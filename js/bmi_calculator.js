@@ -31,11 +31,13 @@ class BMICalculator {
             this.heightInput = document.getElementById('height');
             this.weightInput = document.getElementById('weight');
             this.calculateBtn = document.getElementById('calculateBtn');
+            this.resetBtn = document.getElementById('resetBtn');
             this.errorMessage = document.getElementById('errorMessage');
             this.bmiResult = document.getElementById('bmiResult');
             this.bmiValue = document.getElementById('bmiValue');
             this.categoryBadge = document.getElementById('categoryBadge');
             this.categoryDescription = document.getElementById('categoryDescription');
+            this.resultIcon = document.getElementById('resultIcon');
             this.historyList = document.getElementById('historyList');
             this.unitButtons = document.querySelectorAll('.unit-btn');
         } else if (this.calculatorType === 'ffmi') {
@@ -43,11 +45,13 @@ class BMICalculator {
             this.ffmiWeightInput = document.getElementById('ffmiWeight');
             this.bodyFatInput = document.getElementById('bodyFat');
             this.calculateFfmiBtn = document.getElementById('calculateFfmiBtn');
+            this.resetFfmiBtn = document.getElementById('resetFfmiBtn');
             this.ffmiErrorMessage = document.getElementById('ffmiErrorMessage');
             this.ffmiResult = document.getElementById('ffmiResult');
             this.ffmiValue = document.getElementById('ffmiValue');
             this.ffmiCategoryBadge = document.getElementById('ffmiCategoryBadge');
             this.ffmiCategoryDescription = document.getElementById('ffmiCategoryDescription');
+            this.ffmiResultIcon = document.getElementById('ffmiResultIcon');
             this.historyList = document.getElementById('historyList');
         }
     }
@@ -58,18 +62,28 @@ class BMICalculator {
                 this.calculateBtn.addEventListener('click', () => this.calculateBMI());
             }
             
+            if (this.resetBtn) {
+                this.resetBtn.addEventListener('click', () => this.resetBMIForm());
+            }
+            
             if (this.heightInput) {
                 this.heightInput.addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') this.calculateBMI();
                 });
-                this.heightInput.addEventListener('input', () => this.hideError());
+                this.heightInput.addEventListener('input', () => {
+                    this.hideError();
+                    this.updateResetButton();
+                });
             }
             
             if (this.weightInput) {
                 this.weightInput.addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') this.calculateBMI();
                 });
-                this.weightInput.addEventListener('input', () => this.hideError());
+                this.weightInput.addEventListener('input', () => {
+                    this.hideError();
+                    this.updateResetButton();
+                });
             }
 
             if (this.unitButtons && this.unitButtons.length > 0) {
@@ -82,27 +96,71 @@ class BMICalculator {
                 this.calculateFfmiBtn.addEventListener('click', () => this.calculateFFMI());
             }
             
+            if (this.resetFfmiBtn) {
+                this.resetFfmiBtn.addEventListener('click', () => this.resetFfmiForm());
+            }
+            
             if (this.ffmiHeightInput) {
                 this.ffmiHeightInput.addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') this.calculateFFMI();
                 });
-                this.ffmiHeightInput.addEventListener('input', () => this.hideFfmiError());
+                this.ffmiHeightInput.addEventListener('input', () => {
+                    this.hideFfmiError();
+                    this.updateFfmiResetButton();
+                });
             }
             
             if (this.ffmiWeightInput) {
                 this.ffmiWeightInput.addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') this.calculateFFMI();
                 });
-                this.ffmiWeightInput.addEventListener('input', () => this.hideFfmiError());
+                this.ffmiWeightInput.addEventListener('input', () => {
+                    this.hideFfmiError();
+                    this.updateFfmiResetButton();
+                });
             }
             
             if (this.bodyFatInput) {
                 this.bodyFatInput.addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') this.calculateFFMI();
                 });
-                this.bodyFatInput.addEventListener('input', () => this.hideFfmiError());
+                this.bodyFatInput.addEventListener('input', () => {
+                    this.hideFfmiError();
+                    this.updateFfmiResetButton();
+                });
             }
         }
+    }
+    
+    updateResetButton() {
+        if (this.resetBtn && this.heightInput && this.weightInput) {
+            const hasValue = this.heightInput.value || this.weightInput.value;
+            this.resetBtn.style.display = hasValue ? 'flex' : 'none';
+        }
+    }
+    
+    updateFfmiResetButton() {
+        if (this.resetFfmiBtn && this.ffmiHeightInput && this.ffmiWeightInput && this.bodyFatInput) {
+            const hasValue = this.ffmiHeightInput.value || this.ffmiWeightInput.value || this.bodyFatInput.value;
+            this.resetFfmiBtn.style.display = hasValue ? 'flex' : 'none';
+        }
+    }
+    
+    resetBMIForm() {
+        if (this.heightInput) this.heightInput.value = '';
+        if (this.weightInput) this.weightInput.value = '';
+        if (this.resetBtn) this.resetBtn.style.display = 'none';
+        this.hideResult();
+        this.hideError();
+    }
+    
+    resetFfmiForm() {
+        if (this.ffmiHeightInput) this.ffmiHeightInput.value = '';
+        if (this.ffmiWeightInput) this.ffmiWeightInput.value = '';
+        if (this.bodyFatInput) this.bodyFatInput.value = '';
+        if (this.resetFfmiBtn) this.resetFfmiBtn.style.display = 'none';
+        this.hideFfmiResult();
+        this.hideFfmiError();
     }
     
     calculateFFMI() {
@@ -169,6 +227,27 @@ class BMICalculator {
         if (this.ffmiCategoryDescription) {
             this.ffmiCategoryDescription.textContent = category.description;
         }
+        
+        // Ustaw ikonę i klasę koloru
+        if (this.ffmiResultIcon) {
+            const icons = {
+                underweight: 'fas fa-arrow-down',
+                normal: 'fas fa-check-circle',
+                overweight: 'fas fa-arrow-up',
+                obese: 'fas fa-trophy',
+                excellent: 'fas fa-star'
+            };
+            this.ffmiResultIcon.className = `result-icon ${icons[category.class] || icons.normal}`;
+        }
+        
+        // Dodaj klasę koloru do wyniku
+        if (this.ffmiResult) {
+            this.ffmiResult.className = `ffmi-result ${category.class}-result`;
+        }
+        
+        if (this.resetFfmiBtn) {
+            this.resetFfmiBtn.style.display = 'flex';
+        }
 
         this.showFfmiResult();
     }
@@ -227,7 +306,12 @@ class BMICalculator {
     }
     
     hideFfmiResult() {
-        if (this.ffmiResult) this.ffmiResult.classList.remove('show');
+        if (this.ffmiResult) {
+            this.ffmiResult.classList.remove('show', 'underweight-result', 'normal-result', 'overweight-result', 'obese-result', 'excellent-result');
+        }
+        if (this.resetFfmiBtn) {
+            this.resetFfmiBtn.style.display = 'none';
+        }
     }
     
     showFfmiError(message) {
@@ -320,6 +404,7 @@ class BMICalculator {
             this.weightInput.value = '';
             this.hideResult();
             this.hideError();
+            if (this.resetBtn) this.resetBtn.style.display = 'none';
         }
     }
 
@@ -393,6 +478,26 @@ class BMICalculator {
         this.categoryBadge.textContent = category.name;
         this.categoryBadge.className = `category-badge ${category.class}`;
         this.categoryDescription.textContent = category.description;
+        
+        // Ustaw ikonę i klasę koloru
+        if (this.resultIcon) {
+            const icons = {
+                underweight: 'fas fa-arrow-down',
+                normal: 'fas fa-check-circle',
+                overweight: 'fas fa-exclamation-triangle',
+                obese: 'fas fa-exclamation-circle'
+            };
+            this.resultIcon.className = `result-icon ${icons[category.class] || icons.normal}`;
+        }
+        
+        // Dodaj klasę koloru do wyniku
+        if (this.bmiResult) {
+            this.bmiResult.className = `bmi-result ${category.class}-result`;
+        }
+        
+        if (this.resetBtn) {
+            this.resetBtn.style.display = 'flex';
+        }
 
         this.showResult();
     }
@@ -448,7 +553,10 @@ class BMICalculator {
 
     hideResult() {
         if (this.bmiResult) {
-            this.bmiResult.classList.remove('show');
+            this.bmiResult.classList.remove('show', 'underweight-result', 'normal-result', 'overweight-result', 'obese-result');
+        }
+        if (this.resetBtn) {
+            this.resetBtn.style.display = 'none';
         }
     }
 
