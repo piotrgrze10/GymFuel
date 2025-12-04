@@ -24,7 +24,6 @@ const chartColors = {
     }
 };
 
-// Funkcja do wykrywania rozmiaru ekranu
 function getScreenSize() {
     const width = window.innerWidth;
     if (width < 480) return 'xs';
@@ -33,76 +32,61 @@ function getScreenSize() {
     return 'lg';
 }
 
-// Funkcja do skracania etykiet
 function truncateLabel(label, maxLength) {
     if (!label) return '';
     if (label.length <= maxLength) return label;
     return label.substring(0, maxLength - 3) + '...';
 }
 
-// Funkcja do formatowania etykiet daty dla mobile
 function formatDateLabel(dateStr, screenSize) {
     if (screenSize === 'xs' || screenSize === 'sm') {
-        try {
-            // Sprawdź czy to już sformatowana data (np. "Jan 15" lub "Mar 3")
-            const dateFormattedPattern = /^[A-Za-z]{3}\s+\d{1,2}$/;
-            if (dateFormattedPattern.test(dateStr)) {
-                // To już sformatowana data - zawsze pokazuj dzień i miesiąc
-                const parts = dateStr.split(' ');
-                const day = parts[1];
-                const month = parts[0]; // np. "Jan", "Feb", etc.
+            try {
+                const dateFormattedPattern = /^[A-Za-z]{3}\s+\d{1,2}$/;
+                if (dateFormattedPattern.test(dateStr)) {
+                    const parts = dateStr.split(' ');
+                    const day = parts[1];
+                    const month = parts[0];
+                    
+                    if (screenSize === 'xs') {
+                        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                        const monthNum = monthNames.indexOf(month) + 1;
+                        return `${day}/${monthNum}`;
+                    } else {
+                        return `${day} ${month}`;
+                    }
+                }
                 
-                if (screenSize === 'xs') {
-                    // Dla bardzo małych ekranów - dzień/miesiąc w formacie numerycznym lub skróconym
-                    // Konwertuj nazwę miesiąca na numer
+                let date;
+                if (dateStr.includes('-') && dateStr.length >= 10) {
+                    date = new Date(dateStr);
+                } else {
+                    date = new Date(dateStr);
+                }
+                
+                if (!isNaN(date.getTime())) {
+                    const day = date.getDate();
+                    const month = date.getMonth() + 1;
                     const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-                    const monthNum = monthNames.indexOf(month) + 1;
-                    return `${day}/${monthNum}`;
-                } else {
-                    // Dla małych ekranów - dzień i skrócony miesiąc (pierwsze 3 litery)
-                    return `${day} ${month}`;
+                    
+                    if (screenSize === 'xs') {
+                        return `${day}/${month}`;
+                    } else {
+                        return `${day} ${monthNames[month - 1]}`;
+                    }
                 }
-            }
-            
-            // Spróbuj sparsować jako datę (format YYYY-MM-DD)
-            let date;
-            if (dateStr.includes('-') && dateStr.length >= 10) {
-                date = new Date(dateStr);
-            } else {
-                date = new Date(dateStr);
-            }
-            
-            // Sprawdź czy data jest poprawna
-            if (!isNaN(date.getTime())) {
-                const day = date.getDate();
-                const month = date.getMonth() + 1;
-                const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
                 
-                if (screenSize === 'xs') {
-                    // Dla bardzo małych ekranów - dzień/miesiąc w formacie numerycznym
-                    return `${day}/${month}`;
-                } else {
-                    // Dla małych ekranów - dzień i skrócony miesiąc
-                    return `${day} ${monthNames[month - 1]}`;
-                }
-            }
-            
-            // Jeśli nie można sparsować, zwróć oryginalny string (lub jego część)
-            return dateStr;
+                return dateStr;
         } catch (e) {
-            // W razie błędu zwróć oryginalny string
             return dateStr;
         }
     }
     return dateStr;
 }
 
-// Funkcja zwracająca responsywne opcje wykresu
 function getResponsiveChartOptions(screenSize, dataLength = 0) {
     const isMobile = screenSize === 'xs' || screenSize === 'sm';
     const isSmallMobile = screenSize === 'xs';
     
-    // Oblicz czy potrzebny jest horizontal scroll (dla gęstych danych)
     const needsHorizontalScroll = dataLength > (isSmallMobile ? 7 : isMobile ? 10 : 15);
     
     const baseOptions = {
@@ -125,7 +109,6 @@ function getResponsiveChartOptions(screenSize, dataLength = 0) {
                     speed: 350
                 }
             },
-            // Dla gęstych danych - włącz horizontal scroll
             ...(needsHorizontalScroll && {
                 scrollbar: {
                     enabled: true,
@@ -157,7 +140,6 @@ function getResponsiveChartOptions(screenSize, dataLength = 0) {
             axisTicks: {
                 show: false
             },
-            // Dla gęstych danych - ustaw minimalną szerokość kolumny
             ...(needsHorizontalScroll && {
                 tickAmount: undefined,
                 min: undefined,
@@ -174,7 +156,6 @@ function getResponsiveChartOptions(screenSize, dataLength = 0) {
                 },
                 maxWidth: isMobile ? 40 : 50,
                 formatter: function(val) {
-                    // Skróć duże liczby dla mobile
                     if (isMobile && val >= 1000) {
                         return (val / 1000).toFixed(1) + 'k';
                     }
@@ -192,7 +173,6 @@ function getResponsiveChartOptions(screenSize, dataLength = 0) {
             fixed: {
                 enabled: false
             },
-            // Na mobile - tooltip poniżej, nie zasłania danych
             ...(isMobile && {
                 followCursor: true,
                 offsetY: 20
@@ -214,7 +194,6 @@ function getResponsiveChartOptions(screenSize, dataLength = 0) {
                 horizontal: isMobile ? 10 : 15,
                 vertical: isMobile ? 3 : 5
             },
-            // Na mobile - legendę na dole, nie zasłania wykresu
             offsetY: isMobile ? 10 : 0,
             floating: false
         },
@@ -246,7 +225,6 @@ function getResponsiveChartOptions(screenSize, dataLength = 0) {
     return baseOptions;
 }
 
-// Funkcja zwracająca podstawowe opcje wykresu (używana jako baza)
 function getBaseChartOptions() {
     const screenSize = getScreenSize();
     const responsiveOptions = getResponsiveChartOptions(screenSize);
@@ -277,11 +255,10 @@ async function fetchChartData(range = '30') {
         if (!data.success) {
             console.error('Error fetching chart data:', data.error);
             showNoDataMessage();
-            return null;
-        }
-        
-        // Sprawdź czy są jakieś dane w ogóle (energia, waga, makroskładniki, woda)
-        const hasAnyData = (data.energy_data && data.energy_data.length > 0) ||
+        return null;
+    }
+    
+    const hasAnyData = (data.energy_data && data.energy_data.length > 0) ||
                           (data.weight_data && data.weight_data.length > 0) ||
                           (data.macros_data && data.macros_data.length > 0) ||
                           (data.water_data && data.water_data.length > 0);
@@ -393,7 +370,6 @@ function createEnergyChart(data) {
     const responsiveOptions = getResponsiveChartOptions(screenSize, data.energy_data.length);
     const isMobile = screenSize === 'xs' || screenSize === 'sm';
     
-    // Formatuj etykiety dat dla mobile - użyj date_formatted jeśli dostępne, w przeciwnym razie date
     const categories = data.energy_data.map(item => {
         const dateToFormat = item.date_formatted || item.date;
         return formatDateLabel(dateToFormat, screenSize);
@@ -493,7 +469,6 @@ function createWeightChart(data) {
     const maxWeight = Math.max(...weightValues);
     const range = Math.max(1, maxWeight - minWeight);
     
-    // Lepsze obliczanie zakresu - jeśli zakres jest mały, użyj mniejszego padding
     let padding;
     if (range < 5) {
         padding = Math.max(0.5, range * 0.15);
@@ -504,7 +479,6 @@ function createWeightChart(data) {
     const minAxis = Math.max(0, Math.floor((minWeight - padding) * 10) / 10);
     const maxAxis = Math.ceil((maxWeight + padding) * 10) / 10;
     
-    // Formatuj etykiety dat dla mobile - użyj date_formatted jeśli dostępne, w przeciwnym razie date
     const categories = data.weight_data.map(item => {
         const dateToFormat = item.date_formatted || item.date;
         return formatDateLabel(dateToFormat, screenSize);
@@ -599,7 +573,6 @@ function createMacrosChart(data) {
     const responsiveOptions = getResponsiveChartOptions(screenSize, data.macros_data.length);
     const isMobile = screenSize === 'xs' || screenSize === 'sm';
     
-    // Formatuj etykiety dat dla mobile - użyj date_formatted jeśli dostępne, w przeciwnym razie date
     const categories = data.macros_data.map(item => {
         const dateToFormat = item.date_formatted || item.date;
         return formatDateLabel(dateToFormat, screenSize);
@@ -698,7 +671,6 @@ function createWaterChart(data) {
     const responsiveOptions = getResponsiveChartOptions(screenSize, data.water_data.length);
     const isMobile = screenSize === 'xs' || screenSize === 'sm';
     
-    // Formatuj etykiety dat dla mobile - użyj date_formatted jeśli dostępne, w przeciwnym razie date
     const categories = data.water_data.map(item => {
         const dateToFormat = item.date_formatted || item.date;
         return formatDateLabel(dateToFormat, screenSize);
@@ -810,7 +782,6 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('resize', function() {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(function() {
-            // Przy zmianie rozmiaru - przebuduj wykresy z nowymi opcjami responsywnymi
             if (chartData) {
                 createChartForType(currentChartType);
             }

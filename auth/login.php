@@ -7,7 +7,6 @@ redirectIfLoggedIn();
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // CSRF Protection
     $csrf = $_POST['csrf_token'] ?? '';
     if (!isset($_SESSION['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $csrf)) {
         $error = 'Invalid request. Please try again.';

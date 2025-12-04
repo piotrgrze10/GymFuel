@@ -228,7 +228,6 @@ class BMICalculator {
             this.ffmiCategoryDescription.textContent = category.description;
         }
         
-        // Ustaw ikonę i klasę koloru
         if (this.ffmiResultIcon) {
             const icons = {
                 underweight: 'fas fa-arrow-down',
@@ -240,7 +239,6 @@ class BMICalculator {
             this.ffmiResultIcon.className = `result-icon ${icons[category.class] || icons.normal}`;
         }
         
-        // Dodaj klasę koloru do wyniku
         if (this.ffmiResult) {
             this.ffmiResult.className = `ffmi-result ${category.class}-result`;
         }
@@ -341,14 +339,12 @@ class BMICalculator {
             timestamp: new Date().toISOString()
         };
 
-        // Zapisz do localStorage
         this.history.unshift(entry);
         if (this.history.length > 3) {
             this.history = this.history.slice(0, 3);
         }
         localStorage.setItem('bmiHistory', JSON.stringify(this.history));
 
-        // Zapisz do bazy danych
         if (this.isLoggedIn) {
             try {
                 const formData = new FormData();
@@ -479,7 +475,6 @@ class BMICalculator {
         this.categoryBadge.className = `category-badge ${category.class}`;
         this.categoryDescription.textContent = category.description;
         
-        // Ustaw ikonę i klasę koloru
         if (this.resultIcon) {
             const icons = {
                 underweight: 'fas fa-arrow-down',
@@ -490,7 +485,6 @@ class BMICalculator {
             this.resultIcon.className = `result-icon ${icons[category.class] || icons.normal}`;
         }
         
-        // Dodaj klasę koloru do wyniku
         if (this.bmiResult) {
             this.bmiResult.className = `bmi-result ${category.class}-result`;
         }
@@ -587,14 +581,12 @@ class BMICalculator {
             timestamp: new Date().toISOString()
         };
 
-        // Zapisz do localStorage
         this.history.unshift(entry);
         if (this.history.length > 3) {
             this.history = this.history.slice(0, 3);
         }
         localStorage.setItem('bmiHistory', JSON.stringify(this.history));
 
-        // Zapisz do bazy danych
         if (this.isLoggedIn) {
             try {
                 const formData = new FormData();

@@ -222,7 +222,6 @@
     width: 100%;
 }
 
-/* Kontener z poziomym przewijaniem dla gęstych danych */
 .chart-container-wrapper {
     position: relative;
     width: 100%;
@@ -323,7 +322,6 @@
         min-height: 400px;
     }
 
-    /* Lepsze marginesy dla mobile */
     .charts-container {
         padding-bottom: 1.5rem;
     }
@@ -392,7 +390,6 @@
         min-height: 350px;
     }
 
-    /* Zwiększone marginesy dla bardzo małych ekranów */
     .charts-container .container {
         padding-left: 0.75rem;
         padding-right: 0.75rem;
@@ -407,7 +404,6 @@
         padding: 0.65rem 0.85rem;
     }
 
-    /* Lepsze odstępy dla przycisków wykresów */
     .chart-buttons {
         margin-bottom: 1.5rem;
     }
@@ -451,7 +447,6 @@
     color: #00f2fe;
 }
 
-/* Lepsze style dla tooltipów ApexCharts na mobile */
 .apexcharts-tooltip {
     font-size: 12px !important;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
@@ -463,13 +458,11 @@
     border-radius: 8px !important;
 }
 
-/* Style dla scrollbar w ApexCharts */
 .apexcharts-menu {
     border-radius: 8px !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
 }
 
-/* Lepsze style dla legendy na mobile */
 .apexcharts-legend {
     padding: 10px 0 !important;
 }
@@ -478,12 +471,10 @@
     margin: 5px 8px !important;
 }
 
-/* Zapewnienie, że wykresy nie wychodzą poza kontener */
 .apexcharts-canvas {
     max-width: 100% !important;
 }
 
-/* Lepsze kontrasty dla czytelności na mobile */
 @media (max-width: 768px) {
     .chart-card {
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -494,13 +485,11 @@
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     }
 
-    /* Lepsze style dla tooltipów na mobile */
     .apexcharts-tooltip {
         font-size: 11px !important;
         padding: 8px 12px !important;
     }
 
-    /* Zwiększona czytelność osi */
     .apexcharts-xaxis-label,
     .apexcharts-yaxis-label {
         font-weight: 500 !important;
@@ -512,31 +501,26 @@
         box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
     }
 
-    /* Jeszcze mniejsze tooltips dla bardzo małych ekranów */
     .apexcharts-tooltip {
         font-size: 10px !important;
         padding: 6px 10px !important;
     }
 
-    /* Zwiększone odstępy między elementami legendy */
     .apexcharts-legend-series {
         margin: 4px 6px !important;
     }
 
-    /* Lepsze style dla scrollbar na bardzo małych ekranach */
     .chart-container-wrapper::-webkit-scrollbar {
         height: 6px;
     }
 }
 
-/* Zapewnienie, że wykresy są touch-friendly */
 .chart-container,
 .chart-container-wrapper {
     touch-action: pan-x pan-y;
     -webkit-tap-highlight-color: transparent;
 }
 
-/* Lepsze style dla pustych stanów */
 .chart-container > div[style*="display: flex"] {
     font-size: 14px;
     color: #999;

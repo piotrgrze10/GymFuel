@@ -712,26 +712,37 @@ body {
 @media (max-width: 768px) {
     body {
         font-size: 16px;
-        padding: 0;
+        padding: 16px;
         margin: 0;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         min-height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
+        box-sizing: border-box;
     }
     
     .auth-container {
         width: 100%;
         max-width: 100%;
-        padding: 16px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .auth-container.narrow {
+        max-width: 100%;
     }
     
     .auth-card {
         width: 100%;
+        max-width: 100%;
         padding: 0;
         border-radius: 20px;
         box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: column;
     }
     
     .auth-card.split {
@@ -750,12 +761,198 @@ body {
     
     .registration-card { 
         height: auto;
-        max-height: none;
+        min-height: auto;
+        max-height: calc(100vh - 32px);
+        padding: 28px 24px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-sizing: border-box;
+        overflow-y: auto;
     }
     
     .reg-step {
         height: auto;
         min-height: auto;
+        max-height: none;
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+    
+    .progress-container {
+        margin-bottom: 20px;
+        flex-shrink: 0;
+        width: 100%;
+    }
+    
+    .progress-steps {
+        gap: 4px;
+    }
+    
+    .progress-steps .step {
+        width: 34px;
+        height: 34px;
+        font-size: 0.85rem;
+        min-width: 34px;
+        min-height: 34px;
+    }
+    
+    .step-info {
+        font-size: 0.8rem;
+        margin-top: 8px;
+    }
+    
+    .auth-header {
+        margin-bottom: 24px;
+        flex-shrink: 0;
+        width: 100%;
+    }
+    
+    .auth-header h2 {
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+    }
+    
+    .auth-header p {
+        font-size: 0.95rem;
+    }
+    
+    .auth-form {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        justify-content: flex-start;
+    }
+    
+    .form-group {
+        margin-bottom: 18px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .reg-step .form-group:not(:last-child) {
+        margin-bottom: 18px;
+    }
+    
+    .form-group label {
+        font-size: 1rem;
+        margin-bottom: 10px;
+    }
+    
+    .form-group input,
+    .form-group select {
+        font-size: 16px !important;
+        min-height: 50px;
+        padding: 14px 16px;
+        border-radius: 12px;
+        border-width: 2px;
+        width: 100%;
+        box-sizing: border-box;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .form-group input:hover,
+    .form-group select:hover {
+        border-color: #cbd5e0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus {
+        transform: translateY(-1px);
+        box-shadow: 0 0 0 4px rgba(60, 75, 126, 0.15), 0 4px 12px rgba(60, 75, 126, 0.1);
+    }
+    
+    .password-field-wrapper input {
+        padding-right: 52px;
+    }
+    
+    .password-toggle-btn {
+        min-width: 44px;
+        min-height: 44px;
+        right: 6px;
+        font-size: 1.05rem;
+    }
+    
+    #nav-buttons {
+        margin-top: 24px;
+        margin-bottom: 0;
+        padding-top: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        box-sizing: border-box;
+        flex-shrink: 0;
+    }
+    
+    #nav-buttons .btn-auth {
+        width: 100%;
+    }
+    
+    #nav-buttons .btn-secondary {
+        width: 100%;
+        margin-bottom: 0;
+    }
+    
+    .btn-auth {
+        min-height: 52px;
+        padding: 15px 24px;
+        font-size: 16px;
+        font-weight: 700;
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(43, 56, 102, 0.35);
+        margin-top: 0;
+        width: 100%;
+        box-sizing: border-box;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .btn-auth:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(43, 56, 102, 0.45);
+    }
+    
+    .btn-auth:active {
+        transform: scale(0.98);
+        box-shadow: 0 4px 16px rgba(43, 56, 102, 0.3);
+    }
+    
+    .btn-secondary {
+        border-radius: 12px;
+    }
+    
+    .alert {
+        padding: 14px 16px;
+        border-radius: 12px;
+        font-size: 0.9rem;
+        margin-bottom: 16px;
+        animation: slideDown 0.3s ease;
+    }
+    
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .auth-footer {
+        margin-top: 20px;
+        padding-top: 20px;
+        flex-shrink: 0;
+        width: 100%;
+    }
+    
+    .auth-footer p {
+        font-size: 0.95rem;
     }
     
     .auth-logo {
@@ -802,13 +999,21 @@ body {
         padding: 14px 16px;
         border-radius: 12px;
         border-width: 2px;
-        transition: all 0.3s ease;
+        width: 100%;
+        box-sizing: border-box;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .form-group input:hover,
+    .form-group select:hover {
+        border-color: #cbd5e0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     }
     
     .form-group input:focus,
     .form-group select:focus {
-        transform: translateY(-2px);
-        box-shadow: 0 0 0 4px rgba(60, 75, 126, 0.15);
+        transform: translateY(-1px);
+        box-shadow: 0 0 0 4px rgba(60, 75, 126, 0.15), 0 4px 12px rgba(60, 75, 126, 0.1);
     }
     
     .password-field-wrapper input {
@@ -829,7 +1034,10 @@ body {
         font-weight: 700;
         border-radius: 12px;
         box-shadow: 0 8px 24px rgba(43, 56, 102, 0.35);
-        margin-top: 6px;
+        margin-top: 0;
+        width: 100%;
+        box-sizing: border-box;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     .btn-auth:hover {
@@ -879,50 +1087,125 @@ body {
     }
     
     .activity-options {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        gap: 8px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-top: 8px;
     }
     
     .activity-card {
         padding: 16px 10px;
-        min-height: 120px;
+        min-height: 110px;
+        border-radius: 12px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .activity-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 6px 16px rgba(3, 157, 255, 0.25);
     }
     
     .activity-card i {
         font-size: 1.5rem;
+        margin-bottom: 6px;
     }
     
     .activity-card h4 {
         font-size: 0.8rem;
+        margin-bottom: 4px;
+    }
+    
+    .activity-card p {
+        font-size: 0.7rem;
+        margin-bottom: 2px;
+    }
+    
+    .activity-card small {
+        font-size: 0.65rem;
+    }
+    
+    .activity-description {
+        margin-top: 12px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        font-size: 0.85rem;
     }
     
     .goal-options {
         grid-template-columns: 1fr;
-        gap: 10px;
+        gap: 12px;
+        margin-top: 8px;
     }
     
     .goal-card {
-        padding: 16px 12px;
-        min-height: 100px;
+        padding: 18px 14px;
+        min-height: 110px;
+        border-radius: 12px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .goal-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(3, 157, 255, 0.25);
     }
     
     .goal-card i {
-        font-size: 1.6rem;
+        font-size: 1.8rem;
+        margin-bottom: 8px;
+    }
+    
+    .goal-card h4 {
+        font-size: 0.85rem;
+        margin-bottom: 6px;
+    }
+    
+    .goal-card .goal-calories {
+        font-size: 0.95rem;
+        margin-bottom: 4px;
+    }
+    
+    .goal-card small {
+        font-size: 0.7rem;
     }
 }
 
 @media (max-width: 576px) {
-    .auth-container {
+    body {
         padding: 12px;
+    }
+    
+    .auth-container {
+        padding: 0;
+        width: 100%;
     }
     
     .auth-card {
         border-radius: 18px;
     }
     
+    .registration-card {
+        padding: 24px 20px;
+        max-height: calc(100vh - 24px);
+    }
+    
     .auth-left {
         padding: 32px 24px;
         border-radius: 18px;
+    }
+    
+    .progress-container {
+        margin-bottom: 18px;
+    }
+    
+    .progress-steps .step {
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+        min-width: 32px;
+        min-height: 32px;
+    }
+    
+    .step-info {
+        font-size: 0.75rem;
     }
     
     .auth-logo {
@@ -935,7 +1218,7 @@ body {
     }
     
     .auth-header {
-        margin-bottom: 20px;
+        margin-bottom: 22px;
     }
     
     .auth-header h2 {
@@ -949,6 +1232,12 @@ body {
     
     .form-group {
         margin-bottom: 16px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .reg-step .form-group:not(:last-child) {
+        margin-bottom: 16px;
     }
     
     .form-group label {
@@ -961,21 +1250,45 @@ body {
         font-size: 16px !important;
         min-height: 48px;
         padding: 13px 15px;
+        border-radius: 12px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .form-group input:hover,
+    .form-group select:hover {
+        border-color: #cbd5e0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus {
+        transform: translateY(-1px);
+        box-shadow: 0 0 0 4px rgba(60, 75, 126, 0.15), 0 4px 12px rgba(60, 75, 126, 0.1);
     }
     
     .password-field-wrapper input {
         padding-right: 50px;
     }
     
+    #nav-buttons {
+        margin-top: 20px;
+        gap: 8px;
+    }
+    
     .btn-auth {
         min-height: 50px;
         padding: 14px 22px;
         font-size: 16px;
+        border-radius: 12px;
+        width: 100%;
+        box-sizing: border-box;
     }
     
     .alert {
         padding: 12px 14px;
         font-size: 0.875rem;
+        border-radius: 12px;
     }
     
     .auth-footer {
@@ -993,21 +1306,47 @@ body {
     }
     
     .activity-card {
-        padding: 20px 15px;
+        padding: 18px 14px;
+        min-height: 100px;
+        border-radius: 12px;
+    }
+    
+    .activity-card:hover {
+        transform: translateY(-3px);
     }
     
     .goal-options {
         grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .goal-card {
+        padding: 18px 14px;
+        min-height: 100px;
+        border-radius: 12px;
+    }
+    
+    .goal-card:hover {
+        transform: translateY(-3px);
     }
 }
 
 @media (max-width: 480px) {
-    .auth-container {
+    body {
         padding: 10px;
+    }
+    
+    .auth-container {
+        padding: 0;
     }
     
     .auth-card {
         border-radius: 16px;
+    }
+    
+    .registration-card {
+        padding: 20px 16px;
+        max-height: calc(100vh - 20px);
     }
     
     .auth-left {
@@ -1024,8 +1363,24 @@ body {
         font-size: 2.1rem;
     }
     
+    .progress-container {
+        margin-bottom: 16px;
+    }
+    
+    .progress-steps .step {
+        width: 30px;
+        height: 30px;
+        font-size: 0.75rem;
+        min-width: 30px;
+        min-height: 30px;
+    }
+    
+    .step-info {
+        font-size: 0.7rem;
+    }
+    
     .auth-header {
-        margin-bottom: 18px;
+        margin-bottom: 20px;
     }
     
     .auth-header h2 {
@@ -1041,6 +1396,10 @@ body {
         margin-bottom: 14px;
     }
     
+    .reg-step .form-group:not(:last-child) {
+        margin-bottom: 14px;
+    }
+    
     .form-group label {
         font-size: 0.9rem;
         margin-bottom: 6px;
@@ -1050,6 +1409,22 @@ body {
     .form-group select {
         min-height: 46px;
         padding: 12px 14px;
+        border-radius: 12px;
+        font-size: 16px !important;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .form-group input:hover,
+    .form-group select:hover {
+        border-color: #cbd5e0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus {
+        transform: translateY(-1px);
+        box-shadow: 0 0 0 4px rgba(60, 75, 126, 0.15), 0 4px 12px rgba(60, 75, 126, 0.1);
     }
     
     .password-field-wrapper input {
@@ -1062,46 +1437,108 @@ body {
         right: 5px;
     }
     
+    #nav-buttons {
+        margin-top: 18px;
+        gap: 8px;
+        width: 100%;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    #nav-buttons .btn-auth {
+        width: 100%;
+    }
+    
+    #nav-buttons .btn-secondary {
+        width: 100%;
+        margin-bottom: 0;
+    }
+    
     .btn-auth {
         min-height: 48px;
         padding: 13px 20px;
         font-size: 16px;
+        border-radius: 12px;
+        width: 100%;
+        box-sizing: border-box;
     }
     
     .alert {
         padding: 11px 13px;
         font-size: 0.85rem;
+        border-radius: 12px;
     }
     
     .auth-footer {
         margin-top: 16px;
         padding-top: 16px;
+        width: 100%;
     }
     
     .auth-footer p {
         font-size: 0.875rem;
     }
     
-    .progress-steps .step {
-        width: 32px;
-        height: 32px;
-        font-size: 0.8rem;
-        min-width: 32px;
-        min-height: 32px;
+    .form-group {
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .reg-step .form-group:not(:last-child) {
+        margin-bottom: 14px;
     }
     
     .activity-options {
         grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    .activity-card {
+        padding: 16px 12px;
+        min-height: 95px;
+        border-radius: 12px;
+    }
+    
+    .activity-card:hover {
+        transform: translateY(-3px);
+    }
+    
+    .activity-card i {
+        font-size: 1.3rem;
+    }
+    
+    .goal-card {
+        padding: 16px 12px;
+        min-height: 95px;
+        border-radius: 12px;
+    }
+    
+    .goal-card:hover {
+        transform: translateY(-3px);
+    }
+    
+    .goal-card i {
+        font-size: 1.5rem;
     }
 }
 
 @media (max-width: 375px) {
-    .auth-container {
+    body {
         padding: 8px;
+    }
+    
+    .auth-container {
+        padding: 0;
     }
     
     .auth-card {
         border-radius: 14px;
+    }
+    
+    .registration-card {
+        padding: 18px 14px;
+        max-height: calc(100vh - 16px);
     }
     
     .auth-left {
@@ -1118,8 +1555,24 @@ body {
         font-size: 2rem;
     }
     
+    .progress-container {
+        margin-bottom: 14px;
+    }
+    
+    .progress-steps .step {
+        width: 28px;
+        height: 28px;
+        font-size: 0.7rem;
+        min-width: 28px;
+        min-height: 28px;
+    }
+    
+    .step-info {
+        font-size: 0.65rem;
+    }
+    
     .auth-header {
-        margin-bottom: 16px;
+        margin-bottom: 18px;
     }
     
     .auth-header h2 {
@@ -1133,6 +1586,12 @@ body {
     
     .form-group {
         margin-bottom: 13px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .reg-step .form-group:not(:last-child) {
+        margin-bottom: 13px;
     }
     
     .form-group label {
@@ -1144,25 +1603,84 @@ body {
     .form-group select {
         min-height: 44px;
         padding: 11px 13px;
+        border-radius: 12px;
+        font-size: 16px !important;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .form-group input:hover,
+    .form-group select:hover {
+        border-color: #cbd5e0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus {
+        transform: translateY(-1px);
+        box-shadow: 0 0 0 4px rgba(60, 75, 126, 0.15), 0 4px 12px rgba(60, 75, 126, 0.1);
     }
     
     .password-field-wrapper input {
         padding-right: 46px;
     }
     
+    #nav-buttons {
+        margin-top: 16px;
+        gap: 6px;
+        width: 100%;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    #nav-buttons .btn-auth {
+        width: 100%;
+    }
+    
+    #nav-buttons .btn-secondary {
+        width: 100%;
+        margin-bottom: 0;
+    }
+    
     .btn-auth {
         min-height: 46px;
         font-size: 15px;
         padding: 12px 18px;
+        border-radius: 12px;
+        width: 100%;
+        box-sizing: border-box;
     }
     
     .alert {
         padding: 10px 12px;
+        border-radius: 12px;
     }
     
     .auth-footer {
         margin-top: 14px;
         padding-top: 14px;
+        width: 100%;
+    }
+    
+    .activity-card {
+        padding: 14px 10px;
+        min-height: 90px;
+        border-radius: 12px;
+    }
+    
+    .activity-card:hover {
+        transform: translateY(-3px);
+    }
+    
+    .goal-card {
+        padding: 14px 10px;
+        min-height: 90px;
+        border-radius: 12px;
+    }
+    
+    .goal-card:hover {
+        transform: translateY(-3px);
     }
 }
 

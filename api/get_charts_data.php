@@ -103,7 +103,6 @@ try {
         ];
     }
 
-    // Oblicz aktualne BMI dla user_info
     $height_m = $user['height'] / 100;
     $current_bmi = $user['weight'] / ($height_m * $height_m);
     

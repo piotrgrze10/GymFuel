@@ -687,7 +687,7 @@ redirectIfLoggedIn();
             }
             
             try {
-                const response = await fetch('handlers.php', {
+                const response = await fetch('/auth/handlers.php', {
                     method: 'POST',
                     body: formData
                 });
