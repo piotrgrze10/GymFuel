@@ -214,6 +214,7 @@
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
+    overflow: hidden;
 }
 
 .chart-container > div {
@@ -221,11 +222,44 @@
     width: 100%;
 }
 
+/* Kontener z poziomym przewijaniem dla gęstych danych */
+.chart-container-wrapper {
+    position: relative;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(3, 157, 255, 0.3) transparent;
+}
+
+.chart-container-wrapper::-webkit-scrollbar {
+    height: 8px;
+}
+
+.chart-container-wrapper::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+}
+
+.chart-container-wrapper::-webkit-scrollbar-thumb {
+    background: rgba(3, 157, 255, 0.4);
+    border-radius: 10px;
+}
+
+.chart-container-wrapper::-webkit-scrollbar-thumb:hover {
+    background: rgba(3, 157, 255, 0.6);
+}
+
 @media (max-width: 768px) {
     .charts-title {
         font-size: 2rem;
         flex-direction: column;
         gap: 0.5rem;
+    }
+
+    .charts-subtitle {
+        font-size: 1rem;
     }
 
     .chart-buttons {
@@ -246,15 +280,38 @@
 
     .chart-card {
         padding: 1.25rem;
+        border-radius: 15px;
+    }
+
+    .chart-header {
+        margin-bottom: 1rem;
+        padding-bottom: 0.75rem;
+    }
+
+    .chart-title {
+        font-size: 1.2rem;
+    }
+
+    .chart-subtitle {
+        font-size: 0.85rem;
     }
 
     .chart-container {
         height: 300px;
         max-width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .chart-container-wrapper {
+        width: 100%;
     }
 
     .control-select {
         min-width: 100%;
+        font-size: 0.95rem;
+        padding: 0.7rem 0.9rem;
     }
 
     .charts-controls {
@@ -265,11 +322,25 @@
     .chart-display {
         min-height: 400px;
     }
+
+    /* Lepsze marginesy dla mobile */
+    .charts-container {
+        padding-bottom: 1.5rem;
+    }
+
+    .charts-container .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
 }
 
 @media (max-width: 480px) {
     .charts-title {
         font-size: 1.75rem;
+    }
+
+    .charts-subtitle {
+        font-size: 0.95rem;
     }
 
     .chart-buttons {
@@ -282,17 +353,63 @@
         min-width: calc(50% - 0.25rem);
     }
 
+    .chart-card {
+        padding: 1rem;
+        border-radius: 12px;
+    }
+
+    .chart-header {
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.5rem;
+    }
+
+    .chart-title {
+        font-size: 1.1rem;
+        gap: 0.5rem;
+    }
+
+    .chart-title i {
+        font-size: 1rem;
+    }
+
+    .chart-subtitle {
+        font-size: 0.8rem;
+    }
+
     .chart-container {
         height: 280px;
         max-width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
     }
 
-    .chart-card {
-        padding: 1rem;
+    .chart-container-wrapper {
+        width: 100%;
     }
 
     .chart-display {
         min-height: 350px;
+    }
+
+    /* Zwiększone marginesy dla bardzo małych ekranów */
+    .charts-container .container {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+
+    .control-label {
+        font-size: 0.85rem;
+    }
+
+    .control-select {
+        font-size: 0.9rem;
+        padding: 0.65rem 0.85rem;
+    }
+
+    /* Lepsze odstępy dla przycisków wykresów */
+    .chart-buttons {
+        margin-bottom: 1.5rem;
     }
 }
 
@@ -334,7 +451,103 @@
     color: #00f2fe;
 }
 
-.chart-card:nth-child(4) .chart-title i {
-    color: #00f2fe;
+/* Lepsze style dla tooltipów ApexCharts na mobile */
+.apexcharts-tooltip {
+    font-size: 12px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+.apexcharts-tooltip.apexcharts-theme-dark {
+    background: rgba(0, 0, 0, 0.85) !important;
+    border: none !important;
+    border-radius: 8px !important;
+}
+
+/* Style dla scrollbar w ApexCharts */
+.apexcharts-menu {
+    border-radius: 8px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Lepsze style dla legendy na mobile */
+.apexcharts-legend {
+    padding: 10px 0 !important;
+}
+
+.apexcharts-legend-series {
+    margin: 5px 8px !important;
+}
+
+/* Zapewnienie, że wykresy nie wychodzą poza kontener */
+.apexcharts-canvas {
+    max-width: 100% !important;
+}
+
+/* Lepsze kontrasty dla czytelności na mobile */
+@media (max-width: 768px) {
+    .chart-card {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .chart-card:hover {
+        transform: none;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Lepsze style dla tooltipów na mobile */
+    .apexcharts-tooltip {
+        font-size: 11px !important;
+        padding: 8px 12px !important;
+    }
+
+    /* Zwiększona czytelność osi */
+    .apexcharts-xaxis-label,
+    .apexcharts-yaxis-label {
+        font-weight: 500 !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .chart-card {
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
+    }
+
+    /* Jeszcze mniejsze tooltips dla bardzo małych ekranów */
+    .apexcharts-tooltip {
+        font-size: 10px !important;
+        padding: 6px 10px !important;
+    }
+
+    /* Zwiększone odstępy między elementami legendy */
+    .apexcharts-legend-series {
+        margin: 4px 6px !important;
+    }
+
+    /* Lepsze style dla scrollbar na bardzo małych ekranach */
+    .chart-container-wrapper::-webkit-scrollbar {
+        height: 6px;
+    }
+}
+
+/* Zapewnienie, że wykresy są touch-friendly */
+.chart-container,
+.chart-container-wrapper {
+    touch-action: pan-x pan-y;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Lepsze style dla pustych stanów */
+.chart-container > div[style*="display: flex"] {
+    font-size: 14px;
+    color: #999;
+    padding: 20px;
+    text-align: center;
+}
+
+@media (max-width: 480px) {
+    .chart-container > div[style*="display: flex"] {
+        font-size: 12px;
+        padding: 15px;
+    }
 }
 

@@ -24,117 +24,250 @@ const chartColors = {
     }
 };
 
-const commonChartOptions = {
-    chart: {
-        type: 'line',
-        height: 350,
-        fontFamily: "'Montserrat', sans-serif",
-        toolbar: {
-            show: false
-        },
-        animations: {
-            enabled: true,
-            easing: 'easeinout',
-            speed: 800,
-            animateGradually: {
-                enabled: true,
-                delay: 150
-            },
-            dynamicAnimation: {
-                enabled: true,
-                speed: 350
+// Funkcja do wykrywania rozmiaru ekranu
+function getScreenSize() {
+    const width = window.innerWidth;
+    if (width < 480) return 'xs';
+    if (width < 768) return 'sm';
+    if (width < 1024) return 'md';
+    return 'lg';
+}
+
+// Funkcja do skracania etykiet
+function truncateLabel(label, maxLength) {
+    if (!label) return '';
+    if (label.length <= maxLength) return label;
+    return label.substring(0, maxLength - 3) + '...';
+}
+
+// Funkcja do formatowania etykiet daty dla mobile
+function formatDateLabel(dateStr, screenSize) {
+    if (screenSize === 'xs' || screenSize === 'sm') {
+        try {
+            // Sprawdź czy to już sformatowana data (np. "Jan 15" lub "Mar 3")
+            const dateFormattedPattern = /^[A-Za-z]{3}\s+\d{1,2}$/;
+            if (dateFormattedPattern.test(dateStr)) {
+                // To już sformatowana data - zawsze pokazuj dzień i miesiąc
+                const parts = dateStr.split(' ');
+                const day = parts[1];
+                const month = parts[0]; // np. "Jan", "Feb", etc.
+                
+                if (screenSize === 'xs') {
+                    // Dla bardzo małych ekranów - dzień/miesiąc w formacie numerycznym lub skróconym
+                    // Konwertuj nazwę miesiąca na numer
+                    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                    const monthNum = monthNames.indexOf(month) + 1;
+                    return `${day}/${monthNum}`;
+                } else {
+                    // Dla małych ekranów - dzień i skrócony miesiąc (pierwsze 3 litery)
+                    return `${day} ${month}`;
+                }
             }
-        }
-    },
-    stroke: {
-        curve: 'smooth',
-        width: 3
-    },
-    fill: {
-        type: 'gradient',
-        gradient: {
-            shadeIntensity: 1,
-            opacityFrom: 0.7,
-            opacityTo: 0.3,
-            stops: [0, 90, 100]
-        }
-    },
-            grid: {
-        borderColor: '#e7e7e7',
-        strokeDashArray: 5,
-        xaxis: {
-            lines: {
-                show: false
+            
+            // Spróbuj sparsować jako datę (format YYYY-MM-DD)
+            let date;
+            if (dateStr.includes('-') && dateStr.length >= 10) {
+                date = new Date(dateStr);
+            } else {
+                date = new Date(dateStr);
             }
-        },
-        yaxis: {
-            lines: {
-                show: true
+            
+            // Sprawdź czy data jest poprawna
+            if (!isNaN(date.getTime())) {
+                const day = date.getDate();
+                const month = date.getMonth() + 1;
+                const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                
+                if (screenSize === 'xs') {
+                    // Dla bardzo małych ekranów - dzień/miesiąc w formacie numerycznym
+                    return `${day}/${month}`;
+                } else {
+                    // Dla małych ekranów - dzień i skrócony miesiąc
+                    return `${day} ${monthNames[month - 1]}`;
+                }
             }
-        },
-        padding: {
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0
-        }
-    },
-    xaxis: {
-        labels: {
-            style: {
-                colors: '#666',
-                fontSize: '11px',
-                fontFamily: "'Montserrat', sans-serif",
-                fontWeight: 500
-            }
-        },
-        axisBorder: {
-            show: false
-        },
-        axisTicks: {
-            show: false
-        }
-    },
-    yaxis: {
-        labels: {
-            style: {
-                colors: '#666',
-                fontSize: '11px',
-                fontFamily: "'Montserrat', sans-serif",
-                fontWeight: 500
-            }
-        }
-    },
-    tooltip: {
-        theme: 'dark',
-        style: {
-            fontSize: '12px',
-            fontFamily: "'Montserrat', sans-serif"
-        },
-        y: {
-            formatter: function(val) {
-                return val.toFixed(1);
-            }
-        }
-    },
-    legend: {
-        show: true,
-        position: 'top',
-        horizontalAlign: 'right',
-        fontSize: '12px',
-        fontFamily: "'Montserrat', sans-serif",
-        fontWeight: 600,
-        markers: {
-            width: 12,
-            height: 12,
-            radius: 6
-        },
-        itemMargin: {
-            horizontal: 15,
-            vertical: 5
+            
+            // Jeśli nie można sparsować, zwróć oryginalny string (lub jego część)
+            return dateStr;
+        } catch (e) {
+            // W razie błędu zwróć oryginalny string
+            return dateStr;
         }
     }
-};
+    return dateStr;
+}
+
+// Funkcja zwracająca responsywne opcje wykresu
+function getResponsiveChartOptions(screenSize, dataLength = 0) {
+    const isMobile = screenSize === 'xs' || screenSize === 'sm';
+    const isSmallMobile = screenSize === 'xs';
+    
+    // Oblicz czy potrzebny jest horizontal scroll (dla gęstych danych)
+    const needsHorizontalScroll = dataLength > (isSmallMobile ? 7 : isMobile ? 10 : 15);
+    
+    const baseOptions = {
+        chart: {
+            height: isSmallMobile ? 280 : isMobile ? 300 : 350,
+            fontFamily: "'Montserrat', sans-serif",
+            toolbar: {
+                show: false
+            },
+            animations: {
+                enabled: true,
+                easing: 'easeinout',
+                speed: 800,
+                animateGradually: {
+                    enabled: true,
+                    delay: 150
+                },
+                dynamicAnimation: {
+                    enabled: true,
+                    speed: 350
+                }
+            },
+            // Dla gęstych danych - włącz horizontal scroll
+            ...(needsHorizontalScroll && {
+                scrollbar: {
+                    enabled: true,
+                    offsetX: 0,
+                    offsetY: 0,
+                    height: isMobile ? 8 : 10,
+                    width: '100%'
+                }
+            })
+        },
+        xaxis: {
+            labels: {
+                style: {
+                    colors: '#666',
+                    fontSize: isSmallMobile ? '9px' : isMobile ? '10px' : '11px',
+                    fontFamily: "'Montserrat', sans-serif",
+                    fontWeight: 500
+                },
+                rotate: isMobile ? (needsHorizontalScroll ? 0 : -45) : 0,
+                rotateAlways: isMobile && needsHorizontalScroll,
+                maxHeight: isMobile ? 60 : undefined,
+                trim: true,
+                hideOverlappingLabels: true,
+                showDuplicates: false
+            },
+            axisBorder: {
+                show: false
+            },
+            axisTicks: {
+                show: false
+            },
+            // Dla gęstych danych - ustaw minimalną szerokość kolumny
+            ...(needsHorizontalScroll && {
+                tickAmount: undefined,
+                min: undefined,
+                max: undefined
+            })
+        },
+        yaxis: {
+            labels: {
+                style: {
+                    colors: '#666',
+                    fontSize: isSmallMobile ? '9px' : isMobile ? '10px' : '11px',
+                    fontFamily: "'Montserrat', sans-serif",
+                    fontWeight: 500
+                },
+                maxWidth: isMobile ? 40 : 50,
+                formatter: function(val) {
+                    // Skróć duże liczby dla mobile
+                    if (isMobile && val >= 1000) {
+                        return (val / 1000).toFixed(1) + 'k';
+                    }
+                    return val.toFixed(1);
+                }
+            },
+            forceNiceScale: true
+        },
+        tooltip: {
+            theme: 'dark',
+            style: {
+                fontSize: isSmallMobile ? '11px' : isMobile ? '12px' : '13px',
+                fontFamily: "'Montserrat', sans-serif"
+            },
+            fixed: {
+                enabled: false
+            },
+            // Na mobile - tooltip poniżej, nie zasłania danych
+            ...(isMobile && {
+                followCursor: true,
+                offsetY: 20
+            })
+        },
+        legend: {
+            show: true,
+            position: isMobile ? 'bottom' : 'top',
+            horizontalAlign: isMobile ? 'center' : 'right',
+            fontSize: isSmallMobile ? '10px' : isMobile ? '11px' : '12px',
+            fontFamily: "'Montserrat', sans-serif",
+            fontWeight: 600,
+            markers: {
+                width: isMobile ? 10 : 12,
+                height: isMobile ? 10 : 12,
+                radius: isMobile ? 5 : 6
+            },
+            itemMargin: {
+                horizontal: isMobile ? 10 : 15,
+                vertical: isMobile ? 3 : 5
+            },
+            // Na mobile - legendę na dole, nie zasłania wykresu
+            offsetY: isMobile ? 10 : 0,
+            floating: false
+        },
+        grid: {
+            borderColor: '#e7e7e7',
+            strokeDashArray: 5,
+            xaxis: {
+                lines: {
+                    show: false
+                }
+            },
+            yaxis: {
+                lines: {
+                    show: true
+                }
+            },
+            padding: {
+                top: isMobile ? 10 : 0,
+                right: isMobile ? 10 : 0,
+                bottom: isMobile ? (needsHorizontalScroll ? 40 : 20) : 0,
+                left: isMobile ? 5 : 0
+            }
+        },
+        dataLabels: {
+            enabled: false
+        }
+    };
+    
+    return baseOptions;
+}
+
+// Funkcja zwracająca podstawowe opcje wykresu (używana jako baza)
+function getBaseChartOptions() {
+    const screenSize = getScreenSize();
+    const responsiveOptions = getResponsiveChartOptions(screenSize);
+    
+    return {
+        ...responsiveOptions,
+        stroke: {
+            curve: 'smooth',
+            width: screenSize === 'xs' ? 2.5 : 3
+        },
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shadeIntensity: 1,
+                opacityFrom: 0.7,
+                opacityTo: 0.3,
+                stops: [0, 90, 100]
+            }
+        }
+    };
+}
 
 async function fetchChartData(range = '30') {
     try {
@@ -252,14 +385,24 @@ function createEnergyChart(data) {
     }
     
     if (!data.energy_data || data.energy_data.length === 0) {
-        chartElement.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999;">No energy data available</div>';
+        chartElement.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999; font-size: 14px; padding: 20px;">No energy data available</div>';
         return;
     }
     
+    const screenSize = getScreenSize();
+    const responsiveOptions = getResponsiveChartOptions(screenSize, data.energy_data.length);
+    const isMobile = screenSize === 'xs' || screenSize === 'sm';
+    
+    // Formatuj etykiety dat dla mobile - użyj date_formatted jeśli dostępne, w przeciwnym razie date
+    const categories = data.energy_data.map(item => {
+        const dateToFormat = item.date_formatted || item.date;
+        return formatDateLabel(dateToFormat, screenSize);
+    });
+    
     const options = {
-        ...commonChartOptions,
+        ...getBaseChartOptions(),
         chart: {
-            ...commonChartOptions.chart,
+            ...responsiveOptions.chart,
             type: 'area'
         },
         series: [{
@@ -281,41 +424,46 @@ function createEnergyChart(data) {
             }
         },
         stroke: {
-            ...commonChartOptions.stroke,
-            width: 3
+            curve: 'smooth',
+            width: isMobile ? 2.5 : 3
         },
         markers: {
-            size: 5,
+            size: isMobile ? 4 : 5,
             colors: [chartColors.energy.solid],
             strokeColors: '#fff',
-            strokeWidth: 2,
+            strokeWidth: isMobile ? 1.5 : 2,
             hover: {
-                size: 7
+                size: isMobile ? 6 : 7
             }
         },
         xaxis: {
-            ...commonChartOptions.xaxis,
-            categories: data.energy_data.map(item => item.date_formatted)
+            ...responsiveOptions.xaxis,
+            categories: categories
         },
         yaxis: {
-            ...commonChartOptions.yaxis,
-                    title: {
-                        text: 'Calories (kcal)',
+            ...responsiveOptions.yaxis,
+            title: {
+                text: 'Calories (kcal)',
                 style: {
                     color: '#666',
-                    fontSize: '12px',
+                    fontSize: isMobile ? '11px' : '12px',
                     fontFamily: "'Montserrat', sans-serif",
                     fontWeight: 600
-                }
+                },
+                offsetX: isMobile ? -5 : 0
             }
         },
         tooltip: {
-            ...commonChartOptions.tooltip,
+            ...responsiveOptions.tooltip,
             y: {
                 formatter: function(val) {
                     return val.toFixed(0) + ' kcal';
                 }
             }
+        },
+        legend: {
+            ...responsiveOptions.legend,
+            show: false
         }
     };
     
@@ -332,9 +480,13 @@ function createWeightChart(data) {
     }
     
     if (!data.weight_data || data.weight_data.length === 0) {
-        chartElement.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999;">No weight data available</div>';
+        chartElement.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999; font-size: 14px; padding: 20px;">No weight data available</div>';
         return;
     }
+    
+    const screenSize = getScreenSize();
+    const responsiveOptions = getResponsiveChartOptions(screenSize, data.weight_data.length);
+    const isMobile = screenSize === 'xs' || screenSize === 'sm';
     
     const weightValues = data.weight_data.map(item => item.weight);
     const minWeight = Math.min(...weightValues);
@@ -352,10 +504,16 @@ function createWeightChart(data) {
     const minAxis = Math.max(0, Math.floor((minWeight - padding) * 10) / 10);
     const maxAxis = Math.ceil((maxWeight + padding) * 10) / 10;
     
+    // Formatuj etykiety dat dla mobile - użyj date_formatted jeśli dostępne, w przeciwnym razie date
+    const categories = data.weight_data.map(item => {
+        const dateToFormat = item.date_formatted || item.date;
+        return formatDateLabel(dateToFormat, screenSize);
+    });
+    
     const options = {
-        ...commonChartOptions,
+        ...getBaseChartOptions(),
         chart: {
-            ...commonChartOptions.chart,
+            ...responsiveOptions.chart,
             type: 'line'
         },
         series: [{
@@ -367,47 +525,47 @@ function createWeightChart(data) {
             enabled: false
         },
         stroke: {
-            ...commonChartOptions.stroke,
-            width: 3,
-            curve: 'smooth'
+            curve: 'smooth',
+            width: isMobile ? 2.5 : 3
         },
         markers: {
-            size: 5,
+            size: isMobile ? 4 : 5,
             colors: [chartColors.weight.solid],
             strokeColors: '#fff',
-            strokeWidth: 2,
+            strokeWidth: isMobile ? 1.5 : 2,
             hover: {
-                size: 7
+                size: isMobile ? 6 : 7
             }
         },
         xaxis: {
-            ...commonChartOptions.xaxis,
-            categories: data.weight_data.map(item => item.date_formatted)
+            ...responsiveOptions.xaxis,
+            categories: categories
         },
         yaxis: {
-            ...commonChartOptions.yaxis,
-                    min: minAxis,
-                    max: maxAxis,
+            ...responsiveOptions.yaxis,
+            min: minAxis,
+            max: maxAxis,
             forceNiceScale: true,
             decimalsInFloat: 1,
-                    title: {
-                        text: 'Weight (kg)',
+            title: {
+                text: 'Weight (kg)',
                 style: {
                     color: '#666',
-                    fontSize: '12px',
+                    fontSize: isMobile ? '11px' : '12px',
                     fontFamily: "'Montserrat', sans-serif",
                     fontWeight: 600
-                }
+                },
+                offsetX: isMobile ? -5 : 0
             },
             labels: {
-                ...commonChartOptions.yaxis.labels,
+                ...responsiveOptions.yaxis.labels,
                 formatter: function(val) {
                     return val.toFixed(1);
                 }
             }
-                },
-                tooltip: {
-            ...commonChartOptions.tooltip,
+        },
+        tooltip: {
+            ...responsiveOptions.tooltip,
             y: {
                 formatter: function(val) {
                     return val.toFixed(1) + ' kg';
@@ -415,22 +573,8 @@ function createWeightChart(data) {
             }
         },
         legend: {
-            ...commonChartOptions.legend,
+            ...responsiveOptions.legend,
             show: false
-        },
-        grid: {
-            ...commonChartOptions.grid,
-            yaxis: {
-                lines: {
-                    show: true
-                }
-            },
-            padding: {
-                top: 10,
-                right: 10,
-                bottom: 0,
-                left: 10
-            }
         }
     };
     
@@ -447,15 +591,25 @@ function createMacrosChart(data) {
     }
     
     if (!data.macros_data || data.macros_data.length === 0) {
-        chartElement.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999;">No macros data available</div>';
+        chartElement.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999; font-size: 14px; padding: 20px;">No macros data available</div>';
         return;
     }
     
+    const screenSize = getScreenSize();
+    const responsiveOptions = getResponsiveChartOptions(screenSize, data.macros_data.length);
+    const isMobile = screenSize === 'xs' || screenSize === 'sm';
+    
+    // Formatuj etykiety dat dla mobile - użyj date_formatted jeśli dostępne, w przeciwnym razie date
+    const categories = data.macros_data.map(item => {
+        const dateToFormat = item.date_formatted || item.date;
+        return formatDateLabel(dateToFormat, screenSize);
+    });
+    
     const options = {
-        ...commonChartOptions,
+        ...getBaseChartOptions(),
         chart: {
-            ...commonChartOptions.chart,
-        type: 'bar',
+            ...responsiveOptions.chart,
+            type: 'bar',
             stacked: true
         },
         series: [
@@ -478,14 +632,13 @@ function createMacrosChart(data) {
             opacity: 0.9
         },
         stroke: {
-            ...commonChartOptions.stroke,
-            width: 2,
+            width: isMobile ? 1.5 : 2,
             colors: ['#fff']
         },
         plotOptions: {
             bar: {
-                borderRadius: 8,
-                columnWidth: '60%',
+                borderRadius: isMobile ? 6 : 8,
+                columnWidth: isMobile ? '70%' : '60%',
                 dataLabels: {
                     position: 'center'
                 }
@@ -495,28 +648,32 @@ function createMacrosChart(data) {
             enabled: false
         },
         xaxis: {
-            ...commonChartOptions.xaxis,
-            categories: data.macros_data.map(item => item.date_formatted)
+            ...responsiveOptions.xaxis,
+            categories: categories
         },
         yaxis: {
-            ...commonChartOptions.yaxis,
-                    title: {
-                        text: 'Amount (g)',
+            ...responsiveOptions.yaxis,
+            title: {
+                text: 'Amount (g)',
                 style: {
                     color: '#666',
-                    fontSize: '12px',
+                    fontSize: isMobile ? '11px' : '12px',
                     fontFamily: "'Montserrat', sans-serif",
                     fontWeight: 600
-                }
+                },
+                offsetX: isMobile ? -5 : 0
             }
         },
         tooltip: {
-            ...commonChartOptions.tooltip,
+            ...responsiveOptions.tooltip,
             y: {
                 formatter: function(val) {
                     return val.toFixed(1) + ' g';
                 }
             }
+        },
+        legend: {
+            ...responsiveOptions.legend
         }
     };
     
@@ -533,14 +690,24 @@ function createWaterChart(data) {
     }
     
     if (!data.water_data || data.water_data.length === 0) {
-        chartElement.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999;">No water data available</div>';
+        chartElement.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999; font-size: 14px; padding: 20px;">No water data available</div>';
         return;
     }
     
+    const screenSize = getScreenSize();
+    const responsiveOptions = getResponsiveChartOptions(screenSize, data.water_data.length);
+    const isMobile = screenSize === 'xs' || screenSize === 'sm';
+    
+    // Formatuj etykiety dat dla mobile - użyj date_formatted jeśli dostępne, w przeciwnym razie date
+    const categories = data.water_data.map(item => {
+        const dateToFormat = item.date_formatted || item.date;
+        return formatDateLabel(dateToFormat, screenSize);
+    });
+    
     const options = {
-        ...commonChartOptions,
+        ...getBaseChartOptions(),
         chart: {
-            ...commonChartOptions.chart,
+            ...responsiveOptions.chart,
             type: 'area'
         },
         series: [{
@@ -562,41 +729,46 @@ function createWaterChart(data) {
             }
         },
         stroke: {
-            ...commonChartOptions.stroke,
-            width: 3
+            curve: 'smooth',
+            width: isMobile ? 2.5 : 3
         },
         markers: {
-            size: 5,
+            size: isMobile ? 4 : 5,
             colors: [chartColors.water.solid],
             strokeColors: '#fff',
-            strokeWidth: 2,
+            strokeWidth: isMobile ? 1.5 : 2,
             hover: {
-                size: 7
+                size: isMobile ? 6 : 7
             }
         },
         xaxis: {
-            ...commonChartOptions.xaxis,
-            categories: data.water_data.map(item => item.date_formatted)
+            ...responsiveOptions.xaxis,
+            categories: categories
         },
         yaxis: {
-            ...commonChartOptions.yaxis,
-                    title: {
-                        text: 'Water (ml)',
+            ...responsiveOptions.yaxis,
+            title: {
+                text: 'Water (ml)',
                 style: {
                     color: '#666',
-                    fontSize: '12px',
+                    fontSize: isMobile ? '11px' : '12px',
                     fontFamily: "'Montserrat', sans-serif",
                     fontWeight: 600
-                }
+                },
+                offsetX: isMobile ? -5 : 0
             }
         },
         tooltip: {
-            ...commonChartOptions.tooltip,
+            ...responsiveOptions.tooltip,
             y: {
                 formatter: function(val) {
                     return val.toFixed(0) + ' ml';
                 }
             }
+        },
+        legend: {
+            ...responsiveOptions.legend,
+            show: false
         }
     };
     
@@ -638,10 +810,10 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('resize', function() {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(function() {
-            if (energyChart) energyChart.updateOptions({}, false, true, true);
-            if (weightChart) weightChart.updateOptions({}, false, true, true);
-            if (macrosChart) macrosChart.updateOptions({}, false, true, true);
-            if (waterChart) waterChart.updateOptions({}, false, true, true);
-        }, 250);
+            // Przy zmianie rozmiaru - przebuduj wykresy z nowymi opcjami responsywnymi
+            if (chartData) {
+                createChartForType(currentChartType);
+            }
+        }, 300);
     });
 });
