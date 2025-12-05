@@ -192,6 +192,6 @@ $logged_in = isLoggedIn();
     ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/search_products.js?v=999999"></script>
+    <script src="<?php echo asset('js/search_products.js'); ?>"></script>
 </body>
 </html>

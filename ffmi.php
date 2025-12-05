@@ -234,7 +234,7 @@ if ($logged_in) {
     <script>
         window.isUserLoggedIn = <?php echo $logged_in ? 'true' : 'false'; ?>;
     </script>
-    <script src="js/bmi_calculator.js"></script>
+    <script src="<?php echo asset('js/bmi_calculator.js'); ?>"></script>
 </body>
 </html>
 

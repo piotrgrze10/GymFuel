@@ -1135,7 +1135,7 @@ $nutrition_label = $is_today ? "Today's Nutrition" : ($days_diff < 0 ? "Past Day
             'tdee' => $user['tdee']
         ]); ?>;
     </script>
-    <script src="js/dashboard.js?v=<?php echo time(); ?>"></script>
+    <script src="<?php echo asset('js/dashboard.js'); ?>"></script>
 </body>
 </html>
 
