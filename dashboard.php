@@ -840,7 +840,7 @@ $nutrition_label = $is_today ? "Today's Nutrition" : ($days_diff < 0 ? "Past Day
 
                     <div id="unitSelectorContainer" style="display: none;" class="unit-selector-section">
                         <label class="modal-label">
-                            <i class="fa-solid fa-scale-balanced"></i> Unit
+                            Unit
                         </label>
                         <div class="simple-unit-selector">
                             <select class="form-select unit-select-modern" id="unitSelector">

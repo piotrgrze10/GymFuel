@@ -516,20 +516,6 @@ body.bmi-page {
     transition: width 0.6s, height 0.6s;
 }
 
-.calculate-btn:hover::before {
-    width: 300px;
-    height: 300px;
-}
-
-.calculate-btn:hover {
-    transform: none;
-    box-shadow: 0 4px 16px rgba(3, 157, 255, 0.35);
-}
-
-.calculate-btn:active {
-    transform: translateY(0);
-    box-shadow: 0 4px 16px rgba(3, 157, 255, 0.35);
-}
 
 .calculate-btn i {
     font-size: 20px;

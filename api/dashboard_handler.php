@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         try {
             $stmt = $pdo->prepare("
-                SELECT * FROM food_database 
+                SELECT *, image FROM food_database 
                 WHERE name LIKE ? 
                 ORDER BY name 
                 LIMIT 20

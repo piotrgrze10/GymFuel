@@ -188,6 +188,59 @@ function getFoodIcon(foodName) {
     return 'fa-bowl-food';
 }
 
+function getFoodImage(foodName, imageFromDb) {
+    // Jeśli w bazie danych jest obrazek, użyj go
+    if (imageFromDb && imageFromDb.trim() !== '') {
+        return imageFromDb;
+    }
+    
+    // W przeciwnym razie mapuj nazwę produktu na nazwę pliku
+    const name = foodName.toLowerCase().trim();
+    const imageMap = {
+        'apple': 'apple.jpg',
+        'banana': 'banana.jpg',
+        'cheese': 'cheese.jpg',
+        'cheesecake': 'cheesecake.jpg',
+        'chicken': 'chickenbrest.jpg',
+        'chicken breast': 'chickenbrest.jpg',
+        'cookie': 'cookie.jpg',
+        'cucumber': 'cucumber.jpg',
+        'egg': 'eggs.jpg',
+        'eggs': 'eggs.jpg',
+        'eggplant': 'eggplant.jpg',
+        'gummies': 'gummies.jpg',
+        'lettuce': 'lettuce.jpg',
+        'macarron': 'macarron.jpg',
+        'milk': 'milk.jpg',
+        'oats': 'oats.jpg',
+        'onion': 'onion.jpg',
+        'orange': 'orange.jpg',
+        'pineapple': 'pineapple.jpg',
+        'rice': 'rice.jpg',
+        'salmon': 'salmon.jpg',
+        'spinach': 'spinach.jpg',
+        'steak': 'steak.jpg',
+        'strawberry': 'strawberry.jpg',
+        'tomato': 'tomato.jpg',
+        'watermelon': 'watermelon.jpg'
+    };
+    
+    // Sprawdź dokładne dopasowanie
+    if (imageMap[name]) {
+        return `img/products/${imageMap[name]}`;
+    }
+    
+    // Sprawdź częściowe dopasowanie
+    for (let key in imageMap) {
+        if (name.includes(key) || key.includes(name)) {
+            return `img/products/${imageMap[key]}`;
+        }
+    }
+    
+    // Domyślny obrazek (jeśli nie znaleziono)
+    return null;
+}
+
 function displayFoodResults(foods) {
     const resultsDiv = document.getElementById('foodResults');
     
@@ -206,6 +259,7 @@ function displayFoodResults(foods) {
         const unitsJson = JSON.stringify(food.available_units || []);
         const iconClass = getFoodIcon(food.name);
         const category = food.category || 'General';
+        const foodImage = getFoodImage(food.name, food.image);
         
         return `
         <div class="food-item" data-food-id="${food.id}" 
@@ -215,9 +269,10 @@ function displayFoodResults(foods) {
              data-food-protein="${food.protein}" 
              data-food-carbs="${food.carbs}" 
              data-food-fat="${food.fat}" 
-             data-food-fiber="${food.fiber}" 
+             data-food-fiber="${food.fiber}"
              data-food-sugar="${food.sugar}"
              data-food-icon="${iconClass}"
+             data-food-image="${foodImage || ''}"
              data-food-units='${unitsJson.replace(/'/g, "&#39;")}'>
             <h6>
                 <i class="fa-solid ${iconClass}" style="color: #0d6efd; margin-right: 0.5rem;"></i>
@@ -448,11 +503,13 @@ function selectFood(element) {
     const foodName = element.dataset.foodName || element.querySelector('h6').textContent.trim();
     const iconClass = element.dataset.foodIcon || getFoodIcon(foodName);
     const category = element.dataset.foodCategory || 'General';
+    const foodImage = element.dataset.foodImage || getFoodImage(foodName, null);
     
     selectedFood = {
         id: element.dataset.foodId,
         name: foodName,
         icon: iconClass,
+        image: foodImage,
         category: category,
         calories: parseFloat(element.dataset.foodCalories),
         protein: parseFloat(element.dataset.foodProtein),
@@ -469,7 +526,14 @@ function selectFood(element) {
     
     document.getElementById('selectedFoodName').textContent = selectedFood.name;
     document.getElementById('selectedFoodCategory').textContent = selectedFood.category;
-    document.getElementById('selectedFoodIcon').innerHTML = `<i class="fa-solid ${iconClass}"></i>`;
+    
+    // Wyświetl obrazek zamiast ikony
+    const selectedFoodIcon = document.getElementById('selectedFoodIcon');
+    if (foodImage) {
+        selectedFoodIcon.innerHTML = `<img src="${foodImage}" alt="${foodName}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px;">`;
+    } else {
+        selectedFoodIcon.innerHTML = `<i class="fa-solid ${iconClass}"></i>`;
+    }
     
     document.getElementById('selectedFoodCalories').textContent = formatNumber(selectedFood.calories);
     document.getElementById('selectedFoodProtein').textContent = formatNumber(selectedFood.protein) + 'g';

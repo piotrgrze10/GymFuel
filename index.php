@@ -405,10 +405,10 @@ redirectIfLoggedIn();
                         <h4 class="mb-3"><i class="fa-solid fa-fire-flame-curved text-danger"></i> Gym<span class="text-primary">Fuel</span></h4>
                         <p class="text-white-50">Your ultimate nutrition tracking companion for achieving your fitness goals.</p>
                         <div class="social-links mt-3">
-                            <a href="#" class="text-white me-3 fs-4" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
-                            <a href="#" class="text-white me-3 fs-4" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                            <a href="#" class="text-white me-3 fs-4" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
-                            <a href="#" class="text-white me-3 fs-4" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                            <a href="#" class="text-white me-3 fs-4 text-decoration-none" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+                            <a href="#" class="text-white me-3 fs-4 text-decoration-none" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="#" class="text-white me-3 fs-4 text-decoration-none" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                            <a href="#" class="text-white me-3 fs-4 text-decoration-none" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
                         </div>
                     </div>
                     
