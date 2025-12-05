@@ -141,6 +141,9 @@ $logged_in = isLoggedIn();
                 <div class="category-btn" data-category="grains">
                     <i class="fa-solid fa-wheat-awn"></i> Grains & Cereals
                 </div>
+                <div class="category-btn" data-category="desserts">
+                    <i class="fa-solid fa-cake-candles"></i> Desserts
+                </div>
             </div>
         </div>
 

@@ -223,6 +223,230 @@ const rawFoods = {
         ],
         defaultUnit: 'cup',
         defaultAmount: 1
+    },
+    'pineapple': { 
+        name: 'Pineapple', 
+        calories: 50, 
+        carbs: 13, 
+        protein: 0.5, 
+        fat: 0.1, 
+        fiber: 1.4, 
+        image: null,
+        category: 'Fruits',
+        units: [
+            { id: 'g', name: 'gram', plural: 'grams', grams: 1 },
+            { id: 'piece', name: 'piece', plural: 'pieces', grams: 165 }
+        ],
+        defaultUnit: 'piece',
+        defaultAmount: 1
+    },
+    'strawberry': { 
+        name: 'Strawberry', 
+        calories: 32, 
+        carbs: 8, 
+        protein: 0.7, 
+        fat: 0.3, 
+        fiber: 2, 
+        image: null,
+        category: 'Fruits',
+        units: [
+            { id: 'g', name: 'gram', plural: 'grams', grams: 1 },
+            { id: 'cup', name: 'cup', plural: 'cups', grams: 152 }
+        ],
+        defaultUnit: 'cup',
+        defaultAmount: 1
+    },
+    'watermelon': { 
+        name: 'Watermelon', 
+        calories: 30, 
+        carbs: 8, 
+        protein: 0.6, 
+        fat: 0.2, 
+        fiber: 0.4, 
+        image: null,
+        category: 'Fruits',
+        units: [
+            { id: 'g', name: 'gram', plural: 'grams', grams: 1 },
+            { id: 'piece', name: 'piece', plural: 'pieces', grams: 286 }
+        ],
+        defaultUnit: 'piece',
+        defaultAmount: 1
+    },
+    'cucumber': { 
+        name: 'Cucumber', 
+        calories: 16, 
+        carbs: 4, 
+        protein: 0.7, 
+        fat: 0.1, 
+        fiber: 0.5, 
+        image: null,
+        category: 'Vegetables',
+        units: [
+            { id: 'g', name: 'gram', plural: 'grams', grams: 1 },
+            { id: 'piece', name: 'piece', plural: 'pieces', grams: 301 }
+        ],
+        defaultUnit: 'piece',
+        defaultAmount: 1
+    },
+    'eggplant': { 
+        name: 'Eggplant', 
+        calories: 25, 
+        carbs: 6, 
+        protein: 1, 
+        fat: 0.2, 
+        fiber: 3, 
+        image: null,
+        category: 'Vegetables',
+        units: [
+            { id: 'g', name: 'gram', plural: 'grams', grams: 1 },
+            { id: 'piece', name: 'piece', plural: 'pieces', grams: 458 }
+        ],
+        defaultUnit: 'piece',
+        defaultAmount: 1
+    },
+    'lettuce': { 
+        name: 'Lettuce', 
+        calories: 15, 
+        carbs: 3, 
+        protein: 1.4, 
+        fat: 0.2, 
+        fiber: 1.3, 
+        image: null,
+        category: 'Vegetables',
+        units: [
+            { id: 'g', name: 'gram', plural: 'grams', grams: 1 },
+            { id: 'cup', name: 'cup', plural: 'cups', grams: 36 }
+        ],
+        defaultUnit: 'cup',
+        defaultAmount: 1
+    },
+    'onion': { 
+        name: 'Onion', 
+        calories: 40, 
+        carbs: 9, 
+        protein: 1.1, 
+        fat: 0.1, 
+        fiber: 1.7, 
+        image: null,
+        category: 'Vegetables',
+        units: [
+            { id: 'g', name: 'gram', plural: 'grams', grams: 1 },
+            { id: 'piece', name: 'piece', plural: 'pieces', grams: 110 }
+        ],
+        defaultUnit: 'piece',
+        defaultAmount: 1
+    },
+    'tomato': { 
+        name: 'Tomato', 
+        calories: 18, 
+        carbs: 4, 
+        protein: 0.9, 
+        fat: 0.2, 
+        fiber: 1.2, 
+        image: null,
+        category: 'Vegetables',
+        units: [
+            { id: 'g', name: 'gram', plural: 'grams', grams: 1 },
+            { id: 'piece', name: 'piece', plural: 'pieces', grams: 182 }
+        ],
+        defaultUnit: 'piece',
+        defaultAmount: 1
+    },
+    'salmon': { 
+        name: 'Salmon', 
+        calories: 208, 
+        carbs: 0, 
+        protein: 20, 
+        fat: 13, 
+        fiber: 0, 
+        image: null,
+        category: 'Meat',
+        units: [
+            { id: 'g', name: 'gram', plural: 'grams', grams: 1 },
+            { id: 'portion', name: 'portion', plural: 'portions', grams: 150 }
+        ],
+        defaultUnit: 'g',
+        defaultAmount: 100
+    },
+    'steak': { 
+        name: 'Steak', 
+        calories: 271, 
+        carbs: 0, 
+        protein: 25, 
+        fat: 19, 
+        fiber: 0, 
+        image: null,
+        category: 'Meat',
+        units: [
+            { id: 'g', name: 'gram', plural: 'grams', grams: 1 },
+            { id: 'portion', name: 'portion', plural: 'portions', grams: 200 }
+        ],
+        defaultUnit: 'g',
+        defaultAmount: 100
+    },
+    'cheesecake': { 
+        name: 'Cheesecake', 
+        calories: 321, 
+        carbs: 26, 
+        protein: 5.5, 
+        fat: 23, 
+        fiber: 0.3, 
+        image: null,
+        category: 'Desserts',
+        units: [
+            { id: 'g', name: 'gram', plural: 'grams', grams: 1 },
+            { id: 'piece', name: 'piece', plural: 'pieces', grams: 100 }
+        ],
+        defaultUnit: 'piece',
+        defaultAmount: 1
+    },
+    'cookie': { 
+        name: 'Cookie', 
+        calories: 488, 
+        carbs: 67, 
+        protein: 6, 
+        fat: 22, 
+        fiber: 2.3, 
+        image: null,
+        category: 'Desserts',
+        units: [
+            { id: 'g', name: 'gram', plural: 'grams', grams: 1 },
+            { id: 'piece', name: 'piece', plural: 'pieces', grams: 16 }
+        ],
+        defaultUnit: 'piece',
+        defaultAmount: 1
+    },
+    'gummies': { 
+        name: 'Gummies', 
+        calories: 325, 
+        carbs: 77, 
+        protein: 7, 
+        fat: 0.1, 
+        fiber: 0.5, 
+        image: null,
+        category: 'Desserts',
+        units: [
+            { id: 'g', name: 'gram', plural: 'grams', grams: 1 },
+            { id: 'piece', name: 'piece', plural: 'pieces', grams: 6 }
+        ],
+        defaultUnit: 'piece',
+        defaultAmount: 5
+    },
+    'macaron': { 
+        name: 'Macaron', 
+        calories: 330, 
+        carbs: 60, 
+        protein: 5, 
+        fat: 10, 
+        fiber: 1.5, 
+        image: null,
+        category: 'Grains',
+        units: [
+            { id: 'g', name: 'gram', plural: 'grams', grams: 1 },
+            { id: 'piece', name: 'piece', plural: 'pieces', grams: 15 }
+        ],
+        defaultUnit: 'piece',
+        defaultAmount: 1
     }
 };
 
@@ -247,11 +471,12 @@ function formatNumber(num, maxDecimals = 1) {
 }
 
 const categoryTerms = {
-    'fruits': ['apple', 'banana', 'orange'],
-    'vegetables': ['spinach'],
-    'meat': ['chicken'],
+    'fruits': ['apple', 'banana', 'orange', 'pineapple', 'strawberry', 'watermelon'],
+    'vegetables': ['spinach', 'cucumber', 'eggplant', 'lettuce', 'onion', 'tomato'],
+    'meat': ['chicken', 'salmon', 'steak'],
     'dairy': ['milk', 'cheese', 'eggs'],
-    'grains': ['rice', 'oats']
+    'grains': ['rice', 'oats', 'macaron'],
+    'desserts': ['cheesecake', 'cookie', 'gummies']
 };
 
 function addToRecentSearches(query) {
@@ -373,11 +598,10 @@ function searchByCategory(category) {
     try {
         const terms = categoryTerms[category];
         let productsArray = [];
-        const allowedProducts = ['apple', 'banana'];
         
         for (let term of terms) {
             const lowerTerm = term.toLowerCase();
-            if (rawFoods[lowerTerm] && allowedProducts.includes(lowerTerm)) {
+            if (rawFoods[lowerTerm]) {
                 const rawFood = rawFoods[lowerTerm];
                 const rawProduct = {
                     product_name: rawFood.name,
@@ -403,7 +627,8 @@ function searchByCategory(category) {
                 'vegetables': 'Vegetables',
                 'meat': 'Meat & Fish',
                 'dairy': 'Dairy',
-                'grains': 'Grains & Cereals'
+                'grains': 'Grains & Cereals',
+                'desserts': 'Desserts'
             };
             
             document.getElementById('activeCategoryName').textContent = `Showing: ${categoryNames[category]}`;
@@ -487,10 +712,7 @@ function sortProducts(products) {
 }
 
 function displayProducts(products) {
-    const allowedProducts = ['Apple', 'Banana'];
-    allProducts = products.filter(product => 
-        allowedProducts.includes(product.product_name)
-    );
+    allProducts = products;
     currentPage = 1;
     
     if (allProducts.length > 0) {
@@ -564,11 +786,33 @@ function renderProducts() {
         const isFavorited = favorites.includes(product.product_name);
         
         let imagePath = null;
-        if (product.product_name === 'Apple') {
-            imagePath = './img/products/apple.jpg';
-        } else if (product.product_name === 'Banana') {
-            imagePath = './img/products/banana.jpg';
-        }
+        const imageMap = {
+            'Apple': './img/products/apple.jpg',
+            'Banana': './img/products/banana.jpg',
+            'Orange': './img/products/orange.jpg',
+            'Pineapple': './img/products/pineapple.jpg',
+            'Strawberry': './img/products/strawberry.jpg',
+            'Watermelon': './img/products/watermelon.jpg',
+            'Cucumber': './img/products/cucumber.jpg',
+            'Eggplant': './img/products/eggplant.jpg',
+            'Lettuce': './img/products/lettuce.jpg',
+            'Onion': './img/products/onion.jpg',
+            'Tomato': './img/products/tomato.jpg',
+            'Chicken Breast': './img/products/chickenbrest.jpg',
+            'Salmon': './img/products/salmon.jpg',
+            'Steak': './img/products/steak.jpg',
+            'Cheesecake': './img/products/cheesecake.jpg',
+            'Cookie': './img/products/cookie.jpg',
+            'Gummies': './img/products/gummies.jpg',
+            'Macaron': './img/products/macarron.jpg',
+            'White Rice': './img/products/rice.jpg',
+            'Oats': './img/products/oats.jpg',
+            'Cheese': './img/products/cheese.jpg',
+            'Milk': './img/products/milk.jpg',
+            'Eggs': './img/products/eggs.jpg',
+            'Spinach': './img/products/spinach.jpg'
+        };
+        imagePath = imageMap[product.product_name] || null;
         
         const imageHTML = imagePath ? `
             <div class="product-image-wrapper">
@@ -631,8 +875,19 @@ function getPlaceholderIcon(productName) {
         'apple': 'fa-apple-whole',
         'banana': 'fa-apple-whole',
         'orange': 'fa-apple-whole',
+        'pineapple': 'fa-apple-whole',
+        'strawberry': 'fa-apple-whole',
+        'watermelon': 'fa-apple-whole',
+        'cucumber': 'fa-carrot',
+        'eggplant': 'fa-carrot',
+        'lettuce': 'fa-carrot',
+        'onion': 'fa-carrot',
+        'tomato': 'fa-carrot',
+        'spinach': 'fa-carrot',
         'chicken': 'fa-drumstick-bite',
         'chicken breast': 'fa-drumstick-bite',
+        'salmon': 'fa-fish',
+        'steak': 'fa-drumstick-bite',
         'eggs': 'fa-egg',
         'egg': 'fa-egg',
         'milk': 'fa-cheese',
@@ -640,19 +895,24 @@ function getPlaceholderIcon(productName) {
         'rice': 'fa-wheat-awn',
         'white rice': 'fa-wheat-awn',
         'oats': 'fa-wheat-awn',
-        'spinach': 'fa-carrot'
+        'macaron': 'fa-wheat-awn',
+        'cheesecake': 'fa-cake-candles',
+        'cookie': 'fa-cookie',
+        'gummies': 'fa-candy-cane'
     };
     
     if (iconMap[name]) {
         return iconMap[name];
     }
     
-    if (name.includes('chicken')) return 'fa-drumstick-bite';
+    if (name.includes('chicken') || name.includes('steak')) return 'fa-drumstick-bite';
+    if (name.includes('salmon') || name.includes('fish')) return 'fa-fish';
     if (name.includes('egg')) return 'fa-egg';
     if (name.includes('milk') || name.includes('cheese')) return 'fa-cheese';
-    if (name.includes('rice') || name.includes('oats')) return 'fa-wheat-awn';
-    if (name.includes('apple') || name.includes('banana') || name.includes('orange')) return 'fa-apple-whole';
-    if (name.includes('spinach')) return 'fa-carrot';
+    if (name.includes('rice') || name.includes('oats') || name.includes('macaron')) return 'fa-wheat-awn';
+    if (name.includes('apple') || name.includes('banana') || name.includes('orange') || name.includes('pineapple') || name.includes('strawberry') || name.includes('watermelon')) return 'fa-apple-whole';
+    if (name.includes('cucumber') || name.includes('eggplant') || name.includes('lettuce') || name.includes('onion') || name.includes('tomato') || name.includes('spinach')) return 'fa-carrot';
+    if (name.includes('cheesecake') || name.includes('cookie') || name.includes('gummies') || name.includes('dessert')) return 'fa-cake-candles';
     
     return 'fa-bowl-food';
 }
@@ -697,7 +957,40 @@ function openCalculator(product) {
     
     const imageContainer = document.getElementById('calcProductImage');
     const placeholderIcon = getPlaceholderIcon(product.product_name);
+    
+    const imageMap = {
+        'Apple': './img/products/apple.jpg',
+        'Banana': './img/products/banana.jpg',
+        'Orange': './img/products/orange.jpg',
+        'Pineapple': './img/products/pineapple.jpg',
+        'Strawberry': './img/products/strawberry.jpg',
+        'Watermelon': './img/products/watermelon.jpg',
+        'Cucumber': './img/products/cucumber.jpg',
+        'Eggplant': './img/products/eggplant.jpg',
+        'Lettuce': './img/products/lettuce.jpg',
+        'Onion': './img/products/onion.jpg',
+        'Tomato': './img/products/tomato.jpg',
+        'Chicken Breast': './img/products/chickenbrest.jpg',
+        'Salmon': './img/products/salmon.jpg',
+        'Steak': './img/products/steak.jpg',
+        'Cheesecake': './img/products/cheesecake.jpg',
+        'Cookie': './img/products/cookie.jpg',
+        'Gummies': './img/products/gummies.jpg',
+        'Macaron': './img/products/macarron.jpg',
+        'White Rice': './img/products/rice.jpg',
+        'Oats': './img/products/oats.jpg',
+        'Cheese': './img/products/cheese.jpg',
+        'Milk': './img/products/milk.jpg',
+        'Eggs': './img/products/eggs.jpg',
+        'Spinach': './img/products/spinach.jpg'
+    };
+    
+    const imagePath = imageMap[product.product_name];
+    if (imagePath) {
+        imageContainer.innerHTML = `<img src="${imagePath}" alt="${product.product_name}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div style="display: none; width: 100%; height: 100%; align-items: center; justify-content: center;"><i class="fa-solid ${placeholderIcon}" style="font-size: 32px; color: white;"></i></div>`;
+    } else {
         imageContainer.innerHTML = `<i class="fa-solid ${placeholderIcon}" style="font-size: 32px; color: white;"></i>`;
+    }
     
     const servingOptions = document.getElementById('servingOptions');
     servingOptions.innerHTML = '';
