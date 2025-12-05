@@ -2237,6 +2237,14 @@ a:hover {
 	background: linear-gradient(135deg, #2ed573 0%, #1e90ff 100%);
 }
 
+.why-panel-3 .why-panel-content {
+	gap: 40px;
+}
+
+.why-panel-3 .why-panel-visual {
+	margin-bottom: -20px;
+}
+
 .why-panel-4 {
 	background: linear-gradient(135deg, #ffa502 0%, #ff6348 100%);
 }
@@ -2282,10 +2290,6 @@ a:hover {
 	justify-content: center;
 }
 
-.why-panel-4 .why-panel-visual {
-	flex: 0 0 400px;
-}
-
 .why-panel-icon-wrapper {
 	width: 360px;
 	height: 360px;
@@ -2296,11 +2300,6 @@ a:hover {
 	justify-content: center;
 	backdrop-filter: blur(10px);
 	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-}
-
-.why-panel-4 .why-panel-icon-wrapper {
-	width: 600px;
-	height: 400px;
 }
 
 .why-panel-icon-wrapper i {
@@ -2314,15 +2313,10 @@ a:hover {
 	object-fit: contain;
 }
 
-.why-panel-4 .why-panel-icon-wrapper img {
-	width: 150%;
-	height: 150%;
-	object-fit: contain;
-}
 
 .why-panel-3 .why-panel-icon-wrapper {
-	width: 500px;
-	height: 350px;
+	width: 360px;
+	height: 360px;
 }
 
 .why-panel-3 .why-panel-image {
@@ -2358,6 +2352,11 @@ a:hover {
 	}
 
 	.why-panel-icon-wrapper {
+		width: 280px;
+		height: 280px;
+	}
+	
+	.why-panel-3 .why-panel-icon-wrapper {
 		width: 280px;
 		height: 280px;
 	}
