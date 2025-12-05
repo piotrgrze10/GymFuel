@@ -1227,20 +1227,32 @@ input[type="search"]::-webkit-search-decoration {
     }
 }
 
-.close-modal {
+.btn-close-custom {
     position: absolute;
     top: 15px;
     right: 15px;
-    background: none;
+    background: rgba(13, 110, 253, 0.1);
     border: none;
-    font-size: 24px;
-    color: #666;
+    color: #0d6efd;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    padding: 5px 10px;
+    transition: all 0.3s ease;
+    padding: 0;
 }
 
-.close-modal:hover {
-    color: #039dff;
+.btn-close-custom:hover {
+    background: #0d6efd;
+    color: white;
+    transform: rotate(90deg);
+}
+
+.btn-close-custom i {
+    font-size: 1.1rem;
 }
 
 .custom-weight-input {

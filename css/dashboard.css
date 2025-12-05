@@ -1325,6 +1325,9 @@ button.btn-add-meal-item::-moz-focus-inner,
 
 #quickAmountButtons .btn:hover {
     transform: scale(1.05);
+    color: #0d6efd !important;
+    border-color: #0d6efd !important;
+    background: #f8f9ff !important;
 }
 
 #quickAmountButtons .btn:active,
@@ -2146,6 +2149,7 @@ button.btn-add-meal-item::-moz-focus-inner,
     border-color: #0d6efd;
     background: #f8f9ff;
     transform: translateY(-2px);
+    color: #0d6efd !important;
 }
 
 .quick-amounts .btn:active,

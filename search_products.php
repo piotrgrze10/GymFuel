@@ -164,7 +164,9 @@ $logged_in = isLoggedIn();
 
     <div id="calculatorModal" class="calculator-modal">
         <div class="calculator-content" style="position: relative;">
-            <button class="close-modal" onclick="closeCalculator()">&times;</button>
+            <button class="btn-close-custom" onclick="closeCalculator()" type="button">
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
             <div class="calculator-header">
                 <div id="calcProductImage" style="width: 60px; height: 60px; margin: 0 auto 10px; border-radius: 10px; overflow: hidden; background: linear-gradient(135deg, #039dff 0%, #0066cc 100%); display: flex; align-items: center; justify-content: center;">
                     <i class="fa-solid fa-bowl-food" style="font-size: 24px; color: white;"></i>
