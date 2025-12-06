@@ -27,6 +27,25 @@ redirectIfLoggedIn();
         </button>
     </div>
 
+    <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 15px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
+                <div class="modal-body text-center p-5">
+                    <div style="width: 80px; height: 80px; margin: 0 auto 1.5rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);">
+                        <i class="fa-solid fa-circle-check" style="color: white; font-size: 2.5rem;"></i>
+                    </div>
+                    <h2 class="mb-3 fw-bold" style="color: #2c3e50;">Account Created Successfully!</h2>
+                    <p class="text-muted mb-4" id="success-message" style="font-size: 0.95rem;"></p>
+                    <div class="d-flex gap-2 justify-content-center">
+                        <button type="button" class="btn-auth" onclick="window.location.href='/login'">
+                            <i class="fa-solid fa-sign-in-alt"></i> Sign In
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="auth-container narrow">
         <div class="auth-card registration-card">
             
@@ -51,25 +70,6 @@ redirectIfLoggedIn();
                 </a>
                 <h2 id="step-title">Create Your Account</h2>
                 <p id="step-subtitle">Start your fitness journey with us</p>
-            </div>
-
-            <div class="modal fade" id="successModal" tabindex="-1">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content" style="border-radius: 15px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
-                        <div class="modal-body text-center p-5">
-                            <div style="width: 80px; height: 80px; margin: 0 auto 1.5rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);">
-                                <i class="fa-solid fa-circle-check" style="color: white; font-size: 2.5rem;"></i>
-                            </div>
-                            <h2 class="mb-3 fw-bold" style="color: #2c3e50;">Account Created Successfully!</h2>
-                            <p class="text-muted mb-4" id="success-message" style="font-size: 0.95rem;"></p>
-                            <div class="d-flex gap-2 justify-content-center">
-                                <button type="button" class="btn-auth" onclick="window.location.href='/login'">
-                                    <i class="fa-solid fa-sign-in-alt"></i> Sign In
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <form id="registration-form" class="auth-form" autocomplete="off">
@@ -692,10 +692,22 @@ redirectIfLoggedIn();
                     body: formData
                 });
                 
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
                 const result = await response.json();
+                
+                if (!result) {
+                    throw new Error('Invalid response from server');
+                }
                 
                 if (result.success) {
                     if (currentStep === totalSteps) {
+                        // Reset button immediately
+                        btn.disabled = false;
+                        btn.innerHTML = originalHtml;
+                        
                         const successMessage = document.getElementById('success-message');
                         successMessage.innerHTML = `
                             <div style="background: #f8f9fa; padding: 1.25rem; border-radius: 10px; text-align: left; max-width: 400px; margin: 0 auto;">
@@ -710,8 +722,29 @@ redirectIfLoggedIn();
                         `;
                         
                         sessionStorage.removeItem('reg_form_data');
-                        const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                        
+                        // Show modal and redirect after modal is shown
+                        const successModalElement = document.getElementById('successModal');
+                        const successModal = new bootstrap.Modal(successModalElement);
                         successModal.show();
+                        
+                        // Redirect when modal is closed or after 3 seconds
+                        successModalElement.addEventListener('hidden.bs.modal', function() {
+                            window.location.href = '/login';
+                        }, { once: true });
+                        
+                        // Auto redirect after 5 seconds if user doesn't close modal
+                        setTimeout(function() {
+                            if (successModalElement.classList.contains('show')) {
+                                successModal.hide();
+                                setTimeout(function() {
+                                    window.location.href = '/login';
+                                }, 300);
+                            } else {
+                                // If modal was already closed, redirect immediately
+                                window.location.href = '/login';
+                            }
+                        }, 5000);
                     } else {
                         updateStep(currentStep + 1);
                     }
@@ -721,6 +754,7 @@ redirectIfLoggedIn();
                     showErrorToast(result.error || 'An error occurred');
                 }
             } catch (error) {
+                console.error('Registration error:', error);
                 btn.disabled = false;
                 btn.innerHTML = originalHtml;
                 showErrorToast('Network error. Please try again.');
