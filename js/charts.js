@@ -83,6 +83,48 @@ function formatDateLabel(dateStr, screenSize) {
     return dateStr;
 }
 
+function formatDateForChart(dateStr) {
+    try {
+        let date;
+        if (dateStr.includes('-') && dateStr.length >= 10) {
+            date = new Date(dateStr);
+        } else {
+            date = new Date(dateStr);
+        }
+        
+        if (!isNaN(date.getTime())) {
+            const day = date.getDate();
+            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const month = monthNames[date.getMonth()];
+            return `${month} ${day}`;
+        }
+        return dateStr;
+    } catch (e) {
+        return dateStr;
+    }
+}
+
+function formatDateRange(startDate, endDate) {
+    try {
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        
+        if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+            return '';
+        }
+        
+        const startMonth = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][start.getMonth()];
+        const endMonth = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][end.getMonth()];
+        const startDay = start.getDate();
+        const endDay = end.getDate();
+        const year = end.getFullYear();
+        
+        return `${startMonth} ${startDay} – ${endMonth} ${endDay}, ${year}`;
+    } catch (e) {
+        return '';
+    }
+}
+
 function getResponsiveChartOptions(screenSize, dataLength = 0) {
     const isMobile = screenSize === 'xs' || screenSize === 'sm';
     const isSmallMobile = screenSize === 'xs';
@@ -165,11 +207,15 @@ function getResponsiveChartOptions(screenSize, dataLength = 0) {
             forceNiceScale: true
         },
         tooltip: {
-            theme: 'dark',
+            theme: 'light',
             style: {
                 fontSize: isSmallMobile ? '11px' : isMobile ? '12px' : '13px',
                 fontFamily: "'Montserrat', sans-serif"
             },
+            backgroundColor: '#ffffff',
+            borderColor: '#e5e5e5',
+            textColor: '#333333',
+            titleColor: '#333333',
             fixed: {
                 enabled: false
             },
@@ -461,8 +507,8 @@ function createWeightChart(data) {
     }
     
     const screenSize = getScreenSize();
-    const responsiveOptions = getResponsiveChartOptions(screenSize, data.weight_data.length);
     const isMobile = screenSize === 'xs' || screenSize === 'sm';
+    const isSmallMobile = screenSize === 'xs';
     
     const weightValues = data.weight_data.map(item => item.weight);
     const minWeight = Math.min(...weightValues);
@@ -479,44 +525,73 @@ function createWeightChart(data) {
     const minAxis = Math.max(0, Math.floor((minWeight - padding) * 10) / 10);
     const maxAxis = Math.ceil((maxWeight + padding) * 10) / 10;
     
+    // Format dates in style "May 1", "July 15", "Sep 24"
     const categories = data.weight_data.map(item => {
-        const dateToFormat = item.date_formatted || item.date;
-        return formatDateLabel(dateToFormat, screenSize);
+        const dateStr = item.date || item.date_formatted;
+        return formatDateForChart(dateStr);
     });
     
+    // Get date range for subtitle
+    const startDate = data.start_date || (data.weight_data.length > 0 ? data.weight_data[0].date : '');
+    const endDate = data.end_date || (data.weight_data.length > 0 ? data.weight_data[data.weight_data.length - 1].date : '');
+    const dateRangeText = formatDateRange(startDate, endDate);
+    
     const options = {
-        ...getBaseChartOptions(),
         chart: {
-            ...responsiveOptions.chart,
-            type: 'line'
+            type: 'line',
+            height: isSmallMobile ? 280 : isMobile ? 300 : 350,
+            fontFamily: "'Montserrat', sans-serif",
+            toolbar: {
+                show: false
+            },
+            background: '#ffffff',
+            animations: {
+                enabled: true,
+                easing: 'easeinout',
+                speed: 800
+            }
         },
         series: [{
             name: 'Weight',
             data: data.weight_data.map(item => item.weight)
         }],
-        colors: [chartColors.weight.solid],
+        colors: ['#4facfe'], // Blue color
         fill: {
             enabled: false
         },
         stroke: {
             curve: 'smooth',
-            width: isMobile ? 2.5 : 3
+            width: isMobile ? 2.5 : 3,
+            colors: ['#4facfe']
         },
         markers: {
-            size: isMobile ? 4 : 5,
-            colors: [chartColors.weight.solid],
-            strokeColors: '#fff',
-            strokeWidth: isMobile ? 1.5 : 2,
+            size: isMobile ? 5 : 6,
+            colors: ['#4facfe'],
+            strokeColors: '#ffffff',
+            strokeWidth: isMobile ? 2 : 2.5,
             hover: {
-                size: isMobile ? 6 : 7
+                size: isMobile ? 7 : 8
             }
         },
         xaxis: {
-            ...responsiveOptions.xaxis,
-            categories: categories
+            categories: categories,
+            labels: {
+                style: {
+                    colors: '#333',
+                    fontSize: isSmallMobile ? '10px' : isMobile ? '11px' : '12px',
+                    fontFamily: "'Montserrat', sans-serif",
+                    fontWeight: 500
+                },
+                rotate: 0
+            },
+            axisBorder: {
+                show: false
+            },
+            axisTicks: {
+                show: false
+            }
         },
         yaxis: {
-            ...responsiveOptions.yaxis,
             min: minAxis,
             max: maxAxis,
             forceNiceScale: true,
@@ -524,36 +599,94 @@ function createWeightChart(data) {
             title: {
                 text: 'Weight (kg)',
                 style: {
-                    color: '#666',
-                    fontSize: isMobile ? '11px' : '12px',
+                    color: '#333',
+                    fontSize: isSmallMobile ? '11px' : isMobile ? '12px' : '13px',
                     fontFamily: "'Montserrat', sans-serif",
                     fontWeight: 600
                 },
                 offsetX: isMobile ? -5 : 0
             },
             labels: {
-                ...responsiveOptions.yaxis.labels,
+                style: {
+                    colors: '#333',
+                    fontSize: isSmallMobile ? '10px' : isMobile ? '11px' : '12px',
+                    fontFamily: "'Montserrat', sans-serif",
+                    fontWeight: 500
+                },
                 formatter: function(val) {
                     return val.toFixed(1);
                 }
             }
         },
+        grid: {
+            borderColor: '#e5e5e5',
+            strokeDashArray: 3,
+            xaxis: {
+                lines: {
+                    show: false
+                }
+            },
+            yaxis: {
+                lines: {
+                    show: true
+                }
+            },
+            padding: {
+                top: 10,
+                right: 10,
+                bottom: isMobile ? 30 : 40,
+                left: isMobile ? 5 : 10
+            }
+        },
         tooltip: {
-            ...responsiveOptions.tooltip,
+            theme: 'light',
+            style: {
+                fontSize: isSmallMobile ? '11px' : isMobile ? '12px' : '13px',
+                fontFamily: "'Montserrat', sans-serif"
+            },
+            backgroundColor: '#ffffff',
+            borderColor: '#e5e5e5',
+            textColor: '#333333',
+            titleColor: '#333333',
             y: {
                 formatter: function(val) {
                     return val.toFixed(1) + ' kg';
                 }
+            },
+            x: {
+                formatter: function(val, opts) {
+                    const dataPointIndex = opts.dataPointIndex;
+                    if (data.weight_data && data.weight_data[dataPointIndex]) {
+                        const dateStr = data.weight_data[dataPointIndex].date || data.weight_data[dataPointIndex].date_formatted;
+                        return formatDateForChart(dateStr);
+                    }
+                    return val;
+                }
             }
         },
         legend: {
-            ...responsiveOptions.legend,
             show: false
         }
     };
     
     weightChart = new ApexCharts(chartElement, options);
-    weightChart.render();
+    weightChart.render().then(() => {
+        // Add date range text below the chart
+        const chartContainer = chartElement.closest('.chart-container');
+        if (chartContainer) {
+            // Remove existing date range if present
+            const existingRange = chartContainer.querySelector('.chart-date-range');
+            if (existingRange) {
+                existingRange.remove();
+            }
+            
+            // Add date range element
+            const dateRangeEl = document.createElement('div');
+            dateRangeEl.className = 'chart-date-range';
+            dateRangeEl.textContent = dateRangeText;
+            chartContainer.appendChild(dateRangeEl);
+        }
+    });
 }
 
 function createMacrosChart(data) {

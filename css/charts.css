@@ -153,10 +153,10 @@
 
 .chart-card {
     display: none;
-    background: white;
-    border-radius: 20px;
+    background: #ffffff;
+    border-radius: 16px;
     padding: 1.5rem;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -177,24 +177,29 @@
 }
 
 .chart-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 50px rgba(3, 157, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .chart-header {
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid #f0f0f0;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: none;
 }
 
 .chart-title {
-    font-size: 1.3rem;
+    font-size: 1.75rem;
     font-weight: 700;
-    color: #333;
-    margin-bottom: 0.5rem;
+    color: #1a1a1a;
+    margin-bottom: 0;
     display: flex;
     align-items: center;
     gap: 0.75rem;
+}
+
+.chart-card[data-chart-type="weight"] .chart-title {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
 }
 
 .chart-title i {
@@ -203,9 +208,10 @@
 }
 
 .chart-subtitle {
-    font-size: 0.9rem;
-    color: #666;
+    font-size: 0.85rem;
+    color: #999;
     margin: 0;
+    font-weight: 400;
 }
 
 .chart-container {
@@ -215,11 +221,37 @@
     max-width: 100%;
     margin: 0 auto;
     overflow: hidden;
+    background: #ffffff;
+    border-radius: 8px;
 }
 
 .chart-container > div {
     height: 100%;
     width: 100%;
+}
+
+.chart-date-range {
+    text-align: center;
+    color: #666;
+    font-size: 12px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    margin-top: 10px;
+    padding-top: 5px;
+}
+
+@media (max-width: 768px) {
+    .chart-date-range {
+        font-size: 11px;
+        margin-top: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .chart-date-range {
+        font-size: 10px;
+        margin-top: 6px;
+    }
 }
 
 .chart-container-wrapper {
@@ -473,6 +505,59 @@
 
 .apexcharts-canvas {
     max-width: 100% !important;
+}
+
+/* Minimalist chart styling */
+.apexcharts-svg {
+    background: #ffffff !important;
+}
+
+.apexcharts-grid-borders line {
+    stroke: #e5e5e5 !important;
+    stroke-width: 1 !important;
+}
+
+.apexcharts-gridlines-horizontal line {
+    stroke: #f0f0f0 !important;
+    stroke-width: 1 !important;
+    stroke-dasharray: 3, 3 !important;
+}
+
+.apexcharts-xaxis-texts-g text,
+.apexcharts-yaxis-texts-g text {
+    fill: #333 !important;
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 500 !important;
+}
+
+.apexcharts-tooltip {
+    background: #ffffff !important;
+    border: 1px solid #e5e5e5 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+    color: #333333 !important;
+}
+
+.apexcharts-tooltip-title {
+    background: #ffffff !important;
+    border-bottom: 1px solid #e5e5e5 !important;
+    color: #333333 !important;
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 600 !important;
+    padding: 8px 12px !important;
+}
+
+.apexcharts-tooltip-series-group {
+    color: #333333 !important;
+    padding: 4px 12px 8px 12px !important;
+}
+
+.apexcharts-tooltip-marker {
+    margin-right: 8px !important;
+}
+
+.apexcharts-subtitle-text {
+    fill: #666 !important;
+    font-family: 'Montserrat', sans-serif !important;
 }
 
 @media (max-width: 768px) {

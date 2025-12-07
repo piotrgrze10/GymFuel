@@ -115,10 +115,8 @@ $user = $stmt->fetch();
                 <div class="chart-card" data-chart-type="weight">
                     <div class="chart-header">
                         <h3 class="chart-title">
-                            <i class="fa-solid fa-weight-scale"></i>
                             Weight
                         </h3>
-                        <div class="chart-subtitle">Body weight (kg)</div>
                     </div>
                     <div class="chart-container">
                         <div id="weightChart"></div>
