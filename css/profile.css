@@ -539,6 +539,7 @@ body {
     color: var(--text-secondary);
     font-weight: 600;
     margin-bottom: var(--spacing-xs);
+    white-space: nowrap;
 }
 
 @media (min-width: 768px) {

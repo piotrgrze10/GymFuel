@@ -123,27 +123,70 @@ $logged_in = isLoggedIn();
         
         <div id="categoriesSection" class="categories-section">
             <div class="categories-title">
-                <i class="fa-solid fa-tags"></i> Browse by Category
+                <i class="fa-solid fa-tags" aria-hidden="true"></i> 
+                <span>Browse by Category</span>
             </div>
-            <div class="categories-grid">
-                <div class="category-btn" data-category="fruits">
-                    <i class="fa-solid fa-apple-whole"></i> Fruits
-                </div>
-                <div class="category-btn" data-category="vegetables">
-                    <i class="fa-solid fa-carrot"></i> Vegetables
-                </div>
-                <div class="category-btn" data-category="meat">
-                    <i class="fa-solid fa-drumstick-bite"></i> Meat & Fish
-                </div>
-                <div class="category-btn" data-category="dairy">
-                    <i class="fa-solid fa-cheese"></i> Dairy
-                </div>
-                <div class="category-btn" data-category="grains">
-                    <i class="fa-solid fa-wheat-awn"></i> Grains & Cereals
-                </div>
-                <div class="category-btn" data-category="desserts">
-                    <i class="fa-solid fa-cake-candles"></i> Desserts
-                </div>
+            <div class="categories-grid" role="grid" aria-label="Food categories">
+                <button class="category-card" 
+                        data-category="fruits" 
+                        type="button"
+                        role="gridcell"
+                        aria-label="Browse Fruits category">
+                    <div class="category-icon-wrapper category-fruits">
+                        <i class="fa-solid fa-apple-whole" aria-hidden="true"></i>
+                    </div>
+                    <span class="category-name">Fruits</span>
+                </button>
+                <button class="category-card" 
+                        data-category="vegetables" 
+                        type="button"
+                        role="gridcell"
+                        aria-label="Browse Vegetables category">
+                    <div class="category-icon-wrapper category-vegetables">
+                        <i class="fa-solid fa-carrot" aria-hidden="true"></i>
+                    </div>
+                    <span class="category-name">Vegetables</span>
+                </button>
+                <button class="category-card" 
+                        data-category="meat" 
+                        type="button"
+                        role="gridcell"
+                        aria-label="Browse Meat and Fish category">
+                    <div class="category-icon-wrapper category-meat">
+                        <i class="fa-solid fa-drumstick-bite" aria-hidden="true"></i>
+                    </div>
+                    <span class="category-name">Meat & Fish</span>
+                </button>
+                <button class="category-card" 
+                        data-category="dairy" 
+                        type="button"
+                        role="gridcell"
+                        aria-label="Browse Dairy category">
+                    <div class="category-icon-wrapper category-dairy">
+                        <i class="fa-solid fa-cheese" aria-hidden="true"></i>
+                    </div>
+                    <span class="category-name">Dairy</span>
+                </button>
+                <button class="category-card" 
+                        data-category="grains" 
+                        type="button"
+                        role="gridcell"
+                        aria-label="Browse Grains and Cereals category">
+                    <div class="category-icon-wrapper category-grains">
+                        <i class="fa-solid fa-wheat-awn" aria-hidden="true"></i>
+                    </div>
+                    <span class="category-name">Grains & Cereals</span>
+                </button>
+                <button class="category-card" 
+                        data-category="desserts" 
+                        type="button"
+                        role="gridcell"
+                        aria-label="Browse Desserts category">
+                    <div class="category-icon-wrapper category-desserts">
+                        <i class="fa-solid fa-cake-candles" aria-hidden="true"></i>
+                    </div>
+                    <span class="category-name">Desserts</span>
+                </button>
             </div>
         </div>
 

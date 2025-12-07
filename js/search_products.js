@@ -517,7 +517,7 @@ function renderRecentSearches() {
         chip.addEventListener('click', function() {
             const query = this.getAttribute('data-query');
             document.getElementById('searchInput').value = query;
-            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.category-card').forEach(b => b.classList.remove('active'));
             document.getElementById('loadingSpinner').classList.add('show');
             document.getElementById('results').innerHTML = '';
             searchProducts(query);
@@ -532,7 +532,7 @@ window.clearCategorySelection = function() {
     document.getElementById('paginationContainer').style.display = 'none';
     document.getElementById('categoriesSection').classList.remove('hidden');
     renderRecentSearches();
-    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.category-card').forEach(b => b.classList.remove('active'));
     document.getElementById('clearCategoryWrapper').style.display = 'none';
     document.getElementById('searchInput').value = '';
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -723,7 +723,7 @@ function displayProducts(products) {
     
     document.getElementById('paginationContainer').style.display = 'none';
     
-    const activeCategory = document.querySelector('.category-btn.active');
+    const activeCategory = document.querySelector('.category-card.active');
     if (!activeCategory && document.getElementById('searchInput').value.length >= 2) {
         document.getElementById('clearCategoryWrapper').style.display = 'none';
     }
@@ -1076,7 +1076,7 @@ function showNoResults() {
     document.getElementById('categoriesSection').classList.remove('hidden');
     document.getElementById('paginationContainer').style.display = 'none';
     
-    const activeCategory = document.querySelector('.category-btn.active');
+    const activeCategory = document.querySelector('.category-card.active');
     if (!activeCategory) {
         document.getElementById('clearCategoryWrapper').style.display = 'none';
     }
@@ -1123,19 +1123,19 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('paginationContainer').style.display = 'none';
             document.getElementById('clearCategoryWrapper').style.display = 'none';
             document.getElementById('searchFilters').style.display = 'none';
-            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.category-card').forEach(b => b.classList.remove('active'));
             allProducts = [];
             currentPage = 1;
             renderRecentSearches();
         });
     }
     
-    document.querySelectorAll('.category-btn').forEach(btn => {
+    document.querySelectorAll('.category-card').forEach(btn => {
         btn.addEventListener('click', function() {
             const category = this.dataset.category;
             document.getElementById('searchInput').value = '';
             if (searchClearBtn) searchClearBtn.classList.remove('show');
-            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.category-card').forEach(b => b.classList.remove('active'));
             this.classList.add('active');
             document.getElementById('loadingSpinner').classList.add('show');
             document.getElementById('results').innerHTML = '';
@@ -1155,7 +1155,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
-        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.category-card').forEach(b => b.classList.remove('active'));
         document.getElementById('clearCategoryWrapper').style.display = 'none';
         
         if (query.length >= 2) {
@@ -1172,7 +1172,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('paginationContainer').style.display = 'none';
             document.getElementById('clearCategoryWrapper').style.display = 'none';
             document.getElementById('searchFilters').style.display = 'none';
-            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.category-card').forEach(b => b.classList.remove('active'));
             allProducts = [];
             currentPage = 1;
             renderRecentSearches();
