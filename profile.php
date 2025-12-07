@@ -441,61 +441,128 @@ $initials = strtoupper(substr($names[0], 0, 1) . (isset($names[1]) ? substr($nam
     </div>
 
     <div class="modal fade" id="editProfileModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content profile-edit-modal">
                 <div class="modal-header">
                     <h5 class="modal-title">
                         <i class="fa-solid fa-user-pen"></i>
                         Edit Profile
                     </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="editProfileForm">
-                        <div class="mb-3">
-                            <label class="form-label">First Name</label>
-                            <input type="text" class="form-control" id="firstName" value="<?php echo htmlspecialchars(explode(' ', $_SESSION['user_name'])[0]); ?>" required>
+                        <!-- Personal Information Section -->
+                        <div class="form-section">
+                            <div class="section-header">
+                                <div class="section-icon">
+                                    <i class="fa-solid fa-user"></i>
+                                </div>
+                                <div class="section-title-content">
+                                    <h3 class="section-title-text">Personal Information</h3>
+                                    <p class="section-subtitle">Update your basic details</p>
+                                </div>
+                            </div>
+                            
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label" for="firstName">
+                                        <i class="fa-solid fa-signature"></i>
+                                        First Name
+                                    </label>
+                                    <input type="text" class="form-control" id="firstName" value="<?php echo htmlspecialchars(explode(' ', $_SESSION['user_name'])[0]); ?>" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label" for="lastName">
+                                        <i class="fa-solid fa-signature"></i>
+                                        Last Name
+                                    </label>
+                                    <input type="text" class="form-control" id="lastName" value="<?php echo htmlspecialchars(explode(' ', $_SESSION['user_name'])[1] ?? ''); ?>" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label" for="age">
+                                        <i class="fa-solid fa-calendar-days"></i>
+                                        Age
+                                    </label>
+                                    <input type="number" class="form-control" id="age" value="<?php echo $user['age']; ?>" min="13" max="120" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label" for="weight">
+                                        <i class="fa-solid fa-weight-scale"></i>
+                                        Weight (kg)
+                                    </label>
+                                    <input type="number" class="form-control" id="weight" value="<?php echo $user['weight']; ?>" step="0.1" min="20" max="300" required>
+                                </div>
+                                
+                                <div class="form-group form-group-full">
+                                    <label class="form-label" for="height">
+                                        <i class="fa-solid fa-ruler-vertical"></i>
+                                        Height (cm)
+                                    </label>
+                                    <input type="number" class="form-control" id="height" value="<?php echo $user['height']; ?>" step="0.1" min="50" max="250" required>
+                                </div>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Last Name</label>
-                            <input type="text" class="form-control" id="lastName" value="<?php echo htmlspecialchars(explode(' ', $_SESSION['user_name'])[1] ?? ''); ?>" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Weight (kg)</label>
-                            <input type="number" class="form-control" id="weight" value="<?php echo $user['weight']; ?>" step="0.1" min="20" max="300" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Height (cm)</label>
-                            <input type="number" class="form-control" id="height" value="<?php echo $user['height']; ?>" step="0.1" min="50" max="250" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Age</label>
-                            <input type="number" class="form-control" id="age" value="<?php echo $user['age']; ?>" min="13" max="120" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Activity Level</label>
-                            <select class="form-control" id="activityLevel">
-                                <option value="sedentary" <?php echo $user['activity_level'] === 'sedentary' ? 'selected' : ''; ?>>Sedentary</option>
-                                <option value="lightly_active" <?php echo $user['activity_level'] === 'lightly_active' ? 'selected' : ''; ?>>Lightly Active</option>
-                                <option value="moderately_active" <?php echo $user['activity_level'] === 'moderately_active' ? 'selected' : ''; ?>>Moderately Active</option>
-                                <option value="very_active" <?php echo $user['activity_level'] === 'very_active' ? 'selected' : ''; ?>>Very Active</option>
-                                <option value="extra_active" <?php echo $user['activity_level'] === 'extra_active' ? 'selected' : ''; ?>>Extra Active</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Goal</label>
-                            <select class="form-control" id="goal">
-                                <option value="lose_weight" <?php echo $user['goal'] === 'lose_weight' ? 'selected' : ''; ?>>Lose Weight</option>
-                                <option value="maintain" <?php echo $user['goal'] === 'maintain' ? 'selected' : ''; ?>>Maintain</option>
-                                <option value="gain_weight" <?php echo $user['goal'] === 'gain_weight' ? 'selected' : ''; ?>>Gain Weight</option>
-                            </select>
+                        
+                        <!-- Fitness Goals Section -->
+                        <div class="form-section">
+                            <div class="section-header">
+                                <div class="section-icon">
+                                    <i class="fa-solid fa-bullseye"></i>
+                                </div>
+                                <div class="section-title-content">
+                                    <h3 class="section-title-text">Fitness Goals</h3>
+                                    <p class="section-subtitle">Set your activity level and fitness objectives</p>
+                                </div>
+                            </div>
+                            
+                            <div class="form-grid">
+                                <div class="form-group form-group-full">
+                                    <label class="form-label" for="activityLevel">
+                                        <i class="fa-solid fa-person-running"></i>
+                                        Activity Level
+                                        <span class="tooltip-trigger" data-tooltip="Sedentary: Little or no exercise&#10;Lightly Active: Light exercise 1-3 days/week&#10;Moderately Active: Moderate exercise 3-5 days/week&#10;Very Active: Hard exercise 6-7 days/week&#10;Extra Active: Very hard exercise & physical job">
+                                            <i class="fa-solid fa-circle-question"></i>
+                                        </span>
+                                    </label>
+                                    <select class="form-control" id="activityLevel" required>
+                                        <option value="sedentary" <?php echo $user['activity_level'] === 'sedentary' ? 'selected' : ''; ?>>Sedentary</option>
+                                        <option value="lightly_active" <?php echo $user['activity_level'] === 'lightly_active' ? 'selected' : ''; ?>>Lightly Active</option>
+                                        <option value="moderately_active" <?php echo $user['activity_level'] === 'moderately_active' ? 'selected' : ''; ?>>Moderately Active</option>
+                                        <option value="very_active" <?php echo $user['activity_level'] === 'very_active' ? 'selected' : ''; ?>>Very Active</option>
+                                        <option value="extra_active" <?php echo $user['activity_level'] === 'extra_active' ? 'selected' : ''; ?>>Extra Active</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group form-group-full">
+                                    <label class="form-label" for="goal">
+                                        <i class="fa-solid fa-flag-checkered"></i>
+                                        Goal
+                                        <span class="tooltip-trigger" data-tooltip="Lose Weight: Reduce body weight&#10;Maintain: Keep current weight&#10;Gain Weight: Increase body weight">
+                                            <i class="fa-solid fa-circle-question"></i>
+                                        </span>
+                                    </label>
+                                    <select class="form-control" id="goal" required>
+                                        <option value="lose_weight" <?php echo $user['goal'] === 'lose_weight' ? 'selected' : ''; ?>>Lose Weight</option>
+                                        <option value="maintain" <?php echo $user['goal'] === 'maintain' ? 'selected' : ''; ?>>Maintain</option>
+                                        <option value="gain_weight" <?php echo $user['goal'] === 'gain_weight' ? 'selected' : ''; ?>>Gain Weight</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="saveProfileBtn">
-                        <i class="fa-solid fa-check"></i> Save Changes
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-xmark"></i>
+                        Cancel
+                    </button>
+                    <button type="button" class="btn btn-primary btn-save-profile" id="saveProfileBtn">
+                        <i class="fa-solid fa-check"></i>
+                        <span>Update Profile</span>
                     </button>
                 </div>
             </div>

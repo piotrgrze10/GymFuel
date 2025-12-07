@@ -182,13 +182,37 @@ function initTooltips() {
     const tooltipElements = document.querySelectorAll('[data-tooltip]');
     
     tooltipElements.forEach(element => {
+        // Handle both hover and click on mobile
         element.addEventListener('mouseenter', function(e) {
-            showTooltip(e.target, e.target.getAttribute('data-tooltip'));
+            if (window.innerWidth >= 768) {
+                showTooltip(e.target, e.target.getAttribute('data-tooltip'));
+            }
         });
         
         element.addEventListener('mouseleave', function() {
             hideTooltip();
         });
+        
+        // For mobile, show tooltip on click/touch
+        element.addEventListener('click', function(e) {
+            if (window.innerWidth < 768) {
+                e.preventDefault();
+                e.stopPropagation();
+                const currentTooltip = e.target.getAttribute('data-tooltip');
+                if (tooltipElement && tooltipElement.textContent === currentTooltip) {
+                    hideTooltip();
+                } else {
+                    showTooltip(e.target, currentTooltip);
+                }
+            }
+        });
+    });
+    
+    // Hide tooltip when clicking outside on mobile
+    document.addEventListener('click', function(e) {
+        if (window.innerWidth < 768 && !e.target.closest('[data-tooltip]')) {
+            hideTooltip();
+        }
     });
 }
 
@@ -199,27 +223,54 @@ function showTooltip(target, text) {
     
     tooltipElement = document.createElement('div');
     tooltipElement.className = 'custom-tooltip';
-    tooltipElement.textContent = text;
+    // Handle multi-line tooltips (using \n or &#10;)
+    const formattedText = text.replace(/&#10;/g, '\n').replace(/\\n/g, '\n');
+    tooltipElement.innerHTML = formattedText.split('\n').map(line => line.trim()).filter(line => line).join('<br>');
     tooltipElement.style.cssText = `
         position: absolute;
-        background: rgba(0, 0, 0, 0.9);
+        background: #1f2937;
         color: white;
-        padding: 0.5rem 0.75rem;
-        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        border-radius: 10px;
         font-size: 0.85rem;
-        white-space: nowrap;
+        white-space: normal;
         z-index: 10000;
         pointer-events: none;
         animation: fadeIn 0.2s ease;
+        max-width: 300px;
+        line-height: 1.6;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        font-family: 'Montserrat', sans-serif;
     `;
     
     document.body.appendChild(tooltipElement);
     
     const rect = target.getBoundingClientRect();
     const tooltipRect = tooltipElement.getBoundingClientRect();
+    const isMobile = window.innerWidth < 768;
     
-    tooltipElement.style.left = `${rect.left + (rect.width / 2) - (tooltipRect.width / 2)}px`;
-    tooltipElement.style.top = `${rect.top - tooltipRect.height - 8}px`;
+    if (isMobile) {
+        // On mobile, position tooltip to the right
+        tooltipElement.style.left = `${rect.right + 10}px`;
+        tooltipElement.style.top = `${rect.top + (rect.height / 2) - (tooltipRect.height / 2)}px`;
+        
+        // Adjust if tooltip goes off screen
+        if (parseFloat(tooltipElement.style.left) + tooltipRect.width > window.innerWidth - 10) {
+            tooltipElement.style.left = `${rect.left - tooltipRect.width - 10}px`;
+        }
+    } else {
+        // On desktop, position above
+        tooltipElement.style.left = `${rect.left + (rect.width / 2) - (tooltipRect.width / 2)}px`;
+        tooltipElement.style.top = `${rect.top - tooltipRect.height - 12}px`;
+        
+        // Adjust if tooltip goes off screen
+        if (parseFloat(tooltipElement.style.left) < 10) {
+            tooltipElement.style.left = '10px';
+        }
+        if (parseFloat(tooltipElement.style.left) + tooltipRect.width > window.innerWidth - 10) {
+            tooltipElement.style.left = `${window.innerWidth - tooltipRect.width - 10}px`;
+        }
+    }
 }
 
 function hideTooltip() {
