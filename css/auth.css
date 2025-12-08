@@ -73,7 +73,8 @@ body {
     flex: 0 0 55%;
     position: relative;
     min-height: 700px;
-    background: #0B0F14;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    overflow: hidden;
 }
 
 .auth-right img {
@@ -83,6 +84,12 @@ body {
     height: 100%;
     object-fit: cover;
     object-position: center center;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.auth-right img.loaded {
+    opacity: 1;
 }
 
 @media (min-width: 992px) {

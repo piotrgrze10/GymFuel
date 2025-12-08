@@ -42,6 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/897067be39.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="<?php echo asset('../css/auth.css'); ?>">
+    <link rel="preload" as="image" href="<?php echo asset('../img/woman_login.webp'); ?>" fetchpriority="high">
 </head>
 <body>
     <div id="error-toast" class="error-toast" style="display:none;">
@@ -95,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </form>
             </div>
             <div class="auth-right">
-                <img src="../img/woman_login.png" alt="GymFuel Login" loading="eager" decoding="sync">
+                <img src="<?php echo asset('../img/woman_login.webp'); ?>" alt="GymFuel Login" loading="eager" decoding="async" fetchpriority="high" onload="this.classList.add('loaded')">
             </div>
         </div>
     </div>
