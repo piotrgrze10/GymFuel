@@ -127,9 +127,9 @@ $logged_in = isLoggedIn();
                     <i class="fa-solid fa-tags" aria-hidden="true"></i> 
                     <span>Browse by Category</span>
                 </div>
-                <div class="row gx-4 gy-4" role="grid" aria-label="Food categories">
-                    <div class="col-md-4 col-lg-2 col-6">
-                        <button class="category-card card shadow-sm rounded p-3 text-center h-100 border-0" 
+                <div class="row gx-4 gy-4 align-items-stretch" role="grid" aria-label="Food categories">
+                    <div class="col-lg-4 col-md-6 col-12 d-flex">
+                        <button class="category-card card shadow-sm rounded p-3 text-center h-100 w-100 d-flex flex-column justify-content-between align-items-center border-0" 
                                 data-category="fruits" 
                                 type="button"
                                 role="gridcell"
@@ -137,11 +137,11 @@ $logged_in = isLoggedIn();
                             <div class="category-icon-wrapper d-flex justify-content-center mb-2 category-fruits">
                                 <i class="fa-solid fa-apple-whole" aria-hidden="true"></i>
                             </div>
-                            <span class="category-name text-muted">Fruits</span>
+                            <h6 class="category-name text-muted mb-0">Fruits</h6>
                         </button>
                     </div>
-                    <div class="col-md-4 col-lg-2 col-6">
-                        <button class="category-card card shadow-sm rounded p-3 text-center h-100 border-0" 
+                    <div class="col-lg-4 col-md-6 col-12 d-flex">
+                        <button class="category-card card shadow-sm rounded p-3 text-center h-100 w-100 d-flex flex-column justify-content-between align-items-center border-0" 
                                 data-category="vegetables" 
                                 type="button"
                                 role="gridcell"
@@ -149,11 +149,11 @@ $logged_in = isLoggedIn();
                             <div class="category-icon-wrapper d-flex justify-content-center mb-2 category-vegetables">
                                 <i class="fa-solid fa-carrot" aria-hidden="true"></i>
                             </div>
-                            <span class="category-name text-muted">Vegetables</span>
+                            <h6 class="category-name text-muted mb-0">Vegetables</h6>
                         </button>
                     </div>
-                    <div class="col-md-4 col-lg-2 col-6">
-                        <button class="category-card card shadow-sm rounded p-3 text-center h-100 border-0" 
+                    <div class="col-lg-4 col-md-6 col-12 d-flex">
+                        <button class="category-card card shadow-sm rounded p-3 text-center h-100 w-100 d-flex flex-column justify-content-between align-items-center border-0" 
                                 data-category="meat" 
                                 type="button"
                                 role="gridcell"
@@ -161,11 +161,11 @@ $logged_in = isLoggedIn();
                             <div class="category-icon-wrapper d-flex justify-content-center mb-2 category-meat">
                                 <i class="fa-solid fa-drumstick-bite" aria-hidden="true"></i>
                             </div>
-                            <span class="category-name text-muted">Meat & Fish</span>
+                            <h6 class="category-name text-muted mb-0">Meat & Fish</h6>
                         </button>
                     </div>
-                    <div class="col-md-4 col-lg-2 col-6">
-                        <button class="category-card card shadow-sm rounded p-3 text-center h-100 border-0" 
+                    <div class="col-lg-4 col-md-6 col-12 d-flex">
+                        <button class="category-card card shadow-sm rounded p-3 text-center h-100 w-100 d-flex flex-column justify-content-between align-items-center border-0" 
                                 data-category="dairy" 
                                 type="button"
                                 role="gridcell"
@@ -173,11 +173,11 @@ $logged_in = isLoggedIn();
                             <div class="category-icon-wrapper d-flex justify-content-center mb-2 category-dairy">
                                 <i class="fa-solid fa-cheese" aria-hidden="true"></i>
                             </div>
-                            <span class="category-name text-muted">Dairy</span>
+                            <h6 class="category-name text-muted mb-0">Dairy</h6>
                         </button>
                     </div>
-                    <div class="col-md-4 col-lg-2 col-6">
-                        <button class="category-card card shadow-sm rounded p-3 text-center h-100 border-0" 
+                    <div class="col-lg-4 col-md-6 col-12 d-flex">
+                        <button class="category-card card shadow-sm rounded p-3 text-center h-100 w-100 d-flex flex-column justify-content-between align-items-center border-0" 
                                 data-category="grains" 
                                 type="button"
                                 role="gridcell"
@@ -185,11 +185,11 @@ $logged_in = isLoggedIn();
                             <div class="category-icon-wrapper d-flex justify-content-center mb-2 category-grains">
                                 <i class="fa-solid fa-wheat-awn" aria-hidden="true"></i>
                             </div>
-                            <span class="category-name text-muted">Grains & Cereals</span>
+                            <h6 class="category-name text-muted mb-0">Grains & Cereals</h6>
                         </button>
                     </div>
-                    <div class="col-md-4 col-lg-2 col-6">
-                        <button class="category-card card shadow-sm rounded p-3 text-center h-100 border-0" 
+                    <div class="col-lg-4 col-md-6 col-12 d-flex">
+                        <button class="category-card card shadow-sm rounded p-3 text-center h-100 w-100 d-flex flex-column justify-content-between align-items-center border-0" 
                                 data-category="desserts" 
                                 type="button"
                                 role="gridcell"
@@ -197,7 +197,7 @@ $logged_in = isLoggedIn();
                             <div class="category-icon-wrapper d-flex justify-content-center mb-2 category-desserts">
                                 <i class="fa-solid fa-cake-candles" aria-hidden="true"></i>
                             </div>
-                            <span class="category-name text-muted">Desserts</span>
+                            <h6 class="category-name text-muted mb-0">Desserts</h6>
                         </button>
                     </div>
                 </div>
