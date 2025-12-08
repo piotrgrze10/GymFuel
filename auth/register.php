@@ -75,7 +75,10 @@ redirectIfLoggedIn();
             <form id="registration-form" class="auth-form" autocomplete="off">
                 <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
                 
-                <div class="reg-step" id="step1">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-6 mx-auto">
+                            <div class="reg-step" id="step1">
                     <div class="form-group">
                         <label for="email"><i class="fa-solid fa-envelope"></i> Email Address</label>
                         <input type="email" id="email" name="email" data-required="1" placeholder="Enter your email" autocomplete="email" inputmode="email">
@@ -88,121 +91,124 @@ redirectIfLoggedIn();
                         <label for="confirm_password"><i class="fa-solid fa-lock"></i> Confirm Password</label>
                         <input type="password" id="confirm_password" name="confirm_password" data-required="1" placeholder="Confirm your password" autocomplete="new-password">
                     </div>
-                </div>
+                            </div>
 
-                <div class="reg-step" id="step2" style="display:none;">
-                    <div class="form-group">
-                        <label for="first_name"><i class="fa-solid fa-user"></i> First Name</label>
-                        <input type="text" id="first_name" name="first_name" data-required="2" placeholder="Your first name" autocomplete="given-name">
-                    </div>
-                    <div class="form-group">
-                        <label for="last_name"><i class="fa-solid fa-user"></i> Last Name</label>
-                        <input type="text" id="last_name" name="last_name" data-required="2" placeholder="Your last name" autocomplete="family-name">
-                    </div>
-                    <div class="form-group">
-                        <label for="gender"><i class="fa-solid fa-venus-mars"></i> Gender</label>
-                        <select id="gender" name="gender" data-required="2" autocomplete="sex">
-                            <option value="">Select your gender</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                </div>
+                            <div class="reg-step" id="step2" style="display:none;">
+                                <div class="form-group">
+                                    <label for="first_name"><i class="fa-solid fa-user"></i> First Name</label>
+                                    <input type="text" id="first_name" name="first_name" data-required="2" placeholder="Your first name" autocomplete="given-name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="last_name"><i class="fa-solid fa-user"></i> Last Name</label>
+                                    <input type="text" id="last_name" name="last_name" data-required="2" placeholder="Your last name" autocomplete="family-name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="gender"><i class="fa-solid fa-venus-mars"></i> Gender</label>
+                                    <select id="gender" name="gender" data-required="2" autocomplete="sex">
+                                        <option value="">Select your gender</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
 
-                <div class="reg-step" id="step3" style="display:none;">
-                    <div class="form-group">
-                        <label for="age"><i class="fa-solid fa-calendar"></i> Age</label>
-                        <input type="number" id="age" name="age" data-required="3" placeholder="Your age (13-120)" min="13" max="120" autocomplete="bday-year" inputmode="numeric">
-                    </div>
-                    <div class="form-group">
-                        <label for="height"><i class="fa-solid fa-ruler-vertical"></i> Height (cm)</label>
-                        <input type="number" id="height" name="height" data-required="3" placeholder="Height in cm (e.g., 175)" min="50" max="250" step="0.1" autocomplete="off" inputmode="decimal">
-                    </div>
-                    <div class="form-group">
-                        <label for="weight"><i class="fa-solid fa-weight-scale"></i> Weight (kg)</label>
-                        <input type="number" id="weight" name="weight" data-required="3" placeholder="Weight in kg (e.g., 70)" min="20" max="300" step="0.1" autocomplete="off" inputmode="decimal">
-                    </div>
-                </div>
+                            <div class="reg-step" id="step3" style="display:none;">
+                                <div class="form-group">
+                                    <label for="age"><i class="fa-solid fa-calendar"></i> Age</label>
+                                    <input type="number" id="age" name="age" data-required="3" placeholder="Your age (13-120)" min="13" max="120" autocomplete="bday-year" inputmode="numeric">
+                                </div>
+                                <div class="form-group">
+                                    <label for="height"><i class="fa-solid fa-ruler-vertical"></i> Height (cm)</label>
+                                    <input type="number" id="height" name="height" data-required="3" placeholder="Height in cm (e.g., 175)" min="50" max="250" step="0.1" autocomplete="off" inputmode="decimal">
+                                </div>
+                                <div class="form-group">
+                                    <label for="weight"><i class="fa-solid fa-weight-scale"></i> Weight (kg)</label>
+                                    <input type="number" id="weight" name="weight" data-required="3" placeholder="Weight in kg (e.g., 70)" min="20" max="300" step="0.1" autocomplete="off" inputmode="decimal">
+                                </div>
+                            </div>
 
-                <div class="reg-step" id="step4" style="display:none;">
-                    <div class="form-group">
-                        <label><i class="fa-solid fa-dumbbell"></i> Select Your Activity Level</label>
-                        <div class="activity-options">
-                            <div class="activity-card" data-value="sedentary">
-                                <i class="fa-solid fa-couch"></i>
-                                <h4>Sedentary</h4>
-                                <p>Little or no exercise</p>
-                                <small>Desk job, minimal movement</small>
+                            <div class="reg-step" id="step4" style="display:none;">
+                                <div class="form-group">
+                                    <label><i class="fa-solid fa-dumbbell"></i> Select Your Activity Level</label>
+                                    <div class="activity-options">
+                                        <div class="activity-card" data-value="sedentary">
+                                            <i class="fa-solid fa-couch"></i>
+                                            <h4>Sedentary</h4>
+                                            <p>Little or no exercise</p>
+                                            <small>Desk job, minimal movement</small>
+                                        </div>
+                                        <div class="activity-card" data-value="lightly_active">
+                                            <i class="fa-solid fa-walking"></i>
+                                            <h4>Lightly Active</h4>
+                                            <p>Light exercise 1-3 days/week</p>
+                                            <small>30 min light exercise</small>
+                                        </div>
+                                        <div class="activity-card" data-value="moderately_active">
+                                            <i class="fa-solid fa-bicycle"></i>
+                                            <h4>Moderately Active</h4>
+                                            <p>Moderate exercise 3-5 days/week</p>
+                                            <small>45 min moderate exercise</small>
+                                        </div>
+                                        <div class="activity-card" data-value="very_active">
+                                            <i class="fa-solid fa-dumbbell"></i>
+                                            <h4>Very Active</h4>
+                                            <p>Hard exercise 6-7 days/week</p>
+                                            <small>60 min intense training</small>
+                                        </div>
+                                        <div class="activity-card" data-value="extra_active">
+                                            <i class="fa-solid fa-fire-flame-curved"></i>
+                                            <h4>Extra Active</h4>
+                                            <p>Very hard exercise & physical job</p>
+                                            <small>Athlete or manual labor</small>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="activity_level" name="activity_level" data-required="4">
+                                    <div id="activity-description" class="activity-description"></div>
+                                </div>
                             </div>
-                            <div class="activity-card" data-value="lightly_active">
-                                <i class="fa-solid fa-walking"></i>
-                                <h4>Lightly Active</h4>
-                                <p>Light exercise 1-3 days/week</p>
-                                <small>30 min light exercise</small>
+
+                            <div class="reg-step" id="step5" style="display:none;">
+                                <div class="form-group">
+                                    <label><i class="fa-solid fa-bullseye"></i> Select Your Goal</label>
+                                    <div class="goal-options">
+                                        <div class="goal-card" data-value="lose_weight" data-calories="0">
+                                            <i class="fa-solid fa-arrow-trend-down"></i>
+                                            <h4>Lose Weight</h4>
+                                            <p class="goal-calories">Calculating...</p>
+                                            <small>500 calorie deficit for safe weight loss</small>
+                                        </div>
+                                        <div class="goal-card" data-value="maintain" data-calories="0">
+                                            <i class="fa-solid fa-equals"></i>
+                                            <h4>Maintain Weight</h4>
+                                            <p class="goal-calories">Calculating...</p>
+                                            <small>Maintain your current weight</small>
+                                        </div>
+                                        <div class="goal-card" data-value="gain_weight" data-calories="0">
+                                            <i class="fa-solid fa-arrow-trend-up"></i>
+                                            <h4>Gain Weight</h4>
+                                            <p class="goal-calories">Calculating...</p>
+                                            <small>500 calorie surplus for muscle gain</small>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="goal" name="goal" data-required="5">
+                                </div>
                             </div>
-                            <div class="activity-card" data-value="moderately_active">
-                                <i class="fa-solid fa-bicycle"></i>
-                                <h4>Moderately Active</h4>
-                                <p>Moderate exercise 3-5 days/week</p>
-                                <small>45 min moderate exercise</small>
+
+                            <div class="form-group" id="nav-buttons">
+                                <button type="button" class="btn-auth btn-secondary" id="prev-btn" style="display:none;">
+                                    <i class="fa-solid fa-arrow-left"></i> Previous
+                                </button>
+                                <button type="submit" class="btn-auth" id="continue-btn" disabled>
+                                    <i class="fa-solid fa-arrow-right"></i> Continue
+                                </button>
                             </div>
-                            <div class="activity-card" data-value="very_active">
-                                <i class="fa-solid fa-dumbbell"></i>
-                                <h4>Very Active</h4>
-                                <p>Hard exercise 6-7 days/week</p>
-                                <small>60 min intense training</small>
-                            </div>
-                            <div class="activity-card" data-value="extra_active">
-                                <i class="fa-solid fa-fire-flame-curved"></i>
-                                <h4>Extra Active</h4>
-                                <p>Very hard exercise & physical job</p>
-                                <small>Athlete or manual labor</small>
+
+                            <div class="auth-footer" id="auth-footer" style="display:none;">
+                                <p>Already have an account? <a href="/login">Sign in</a></p>
                             </div>
                         </div>
-                        <input type="hidden" id="activity_level" name="activity_level" data-required="4">
-                        <div id="activity-description" class="activity-description"></div>
                     </div>
-                </div>
-
-                <div class="reg-step" id="step5" style="display:none;">
-                    <div class="form-group">
-                        <label><i class="fa-solid fa-bullseye"></i> Select Your Goal</label>
-                        <div class="goal-options">
-                            <div class="goal-card" data-value="lose_weight" data-calories="0">
-                                <i class="fa-solid fa-arrow-trend-down"></i>
-                                <h4>Lose Weight</h4>
-                                <p class="goal-calories">Calculating...</p>
-                                <small>500 calorie deficit for safe weight loss</small>
-                            </div>
-                            <div class="goal-card" data-value="maintain" data-calories="0">
-                                <i class="fa-solid fa-equals"></i>
-                                <h4>Maintain Weight</h4>
-                                <p class="goal-calories">Calculating...</p>
-                                <small>Maintain your current weight</small>
-                            </div>
-                            <div class="goal-card" data-value="gain_weight" data-calories="0">
-                                <i class="fa-solid fa-arrow-trend-up"></i>
-                                <h4>Gain Weight</h4>
-                                <p class="goal-calories">Calculating...</p>
-                                <small>500 calorie surplus for muscle gain</small>
-                            </div>
-                        </div>
-                        <input type="hidden" id="goal" name="goal" data-required="5">
-                    </div>
-                </div>
-
-                <div class="form-group" id="nav-buttons">
-                    <button type="button" class="btn-auth btn-secondary" id="prev-btn" style="display:none;">
-                        <i class="fa-solid fa-arrow-left"></i> Previous
-                    </button>
-                    <button type="submit" class="btn-auth" id="continue-btn" disabled>
-                        <i class="fa-solid fa-arrow-right"></i> Continue
-                    </button>
-                </div>
-
-                <div class="auth-footer" id="auth-footer" style="display:none;">
-                    <p>Already have an account? <a href="/login">Sign in</a></p>
                 </div>
             </form>
         </div>

@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     height: 100vh;
@@ -189,7 +193,7 @@ body {
     }
     
     .auth-container.narrow {
-        max-width: 1000px !important;
+        max-width: 100% !important;
     }
     
     .registration-card {
@@ -205,11 +209,6 @@ body {
     .auth-card {
         padding: 40px !important;
         border-radius: 16px !important;
-    }
-    
-    .auth-form {
-        max-width: 600px !important;
-        width: 100% !important;
     }
     
     .auth-header h2 {
@@ -291,6 +290,73 @@ body {
     .goal-card {
         padding: 20px 12px !important;
         min-height: 140px !important;
+    }
+}
+
+@media (min-width: 992px) {
+    .auth-container.narrow {
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+    
+    .auth-card.registration-card {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    .auth-form {
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+    
+    .auth-form .container-fluid {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+    
+    .auth-form .row {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        width: 100% !important;
+    }
+    
+    .auth-form .col-lg-6 {
+        max-width: 960px !important;
+        width: 100% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    
+    .reg-step {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    .form-group {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        margin-bottom: 20px !important;
+    }
+    
+    .form-group input,
+    .form-group select {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    #nav-buttons {
+        margin-top: 32px !important;
+        gap: 12px !important;
     }
 }
 
@@ -1014,6 +1080,8 @@ body {
     body {
         font-size: 16px;
         padding: 16px;
+        min-height: 100vh;
+        min-height: 100dvh;
         height: 100vh;
         height: 100dvh;
         position: fixed;
@@ -1024,6 +1092,8 @@ body {
         width: 100% !important;
         max-width: 100% !important;
         padding: 0 !important;
+        min-height: 100vh;
+        min-height: 100dvh;
         height: 100%;
         overflow: hidden;
     }
@@ -1040,11 +1110,37 @@ body {
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05);
         display: flex;
         flex-direction: column;
+        min-height: 100vh;
+        min-height: 100dvh;
         height: 100%;
         max-height: calc(100vh - 32px);
         max-height: calc(100dvh - 32px);
         overflow: hidden;
         animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .auth-form .container-fluid {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+    
+    .auth-form .row {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        width: 100% !important;
+    }
+    
+    .auth-form .col-lg-6 {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
     }
     
     @keyframes slideUp {
@@ -1081,15 +1177,15 @@ body {
         max-height: calc(100dvh - 32px);
         padding: 32px 28px;
         padding-top: 32px;
-        padding-bottom: 80px;
+        padding-bottom: 100px;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: flex-start;
         box-sizing: border-box;
         overflow-y: auto;
         overflow-x: hidden;
         scroll-padding-top: 20px;
-        scroll-padding-bottom: 60px;
+        scroll-padding-bottom: 100px;
         -webkit-overflow-scrolling: touch;
         animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
@@ -1585,6 +1681,8 @@ body {
     
     .auth-card {
         border-radius: 18px;
+        min-height: 100vh;
+        min-height: 100dvh;
         height: 100%;
         max-height: calc(100vh - 24px);
         max-height: calc(100dvh - 24px);
@@ -1592,13 +1690,14 @@ body {
     }
     
     .registration-card {
+        height: 100%;
         padding: 24px 20px !important;
         padding-top: 24px !important;
-        padding-bottom: 70px !important;
+        padding-bottom: 100px !important;
         max-height: calc(100vh - 24px);
         max-height: calc(100dvh - 24px);
         scroll-padding-top: 16px;
-        scroll-padding-bottom: 50px;
+        scroll-padding-bottom: 100px;
         overflow-y: auto;
         overflow-x: hidden;
     }
@@ -1687,8 +1786,9 @@ body {
         padding-right: 50px;
     }
     
+    /* Reduce spacing between last field and Continue button on mobile */
     #nav-buttons {
-        margin-top: 20px;
+        margin-top: 12px; /* mt-3 equivalent */
         margin-bottom: 0;
         padding-bottom: 10px;
         gap: 8px;
@@ -1772,6 +1872,8 @@ body {
     
     .auth-card {
         border-radius: 16px;
+        min-height: 100vh;
+        min-height: 100dvh;
         height: 100%;
         max-height: calc(100vh - 20px);
         max-height: calc(100dvh - 20px);
@@ -1779,13 +1881,14 @@ body {
     }
     
     .registration-card {
+        height: 100%;
         padding: 20px 16px !important;
         padding-top: 20px !important;
-        padding-bottom: 65px !important;
+        padding-bottom: 100px !important;
         max-height: calc(100vh - 20px);
         max-height: calc(100dvh - 20px);
         scroll-padding-top: 12px;
-        scroll-padding-bottom: 45px;
+        scroll-padding-bottom: 100px;
         overflow-y: auto;
         overflow-x: hidden;
     }
@@ -1987,6 +2090,8 @@ body {
     
     .auth-card {
         border-radius: 14px;
+        min-height: 100vh;
+        min-height: 100dvh;
         height: 100%;
         max-height: calc(100vh - 16px);
         max-height: calc(100dvh - 16px);
@@ -1994,13 +2099,14 @@ body {
     }
     
     .registration-card {
+        height: 100%;
         padding: 18px 14px;
         padding-top: 18px;
-        padding-bottom: 60px;
+        padding-bottom: 100px;
         max-height: calc(100vh - 16px);
         max-height: calc(100dvh - 16px);
         scroll-padding-top: 10px;
-        scroll-padding-bottom: 40px;
+        scroll-padding-bottom: 100px;
         overflow-y: auto;
         overflow-x: hidden;
     }
@@ -2153,6 +2259,8 @@ body {
 @media (max-width: 320px) {
     body {
         padding: 6px;
+        min-height: 100vh;
+        min-height: 100dvh;
         height: 100vh;
         height: 100dvh;
         position: fixed;
@@ -2161,16 +2269,28 @@ body {
     
     .auth-container {
         padding: 0;
+        min-height: 100vh;
+        min-height: 100dvh;
         height: 100%;
         overflow: hidden;
     }
     
     .auth-card {
         border-radius: 12px;
+        min-height: 100vh;
+        min-height: 100dvh;
         height: 100%;
         max-height: calc(100vh - 12px);
         max-height: calc(100dvh - 12px);
         overflow: hidden;
+    }
+    
+    .registration-card {
+        height: 100%;
+        padding-bottom: 100px !important;
+        scroll-padding-bottom: 100px !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
     }
     
     .auth-left {
