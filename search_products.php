@@ -122,71 +122,85 @@ $logged_in = isLoggedIn();
         </div>
         
         <div id="categoriesSection" class="categories-section">
-            <div class="categories-title">
-                <i class="fa-solid fa-tags" aria-hidden="true"></i> 
-                <span>Browse by Category</span>
-            </div>
-            <div class="categories-grid" role="grid" aria-label="Food categories">
-                <button class="category-card" 
-                        data-category="fruits" 
-                        type="button"
-                        role="gridcell"
-                        aria-label="Browse Fruits category">
-                    <div class="category-icon-wrapper category-fruits">
-                        <i class="fa-solid fa-apple-whole" aria-hidden="true"></i>
+            <div class="container">
+                <div class="categories-title text-center mb-4">
+                    <i class="fa-solid fa-tags" aria-hidden="true"></i> 
+                    <span>Browse by Category</span>
+                </div>
+                <div class="row gx-4 gy-4" role="grid" aria-label="Food categories">
+                    <div class="col-md-4 col-lg-2 col-6">
+                        <button class="category-card card shadow-sm rounded p-3 text-center h-100 border-0" 
+                                data-category="fruits" 
+                                type="button"
+                                role="gridcell"
+                                aria-label="Browse Fruits category">
+                            <div class="category-icon-wrapper d-flex justify-content-center mb-2 category-fruits">
+                                <i class="fa-solid fa-apple-whole" aria-hidden="true"></i>
+                            </div>
+                            <span class="category-name text-muted">Fruits</span>
+                        </button>
                     </div>
-                    <span class="category-name">Fruits</span>
-                </button>
-                <button class="category-card" 
-                        data-category="vegetables" 
-                        type="button"
-                        role="gridcell"
-                        aria-label="Browse Vegetables category">
-                    <div class="category-icon-wrapper category-vegetables">
-                        <i class="fa-solid fa-carrot" aria-hidden="true"></i>
+                    <div class="col-md-4 col-lg-2 col-6">
+                        <button class="category-card card shadow-sm rounded p-3 text-center h-100 border-0" 
+                                data-category="vegetables" 
+                                type="button"
+                                role="gridcell"
+                                aria-label="Browse Vegetables category">
+                            <div class="category-icon-wrapper d-flex justify-content-center mb-2 category-vegetables">
+                                <i class="fa-solid fa-carrot" aria-hidden="true"></i>
+                            </div>
+                            <span class="category-name text-muted">Vegetables</span>
+                        </button>
                     </div>
-                    <span class="category-name">Vegetables</span>
-                </button>
-                <button class="category-card" 
-                        data-category="meat" 
-                        type="button"
-                        role="gridcell"
-                        aria-label="Browse Meat and Fish category">
-                    <div class="category-icon-wrapper category-meat">
-                        <i class="fa-solid fa-drumstick-bite" aria-hidden="true"></i>
+                    <div class="col-md-4 col-lg-2 col-6">
+                        <button class="category-card card shadow-sm rounded p-3 text-center h-100 border-0" 
+                                data-category="meat" 
+                                type="button"
+                                role="gridcell"
+                                aria-label="Browse Meat and Fish category">
+                            <div class="category-icon-wrapper d-flex justify-content-center mb-2 category-meat">
+                                <i class="fa-solid fa-drumstick-bite" aria-hidden="true"></i>
+                            </div>
+                            <span class="category-name text-muted">Meat & Fish</span>
+                        </button>
                     </div>
-                    <span class="category-name">Meat & Fish</span>
-                </button>
-                <button class="category-card" 
-                        data-category="dairy" 
-                        type="button"
-                        role="gridcell"
-                        aria-label="Browse Dairy category">
-                    <div class="category-icon-wrapper category-dairy">
-                        <i class="fa-solid fa-cheese" aria-hidden="true"></i>
+                    <div class="col-md-4 col-lg-2 col-6">
+                        <button class="category-card card shadow-sm rounded p-3 text-center h-100 border-0" 
+                                data-category="dairy" 
+                                type="button"
+                                role="gridcell"
+                                aria-label="Browse Dairy category">
+                            <div class="category-icon-wrapper d-flex justify-content-center mb-2 category-dairy">
+                                <i class="fa-solid fa-cheese" aria-hidden="true"></i>
+                            </div>
+                            <span class="category-name text-muted">Dairy</span>
+                        </button>
                     </div>
-                    <span class="category-name">Dairy</span>
-                </button>
-                <button class="category-card" 
-                        data-category="grains" 
-                        type="button"
-                        role="gridcell"
-                        aria-label="Browse Grains and Cereals category">
-                    <div class="category-icon-wrapper category-grains">
-                        <i class="fa-solid fa-wheat-awn" aria-hidden="true"></i>
+                    <div class="col-md-4 col-lg-2 col-6">
+                        <button class="category-card card shadow-sm rounded p-3 text-center h-100 border-0" 
+                                data-category="grains" 
+                                type="button"
+                                role="gridcell"
+                                aria-label="Browse Grains and Cereals category">
+                            <div class="category-icon-wrapper d-flex justify-content-center mb-2 category-grains">
+                                <i class="fa-solid fa-wheat-awn" aria-hidden="true"></i>
+                            </div>
+                            <span class="category-name text-muted">Grains & Cereals</span>
+                        </button>
                     </div>
-                    <span class="category-name">Grains & Cereals</span>
-                </button>
-                <button class="category-card" 
-                        data-category="desserts" 
-                        type="button"
-                        role="gridcell"
-                        aria-label="Browse Desserts category">
-                    <div class="category-icon-wrapper category-desserts">
-                        <i class="fa-solid fa-cake-candles" aria-hidden="true"></i>
+                    <div class="col-md-4 col-lg-2 col-6">
+                        <button class="category-card card shadow-sm rounded p-3 text-center h-100 border-0" 
+                                data-category="desserts" 
+                                type="button"
+                                role="gridcell"
+                                aria-label="Browse Desserts category">
+                            <div class="category-icon-wrapper d-flex justify-content-center mb-2 category-desserts">
+                                <i class="fa-solid fa-cake-candles" aria-hidden="true"></i>
+                            </div>
+                            <span class="category-name text-muted">Desserts</span>
+                        </button>
                     </div>
-                    <span class="category-name">Desserts</span>
-                </button>
+                </div>
             </div>
         </div>
 
