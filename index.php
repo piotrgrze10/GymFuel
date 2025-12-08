@@ -51,7 +51,7 @@ redirectIfLoggedIn();
                     <?php else: ?>
                         <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="#why-gymfuel">Why GymFuel?</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#aboutus">About us</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#calorie-tracking">Calorie Tracking</a></li>
                         <li class="nav-item"><a class="nav-link" href="#features">Offer</a></li>
                         <li class="nav-item"><a class="nav-link" href="/search_products">Search Products</a></li>
                         <li class="nav-item"><a class="nav-link" href="/bmi_calculator">Calculators</a></li>
@@ -66,11 +66,11 @@ redirectIfLoggedIn();
         <div class="hero-text p-2">
             <h1 class="hero-title">Welcome to <br>Gym <span class="blue-text">Fuel</span> Junction!</h1>
             <p>In a space where fitness dreams begin</p>
-            <a href="#aboutus" class="btn btn-outline-light mt-2 text-uppercase">explore us</a>
+            <a href="#calorie-tracking" class="btn btn-outline-light mt-2 text-uppercase">explore us</a>
         </div>
         <div class="hero-shadow"></div>
 
-        <a href="#aboutus"><i class="fa-solid fa-chevron-down"></i></a>
+        <a href="#calorie-tracking"><i class="fa-solid fa-chevron-down"></i></a>
     </header>
     <main>
         <section id="why-gymfuel" class="why-gymfuel-section py-5">
@@ -141,82 +141,47 @@ redirectIfLoggedIn();
             </div>
         </section>
 
-        <section id="aboutus" class="aboutus-new py-5">
+        <section id="calorie-tracking" class="calorie-tracking-section py-5 bg-white">
             <div class="container">
-                <div class="aboutus-header text-center mb-5">
-                    <h2 class="section-title mb-3">About GymFuel</h2>
+                <div class="calorie-tracking-header text-center mb-5">
+                    <h2 class="section-title mb-3">Log meals with ease</h2>
                     <div class="underline mx-auto mb-4"></div>
-                    <p class="aboutus-subtitle text-muted">Your trusted partner in achieving fitness excellence</p>
+                    <p class="calorie-tracking-subtitle text-muted">Over 14 million products in the database</p>
                 </div>
-                
-                <div class="row align-items-center py-4">
-                    <div class="col-lg-6 mb-5 mb-lg-0">
-                        <div class="aboutus-content">
-                            <h3 class="aboutus-title mb-3">Transform Your Nutrition Journey</h3>
-                            <p class="aboutus-lead mb-3">Your ultimate companion for achieving fitness goals through intelligent nutrition tracking.</p>
-                            <p class="aboutus-text mb-3">Whether you're looking to lose weight, gain muscle, or maintain a healthy lifestyle, we provide the tools and insights you need to succeed.</p>
-                            
-                            <div class="aboutus-features">
-                                <div class="feature-item mb-2">
-                                    <div class="feature-icon-wrapper">
-                                        <i class="fa-solid fa-check-circle"></i>
-                                    </div>
-                                    <span class="feature-text">Track calories with 14+ million food products</span>
-                                </div>
-                                <div class="feature-item mb-2">
-                                    <div class="feature-icon-wrapper">
-                                        <i class="fa-solid fa-check-circle"></i>
-                                    </div>
-                                    <span class="feature-text">Monitor macros and nutrients effortlessly</span>
-                                </div>
-                                <div class="feature-item mb-0">
-                                    <div class="feature-icon-wrapper">
-                                        <i class="fa-solid fa-check-circle"></i>
-                                    </div>
-                                    <span class="feature-text">Visualize your progress with real-time analytics</span>
-                                </div>
-                            </div>
+                <div class="row g-4 gx-4 align-items-center">
+                    <div class="col-lg-6 col-12 order-lg-1 order-2">
+                        <div class="calorie-tracking-image-wrapper rounded shadow-sm overflow-hidden">
+                            <img src="./img/strawberryindex.png" alt="Nutrition tracking" class="calorie-tracking-image" loading="lazy">
                         </div>
                     </div>
-                    
-                    <div class="col-lg-6">
-                        <div class="row text-center g-4">
-                            <div class="col-6">
-                                <div class="stat-card">
-                                    <div class="stat-icon-wrapper stat-icon-primary">
-                                        <i class="fa-solid fa-users"></i>
+                    <div class="col-lg-6 col-12 order-lg-2 order-1">
+                        <div class="calorie-tracking-content">
+                            <ul class="calorie-tracking-features list-unstyled">
+                                <li class="calorie-tracking-feature-item d-flex gap-3 mb-3">
+                                    <div class="calorie-tracking-icon-wrapper">
+                                        <i class="fa-solid fa-chart-pie"></i>
                                     </div>
-                                    <h4 class="stat-number mb-2">50K+</h4>
-                                    <p class="stat-label mb-0">Users</p>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="stat-card">
-                                    <div class="stat-icon-wrapper stat-icon-danger">
-                                        <i class="fa-solid fa-fire-flame-curved"></i>
+                                    <div class="calorie-tracking-feature-text">
+                                        <strong>View calories and nutrients</strong>
                                     </div>
-                                    <h4 class="stat-number mb-2">2M+</h4>
-                                    <p class="stat-label mb-0">Calories</p>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="stat-card">
-                                    <div class="stat-icon-wrapper stat-icon-success">
-                                        <i class="fa-solid fa-weight-scale"></i>
+                                </li>
+                                <li class="calorie-tracking-feature-item d-flex gap-3 mb-3">
+                                    <div class="calorie-tracking-icon-wrapper">
+                                        <i class="fa-solid fa-balance-scale"></i>
                                     </div>
-                                    <h4 class="stat-number mb-2">500K</h4>
-                                    <p class="stat-label mb-0">KG Lost</p>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="stat-card">
-                                    <div class="stat-icon-wrapper stat-icon-warning">
-                                        <i class="fa-solid fa-star"></i>
+                                    <div class="calorie-tracking-feature-text">
+                                        <strong>Compare portion sizes</strong>
                                     </div>
-                                    <h4 class="stat-number mb-2">4.9/5</h4>
-                                    <p class="stat-label mb-0">Rating</p>
-                                </div>
-                            </div>
+                                </li>
+                                <li class="calorie-tracking-feature-item d-flex gap-3 mb-3">
+                                    <div class="calorie-tracking-icon-wrapper">
+                                        <i class="fa-solid fa-chart-line"></i>
+                                    </div>
+                                    <div class="calorie-tracking-feature-text">
+                                        <strong>Track progress and goals</strong>
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -336,7 +301,7 @@ redirectIfLoggedIn();
                 <div class="text-center mb-5">
                     <h2 class="section-title mb-3">Register now</h2>
                     <div class="underline mx-auto mb-4"></div>
-                    <p class="simple-cards-title mb-3">Whether you're counting calories, macros, or micronutrients, you can count on us</p>
+                    <p class="features-subtitle text-muted">Whether you're counting calories, macros, or micronutrients, you can count on us</p>
                     <a href="/register" class="btn btn-primary btn-lg mt-3 text-uppercase">Sign up</a>
                 </div>
                 <div class="row g-4 justify-content-center simple-cards-row">
@@ -416,7 +381,7 @@ redirectIfLoggedIn();
                         <h5 class="mb-3">Quick Links</h5>
                         <ul class="list-unstyled">
                             <li class="mb-2"><a href="#home" class="text-white-50 text-decoration-none">Home</a></li>
-                            <li class="mb-2"><a href="#aboutus" class="text-white-50 text-decoration-none">About Us</a></li>
+                            <li class="mb-2"><a href="#calorie-tracking" class="text-white-50 text-decoration-none">Calorie Tracking</a></li>
                             <li class="mb-2"><a href="#features" class="text-white-50 text-decoration-none">Features</a></li>
                         </ul>
                     </div>
