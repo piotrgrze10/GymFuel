@@ -816,7 +816,7 @@ function renderProducts() {
         
         const imageHTML = imagePath ? `
             <div class="product-image-wrapper">
-                <img src="${imagePath}" alt="${productName}" class="product-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <img src="${imagePath}" alt="${productName}" class="product-image" loading="lazy" decoding="async" onload="this.classList.add('loaded')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                 <div class="product-image-placeholder" style="display: none;"><i class="fa-solid ${placeholderIcon}"></i></div>
                 <button class="product-favorite-btn ${isFavorited ? 'favorited' : ''}" onclick="toggleFavorite('${product.product_name.replace(/'/g, "\\'")}', event)">
                     <i class="fa-${isFavorited ? 'solid' : 'regular'} fa-heart"></i>

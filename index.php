@@ -8,36 +8,51 @@ redirectIfLoggedIn();
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>GymFuel</title>
+    <meta name="description" content="GymFuel - Your ultimate nutrition tracking companion for achieving your fitness goals. Track calories, macros, and monitor your health metrics.">
+    <meta name="keywords" content="nutrition tracking, calorie counter, fitness, health, diet, macros, BMI calculator">
+    <meta name="author" content="GymFuel">
+    <title>GymFuel - Nutrition Tracking & Fitness Companion</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E🔥%3C/text%3E%3C/svg%3E">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    
+    <!-- DNS Prefetch & Preconnect for external resources -->
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link rel="dns-prefetch" href="https://kit.fontawesome.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://kit.fontawesome.com" crossorigin>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    
+    <!-- Google Fonts with font-display swap -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     
-    <link rel="preload" as="image" href="./img/diet-695723_640.jpg">
-    <link rel="preload" as="image" href="./img/diet-695723_1920.jpg" media="(min-width: 1200px)">
-    <link rel="preload" as="image" href="./img/card1.jpg">
-    <link rel="preload" as="image" href="./img/card2.jpeg">
-    <link rel="preload" as="image" href="./img/card3.jpg">
-    <link rel="preload" as="image" href="./img/card4.jpg">
-    <link rel="preload" as="image" href="./img/card5.jpg">
-    <link rel="preload" as="image" href="./img/person1.jpg">
-    <link rel="preload" as="image" href="./img/person2.jpg">
-    <link rel="preload" as="image" href="./img/person3.jpg">
+    <!-- Preload critical hero image only with fetchpriority -->
+    <link rel="preload" as="image" href="./img/diet-695723_640.jpg" media="(max-width: 1199px)" fetchpriority="high">
+    <link rel="preload" as="image" href="./img/diet-695723_1920.jpg" media="(min-width: 1200px)" fetchpriority="high">
+    
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="<?php echo asset('./css/navbar.css'); ?>">
     <link rel="stylesheet" href="<?php echo asset('./css/main.css'); ?>">
-    <script src="https://kit.fontawesome.com/897067be39.js" crossorigin="anonymous"></script>
+    
+    <!-- Font Awesome with defer -->
+    <script src="https://kit.fontawesome.com/897067be39.js" crossorigin="anonymous" defer></script>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg position-fixed top-0 w-100 py-3">
+    <nav class="navbar navbar-expand-lg position-fixed top-0 w-100 py-3" role="navigation" aria-label="Main navigation">
         <div class="container">
-            <a class="navbar-brand" href="/"><i class="fa-solid fa-fire-flame-curved logo-icon"></i> Gym<span class="blue-text">Fuel</span></a>
+            <a class="navbar-brand" href="/" aria-label="GymFuel Home">
+                <i class="fa-solid fa-fire-flame-curved logo-icon" aria-hidden="true"></i> 
+                Gym<span class="blue-text">Fuel</span>
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <i class="fa-solid fa-bars"></i>
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation menu">
+                <i class="fa-solid fa-bars" aria-hidden="true"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
@@ -70,7 +85,9 @@ redirectIfLoggedIn();
         </div>
         <div class="hero-shadow"></div>
 
-        <a href="#calorie-tracking"><i class="fa-solid fa-chevron-down"></i></a>
+        <a href="#calorie-tracking" aria-label="Scroll to calorie tracking section">
+            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+        </a>
     </header>
     <main>
         <section id="why-gymfuel" class="why-gymfuel-section py-5">
@@ -90,7 +107,13 @@ redirectIfLoggedIn();
                             </div>
                             <div class="why-panel-visual">
                                 <div class="why-panel-icon-wrapper why-panel-icon-wrapper--image">
-                                    <img src="./img/ss1.png" alt="Nutrition tracking highlight" class="why-panel-image">
+                                    <img src="./img/ss1.png" 
+                                         alt="Nutrition tracking highlight" 
+                                         class="why-panel-image"
+                                         loading="lazy"
+                                         width="360"
+                                         height="360"
+                                         decoding="async">
                                 </div>
                             </div>
                         </div>
@@ -104,7 +127,13 @@ redirectIfLoggedIn();
                             </div>
                             <div class="why-panel-visual">
                                 <div class="why-panel-icon-wrapper why-panel-icon-wrapper--image">
-                                    <img src="./img/ss2.png" alt="Goal weight tracking" class="why-panel-image">
+                                    <img src="./img/ss2.png" 
+                                         alt="Goal weight tracking" 
+                                         class="why-panel-image"
+                                         loading="lazy"
+                                         width="360"
+                                         height="360"
+                                         decoding="async">
                                 </div>
                             </div>
                         </div>
@@ -118,7 +147,13 @@ redirectIfLoggedIn();
                             </div>
                             <div class="why-panel-visual">
                                 <div class="why-panel-icon-wrapper why-panel-icon-wrapper--image">
-                                    <img src="./img/ss3.png" alt="Complete health view" class="why-panel-image">
+                                    <img src="./img/ss3.png" 
+                                         alt="Complete health view" 
+                                         class="why-panel-image"
+                                         loading="lazy"
+                                         width="360"
+                                         height="360"
+                                         decoding="async">
                                 </div>
                             </div>
                         </div>
@@ -132,7 +167,13 @@ redirectIfLoggedIn();
                             </div>
                             <div class="why-panel-visual">
                                 <div class="why-panel-icon-wrapper why-panel-icon-wrapper--image">
-                                    <img src="./img/ss4.png" alt="Trustworthy companion" class="why-panel-image">
+                                    <img src="./img/ss4.png" 
+                                         alt="Trustworthy companion" 
+                                         class="why-panel-image"
+                                         loading="lazy"
+                                         width="360"
+                                         height="360"
+                                         decoding="async">
                                 </div>
                             </div>
                         </div>
@@ -151,7 +192,13 @@ redirectIfLoggedIn();
                 <div class="row g-4 gx-4 align-items-center">
                     <div class="col-lg-6 col-12 order-lg-1 order-2">
                         <div class="calorie-tracking-image-wrapper rounded shadow-sm overflow-hidden">
-                            <img src="./img/strawberryindex.png" alt="Nutrition tracking" class="calorie-tracking-image" loading="lazy">
+                            <img src="./img/strawberryindex.png" 
+                                 alt="Nutrition tracking interface showing meal logging" 
+                                 class="calorie-tracking-image" 
+                                 loading="lazy"
+                                 width="400"
+                                 height="400"
+                                 decoding="async">
                         </div>
                     </div>
                     <div class="col-lg-6 col-12 order-lg-2 order-1">
@@ -159,7 +206,7 @@ redirectIfLoggedIn();
                             <ul class="calorie-tracking-features list-unstyled">
                                 <li class="calorie-tracking-feature-item d-flex gap-3 mb-3">
                                     <div class="calorie-tracking-icon-wrapper">
-                                        <i class="fa-solid fa-chart-pie"></i>
+                                        <i class="fa-solid fa-chart-pie" aria-hidden="true"></i>
                                     </div>
                                     <div class="calorie-tracking-feature-text">
                                         <strong>View calories and nutrients</strong>
@@ -167,7 +214,7 @@ redirectIfLoggedIn();
                                 </li>
                                 <li class="calorie-tracking-feature-item d-flex gap-3 mb-3">
                                     <div class="calorie-tracking-icon-wrapper">
-                                        <i class="fa-solid fa-balance-scale"></i>
+                                        <i class="fa-solid fa-balance-scale" aria-hidden="true"></i>
                                     </div>
                                     <div class="calorie-tracking-feature-text">
                                         <strong>Compare portion sizes</strong>
@@ -175,7 +222,7 @@ redirectIfLoggedIn();
                                 </li>
                                 <li class="calorie-tracking-feature-item d-flex gap-3 mb-3">
                                     <div class="calorie-tracking-icon-wrapper">
-                                        <i class="fa-solid fa-chart-line"></i>
+                                        <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
                                     </div>
                                     <div class="calorie-tracking-feature-text">
                                         <strong>Track progress and goals</strong>
@@ -196,49 +243,77 @@ redirectIfLoggedIn();
                     <p class="help-subtitle text-muted">I want to use GymFuel to…</p>
                 </div>
                 
-                <div class="row g-4">
-                    <div class="col-lg-3 col-md-6">
-                        <div class="help-card h-100">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+                    <div class="col">
+                        <article class="help-card h-100" role="article" aria-labelledby="help-card-1">
                             <div class="help-card-content">
-                                <h4 class="help-card-title">Keep track of my food intake</h4>
+                                <h4 class="help-card-title" id="help-card-1">Keep track of my food intake</h4>
                             </div>
                             <div class="help-card-image">
-                                <img src="./img/products/person1.jpg" alt="Keep track of my food intake" class="help-card-img" loading="lazy">
+                                <img src="./img/products/person1.jpg" 
+                                     alt="Person tracking food intake with GymFuel app" 
+                                     class="help-card-img" 
+                                     loading="lazy"
+                                     width="300"
+                                     height="250"
+                                     decoding="async"
+                                     style="object-fit: cover; aspect-ratio: 1.2;">
                             </div>
-                        </div>
+                        </article>
                     </div>
 
-                    <div class="col-lg-3 col-md-6">
-                        <div class="help-card h-100">
+                    <div class="col">
+                        <article class="help-card h-100" role="article" aria-labelledby="help-card-2">
                             <div class="help-card-content">
-                                <h4 class="help-card-title">Monitor my health metrics</h4>
+                                <h4 class="help-card-title" id="help-card-2">Monitor my health metrics</h4>
                             </div>
                             <div class="help-card-image">
-                                <img src="./img/products/person2.jpg" alt="Monitor my health metrics" class="help-card-img" loading="lazy">
+                                <img src="./img/products/person2.jpg" 
+                                     alt="Person monitoring health metrics and progress" 
+                                     class="help-card-img" 
+                                     loading="lazy"
+                                     width="300"
+                                     height="250"
+                                     decoding="async"
+                                     style="object-fit: cover; aspect-ratio: 1.2;">
                             </div>
-                        </div>
+                        </article>
                     </div>
 
-                    <div class="col-lg-3 col-md-6">
-                        <div class="help-card h-100">
+                    <div class="col">
+                        <article class="help-card h-100" role="article" aria-labelledby="help-card-3">
                             <div class="help-card-content">
-                                <h4 class="help-card-title">Optimize and refine my diet</h4>
+                                <h4 class="help-card-title" id="help-card-3">Optimize and refine my diet</h4>
                             </div>
                             <div class="help-card-image">
-                                <img src="./img/products/person3.jpg" alt="Optimize and refine my diet" class="help-card-img" loading="lazy">
+                                <img src="./img/products/person3.jpg" 
+                                     alt="Person optimizing and refining their diet plan" 
+                                     class="help-card-img" 
+                                     loading="lazy"
+                                     width="300"
+                                     height="250"
+                                     decoding="async"
+                                     style="object-fit: cover; aspect-ratio: 1.2;">
                             </div>
-                        </div>
+                        </article>
                     </div>
 
-                    <div class="col-lg-3 col-md-6">
-                        <div class="help-card h-100">
+                    <div class="col">
+                        <article class="help-card h-100" role="article" aria-labelledby="help-card-4">
                             <div class="help-card-content">
-                                <h4 class="help-card-title">Analyze my diet progress</h4>
+                                <h4 class="help-card-title" id="help-card-4">Analyze my diet progress</h4>
                             </div>
                             <div class="help-card-image">
-                                <img src="./img/products/person4.jpg" alt="Analyze my diet progress" class="help-card-img" loading="lazy">
+                                <img src="./img/products/person4.jpg" 
+                                     alt="Person analyzing diet progress and statistics" 
+                                     class="help-card-img" 
+                                     loading="lazy"
+                                     width="300"
+                                     height="250"
+                                     decoding="async"
+                                     style="object-fit: cover; aspect-ratio: 1.2;">
                             </div>
-                        </div>
+                        </article>
                     </div>
                 </div>
             </div>
@@ -256,7 +331,7 @@ redirectIfLoggedIn();
                     <div class="col-lg-6 col-md-6">
                         <div class="feature-offer-card h-100">
                             <div class="feature-offer-icon-wrapper feature-icon-1">
-                                <i class="fa-solid fa-bullseye"></i>
+                                <i class="fa-solid fa-bullseye" aria-hidden="true"></i>
                             </div>
                             <h4 class="feature-offer-title mb-3">Suggested Calorie Goals</h4>
                             <p class="feature-offer-text mb-0">Let our intelligent system calculate your optimal daily calorie intake based on your age, weight, height, activity level, and fitness objectives.</p>
@@ -266,7 +341,7 @@ redirectIfLoggedIn();
                     <div class="col-lg-6 col-md-6">
                         <div class="feature-offer-card h-100">
                             <div class="feature-offer-icon-wrapper feature-icon-2">
-                                <i class="fa-solid fa-sliders"></i>
+                                <i class="fa-solid fa-sliders" aria-hidden="true"></i>
                             </div>
                             <h4 class="feature-offer-title mb-3">Custom Calorie Goals</h4>
                             <p class="feature-offer-text mb-0">Set your own personalized calorie targets. Have complete control over your daily intake limits to match your unique preferences and goals.</p>
@@ -276,7 +351,7 @@ redirectIfLoggedIn();
                     <div class="col-lg-6 col-md-6">
                         <div class="feature-offer-card h-100">
                             <div class="feature-offer-icon-wrapper feature-icon-3">
-                                <i class="fa-solid fa-utensils"></i>
+                                <i class="fa-solid fa-utensils" aria-hidden="true"></i>
                             </div>
                             <h4 class="feature-offer-title mb-3">Flexible Meal Structure</h4>
                             <p class="feature-offer-text mb-0">Log your meals however you want! Track breakfast, lunch, dinner, and snacks with complete freedom to organize your nutrition your way.</p>
@@ -286,7 +361,7 @@ redirectIfLoggedIn();
                     <div class="col-lg-6 col-md-6">
                         <div class="feature-offer-card h-100">
                             <div class="feature-offer-icon-wrapper feature-icon-4">
-                                <i class="fa-solid fa-droplet"></i>
+                                <i class="fa-solid fa-droplet" aria-hidden="true"></i>
                             </div>
                             <h4 class="feature-offer-title mb-3">Water Tracking</h4>
                             <p class="feature-offer-text mb-0">Monitor your daily hydration with our water tracking feature. Stay on top of your fluid intake to maintain optimal health and performance.</p>
@@ -304,60 +379,95 @@ redirectIfLoggedIn();
                     <p class="features-subtitle text-muted">Whether you're counting calories, macros, or micronutrients, you can count on us</p>
                     <a href="/register" class="btn btn-primary btn-lg mt-3 text-uppercase">Sign up</a>
                 </div>
-                <div class="row g-4 justify-content-center simple-cards-row">
-                    <div class="col-lg col-md-6 col-sm-6">
-                        <div class="simple-card simple-card-1">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4 justify-content-center simple-cards-row">
+                    <div class="col">
+                        <article class="simple-card simple-card-1" role="article" aria-labelledby="card-1">
                             <div class="simple-card-image">
-                                <img src="./img/card1.jpg" alt="Reach & Maintain Your Goal Weight" class="simple-card-img" loading="lazy">
+                                <img src="./img/card1.jpg" 
+                                     alt="Reach & Maintain Your Goal Weight" 
+                                     class="simple-card-img" 
+                                     loading="lazy"
+                                     width="280"
+                                     height="350"
+                                     decoding="async"
+                                     style="object-fit: cover; aspect-ratio: 0.8;">
                             </div>
                             <div class="simple-card-caption simple-card-caption-1">
-                                <h4>Reach & Maintain Your Goal Weight</h4>
+                                <h4 id="card-1">Reach & Maintain Your Goal Weight</h4>
                             </div>
-                        </div>
+                        </article>
                     </div>
 
-                    <div class="col-lg col-md-6 col-sm-6">
-                        <div class="simple-card simple-card-2">
+                    <div class="col">
+                        <article class="simple-card simple-card-2" role="article" aria-labelledby="card-2">
                             <div class="simple-card-image">
-                                <img src="./img/card2.jpeg" alt="Track Your Progress" class="simple-card-img" loading="lazy">
+                                <img src="./img/card2.jpeg" 
+                                     alt="Track Your Progress" 
+                                     class="simple-card-img" 
+                                     loading="lazy"
+                                     width="280"
+                                     height="350"
+                                     decoding="async"
+                                     style="object-fit: cover; aspect-ratio: 0.8;">
                             </div>
                             <div class="simple-card-caption simple-card-caption-2">
-                                <h4>Track Your Progress</h4>
+                                <h4 id="card-2">Track Your Progress</h4>
                             </div>
-                        </div>
+                        </article>
                     </div>
 
-                    <div class="col-lg col-md-6 col-sm-6">
-                        <div class="simple-card simple-card-3">
+                    <div class="col">
+                        <article class="simple-card simple-card-3" role="article" aria-labelledby="card-3">
                             <div class="simple-card-image">
-                                <img src="./img/card3.jpg" alt="Build Healthy Habits" class="simple-card-img" loading="lazy">
+                                <img src="./img/card3.jpg" 
+                                     alt="Build Healthy Habits" 
+                                     class="simple-card-img" 
+                                     loading="lazy"
+                                     width="280"
+                                     height="350"
+                                     decoding="async"
+                                     style="object-fit: cover; aspect-ratio: 0.8;">
                             </div>
                             <div class="simple-card-caption simple-card-caption-3">
-                                <h4>Build Healthy Habits</h4>
+                                <h4 id="card-3">Build Healthy Habits</h4>
                             </div>
-                        </div>
+                        </article>
                     </div>
 
-                    <div class="col-lg col-md-6 col-sm-6">
-                        <div class="simple-card simple-card-4">
+                    <div class="col">
+                        <article class="simple-card simple-card-4" role="article" aria-labelledby="card-4">
                             <div class="simple-card-image">
-                                <img src="./img/card4.jpg" alt="Monitor Nutrients" class="simple-card-img" loading="lazy">
+                                <img src="./img/card4.jpg" 
+                                     alt="Monitor Nutrients" 
+                                     class="simple-card-img" 
+                                     loading="lazy"
+                                     width="280"
+                                     height="350"
+                                     decoding="async"
+                                     style="object-fit: cover; aspect-ratio: 0.8;">
                             </div>
                             <div class="simple-card-caption simple-card-caption-4">
-                                <h4>Monitor Nutrients</h4>
+                                <h4 id="card-4">Monitor Nutrients</h4>
                             </div>
-                        </div>
+                        </article>
                     </div>
 
-                    <div class="col-lg col-md-6 col-sm-6">
-                        <div class="simple-card simple-card-5">
+                    <div class="col">
+                        <article class="simple-card simple-card-5" role="article" aria-labelledby="card-5">
                             <div class="simple-card-image">
-                                <img src="./img/card5.jpg" alt="Achieve Your Goals" class="simple-card-img" loading="lazy">
+                                <img src="./img/card5.jpg" 
+                                     alt="Achieve Your Goals" 
+                                     class="simple-card-img" 
+                                     loading="lazy"
+                                     width="280"
+                                     height="350"
+                                     decoding="async"
+                                     style="object-fit: cover; aspect-ratio: 0.8;">
                             </div>
                             <div class="simple-card-caption simple-card-caption-5">
-                                <h4>Achieve Your Goals</h4>
+                                <h4 id="card-5">Achieve Your Goals</h4>
                             </div>
-                        </div>
+                        </article>
                     </div>
                 </div>
             </div>
@@ -367,13 +477,13 @@ redirectIfLoggedIn();
             <div class="container">
                 <div class="row">
                     <div class="col-lg-4 mb-4 mb-lg-0">
-                        <h4 class="mb-3"><i class="fa-solid fa-fire-flame-curved text-danger"></i> Gym<span class="text-primary">Fuel</span></h4>
+                        <h4 class="mb-3"><i class="fa-solid fa-fire-flame-curved text-danger" aria-hidden="true"></i> Gym<span class="text-primary">Fuel</span></h4>
                         <p class="text-white-50">Your ultimate nutrition tracking companion for achieving your fitness goals.</p>
                         <div class="social-links mt-3">
-                            <a href="#" class="text-white me-3 fs-4 text-decoration-none" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
-                            <a href="#" class="text-white me-3 fs-4 text-decoration-none" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                            <a href="#" class="text-white me-3 fs-4 text-decoration-none" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
-                            <a href="#" class="text-white me-3 fs-4 text-decoration-none" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                            <a href="#" class="text-white me-3 fs-4 text-decoration-none" aria-label="Facebook"><i class="fa-brands fa-facebook" aria-hidden="true"></i></a>
+                            <a href="#" class="text-white me-3 fs-4 text-decoration-none" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+                            <a href="#" class="text-white me-3 fs-4 text-decoration-none" aria-label="Twitter"><i class="fa-brands fa-twitter" aria-hidden="true"></i></a>
+                            <a href="#" class="text-white me-3 fs-4 text-decoration-none" aria-label="YouTube"><i class="fa-brands fa-youtube" aria-hidden="true"></i></a>
                         </div>
                     </div>
                     
@@ -399,9 +509,9 @@ redirectIfLoggedIn();
                     <div class="col-lg-3">
                         <h5 class="mb-3">Get In Touch</h5>
                         <ul class="list-unstyled">
-                            <li class="mb-2 text-white-50"><i class="fa-solid fa-envelope me-2"></i>contact@gymfuel.com</li>
-                            <li class="mb-2 text-white-50"><i class="fa-solid fa-phone me-2"></i>+1 (234) 567-890</li>
-                            <li class="mb-2 text-white-50"><i class="fa-solid fa-location-dot me-2"></i>123 Fitness Street</li>
+                            <li class="mb-2 text-white-50"><i class="fa-solid fa-envelope me-2" aria-hidden="true"></i>contact@gymfuel.com</li>
+                            <li class="mb-2 text-white-50"><i class="fa-solid fa-phone me-2" aria-hidden="true"></i>+1 (234) 567-890</li>
+                            <li class="mb-2 text-white-50"><i class="fa-solid fa-location-dot me-2" aria-hidden="true"></i>123 Fitness Street</li>
                         </ul>
                     </div>
                 </div>
@@ -417,10 +527,14 @@ redirectIfLoggedIn();
         </footer>
     </main>
 
+    <!-- Bootstrap JS Bundle with defer -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-        </script>
-    <script src="<?php echo asset('js/script.js'); ?>"></script>
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" 
+        crossorigin="anonymous"
+        defer></script>
+    
+    <!-- Custom JS with defer -->
+    <script src="<?php echo asset('js/script.js'); ?>" defer></script>
 </body>
 
 </html>

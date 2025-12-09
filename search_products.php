@@ -128,7 +128,7 @@ $logged_in = isLoggedIn();
                     <span>Browse by Category</span>
                 </div>
                 <div class="row gx-4 gy-4 align-items-stretch" role="grid" aria-label="Food categories">
-                    <div class="col-lg-4 col-md-6 col-12 d-flex">
+                    <div class="col-lg-4 col-md-6 col-6 d-flex">
                         <button class="category-card card shadow-sm rounded p-3 text-center h-100 w-100 d-flex flex-column justify-content-between align-items-center border-0" 
                                 data-category="fruits" 
                                 type="button"
@@ -140,7 +140,7 @@ $logged_in = isLoggedIn();
                             <h6 class="category-name text-muted mb-0">Fruits</h6>
                         </button>
                     </div>
-                    <div class="col-lg-4 col-md-6 col-12 d-flex">
+                    <div class="col-lg-4 col-md-6 col-6 d-flex">
                         <button class="category-card card shadow-sm rounded p-3 text-center h-100 w-100 d-flex flex-column justify-content-between align-items-center border-0" 
                                 data-category="vegetables" 
                                 type="button"
@@ -152,7 +152,7 @@ $logged_in = isLoggedIn();
                             <h6 class="category-name text-muted mb-0">Vegetables</h6>
                         </button>
                     </div>
-                    <div class="col-lg-4 col-md-6 col-12 d-flex">
+                    <div class="col-lg-4 col-md-6 col-6 d-flex">
                         <button class="category-card card shadow-sm rounded p-3 text-center h-100 w-100 d-flex flex-column justify-content-between align-items-center border-0" 
                                 data-category="meat" 
                                 type="button"
@@ -164,7 +164,7 @@ $logged_in = isLoggedIn();
                             <h6 class="category-name text-muted mb-0">Meat & Fish</h6>
                         </button>
                     </div>
-                    <div class="col-lg-4 col-md-6 col-12 d-flex">
+                    <div class="col-lg-4 col-md-6 col-6 d-flex">
                         <button class="category-card card shadow-sm rounded p-3 text-center h-100 w-100 d-flex flex-column justify-content-between align-items-center border-0" 
                                 data-category="dairy" 
                                 type="button"
@@ -176,7 +176,7 @@ $logged_in = isLoggedIn();
                             <h6 class="category-name text-muted mb-0">Dairy</h6>
                         </button>
                     </div>
-                    <div class="col-lg-4 col-md-6 col-12 d-flex">
+                    <div class="col-lg-4 col-md-6 col-6 d-flex">
                         <button class="category-card card shadow-sm rounded p-3 text-center h-100 w-100 d-flex flex-column justify-content-between align-items-center border-0" 
                                 data-category="grains" 
                                 type="button"
@@ -188,7 +188,7 @@ $logged_in = isLoggedIn();
                             <h6 class="category-name text-muted mb-0">Grains & Cereals</h6>
                         </button>
                     </div>
-                    <div class="col-lg-4 col-md-6 col-12 d-flex">
+                    <div class="col-lg-4 col-md-6 col-6 d-flex">
                         <button class="category-card card shadow-sm rounded p-3 text-center h-100 w-100 d-flex flex-column justify-content-between align-items-center border-0" 
                                 data-category="desserts" 
                                 type="button"
